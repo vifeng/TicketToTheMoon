@@ -38,7 +38,8 @@ Swagger-ui
 	
 # GENERAL INFO
 ## Status  
-just started. Tests. https://shields.io/
+just started. Tests.  
+https://shields.io/
 ## Roadmap 
 See the open issues for a list of proposed features (and known issues). If you have ideas for releases in the future, it is a good idea to list them in the README.
 ## Features
