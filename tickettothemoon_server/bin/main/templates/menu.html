@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+
+<head>
+    <title>Démonstration JPA...</title>
+</head>
+
+<body>
+    <main>
+        <div class="comment">
+            Une bonne partie des démos n'est pas faite dans
+            l'application Web, mais dans les tests.
+
+            <p>Leur résultat est situé dans <code>build/reports/tests/test/index.html</code></p>
+        </div>
+        <ul>
+            <li><a href="#" th:href="@{/prof/creer}">Créer un prof</a></li>
+            <li><a href="#" th:href="@{/prof}">Lister les profs</a></li>
+        </ul>
+    </main>
+</body>
+
+</html>

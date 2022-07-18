@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::main})}">
+
+<head><title>Information Prof</title></head>
+<body>
+
+    <main>
+    <h1>Entrée [[${prof.profId}]]</h1>
+    <dl>
+        <dl>Nom</dl>
+        <dd>[[${prof.nom}]]</dd>
+        <dl>Prénom</dl>
+        <dd>[[${prof.prenom}]]</dd>
+    </dl>
+</main>
+</body>
+
+</html>
