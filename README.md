@@ -1,8 +1,8 @@
 # PROJECT : TicketToTheMoon
 ## About The Project
 TicketToTheMoon is a ticket office website. Main features are :
-- a back office for venues to operate their shows.
-- a front office aimed at the public to buy tickets from.
+- tickettothemoon_server : a back office for venues to operate their shows. 
+- tickettothemoon_client : a front office aimed at the public to buy tickets from.
 
 ## Build with
 Software stack:
@@ -33,6 +33,11 @@ Swagger-ui
 1. Clone the repo
 ```git clone https://github.com/vifeng/Project-Name.git```
 2. Install xx packages
+3. `gradle init`
+4. `gradle run`
+## run
+1. gradle
+
 
 ---  
 	
