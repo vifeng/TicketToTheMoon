@@ -1,1 +1,1 @@
-INSERT IGNORE INTO Prof VALUES (1, 'James', 'Carter');
+INSERT IGNORE INTO PROF VALUES (1, 'James', 'CarryOn');

@@ -3,9 +3,9 @@ GRANT ALL PRIVILEGES ON tickettothemoon.* TO pc@localhost IDENTIFIED BY 'pc';
 
 USE tickettothemoon;
 
-CREATE TABLE IF NOT EXISTS Prof (
+CREATE TABLE IF NOT EXISTS PROF (
   id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  first_name VARCHAR(30),
-  last_name VARCHAR(30),
-  INDEX(last_name)
+  nom VARCHAR(30),
+  prenom VARCHAR(30),
+  INDEX(nom)
 ) engine=InnoDB;
