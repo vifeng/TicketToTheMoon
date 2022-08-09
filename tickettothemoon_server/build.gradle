@@ -1,57 +1,89 @@
+// buildscript {
+//     dependencies {
+//         classpath "org.flywaydb:flyway-mysql:8.0.30 "
+//     }
+// }
 plugins {
 	id 'org.springframework.boot' version '2.7.1'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-    id "org.flywaydb.flyway" version "9.0.1"
+	id "org.flywaydb.flyway" version "9.0.1"
+}
+
+repositories {
+	mavenCentral()
 }
 
 group = 'com.vf'
 version = '0.0.1-SNAPSHOT'
 description = 'Springboot framework - Ticket to the Moon - Another ticket office website.'
 sourceCompatibility = '11'
-
-repositories {
-	mavenCentral()
-}
-
+ext.webjarsFontawesomeVersion = "4.7.0"
+ext.webjarsBootstrapVersion = "5.1.3"
+ext.FlywayMigrateTask = org.flywaydb.gradle.task.FlywayMigrateTask
 
 configurations {
-  developmentOnly
-  runtimeClasspath {
-    extendsFrom developmentOnly
-  }
-}
-
-flyway {
-    url = 'jdbc:h2:file:db/migrate/myfly'
-    user = 'vi'
+	developmentOnly
+		runtimeClasspath {
+			extendsFrom developmentOnly
+  		}
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.flywaydb:flyway-core'
-	implementation 'org.springframework.session:spring-session-core'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.session:spring-session-core'
 	// implementation 'org.springframework.boot:spring-boot-starter-security'
 	// implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-
-
+	implementation 'javax.cache:cache-api'
+	// flyway
+	implementation 'org.flywaydb:flyway-core'
+	implementation "org.flywaydb:flyway-mysql"
+    // compile "org.flywaydb:flyway-core:9.0.1"
+	
+	// devTools
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.h2database:h2'
+	// database
+	runtimeOnly 'com.h2database:h2:2.1.210'
 	runtimeOnly 'mysql:mysql-connector-java'
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
-
+	//other
+	runtimeOnly 'org.springframework.boot:spring-boot-starter-actuator'
+	runtimeOnly 'org.webjars:webjars-locator-core'
+	runtimeOnly "org.webjars.npm:bootstrap:${webjarsBootstrapVersion}"
+	runtimeOnly "org.webjars.npm:font-awesome:${webjarsFontawesomeVersion}"
+	runtimeOnly 'org.ehcache:ehcache'
+	// test
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 }
 
+// flyway config start-------------------
+// we need to build classes before we can migrate
+flywayMigrate.dependsOn classes
+flyway {
+    task migrateDB_h2(type: FlywayMigrateTask) {
+		url='jdbc:h2:mem:tickettothemoon'
+		user = 'vi'
+		password = ''
+		locations = ['classpath:./src/main/resources/db/h2/']
+	}
+	task migrateDB_Mysql(type: FlywayMigrateTask) {
+		url = 'jdbc:mysql://localhost:3306/tickettothemoon?allowPublicKeyRetrieval=true&useSSL=false'
+		user = 'root'
+		password = 'root'
+		locations = ['classpath:./src/main/resources/db/mysql']
+	}
+}
+// flyway end -------------------
+
 test {
 	useJUnitPlatform()
 }
-
 
 task distClean {
   dependsOn("clean")
@@ -67,6 +99,7 @@ task distClean {
     delete '.idea'
   }
 }
+
 tasks.named('test') {
 	useJUnitPlatform()
 }

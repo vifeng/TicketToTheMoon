@@ -1,66 +1,130 @@
+Table of contents
+- [PROJECT : TicketToTheMoon](#project--tickettothemoon)
+  - [About The Project](#about-the-project)
+  - [Build with](#build-with)
+- [GETTING STARTED](#getting-started)
+  - [1. RUNNING LOCALLY](#1-running-locally)
+    - [Prerequisites](#prerequisites)
+    - [Installation & init](#installation--init)
+    - [Database configuration](#database-configuration)
+    - [Run](#run)
+    - [Shutdown](#shutdown)
+  - [2. RUNNING WITH DOCKER](#2-running-with-docker)
+    - [Prerequisites](#prerequisites-1)
+    - [Database configuration](#database-configuration-1)
+    - [Run](#run-1)
+    - [Shutdown](#shutdown-1)
+- [REST API & actuator](#rest-api--actuator)
+- [GENERAL INFO](#general-info)
+  - [Status](#status)
+  - [Roadmap](#roadmap)
+  - [Features](#features)
+  - [Visuals](#visuals)
+  - [Usage](#usage)
+  - [Architecture](#architecture)
+  - [Versions and platform support](#versions-and-platform-support)
+  - [Tests results](#tests-results)
+  - [Issues and bugs](#issues-and-bugs)
+- [CONTRIBUTE / CONTACT](#contribute--contact)
+- [LICENCE](#licence)
+
+---
+---
+
 # PROJECT : TicketToTheMoon
+
 ## About The Project
 TicketToTheMoon is a ticket office website. Main features are :
-- tickettothemoon_server : a back office for venues to operate their shows. 
 - tickettothemoon_client : a front office aimed at the public to buy tickets from.
+- tickettothemoon_server : a back office for venues to operate their shows. 
 
 ## Build with
-Software stack:
-- SpringBoot
-- VueJs3
-- Gradle
+```
+   | Software stack                 | CI/CD stack                                | Servers           |
+   |------------------------------- | ------------------------------------------ | ------------------|
+   | SpringBoot, VueJs3, Gradle     | -  Docker, Docker compose, Kubernetes      | Tomcat            |
+   |                                | -   Nexus, Drone, SonarQube                | Apache            |
+   |------------------------------- |------------------------------------------- | Ngnix             |
+   | Tests                          | Documentation                              |                   |
+   |------------------------------- |------------------------------------------- |                   |
+   | Junit                          | Swagger-ui                                 |                   |
+```
+</br>
 
-CI/CD stack:
-- Docker, Docker compose, Kubernetes
-- Nexus, Drone, SonarQube  
-
-Servers:
-- Tomcat, Apache, Ngnix
-
-Tests:
-- Junit
-
-## Documentation  
-Swagger-ui  
+</br>
 
 ---  
-
 # GETTING STARTED
-## Prerequisites
-+   xx
-``` xx install xx@latest -g ```
-## LOCALLY
-### Installation
-1. Clone the repo
-```git clone https://github.com/vifeng/Project-Name.git```
-2. Install xx packages
-3. `gradle init`
-4. `gradle run`
+You can run TicketToTheMoon [locally](#1-running-locally) or with [docker](#2-running-with-docker) :     
+
+## 1. RUNNING LOCALLY
+### Prerequisites
+<!-- TODO: -->
++   Gradle, Java 
+
+### Installation & init
+With Gradle command line   
+   1. Clone
+```
+   git clone https://github.com/vifeng/tickettothemoon.git  
+   cd tickettothemoon_server
+```
+   2. if first start, init : ``` gradle init```   
+
 ### Database configuration
-In its dev configuration, the application uses an in-memory database (H2) which gets populated at startup with data. A similar setups is provided for the prod configuration with MySQL for a persistent database configuration. Please specify the profile needed.
-There is two ways:
-1. Update application properties: open the application.properties file, then specify your environnement as such :
+In its dev configuration, the application uses an in-memory database (H2) which gets populated at startup with data. A similar setups is provided for the prod configuration with MySQL for a persistent database configuration. Please specify the profile needed.   
+1. Update the application properties file: `application.properties` , then specify your environnement as such :
    1. Dev :     spring.profiles.active=h2,dev 
    2. Prod :    spring.profiles.active=mysql,prod
-2. Use a Spring Boot JVM parameter: simply start the JVM with the -Dspring.profiles.active=mysql.prod parameter.
-3. Check the database properties in either file : application-mysql.properties, application-h2.properties
-4. Start your mysql server if needed
-5. The localhost host should be set for a MySQL dabase instance started on your local machine. 
-   Visit [h2-console](http://localhost:8080/h2-console) in your browser.
-   Visit [mysql-console](localhost:3306/tickettothemoon?useUnicode=true) in your browser.
-## Run
+2. Check the database properties in files : `application-mysql.properties`, `application-h2.properties`. The host should be set for localhost. 
+3. Start your mysql server if needed
+4. Once the application is up and running, visit:   
+   + [h2-console](http://localhost:8080/h2-console) in your browser.
+   + [mysql-console](http://localhost:3306/tickettothemoon?useUnicode=true) in your browser.
+
+### Run
 1. go to ./tickettothemoon_server
-2. On your terminal run $ gradle bootRun
-3. Visit [http://localhost:8080](http://localhost:8080) in your browser.
+2. Run tickettothemoon_server : ``` gradle bootRun ```  
+3. Access tickettothemoon_server [http://localhost:8080](http://localhost:8080) in your browser.
 
-## DOCKER
+### Shutdown
+<!-- TODO: -->
+</br>
+
+## 2. RUNNING WITH DOCKER
+### Prerequisites
+<!-- TODO: -->
++   Docker
+``` xx install xx@latest -g ```
+
 ### Database configuration
-You may also start a MySql database with docker:
-docker run --name mysql-tickettothemoon -e MYSQL_ROOT_PASSWORD=tickettothemoon -e MYSQL_DATABASE=tickettothemoon -p 3306:3306 mysql:5.7
+1. You may also start a MySql database with docker:   
+```docker run --name root-tickettothemoon -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=tickettothemoon -p 3306:3306 mysql:5.7 ```
+1. Once the application is up and running, visit:      
+   [h2-console](http://localhost:8080/h2-console)   
+   [mysql-console](http://localhost:3306/tickettothemoon?useUnicode=true)   
+### Run
+1. ```docker run -p 3306:3306 tickettothemoon/tickettothemoon_server```
+2. Access tickettothemoon_server [http://localhost:8080](http://localhost:8080) in your browser.
+### Shutdown
+<!-- TODO: and the main docker command -->
 
-TODO:
+
+<br>
+
 ---  
-	
+TODO: + screenshot
+# REST API & actuator
++ OpenAPI REST API documentation presented here (after application start):   
+You can reach the swagger UI with this URL http://localhost:3306/tickettothemoon/.   
+You then can get the Open API description reaching this URL localhost:3306/tickettothemoon/api-docs.
++  There are actuator health check and info routes as well:
+   + http://localhost:3306/tickettothemoon/actuator/health
+   + http://localhost:3306/tickettothemoon/actuator/info   
+
+<br>
+
+---  
 # GENERAL INFO
 ## Status  
 just started. Tests.  
@@ -77,13 +141,15 @@ Use examples liberally, and show the expected output if you can. It's helpful to
 ## Versions and platform support
 ## Tests results
 ## Issues and bugs
+<br>
 
 ---  
-
 # CONTRIBUTE / CONTACT
-Feel free to send pull requests.
-You can contact me on github.
++ Feel free to send pull requests.
++ My issue tracker is available here: https://github.com/tickettothemoon/issues
++  You can contact me on github.
+<br>
 
-
+---  
 # LICENCE
 [MIT](./LICENSE.txt)  
