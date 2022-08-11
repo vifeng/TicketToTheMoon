@@ -1,12 +1,18 @@
-// buildscript {
-//     dependencies {
-//         classpath "org.flywaydb:flyway-mysql:8.0.30 "
-//     }
-// }
+buildscript {
+	repositories {
+	mavenCentral()
+}
+    dependencies {
+		//To automatically run Flyway database migrations on startup
+		// classpath 'org.flywaydb:flyway-core'
+        // no need -error-  classpath "org.flywaydb:flyway-mysql"
+    }
+}
 plugins {
 	id 'org.springframework.boot' version '2.7.1'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'war'
 	id "org.flywaydb.flyway" version "9.0.1"
 }
 
@@ -62,27 +68,52 @@ dependencies {
 	}
 }
 
-// flyway config start-------------------
-// we need to build classes before we can migrate
-flywayMigrate.dependsOn classes
-flyway {
-    task migrateDB_h2(type: FlywayMigrateTask) {
-		url='jdbc:h2:mem:tickettothemoon'
-		user = 'vi'
-		password = ''
-		locations = ['classpath:./src/main/resources/db/h2/']
-	}
-	task migrateDB_Mysql(type: FlywayMigrateTask) {
-		url = 'jdbc:mysql://localhost:3306/tickettothemoon?allowPublicKeyRetrieval=true&useSSL=false'
-		user = 'root'
-		password = 'root'
-		locations = ['classpath:./src/main/resources/db/mysql']
-	}
-}
-// flyway end -------------------
-
 test {
 	useJUnitPlatform()
+}
+
+// flyway config start-------------------
+// get info from gradle.properties
+// ext {
+// 	// Mysql
+// 	db2Host = "${db2Host}"
+// 	db2Port = "${db2Port}"
+// 	db2Sid  = "${dbSid}"
+// 	db2User = "${db2User}"
+// 	db2Password = "${db2Password}"
+// 	db2Url = 'jdbc:mysql://${db2Host}:${db2Port}/${db2Sid}?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC'
+//   	db2Driver = "${db2Driver}"
+// }
+// we need to build classes before we can migrate
+// flywayMigrate.dependsOn classes
+flyway {
+	//default DB for development
+	// cleanDisabled = false
+	// url='jdbc:h2:mem:tickettothemoon'
+	// user = 'vi'
+	// password = ''
+	//locations= ['classpath:./src/main/resources/db/h2']
+}
+// // alternative DB for prod
+// task migrateDB_Mysql(type: FlywayMigrateTask) {
+// 	// cleanDisabled = false
+// 	user = 'root'
+// 	password = 'rootroot'
+// 	url = 'jdbc:mysql://localhost:3306/tickettothemoon'
+// 	// tickettothemoon?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC'
+// 	locations= ['classpath:./src/main/resources/db/mysql']
+// 	// url=db2Url
+// 	// user = db2User
+// 	// password = db2Password
+// 	dependsOn flywayClean, flywayMigrate
+
+// }
+// flyway end -------------------
+
+task create_db {
+  group = 'build'
+  description = 'Builds the database schema.'
+  dependsOn flywayClean, flywayMigrate
 }
 
 task distClean {
