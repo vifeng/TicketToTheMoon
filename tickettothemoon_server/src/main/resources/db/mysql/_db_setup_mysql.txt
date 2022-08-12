@@ -1,0 +1,18 @@
+================================================================================
+               ===         MySQL Configuration         ===
+================================================================================
+
+TODO: COMPLETE
+>>>>>   Docker image and README
+--------------------------------------------------------------------------------
+
+1) Download and install the MySQL database (e.g., MySQL Community Server 8.0.x),
+   which can be found here: http://dev.mysql.com/downloads/mysql/
+   Alternatively, you may use the official MySQL docker image. 
+   Refer to the README.md for the Docker command line.
+
+2) Create the tickettothemoon database and user by executing the "db/mysql/schema.sql"
+   and "db/mysql/data.sql" scripts. Or uncomment strings : 
+      #spring.datasource.schema=classpath*:db/${database}/schema.sql
+      #spring.datasource.data=classpath*:db/${database}/data.sql
+   in application-mysql.properties file at the first time you run the app.
