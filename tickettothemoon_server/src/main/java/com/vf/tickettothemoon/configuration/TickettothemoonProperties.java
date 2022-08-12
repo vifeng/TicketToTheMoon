@@ -12,7 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "tickettothemoon")
 public class TickettothemoonProperties {
       /**
-     * Relational database supported by SpringBoot Petclinic: h2, mysql 
+     * Relational database supported by SpringBoot : h2, MySQL 
      */
     private String database;
 
