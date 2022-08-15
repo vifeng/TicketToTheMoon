@@ -1,6 +1,7 @@
 Table of contents
 - [PROJECT : TicketToTheMoon](#project--tickettothemoon)
   - [About The Project](#about-the-project)
+  - [Documentation](#documentation)
   - [Build with](#build-with)
 - [GETTING STARTED](#getting-started)
   - [1. RUNNING LOCALLY](#1-running-locally)
@@ -38,12 +39,16 @@ TicketToTheMoon is a ticket office website. Main features are :
 - tickettothemoon_client : a front office aimed at the public to buy tickets from.
 - tickettothemoon_server : a back office for venues to operate their shows. 
 
+## Documentation  
+[Documentation] https://github.com/vifeng/TicketToTheMoon/tree/main/documentation   
+README files are available in each folder to explain its purpose.
+
 ## Build with
 ```
    | Software stack                 | CI/CD stack                                | Servers           |
    |------------------------------- | ------------------------------------------ | ------------------|
-   | SpringBoot, VueJs3, Gradle     | -  Docker, Docker compose, Kubernetes      | Tomcat            |
-   |                                | -   Nexus, Drone, SonarQube                | Apache            |
+   | SpringBoot, VueJs3, Gradle     | -  Docker, Docker Compose, Kubernetes      | Tomcat            |
+   |                                | -  Nexus, Drone, SonarQube                 | Apache            |
    |------------------------------- |------------------------------------------- | Ngnix             |
    | Tests                          | Documentation                              |                   |
    |------------------------------- |------------------------------------------- |                   |
@@ -76,11 +81,12 @@ In its dev configuration, the application uses an in-memory database (H2) which 
 1. Update the application properties file: `application.properties` , then specify your environnement as such :
    1. Dev :     spring.profiles.active=h2,dev 
    2. Prod :    spring.profiles.active=mysql,prod
+   3. Test :    spring.profiles.active=mysql,test
 2. Check the database properties in files : `application-mysql.properties`, `application-h2.properties`. The host should be set for localhost. 
 3. Start your mysql server if needed
-4. Once the application is up and running, visit:   
+4. Once the application is up and running, visit the chosen database:   
    + [h2-console](http://localhost:8080/h2-console) in your browser.
-   + [mysql-console](http://localhost:3306/tickettothemoon?useUnicode=true) in your browser.
+   + [mysql](http://localhost:3306/tickettothemoon?useUnicode=true) in your favorite application.
 
 ### Run
 1. go to ./tickettothemoon_server
@@ -88,7 +94,7 @@ In its dev configuration, the application uses an in-memory database (H2) which 
 3. Access tickettothemoon_server [http://localhost:8080](http://localhost:8080) in your browser.
 
 ### Shutdown
-<!-- TODO: -->
+From the terminal: `CTL+C`  
 </br>
 
 ## 2. RUNNING WITH DOCKER
@@ -127,27 +133,34 @@ You then can get the Open API description reaching this URL localhost:3306/ticke
 ---  
 # GENERAL INFO
 ## Status  
-just started. Tests.  
-https://shields.io/
+WIP: environnement.  
+Tests. https://shields.io/
 ## Roadmap 
-See the open issues for a list of proposed features (and known issues). If you have ideas for releases in the future, it is a good idea to list them in the README.
+See the open issues for a list of proposed features (and known issues) at [github issues](https://github.com/vifeng/TicketToTheMoon/issues)
+You can find ideas for releases in the future in the [functional requirements documentation] (https://github.com/vifeng/TicketToTheMoon/blob/main/documentation/01_ExpressionBesoin-V5_OK.pdf).
 ## Features
+see [functional requirements documentation] (https://github.com/vifeng/TicketToTheMoon/blob/main/documentation/01_ExpressionBesoin-V5_OK.pdf)
 ## Visuals
+<!-- TODO: -->
 ## Usage
+<!-- TODO: -->
 Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 ## Architecture
 3-layers : presentation --> service --> repository  
-
+More information is to be found in the [documentation section] (https://github.com/vifeng/TicketToTheMoon/blob/main/documentation/).
 ## Versions and platform support
+More information is to be found in the [documentation section] (https://github.com/vifeng/TicketToTheMoon/blob/main/documentation/).
 ## Tests results
+<!-- TODO:  -->
 ## Issues and bugs
+See the open issues for a list of proposed features (and known issues) at [github issues](https://github.com/vifeng/TicketToTheMoon/issues)
 <br>
 
 ---  
 # CONTRIBUTE / CONTACT
 + Feel free to send pull requests.
 + My issue tracker is available here: https://github.com/tickettothemoon/issues
-+  You can contact me on github.
++ You can contact me on github.
 <br>
 
 ---  
