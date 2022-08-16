@@ -1,0 +1,19 @@
+buildscript {
+	repositories {
+	mavenCentral()
+}
+    dependencies {
+    }
+}
+plugins {
+	id "org.flywaydb.flyway" version "9.0.1"
+}
+
+repositories {
+	mavenCentral()
+}
+
+group = 'com.vf'
+version = '0.0.1-SNAPSHOT'
+description = 'VueJS framework - Ticket to the Moon - FrontEnd'
+

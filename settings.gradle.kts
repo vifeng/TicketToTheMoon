@@ -7,5 +7,7 @@
  * in the user manual at https://docs.gradle.org/7.4/userguide/multi_project_builds.html
  */
 
-rootProject.name = "tickettothemoon_server"
-include("app")
+rootProject.name = "tickettothemoon"
+include ("tickettothemoon_server")
+include ("tickettothemoon_client")
+
