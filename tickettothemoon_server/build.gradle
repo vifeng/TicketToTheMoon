@@ -4,8 +4,7 @@ buildscript {
 }
     dependencies {
 		//To automatically run Flyway database migrations on startup
-		// classpath 'org.flywaydb:flyway-core'
-        // no need -error-  classpath "org.flywaydb:flyway-mysql"
+		classpath 'org.flywaydb:flyway-core'
     }
 }
 plugins {
@@ -48,7 +47,7 @@ dependencies {
 	// flyway
 	implementation 'org.flywaydb:flyway-core'
 	implementation "org.flywaydb:flyway-mysql"
-    // compile "org.flywaydb:flyway-core:9.0.1"
+    // -error - compile "org.flywaydb:flyway-core:9.0.1"
 	
 	// devTools
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -73,6 +72,12 @@ test {
 }
 
 // flyway config start-------------------
+// we need to build classes before we can migrate
+flywayMigrate.dependsOn classes
+
+// see https://flywaydb.org/documentation/usage/gradle/ 
+// and https://stackoverflow.com/questions/47656711/gradle-flyway-script-to-update-multiple-databases
+
 // get info from gradle.properties
 // ext {
 // 	// Mysql
@@ -84,37 +89,44 @@ test {
 // 	db2Url = 'jdbc:mysql://${db2Host}:${db2Port}/${db2Sid}?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC'
 //   	db2Driver = "${db2Driver}"
 // }
-// we need to build classes before we can migrate
-// flywayMigrate.dependsOn classes
-flyway {
-	//default DB for development
-	// cleanDisabled = false
-	// url='jdbc:h2:mem:tickettothemoon'
-	// user = 'vi'
-	// password = ''
-	//locations= ['classpath:./src/main/resources/db/h2']
-}
-// // alternative DB for prod
-// task migrateDB_Mysql(type: FlywayMigrateTask) {
-// 	// cleanDisabled = false
+// flyway {
+// 	//default DB for development
+// 	cleanDisabled = false
+// 	url='jdbc:h2:mem:tickettothemoon'
+// 	user = 'vi'
+// 	password = ''
+// }
+// alternative DB for prod
+// task flywayMysqlProd(type: FlywayMigrateTask) {
+// 	cleanDisabled = false
+// 	url = 'jdbc:mysql://localhost:3306/tickettothemoon?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC'
+// 	// locations= ['classpath:./src/main/resources/db/mysql/common, classpath:./src/main/resources/db/mysql/prod']
+// 	// url=db2Url
+// 	// user = db2User
+// 	// password = db2Password
 // 	user = 'root'
 // 	password = 'rootroot'
-// 	url = 'jdbc:mysql://localhost:3306/tickettothemoon'
-// 	// tickettothemoon?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC'
-// 	locations= ['classpath:./src/main/resources/db/mysql']
+// 	dependsOn flywayClean, flywayMigrate
+// }
+// // alternative DB for testing
+// task flywayMysqlTest(type: FlywayMigrateTask) {
+// 	cleanDisabled = false
+// 	url = 'jdbc:mysql://localhost:3306/tickettothemoon?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true'
+// 	// locations= ['classpath:./src/main/resources/db/mysql/common, classpath:./src/main/resources/db/mysql/test']
+// 	user = 'root'
+// 	password = 'rootroot'
 // 	// url=db2Url
 // 	// user = db2User
 // 	// password = db2Password
 // 	dependsOn flywayClean, flywayMigrate
-
+// }
+// task create_db {
+//   group = 'build'
+//   description = 'Builds the database schema.'
+//   dependsOn flywayClean, flywayMigrate
 // }
 // flyway end -------------------
 
-task create_db {
-  group = 'build'
-  description = 'Builds the database schema.'
-  dependsOn flywayClean, flywayMigrate
-}
 
 task distClean {
   dependsOn("clean")
