@@ -21,7 +21,7 @@ repositories {
 
 group = 'com.vf'
 version = '0.0.1-SNAPSHOT'
-description = 'Springboot framework - Ticket to the Moon - Another ticket office website.'
+description = 'SpringBoot framework - Ticket to the Moon - BackEnd'
 sourceCompatibility = '11'
 ext.webjarsFontawesomeVersion = "4.7.0"
 ext.webjarsBootstrapVersion = "5.1.3"
