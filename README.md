@@ -15,6 +15,8 @@ Table of contents
     - [Database configuration](#database-configuration-1)
     - [Run](#run-1)
     - [Shutdown](#shutdown-1)
+- [Few commands](#few-commands)
+  - [Gradle](#gradle)
 - [REST API & actuator](#rest-api--actuator)
 - [GENERAL INFO](#general-info)
   - [Status](#status)
@@ -114,7 +116,13 @@ From the terminal: `CTL+C`
 2. Access tickettothemoon_server [http://localhost:8080](http://localhost:8080) in your browser.
 ### Shutdown
 <!-- TODO: and the main docker command -->
+<br>
 
+---  
+# Few commands
+## Gradle
+`gradle -q projects`    to see the projects and sub projects. -q for quiet.   
+`gradle :tickettothemoon_server:build` launch the task build of the tickettothemoon_server sub-project   
 
 <br>
 
