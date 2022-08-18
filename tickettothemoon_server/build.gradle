@@ -34,6 +34,18 @@ configurations {
   		}
 }
 
+// for Frontend
+sourceSets {
+    main {
+        resources {
+            srcDir '../tickettothemoon_client/build/dist'
+        }
+    }
+}
+
+processResources.dependsOn ':tickettothemoon_client:npmBuild'
+//
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'

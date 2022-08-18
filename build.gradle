@@ -12,11 +12,14 @@ repositories {
 	mavenCentral()
 }
 
-// group = 'com.vf'
-version = '0.0.1-SNAPSHOT'
-description = 'Ticket to the Moon - Another ticket office website. RootProject'
-
 // Common for all subprojects
+allprojects {
+	apply plugin: 'io.spring.dependency-management'
+	group = 'com.vf'
+	version = '0.0.1-SNAPSHOT'
+}
+
+description = 'Ticket to the Moon - Another ticket office website. RootProject'
 dependencies {
 	// Flyway ?
 	
