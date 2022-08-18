@@ -1,0 +1,49 @@
+plugins {
+	// This plugin enabled you to use a lot of NodeJS-based technologies as part of 
+    // your build without having NodeJS installed locally on your system.
+	id "com.moowork.node" version "1.3.1"
+    id 'java'
+}
+description = 'VueJS framework - Ticket to the Moon - FrontEnd'
+
+node {
+    // Version to use.
+    version = '17.1.0'
+    // Base URL for fetching node distributions (change if you have a mirror).
+    distBaseUrl = 'https://nodejs.org/dist'
+    // TOCONFIG:
+    // If true, it will download node using above parameters.
+    // If false, it will try to use globally installed node.
+    download = false
+    // Set the work directory for unpacking
+    workDir = file("${project.buildDir}/nodejs")
+    npmWorkDir = file("${project.buildDir}/npm")
+    yarnWorkDir = file("${project.buildDir}/yarn")
+    nodeModulesDir = file("${project.projectDir}")
+}
+
+//Gradle task that calls the npm run build command
+task npmBuild(type: NpmTask) {
+    dependsOn 'npmInstall'
+    dependsOn 'clean'
+    group ='node'
+    args = ['run', 'build']
+}
+//The jar task of the Java plug-in of Gradle depends on npmBuild, that is, npm run build must be run before the web submodule is built into the jar package
+jar.dependsOn npmBuild
+
+//Call npm run dev
+task npmDev(type: NpmTask) {
+    dependsOn npmInstall
+    group ='node'
+    args = ['run','dev']
+}
+
+task cleanDist() {
+    dependsOn clean
+    doFirst {
+        delete 'build/dist'
+    }
+
+}
+
