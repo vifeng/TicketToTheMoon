@@ -9,5 +9,5 @@ public class TickettothemoonApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TickettothemoonApplication.class, args);
 	}
-
+	
 }

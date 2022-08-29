@@ -91,9 +91,13 @@ In its dev configuration, the application uses an in-memory database (H2) which 
    + [mysql](http://localhost:3306/tickettothemoon?useUnicode=true) in your favorite application.
 
 ### Run
-1. go to ./tickettothemoon_server
+1. go to ./tickettothemoon
 2. Run tickettothemoon_server : ``` gradle bootRun ```  
-3. Access tickettothemoon_server [http://localhost:8080](http://localhost:8080) in your browser.
+3. Run tickettothemoon_client : ``` npm tickettothemoon_client run ```  
+<!-- 2. TODO: Run tickettothemoon entire app (client and server) : ``` gradle bootRun ```   -->
+1. Access tickettothemoon [http://localhost:8080](http://localhost:8080) in your browser.   
+
+Build without the tests ``` gradle build -x test ```   
 
 ### Shutdown
 From the terminal: `CTL+C`  
