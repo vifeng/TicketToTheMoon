@@ -1,6 +1,7 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
+import Employees from './components/Employees.vue'
 </script>
 
 <template>
@@ -13,7 +14,11 @@ import TheWelcome from './components/TheWelcome.vue'
   </header>
 
   <main>
-    <TheWelcome />
+    <div id="app">
+      
+      <Employees/>
+    </div>
+    <!-- <TheWelcome /> -->
   </main>
 </template>
 
