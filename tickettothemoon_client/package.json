@@ -7,6 +7,8 @@
     "preview": "vite preview --port 4173"
   },
   "dependencies": {
+    "axios": "^0.27.2",
+    "bootstrap": "^5.2.0",
     "vue": "^3.2.37"
   },
   "devDependencies": {

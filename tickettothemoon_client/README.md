@@ -1,3 +1,4 @@
+<!-- TODO: -->
 # tickettothemoon_client
 
 This template should help get you started developing with Vue 3 in Vite.
@@ -10,9 +11,20 @@ This template should help get you started developing with Vue 3 in Vite.
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
+## Build with
+```
+npm install -g @vue/cli
+vue create <newProject>
+cd <newProject>
+npm install bootstrap --save
+npm add axios
+
+```
+
 ## Project Setup
 
 ```sh
+node install
 npm install
 ```
 
