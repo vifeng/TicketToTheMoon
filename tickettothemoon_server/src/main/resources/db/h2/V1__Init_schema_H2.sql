@@ -12,3 +12,11 @@ CREATE TABLE PROF (
   prenom varchar(30),
  PRIMARY KEY (prof_Id)
 );
+
+CREATE TABLE employees (
+  id INTEGER NOT NULL AUTO_INCREMENT,
+  first_name varchar(30),
+  last_name varchar(30),
+  email varchar(30),
+ PRIMARY KEY (id)
+);

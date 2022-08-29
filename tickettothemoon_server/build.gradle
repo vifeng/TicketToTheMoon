@@ -1,7 +1,9 @@
 buildscript {
 	repositories {
-	mavenCentral()
-}
+		mavenCentral()
+		mavenLocal()
+
+	}
     dependencies {
 		//To automatically run Flyway database migrations on startup
 		classpath 'org.flywaydb:flyway-core'
@@ -9,14 +11,17 @@ buildscript {
 }
 plugins {
 	id 'org.springframework.boot' version '2.7.1'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 	id 'war'
 	id "org.flywaydb.flyway" version "9.0.1"
+	id "io.freefair.lombok" version "6.5.0.3"
+
 }
 
 repositories {
 	mavenCentral()
+	mavenLocal()
+
 }
 
 group = 'com.vf'
