@@ -11,9 +11,10 @@ import com.vf.tickettothemoon.administrators.domain.dao_repo.EmployeeRepository;
 import java.util.List;
 import com.vf.tickettothemoon.administrators.domain.model.Employee;
 
+// TOCONFIG:
 @RestController
+// @CrossOrigin(origins = "http://localhost:3000/")
 @RequestMapping("/api")
-@CrossOrigin("http://localhost:3000/")
 public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;

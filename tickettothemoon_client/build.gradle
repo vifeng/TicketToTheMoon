@@ -22,31 +22,32 @@ node {
     nodeModulesDir = file("${project.projectDir}")
 }
 
-//Gradle task that calls the npm run build command
+
 task npmBuild(type: NpmTask) {
+    description 'Gradle task that calls the npm run build command'
     dependsOn 'npmInstall'
     dependsOn 'clean'
     group ='node'
     args = ['run', 'build']
 }
-//The jar task of the Java plug-in of Gradle depends on npmBuild, that is, npm run build must be run before the web submodule is built into the jar package
+
+// The jar task of the Java plug-in of Gradle depends on npmBuild, that is, 
+// npm run build must be run before the web submodule is built into the jar package
 jar.dependsOn npmBuild
 
-//Call npm run dev
 task npmDev(type: NpmTask) {
+    description 'Call npm run dev'
     dependsOn npmInstall
     group ='node'
     args = ['run','dev']
 }
 
 
-
-
 task cleanDist() {
+    description 'efface dist et fait un clean'
     dependsOn clean
     doFirst {
         delete 'build/dist'
     }
-
 }
 

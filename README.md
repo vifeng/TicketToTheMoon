@@ -3,6 +3,7 @@ Table of contents
   - [About The Project](#about-the-project)
   - [Documentation](#documentation)
   - [Build with](#build-with)
+  - [Folders](#folders)
 - [GETTING STARTED](#getting-started)
   - [1. RUNNING LOCALLY](#1-running-locally)
     - [Prerequisites](#prerequisites)
@@ -55,6 +56,61 @@ README files are available in each folder to explain its purpose.
    | Tests                          | Documentation                              |                   |
    |------------------------------- |------------------------------------------- |                   |
    | Junit                          | Swagger-ui                                 |                   |
+```
+## Folders
+```
+.
+├── documentation
+├── gradle
+├── tickettothemoon_client        → frontend module with Vue.js code
+│   ├── dist
+│   ├── public
+│   └── src
+│   │   ├── assets
+│   │   ├── components
+│   │   │   └── icons
+│   │   └── service
+│   └── build.gradle
+├── tickettothemoon_server        → backend module with Spring Boot code
+│   ├── bin
+│   ├── build
+│   ├── gradle
+│   └── src
+│   │   ├── main
+│   │   │   ├── docker
+│   │   │   ├── java
+│   │   │   │   └── com
+│   │   │   │       └── vf
+│   │   │   │           └── tickettothemoon
+│   │   │   │               ├── administrators
+│   │   │   │               ├── authentication
+│   │   │   │               ├── configuration
+│   │   │   │               ├── exceptions
+│   │   │   │               ├── tools
+│   │   │   │               └── users
+│   │   │   └── resources
+│   │   │       ├── db
+│   │   │       │   ├── h2
+│   │   │       │   └── mysql
+│   │   │       │       ├── common
+│   │   │       │       ├── prod
+│   │   │       │       └── test
+│   │   │       ├── messages
+│   │   │       ├── static
+│   │   │       └── templates
+│   │   │           └── prof
+│   │   └── test
+│   │       └── java
+│   │           └── com
+│   │               └── vf
+│   │                   └── tickettothemoon
+│   │                       ├── administrators
+│   │                       ├── authentication
+│   │                       └── users
+│   └── build.gradle
+└── build.gradle            → gradle parent managing both modules
+
+            
 ```
 </br>
 
