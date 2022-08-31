@@ -9,7 +9,7 @@
                 <th>Employee Email</th>
             </thead>
             <tbody>
-                <tr v-for="employee in employees" v-bind:key="employee.id">
+                <tr v-if="employees.length != 0" v-for="employee in employees" v-bind:key="employee.id">
                     <td>{{employee.id}}</td>
                     <td>{{employee.firstName}}</td>
                     <td>{{employee.lastName}}</td>
@@ -31,10 +31,24 @@ export default{
     },
     methods:{
         getEmployees(){
-            EmployeeService.getEmployees().then((response)=>{
-                this.employees = response.data;
-            });
-        }
+            // EmployeeService.getEmployees().then((response)=>{
+            //     this.employees = response.data;
+            // });
+            
+                EmployeeService.getEmployees().then((response)=>{
+                    this.employees = response.data;
+                }).catch(function (error) {
+                        if (error.response) {
+                            console.log(error.response.data);
+                            console.log(error.response.status);
+                            console.log(error.response.headers);
+                        } else if (error.request) {
+                            console.log(error.request);
+                        } else {
+                            console.log('Error', error.message);
+                        }
+                    });  
+        },
     },
     created(){
         this.getEmployees();

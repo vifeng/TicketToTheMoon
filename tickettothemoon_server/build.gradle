@@ -21,7 +21,6 @@ plugins {
 repositories {
 	mavenCentral()
 	mavenLocal()
-
 }
 
 group = 'com.vf'
@@ -79,6 +78,7 @@ dependencies {
 	runtimeOnly "org.webjars.npm:font-awesome:${webjarsFontawesomeVersion}"
 	runtimeOnly 'org.ehcache:ehcache'
 	// test
+	testImplementation 'org.apache.httpcomponents:httpclient'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}

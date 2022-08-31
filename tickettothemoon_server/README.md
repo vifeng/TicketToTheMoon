@@ -86,6 +86,7 @@ In its dev configuration, the application uses an in-memory database (H2) which 
 1. go to ./tickettothemoon_server
 2. Run tickettothemoon_server : ``` gradle bootRun ```  
 3. Access tickettothemoon_server [http://localhost:8080](http://localhost:8080) in your browser.
+<!-- TOCONFIG: option choisir le port : ./gradlew bootRun --args="--server.port=9000" -->
 
 ### Shutdown
 <!-- TODO: -->
@@ -147,7 +148,7 @@ Use examples liberally, and show the expected output if you can. It's helpful to
 # CONTRIBUTE / CONTACT
 + Feel free to send pull requests.
 + My issue tracker is available here: https://github.com/tickettothemoon/issues
-+  You can contact me on github.
++ You can contact me on github.
 <br>
 
 ---  

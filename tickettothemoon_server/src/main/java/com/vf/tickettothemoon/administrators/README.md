@@ -33,3 +33,4 @@ Les interfaces seront suffixées d’un « able » : Validable
 - MVC : utilisé pour dissocier les traitements de la visualisation.
 - DAO : utilisé pour pouvoir se connecter à plusieurs bases de données distinctes.
 - DTO : utilisé pour transporter plusieurs objets distants en un seul appel distant ou pour les données d’un objet distant non transportable sur le réseau (pas sérialisable).
+
