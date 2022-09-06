@@ -99,7 +99,7 @@ In its dev configuration, the application uses an in-memory database (H2) which 
 From the terminal: `CTL+C`  
 </br>
 
-## 2. RUNNING WITH DOCKER
+## 2. RUNNING WITH DOCKER : TODO
 ### Prerequisites
 <!-- TODO: -->
 +   Docker
