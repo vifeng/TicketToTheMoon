@@ -14,7 +14,7 @@ plugins {
 	id 'java'
 	id 'war'
 	id "org.flywaydb.flyway" version "9.0.1"
-	id "io.freefair.lombok" version "6.5.0.3"
+	id "io.freefair.lombok" version "6.5.1"
 
 }
 

@@ -1,6 +1,12 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import Employees from './components/Employees.vue'
+  import HelloWorld from './components/HelloWorld.vue'
+  import Employees from './components/Employees.vue'
+</script>
+
+<script >
+  export default {
+      name: 'App'
+  }
 </script>
 
 <template>
@@ -15,8 +21,6 @@ import Employees from './components/Employees.vue'
     <main>
       <div id="app">
         <Employees />
-      
-
       </div>
     </main>
   </body>
