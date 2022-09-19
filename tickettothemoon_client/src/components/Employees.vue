@@ -22,12 +22,12 @@
 
 <script>
 import EmployeeService from '../service/EmployeeService';
+
 export default{
     name:'Employees',
     data(){
         return{
-            employees : []
-        }
+            employees : []        }
     },
     methods:{
         getEmployees(){
@@ -55,11 +55,8 @@ export default{
     }
 };
 </script>
-<!--  test instead of created
-    created(){
-        this.getEmployees();
-    }
--->
+
+
 <style>
 
 </style>
