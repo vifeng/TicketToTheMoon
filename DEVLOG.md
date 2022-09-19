@@ -6,7 +6,7 @@ https://github.com/users/vifeng/projects/2/views/1
 Suivre le git et ses issues
 https://github.com/vifeng/TicketToTheMoon
 
-## WIP 8-env-vuejs3-setup
+## branch WIP : 8-env-vuejs3-setup
 ### CORS issue: solutions à tester
 1. Axios error - not that -> detail errors and config ok
 2. jar n'inclue pas le front
