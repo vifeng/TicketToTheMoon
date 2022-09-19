@@ -1,16 +1,28 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import * as Vue from 'vue'
 
-Vue.use(Router)
+import * as VueRouter from 'vue-router';
 
-export default new Router({
-    mode: 'history',
-    routes: [
+
+Vue.use(VueRouter)
+
+const routes = [
         {
             path: '/',
             alias: '/employees',
             name: 'employees',
-            component: () => import('./components/Employees')
+            component: () => import('./components/Employees.vue')
         }
-    ]
-})
+        // ,{
+        //     path: '/',
+        //     alias: '/employees/:id',
+        //     name: 'edit-employees',
+        //     component: () => import('./components/EditEmployee')
+        // }
+];
+
+const router = VueRouter.createRouter({
+    history: VueRouter.createWebHistory(),
+    routes,
+  });
+  
+  Vue.createApp(App).use(router).mount('#app');

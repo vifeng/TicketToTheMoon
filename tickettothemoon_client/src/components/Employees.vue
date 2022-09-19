@@ -50,12 +50,16 @@ export default{
                     });  
         },
     },
-    created(){
+    mounted(){
         this.getEmployees();
     }
 };
 </script>
-
+<!--  test instead of created
+    created(){
+        this.getEmployees();
+    }
+-->
 <style>
 
 </style>

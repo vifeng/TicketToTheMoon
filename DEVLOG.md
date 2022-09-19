@@ -24,14 +24,14 @@ https://github.com/vifeng/TicketToTheMoon
 7. Installer un proxy dans `vite.config.js`
   Grâce à ce proxy, le navigateur interagira uniquement avec le serveur `node`, typiquement sur le port `3000`,
   et cachera le serveur `Spring` sur le port `8080`.
-~~~json
-,
-  server: {
-    proxy: {
-      "/api": 'http://localhost:8080'     
-    }
-  }
-~~~
+    ~~~json
+    ,
+      server: {
+        proxy: {
+          "/api": 'http://localhost:8080'     
+        }
+      }
+    ~~~
 => FAILED
 
 2. install and test

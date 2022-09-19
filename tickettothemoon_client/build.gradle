@@ -44,7 +44,7 @@ task npmDev(type: NpmTask) {
 
 
 task cleanDist() {
-    description 'efface dist et fait un clean'
+    description 'erase dist and run task clean'
     dependsOn clean
     doFirst {
         delete 'build/dist'
