@@ -14,7 +14,6 @@ export default defineConfig({
   devServer: {
     proxy: {
       '/api': {
-        // target: 'http://localhost:5173',
         target: 'http://localhost:8080',
         ws: true,
         changeOrigin: true,
@@ -31,7 +30,6 @@ export default defineConfig({
     // cors: false,
     proxy: {
       '/api': {
-        // target: 'http://localhost:5173',
         target: 'http://localhost:8080',
         ws: true,
         changeOrigin: true,

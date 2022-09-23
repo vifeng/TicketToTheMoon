@@ -6,11 +6,6 @@ import axios from "axios"
 import './assets/main.css'
 
 
-const base = axios.create({
-  baseURL: "http://localhost:5173"
-});
-
-// createApp(App).prototype.$http = base;
 createApp(App).config.productionTip = false;
 
 const Vue = createApp({
@@ -19,5 +14,4 @@ const Vue = createApp({
 });
 
 createApp(App).use(Vue).mount("#app");
-
 
