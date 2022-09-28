@@ -1,0 +1,1 @@
+INSERT IGNORE INTO PROF VALUES (1, 'James', 'CarryOn');

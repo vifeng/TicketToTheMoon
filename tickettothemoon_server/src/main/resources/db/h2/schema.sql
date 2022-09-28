@@ -1,0 +1,8 @@
+DROP TABLE PROF IF EXISTS;
+
+CREATE TABLE PROF (
+  prof_Id INTEGER NOT NULL AUTO_INCREMENT,
+  nom varchar(30),
+  prenom varchar(30),
+ PRIMARY KEY (prof_Id)
+);
