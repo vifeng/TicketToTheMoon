@@ -14,8 +14,6 @@ plugins {
 	id 'java'
 	id 'war'
 	id "org.flywaydb.flyway" version "9.0.1"
-	id "io.freefair.lombok" version "6.5.1"
-
 }
 
 repositories {
@@ -33,9 +31,12 @@ ext.FlywayMigrateTask = org.flywaydb.gradle.task.FlywayMigrateTask
 
 configurations {
 	developmentOnly
-		runtimeClasspath {
-			extendsFrom developmentOnly
-  		}
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+	compileOnly {
+    	extendsFrom annotationProcessor
+  	}
 }
 
 // for Frontend
@@ -73,6 +74,8 @@ dependencies {
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
 	//other
 	runtimeOnly 'org.springframework.boot:spring-boot-starter-actuator'
+	compileOnly 'org.projectlombok:lombok'
+  	annotationProcessor 'org.projectlombok:lombok'
 	runtimeOnly 'org.webjars:webjars-locator-core'
 	runtimeOnly "org.webjars.npm:bootstrap:${webjarsBootstrapVersion}"
 	runtimeOnly "org.webjars.npm:font-awesome:${webjarsFontawesomeVersion}"
