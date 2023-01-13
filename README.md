@@ -7,18 +7,18 @@ Table of contents
 - [GETTING STARTED](#getting-started)
   - [1. RUNNING LOCALLY](#1-running-locally)
     - [Prerequisites](#prerequisites)
-    - [Installation & init](#installation--init)
+    - [Installation \& init](#installation--init)
     - [Database configuration](#database-configuration)
     - [Run](#run)
     - [Shutdown](#shutdown)
-  - [2. RUNNING WITH DOCKER](#2-running-with-docker)
+  - [2. RUNNING WITH DOCKER : TODO](#2-running-with-docker--todo)
     - [Prerequisites](#prerequisites-1)
     - [Database configuration](#database-configuration-1)
     - [Run](#run-1)
     - [Shutdown](#shutdown-1)
 - [Few commands](#few-commands)
   - [Gradle](#gradle)
-- [REST API & actuator](#rest-api--actuator)
+- [REST API \& actuator](#rest-api--actuator)
 - [GENERAL INFO](#general-info)
   - [Status](#status)
   - [Roadmap](#roadmap)
@@ -147,11 +147,22 @@ In its dev configuration, the application uses an in-memory database (H2) which 
    + [mysql](http://localhost:3306/tickettothemoon?useUnicode=true) in your favorite application.
 
 ### Run
-1. go to ./tickettothemoon
-2. Run tickettothemoon_server : ``` gradle bootRun ```  
-3. Run tickettothemoon_client : ``` npm tickettothemoon_client run ```  
+1. go to your project
+``` sh
+cd ./tickettothemoon
+```  
+2. Run tickettothemoon_server : 
+``` sh
+gradle bootRun 
+```  
+1. Run tickettothemoon_client :  
+``` sh
+cd tickettothemoon_client
+gradle npmDev 
+```  
 <!-- 2. TODO: Run tickettothemoon entire app (client and server) : ``` gradle bootRun ```   -->
 1. Access tickettothemoon [http://localhost:8080](http://localhost:8080) in your browser.   
+2. 1. Access tickettothemoon [ http://localhost:5173/]( http://localhost:5173/) in your browser.   
 
 Build without the tests ``` gradle build -x test ```   
 
@@ -179,6 +190,7 @@ From the terminal: `CTL+C`
 <br>
 
 ---  
+
 # Few commands
 ## Gradle
 `gradle -q projects`    to see the projects and sub projects. -q for quiet.   
