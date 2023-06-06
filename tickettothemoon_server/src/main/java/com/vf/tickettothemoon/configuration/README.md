@@ -1,3 +1,0 @@
-# CONFIGURATION
-## Description
-Contient les classes de configurations du back concernant la sécurité, l’authentification, certaines annotations...

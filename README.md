@@ -1,24 +1,18 @@
 Table of contents
+
 - [PROJECT : TicketToTheMoon](#project--tickettothemoon)
   - [About The Project](#about-the-project)
   - [Documentation](#documentation)
   - [Build with](#build-with)
-  - [Folders](#folders)
+    - [Versions used for the development](#versions-used-for-the-development)
 - [GETTING STARTED](#getting-started)
   - [1. RUNNING LOCALLY](#1-running-locally)
-    - [Prerequisites](#prerequisites)
-    - [Installation \& init](#installation--init)
+    - [Installation \& running](#installation--running)
     - [Database configuration](#database-configuration)
-    - [Run](#run)
-    - [Shutdown](#shutdown)
-  - [2. RUNNING WITH DOCKER : TODO](#2-running-with-docker--todo)
-    - [Prerequisites](#prerequisites-1)
-    - [Database configuration](#database-configuration-1)
-    - [Run](#run-1)
-    - [Shutdown](#shutdown-1)
 - [Few commands](#few-commands)
-  - [Gradle](#gradle)
 - [REST API \& actuator](#rest-api--actuator)
+  - [Actuator](#actuator)
+  - [Documentation](#documentation-1)
 - [GENERAL INFO](#general-info)
   - [Status](#status)
   - [Roadmap](#roadmap)
@@ -33,216 +27,175 @@ Table of contents
 - [LICENCE](#licence)
 
 ---
+
 ---
 
 # PROJECT : TicketToTheMoon
 
 ## About The Project
-TicketToTheMoon is a ticket office website. Main features are :
-- tickettothemoon_client : a front office aimed at the public to buy tickets from.
-- tickettothemoon_server : a back office for venues to operate their shows. 
 
-## Documentation  
-[Documentation] https://github.com/vifeng/TicketToTheMoon/tree/main/documentation   
+TicketToTheMoon is a ticket office website. Main features are :
+
+- tickettothemoon_FrontEnd : a front office aimed at the public to buy tickets from and a back office for venues to operate their shows.
+- tickettothemoon_BackEnd : REST API to manage the data.
+
+## Documentation
+
+[Documentation] https://github.com/vifeng/TicketToTheMoon/tree/main/documentation  
 README files are available in each folder to explain its purpose.
 
 ## Build with
-```
-   | Software stack                 | CI/CD stack                                | Servers           |
-   |------------------------------- | ------------------------------------------ | ------------------|
-   | SpringBoot, VueJs3, Gradle     | -  Docker, Docker Compose, Kubernetes      | Tomcat            |
-   |                                | -  Nexus, Drone, SonarQube                 | Apache            |
-   |------------------------------- |------------------------------------------- | Ngnix             |
-   | Tests                          | Documentation                              |                   |
-   |------------------------------- |------------------------------------------- |                   |
-   | Junit                          | Swagger-ui                                 |                   |
-```
-## Folders
-```
-.
-├── documentation
-├── gradle
-├── tickettothemoon_client        → frontend module with Vue.js code
-│   ├── dist
-│   ├── public
-│   └── src
-│   │   ├── assets
-│   │   ├── components
-│   │   │   └── icons
-│   │   └── service
-│   └── build.gradle
-├── tickettothemoon_server        → backend module with Spring Boot code
-│   ├── bin
-│   ├── build
-│   ├── gradle
-│   └── src
-│   │   ├── main
-│   │   │   ├── docker
-│   │   │   ├── java
-│   │   │   │   └── com
-│   │   │   │       └── vf
-│   │   │   │           └── tickettothemoon
-│   │   │   │               ├── administrators
-│   │   │   │               ├── authentication
-│   │   │   │               ├── configuration
-│   │   │   │               ├── exceptions
-│   │   │   │               ├── tools
-│   │   │   │               └── users
-│   │   │   └── resources
-│   │   │       ├── db
-│   │   │       │   ├── h2
-│   │   │       │   └── mysql
-│   │   │       │       ├── common
-│   │   │       │       ├── prod
-│   │   │       │       └── test
-│   │   │       ├── messages
-│   │   │       ├── static
-│   │   │       └── templates
-│   │   │           └── prof
-│   │   └── test
-│   │       └── java
-│   │           └── com
-│   │               └── vf
-│   │                   └── tickettothemoon
-│   │                       ├── administrators
-│   │                       ├── authentication
-│   │                       └── users
-│   └── build.gradle
-└── build.gradle            → gradle parent managing both modules
 
-            
 ```
-</br>
+| Software stack                  | CI/CD stack                                 | Servers            |
+| ------------------------------- | ------------------------------------------  | ------------------ |
+| SpringBoot, Gradle              |                                             | Tomcat             |
+| VueJs3, NPM                     |                                             |                    |
+|                                 |                                             | Apache             |
+| ------------------------------- | ------------------------------------------- |                    |
+| Tests                           | Documentation                               |                    |
+| ------------------------------- | ------------------------------------------- |                    |
+| Junit                           | Spring REST Docs                            |                    |
+```
 
-</br>
+### Versions used for the development
 
----  
+- Gradle 8.0.2
+- Java 17.0.2
+- Kotlin 1.8.10
+- NPM 9.6.6
+- Node v19.8.1
+- Vue 3.3.2
+- Vite 4.3.6
+
 # GETTING STARTED
-You can run TicketToTheMoon [locally](#1-running-locally) or with [docker](#2-running-with-docker) :     
 
 ## 1. RUNNING LOCALLY
-### Prerequisites
-<!-- TODO: -->
-+   Gradle, Java 
 
-### Installation & init
-With Gradle command line   
-   1. Clone
+### Installation & running
+
+clone the project
+
 ```
-   git clone https://github.com/vifeng/tickettothemoon.git  
-   cd tickettothemoon_server
+   git clone https://github.com/vifeng/tickettothemoon.git
 ```
-   2. if first start, init : ``` gradle init```   
+
+Backend
+
+```sh
+   cd tickettothemoon_BackEnd
+   gradle bootRun
+```
+
+Access to the backend API [http://localhost:8080](http://localhost:8080) in your browser.
+
+Frontend
+
+```sh
+   cd tickettothemoon_FrontEnd
+   npm run dev
+```
+
+Access the the frontEnd [ http://localhost:5173/](http://localhost:5173/) in your browser.
+
+or you could use the ./start.sh script to run both
+
+```sh
+  sh ./start.sh
+```
 
 ### Database configuration
-In its dev configuration, the application uses an in-memory database (H2) which gets populated at startup with data. A similar setups is provided for the prod configuration with MySQL for a persistent database configuration. Please specify the profile needed.   
-1. Update the application properties file: `application.properties` , then specify your environnement as such :
-   1. Dev :     spring.profiles.active=h2,dev 
-   2. Prod :    spring.profiles.active=mysql,prod
-   3. Test :    spring.profiles.active=mysql,test
-2. Check the database properties in files : `application-mysql.properties`, `application-h2.properties`. The host should be set for localhost. 
-3. Start your mysql server if needed
-4. Once the application is up and running, visit the chosen database:   
-   + [h2-console](http://localhost:8080/h2-console) in your browser.
-   + [mysql](http://localhost:3306/tickettothemoon?useUnicode=true) in your favorite application.
 
-### Run
-1. go to your project
-``` sh
-cd ./tickettothemoon
-```  
-2. Run tickettothemoon_server : 
-``` sh
-gradle bootRun 
-```  
-1. Run tickettothemoon_client :  
-``` sh
-cd tickettothemoon_client
-gradle npmDev 
-```  
-<!-- 2. TODO: Run tickettothemoon entire app (client and server) : ``` gradle bootRun ```   -->
-1. Access tickettothemoon [http://localhost:8080](http://localhost:8080) in your browser.   
-2. 1. Access tickettothemoon [ http://localhost:5173/]( http://localhost:5173/) in your browser.   
+I have use the in memory database H2 for the moment. Once the application is up and running, visit the [h2-console](http://localhost:8080/h2-console) in your browser.
 
-Build without the tests ``` gradle build -x test ```   
-
-### Shutdown
-From the terminal: `CTL+C`  
 </br>
 
-## 2. RUNNING WITH DOCKER : TODO
-### Prerequisites
-<!-- TODO: -->
-+   Docker
-``` xx install xx@latest -g ```
-
-### Database configuration
-1. You may also start a MySql database with docker:   
-```docker run --name root-tickettothemoon -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=tickettothemoon -p 3306:3306 mysql:5.7 ```
-1. Once the application is up and running, visit:      
-   [h2-console](http://localhost:8080/h2-console)   
-   [mysql-console](http://localhost:3306/tickettothemoon?useUnicode=true)   
-### Run
-1. ```docker run -p 3306:3306 tickettothemoon/tickettothemoon_server```
-2. Access tickettothemoon_server [http://localhost:8080](http://localhost:8080) in your browser.
-### Shutdown
-<!-- TODO: and the main docker command -->
-<br>
-
----  
-
 # Few commands
-## Gradle
-`gradle -q projects`    to see the projects and sub projects. -q for quiet.   
-`gradle :tickettothemoon_server:build` launch the task build of the tickettothemoon_server sub-project   
+
+```sh
+gradle build -x test
+# Build without the tests
+CTL+C
+# Shutdown the front or backend from the terminal
+npm list vue
+# to check the vue version
+```
 
 <br>
 
----  
-TODO: + screenshot
+---
+
 # REST API & actuator
-+ OpenAPI REST API documentation presented here (after application start):   
-You can reach the swagger UI with this URL http://localhost:3306/tickettothemoon/.   
-You then can get the Open API description reaching this URL localhost:3306/tickettothemoon/api-docs.
-+  There are actuator health check and info routes as well:
-   + http://localhost:3306/tickettothemoon/actuator/health
-   + http://localhost:3306/tickettothemoon/actuator/info   
+
+<!-- TODO_LOW readme file-->
+
+## Actuator
+
+- There are actuator health check and info routes as well:
+  - http://localhost:3306/tickettothemoon/actuator/health
+  - http://localhost:3306/tickettothemoon/actuator/info
+
+## Documentation
 
 <br>
 
----  
+---
+
 # GENERAL INFO
-## Status  
-WIP: environnement.  
-Tests. https://shields.io/
-## Roadmap 
+
+## Status
+
+WIP
+
+## Roadmap
+
+See the project's roadmap at [github projects](https://github.com/users/vifeng/projects/2)
 See the open issues for a list of proposed features (and known issues) at [github issues](https://github.com/vifeng/TicketToTheMoon/issues)
-You can find ideas for releases in the future in the [functional requirements documentation] (https://github.com/vifeng/TicketToTheMoon/blob/main/documentation/01_ExpressionBesoin-V5_OK.pdf).
+You can find ideas for releases in the future in the [functional requirements documentation](https://github.com/vifeng/TicketToTheMoon/blob/main/documentation/01_ExpressionBesoin-V5_OK.pdf).
+
 ## Features
-see [functional requirements documentation] (https://github.com/vifeng/TicketToTheMoon/blob/main/documentation/01_ExpressionBesoin-V5_OK.pdf)
+
+see [functional requirements documentation](https://github.com/vifeng/TicketToTheMoon/blob/main/documentation/01_ExpressionBesoin-V5_OK.pdf)
+
 ## Visuals
-<!-- TODO: -->
+
+<!-- TODO_LOW: readme file-->
+
 ## Usage
-<!-- TODO: -->
+
+<!-- TODO_LOW: readme file-->
+
 Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+
 ## Architecture
+
 3-layers : presentation --> service --> repository  
-More information is to be found in the [documentation section] (https://github.com/vifeng/TicketToTheMoon/blob/main/documentation/).
+More information is to be found in the [documentation section](https://github.com/vifeng/TicketToTheMoon/blob/main/documentation/).
+
 ## Versions and platform support
-More information is to be found in the [documentation section] (https://github.com/vifeng/TicketToTheMoon/blob/main/documentation/).
+
+More information is to be found in the [documentation section](https://github.com/vifeng/TicketToTheMoon/blob/main/documentation/).
+
 ## Tests results
-<!-- TODO:  -->
+
+<!-- TODO_LOW: readme file-->
+
 ## Issues and bugs
-See the open issues for a list of proposed features (and known issues) at [github issues](https://github.com/vifeng/TicketToTheMoon/issues)
+
+See the open issues for a list of proposed features (and known issues) at [the project's github issues](https://github.com/vifeng/TicketToTheMoon/issues)
 <br>
 
----  
+---
+
 # CONTRIBUTE / CONTACT
-+ Feel free to send pull requests.
-+ My issue tracker is available here: https://github.com/tickettothemoon/issues
-+ You can contact me on github.
-<br>
 
----  
+- Feel free to send pull requests.
+- My issue tracker is available here: https://github.com/tickettothemoon/issues
+- You can contact me on github.
+  <br>
+
+---
+
 # LICENCE
-[MIT](./LICENSE.txt)  
+
+[MIT](./LICENSE.txt)
