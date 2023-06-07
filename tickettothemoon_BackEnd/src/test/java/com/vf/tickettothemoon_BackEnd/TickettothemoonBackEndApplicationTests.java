@@ -1,4 +1,4 @@
-package com.example.tickettothemoon_BackEnd;
+package com.vf.tickettothemoon_BackEnd;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 class TickettothemoonBackEndApplicationTests {
 
 	@Test
-	void contextLoads() {
-	}
+	void contextLoads() {}
 
 }

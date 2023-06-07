@@ -19,6 +19,21 @@ public class Venue implements Serializable {
 
     protected Venue() {}
 
+    public Venue(Long id, String name, String address, String zipCode, String town, String contact,
+            String mail) {
+        setId(id);
+        setName(name);
+        setAddress(address);
+        setZipCode(zipCode);
+        setTown(town);
+        setContact(contact);
+        setMail(mail);
+    }
+
+    private void setId(Long id) {
+        this.id = id;
+    }
+
     public Venue(String name, String address, String zipCode, String town, String contact,
             String mail) {
         setName(name);
