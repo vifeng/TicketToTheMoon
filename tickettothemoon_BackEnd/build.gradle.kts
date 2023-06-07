@@ -2,6 +2,7 @@ plugins {
 	java
 	war
 	id("org.springframework.boot") version "3.0.6"
+	id("org.asciidoctor.jvm.convert") version "3.3.2"
 }
 
 apply(plugin = "io.spring.dependency-management")
@@ -36,19 +37,22 @@ configurations {
 }
 
 repositories {
+	maven ("https://repo.spring.io/milestone" )
 	mavenCentral()
 }
+val snippetsOutputDir by extra { file("build/generated-snippets") }
+val snippetsInputDir by extra { file("src/docs/asciidoc") }
+val asciidoctorExt = configurations.create("asciidoctorExt")
 
-val snippetsDir by extra { file("build/generated-snippets") }
 
 dependencies {
+	asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("org.springframework.session:spring-session-core")
-	// https://mvnrepository.com/artifact/org.modelmapper/modelmapper
 	implementation("org.modelmapper:modelmapper:2.3.8")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
@@ -56,8 +60,6 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
-
-
 }
 
 tasks.withType<Test> {
@@ -65,9 +67,30 @@ tasks.withType<Test> {
 }
 
 tasks.test {
-	outputs.dir(snippetsDir)
+	outputs.dir(snippetsOutputDir)
+}
+tasks.asciidoctor {
+	configurations(asciidoctorExt)
+	inputs.dir(snippetsOutputDir)
+	dependsOn("test")
+	attributes(mapOf("snippets" to snippetsOutputDir))
+	outputOptions{
+		backends ("html5")
+	}
+	options(mapOf("doctype" to "book"))
+	asciidoctorj {
+            fatalWarnings(listOf(missingIncludes()))
+        }
 }
 
+tasks.jar {
+	dependsOn("asciidoctor")
+	from ("${snippetsOutputDir}/html5") {
+		into ("static/docs")
+	}
+}
+
+// clear all generated files
 tasks.register("distClean") {
 	dependsOn("clean")
 	doLast {

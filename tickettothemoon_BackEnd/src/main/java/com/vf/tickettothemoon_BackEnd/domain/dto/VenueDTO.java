@@ -27,6 +27,21 @@ public class VenueDTO implements Serializable {
         setMail(mail);
     }
 
+    public VenueDTO(Long id, String name, String address, String zipCode, String town,
+            String contact, String mail) {
+        setId(id);
+        setName(name);
+        setAddress(address);
+        setZipCode(zipCode);
+        setTown(town);
+        setContact(contact);
+        setMail(mail);
+    }
+
+    private void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
