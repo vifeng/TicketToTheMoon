@@ -1,8 +1,8 @@
 plugins {
 	java
 	war
-	id("org.springframework.boot") version "3.0.6"
 	id("org.asciidoctor.jvm.convert") version "3.3.2"
+	id("org.springframework.boot") version "3.1.0"
 }
 
 apply(plugin = "io.spring.dependency-management")
@@ -10,7 +10,6 @@ apply(plugin = "io.spring.dependency-management")
 
 group = "com.vf"
 version = "0.0.1-SNAPSHOT"
-// java.sourceCompatibility = JavaVersion.VERSION_17
 
 java {
     toolchain {
@@ -37,12 +36,11 @@ configurations {
 }
 
 repositories {
-	maven ("https://repo.spring.io/milestone" )
 	mavenCentral()
 }
-val snippetsOutputDir by extra { file("build/generated-snippets") }
-val snippetsInputDir by extra { file("src/docs/asciidoc") }
-val asciidoctorExt = configurations.create("asciidoctorExt")
+val snippetsDir by extra { file("build/generated-snippets") }
+val asciidocInputDir by extra { file("src/docs/asciidoc") }
+val asciidoctorExt by configurations.creating{("asciidoctorExt")}
 
 
 dependencies {
@@ -67,25 +65,33 @@ tasks.withType<Test> {
 }
 
 tasks.test {
-	outputs.dir(snippetsOutputDir)
+	outputs.dir(snippetsDir)
 }
 tasks.asciidoctor {
+	inputs.dir(snippetsDir)
 	configurations(asciidoctorExt)
-	inputs.dir(snippetsOutputDir)
 	dependsOn("test")
-	attributes(mapOf("snippets" to snippetsOutputDir))
+	attributes(mapOf("snippets" to snippetsDir))
 	outputOptions{
 		backends ("html5")
 	}
 	options(mapOf("doctype" to "book"))
 	asciidoctorj {
-            fatalWarnings(listOf(missingIncludes()))
-        }
+        fatalWarnings(listOf(missingIncludes()))
+    }
 }
 
 tasks.jar {
+	manifest.attributes["Main-Class"] = "com.vf.tickettothemoon_BackEnd.TickettothemoonBackEndApplication"
 	dependsOn("asciidoctor")
-	from ("${snippetsOutputDir}/html5") {
+	from ("${snippetsDir}/html5") {
+		into ("static/docs")
+	}
+}
+
+tasks.war {
+	dependsOn("asciidoctor")
+	from ("${snippetsDir}/html5") {
 		into ("static/docs")
 	}
 }

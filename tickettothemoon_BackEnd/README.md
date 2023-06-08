@@ -78,6 +78,8 @@ CTL+C
 # update gradle wrapper version
 gradle clean
 # clean the build folder
+gradle clean build
+# clean the build folder and build the project
 gradle check
 # run all verification tasks, including tests and linting
 ```
