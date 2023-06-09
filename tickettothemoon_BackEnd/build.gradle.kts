@@ -4,7 +4,6 @@ plugins {
 	id("org.asciidoctor.jvm.convert") version "3.3.2"
 	id("org.springframework.boot") version "3.1.0"
 }
-
 apply(plugin = "io.spring.dependency-management")
 
 
@@ -17,18 +16,6 @@ java {
     }
 }
 
-tasks.withType<JavaCompile> {
-    options.encoding = "UTF-8"
-}
-
-tasks.withType<Test> {
-    systemProperty("file.encoding", "UTF-8")
-}
-
-tasks.withType<Javadoc>{
-    options.encoding = "UTF-8"
-}
-
 configurations {
 	compileOnly {
 		extendsFrom(configurations.annotationProcessor.get())
@@ -38,9 +25,10 @@ configurations {
 repositories {
 	mavenCentral()
 }
+
 val snippetsDir by extra { file("build/generated-snippets") }
 val asciidocInputDir by extra { file("src/docs/asciidoc") }
-val asciidoctorExt by configurations.creating{("asciidoctorExt")}
+val asciidoctorExt by configurations.creating
 
 
 dependencies {
@@ -60,26 +48,35 @@ dependencies {
 	testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 }
 
-tasks.withType<Test> {
-	useJUnitPlatform()
+asciidoctorj {
+	fatalWarnings(listOf(missingIncludes()))
+}
+
+tasks.withType<JavaCompile>().configureEach{
+    options.encoding = "UTF-8"
+}
+
+tasks.withType<Javadoc>().configureEach{
+    options.encoding = "UTF-8"
 }
 
 tasks.test {
+	systemProperty("file.encoding", "UTF-8")
+	useJUnitPlatform()
 	outputs.dir(snippetsDir)
 }
+
 tasks.asciidoctor {
 	inputs.dir(snippetsDir)
-	configurations(asciidoctorExt)
+	configurations(listOf(asciidoctorExt))
 	dependsOn("test")
 	attributes(mapOf("snippets" to snippetsDir))
 	outputOptions{
 		backends ("html5")
 	}
 	options(mapOf("doctype" to "book"))
-	asciidoctorj {
-        fatalWarnings(listOf(missingIncludes()))
-    }
 }
+
 
 tasks.jar {
 	manifest.attributes["Main-Class"] = "com.vf.tickettothemoon_BackEnd.TickettothemoonBackEndApplication"
@@ -96,19 +93,18 @@ tasks.war {
 	}
 }
 
-// clear all generated files
-tasks.register("distClean") {
-	dependsOn("clean")
-	doLast {
-		delete("bin")
-		delete (".classpath")
-		delete (".gradle")
-		delete (".nb-gradle")
-		delete (".project")
-		delete (".settings")
-		delete (".vscode")
-		delete (".DS_Store")
-		delete (".idea")
-	}
+tasks.register<Delete>("clearAll") {
+	delete("bin")
+	delete (".classpath")
+	delete (".gradle")
+	delete (".nb-gradle")
+	delete (".project")
+	delete (".settings")
+	delete (".vscode")
+	delete (".DS_Store")
+	delete (".idea")
 }
 
+tasks.clean{
+	mustRunAfter("clearAll")
+}

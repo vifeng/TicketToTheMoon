@@ -1,3 +1,2 @@
 == My doc
-include::${snippets}/venues-get-example/curl-request.adoc[]
-// include::build/generated-snippets/venues-get-example/curl-request.adoc[]
+include::{snippets}/venues-get-example/curl-request.adoc[]
