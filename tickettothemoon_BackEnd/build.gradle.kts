@@ -32,6 +32,7 @@ val asciidoctorExt by configurations.creating
 
 
 dependencies {
+	// providedCompile(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
 	asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -77,9 +78,11 @@ tasks.asciidoctor {
 	options(mapOf("doctype" to "book"))
 }
 
+springBoot{
+	mainClass.set("com.vf.tickettothemoon_BackEnd.TickettothemoonBackEndApplication")
+}
 
 tasks.jar {
-	manifest.attributes["Main-Class"] = "com.vf.tickettothemoon_BackEnd.TickettothemoonBackEndApplication"
 	dependsOn("asciidoctor")
 	from ("${snippetsDir}/html5") {
 		into ("static/docs")
@@ -103,8 +106,5 @@ tasks.register<Delete>("clearAll") {
 	delete (".vscode")
 	delete (".DS_Store")
 	delete (".idea")
-}
-
-tasks.clean{
-	mustRunAfter("clearAll")
+    dependsOn(tasks.clean)
 }
