@@ -1,0 +1,30 @@
+- Un Venue est un lieu de spectacle (théatre, ciné, stade...) qui a un ensemble de salles. une salle appartient à un Venue.
+- Un Venue est géré par un ou plusieurs MANAGER
+
+- Une HALL a un nom et une capacité officiel (c'est à dire réglementée, maximum). Une salle peut avoir différentes configurations. Une salle a de nombreux événements qui ne sont joués que dans une seule salle
+
+- Un ÉVÉNEMENT est un spectacle, un concert, un film, une pièce de théâtre, etc. Il a un nom, une date de début, une date de fin et des jours de fermeture. Il est composé de séances. Il fait partie d'une salle.
+
+- Un SESSION_EVENT est une session ou "une représentation" d'un événement. Il a une date, une heure et une durée. Il fait partie d'un événement. Certaines séances sont spéciales en raison du type de jour ou d'heure où elles se sont déroulées. En tant que tels, ils pourraient être plus ou moins chers.
+
+
+- UNE CONFIGURATIONHALL représente les nombreuses configurations d'une salle. Il a un nom et une capacité de configuration. Chaque configuration a une zone différente qui pointe vers une catégorie contenant des sièges. Exemple une configuration pourrait avoir 3 zones organisées en catégories. Les catégories pouvaient avoir des places assises ou debout.
+
+
+- Une AREA contient des catégories. Une zone fait partie d'une salle. Une zone a de nombreux prix et un prix peut être appliqué à de nombreux domaines. exemple : - une zone peut avoir un tarif enfant et un tarif adulte ou senior... - un tarif enfant peut s'appliquer à plusieurs zones. Un billet gratuit peut être appliqué à de nombreux domaines. Une zone a un nom typiquement nous les appelons zone A, B, C.....
+
+- Une CATÉGORIE contient des sièges. Une catégorie fait partie d'une zone. C'est une indication spatiale (comme orchestre, balcon, fosse..) pour certains sièges.
+
+- Un SIÈGE fait partie d'une catégorie qui fait partie d'un espace qui fait partie d'une configuration qui fait partie d'un hall. Un siège peut être assis ou non assis (donc debout). Si un siège est assis, il a un numéro et une rangée. La numérotation des places dans la salle est continue et ne dépend pas de la catégorie ou de la zone.
+
+- Un CLIENT dispose de toutes les informations de contact et de carte de crédit nécessaires. Il peut passer une ou plusieurs commandes, il ne peut pas acheter plus de 5 places pour une même session. il dispose d'un délai de réservation pour sa commande pendant lequel les places sont réservées. si la commande n'est pas payée dans ce délai la commande est annulée et les places sont à nouveau disponibles.
+
+- Une COMMANDE est composée de lignes de commande contenant les places qu'un utilisateur souhaite acheter. il a un statut payé ou réservé, prix total ttc, frais, date...
+
+- une ORDERLINE est le détail de la commande. il a un coût unitaire et une quantité et il se réfère à une place pour une session à un certain prix.
+
+- Un PRIX peut avoir des taxes et des variations. Il s'applique à un ou plusieurs domaines. Une zone peut avoir plusieurs tarifs (exemple : un tarif avec une réduction pour les enfants et un tarif pour les adultes). Un prix peut avoir des variations (remise ou supplément). Un tarif peut être appliqué sur de nombreuses sessions événements. Une session événementielle peut avoir plusieurs prix. le prix dépend de la zone et de la session de spectacle qui détermine le prix.
+
+  - Une variation est une variation de prix. Il peut s'agir d'une réduction ou d'un supplément. Une variation est liée à un prix.
+
+-- Il y a une capacité restante de sièges qui reflète les disponibilités actuelles de sièges pour une session. Les places sont réservées pour une certaine durée jusqu'à ce qu'elles soient payées. Nous appelons cet attribut "bookingTimer". S'il n'est pas payé passé ce délai, les sièges sont à nouveau disponibles. Une fois que l'utilisateur a réservé un siège, le siège n'est plus disponible pour les autres utilisateurs.

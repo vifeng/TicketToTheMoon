@@ -80,3 +80,16 @@ then in vsCode CTL+ SHIFT+P > Java : clean java langage server workspace
 - error message : `The import javax.persistence cannot be resolved` :
   The javax.persistence package was moved to a newly named dependency (jakarta.persistence. The persistence package is part of the larger JPA (Java Persistence API). See Intro to JPA.
   https://stackoverflow.com/questions/15598210/the-import-javax-persistence-cannot-be-resolved/74996933#74996933
+
+# Technologies choice
+
+## Record for Dto
+
+Java implemented Records that are used for DTOs mainly. Thus, there is no need for lombok wihch with I had some issues with.
+Lombok could still be used for other purposes such as entities. I didn't because it doesn't work with code coverage.
+
+## Mapstruct
+
+Mapstruct is used to map entities to DTOs and vice versa. It is a code generator that generates the mapping code at compile time.
+Firstly, I used ModelMapper but it is not compatible with the Java Record feature.
+It does seems more easy than ModelMapper to use and configure.

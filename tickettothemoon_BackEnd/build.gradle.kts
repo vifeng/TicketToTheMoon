@@ -27,7 +27,7 @@ repositories {
 }
 
 val snippetsDir by extra { file("build/generated-snippets") }
-val asciidocInputDir by extra { file("src/docs/asciidoc") }
+// val asciidocInputDir by extra { file("src/docs/asciidoc") }
 val asciidoctorExt by configurations.creating
 
 
@@ -40,7 +40,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("org.springframework.session:spring-session-core")
-	implementation("org.modelmapper:modelmapper:2.3.8")
+	implementation ("org.mapstruct:mapstruct:1.5.5.Final")
+	annotationProcessor ("org.mapstruct:mapstruct-processor:1.5.5.Final")
+	implementation ("org.flywaydb:flyway-core")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
