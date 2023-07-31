@@ -1,0 +1,32 @@
+- A VENUE has a set of halls. a hall belongs to one venue.
+- A venue is managed by one or more MANAGER
+
+- A HALL has a name and an official capacity. A hall can have different configurations. A hall has many events which are played only in one hall
+
+- An EVENT is a show, a concert, a movie, a play, etc. It has a name, a start date, an end date and some closed days. It is composed of sessions. It is part of a hall.
+
+-  A SESSION_EVENT is a session of an event. It has a date, an hour and a duration. It is part of an
+ event. Some sessions are special because of the type of day or hour they occured on. As such they could be more or less expensive.
+
+
+- A CONFIGURATIONHALL represents the numerous configuration of a hall. It has a name and a configuration capacity. Each configuration has different area which points to a category containing seats. Exemple a configuration could have 3 areas organized in categories. The categories could have seated or standing seats.
+
+
+-  An AREA contains categories. An area is part of a hall. An area has many prices and a price can be applied to many areas. exemple : - an area can have a price for a child and a price for an adult or a senior.... - a price for a child can be applied to many areas. A free ticket can be applied to many areas. An area has a name typically we called them area A, B, C..... 
+
+- A CATEGORY contains seats. A category is part of an area. It is a spatial indication (such as orchestra, balcony, pit..) for some seats.
+
+ - A SEAT is part of a category which is part of an area which is part of a configuration which is part of a hall. A seat can be seated or not seated (thus standing). If a seat is seated,it has a number and a row. The numerotation of the seats in the hall are continuous and do not depend on the category or the area.
+
+- A CLIENT has all the necessary contact and Credit card info. He can make one or more orders, he cannot buy more than 5 seats for the same session. he has a booking time limit for his order during which the seats are reserved. if the order is not paid during that time limit the order is canceled and the place are available again.
+
+- An ORDER is composed of order lines containing the seats a user wants to buy. it has a status of paid or reserved, total ttc price, fees, date...
+
+-  an ORDERLINE is the detail of the order. it has a unit cost and a quantity and it refers to a seat for a session at a certain price. 
+
+-  A PRICE may have taxes and variations. It is applied to one or many areas. An area can have many prices (example: a price with a discount for children and a price for adults). A price can have variations (discount or supplement). A price can be applied to many sessions events. An event session can have many prices. the price depends on the area which determine the price.
+
+ - A variation is a price variation. It can be a discount or a supplement. A variation is linked to a price.
+
+
+-- There is a remaining capacity of seats which reflect the current avaibilities of seats for a session. Seats are booked for a certain duration until it is paid. We could call it "bookingTimer". If it's not paid passed that duration then the seats are available again.Once the user has reserved a seat,the seat is no longer available for other users.

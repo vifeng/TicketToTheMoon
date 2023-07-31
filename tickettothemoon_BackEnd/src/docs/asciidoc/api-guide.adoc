@@ -1,2 +1,7 @@
 == My doc
+
+.request 
 include::{snippets}/venues-get-example/curl-request.adoc[]
+
+.response 
+include::{snippets}/venues-get-example/curl-response.adoc[]

@@ -2,9 +2,6 @@ package com.vf.tickettothemoon_BackEnd.domain.service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
-import org.modelmapper.ModelMapper;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +14,10 @@ import com.vf.tickettothemoon_BackEnd.exception.FinderException;
 @Transactional
 public class VenueService {
 
-    ModelMapper modelMapper = new ModelMapper();
 
     @Autowired
     VenueRepository venueRepository;
+
 
     public VenueService(VenueRepository venueRepository) {
         this.venueRepository = venueRepository;
@@ -32,18 +29,15 @@ public class VenueService {
     public List<VenueDTO> findAll() throws FinderException {
 
         Iterable<Venue> venues = venueRepository.findAll();
-        int size;
-        if ((size = ((Collection<Venue>) venues).size()) == 0) {
-            throw new FinderException("No category in the database");
+        int size = ((Collection<Venue>) venues).size();
+        if (size == 0) {
+            throw new FinderException("No Venues in the database");
         }
-        List<VenueDTO> venueDTOs = ((Collection<Venue>) venues).stream().map(this::convertToDto)
-                .collect(Collectors.toList());
+        // Mapping des propriétés entre Venue et VenueDTO avec MapStruct
+        List<VenueDTO> venueDTOs = VenueMapper.INSTANCE.toVenueDTOs(venues);
         return venueDTOs;
     }
 
-    private VenueDTO convertToDto(Venue venue) {
-        VenueDTO venueDTO = modelMapper.map(venue, VenueDTO.class);
-        return venueDTO;
-    }
+
 
 }
