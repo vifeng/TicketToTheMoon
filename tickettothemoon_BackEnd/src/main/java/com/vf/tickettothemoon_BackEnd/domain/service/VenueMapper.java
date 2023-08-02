@@ -18,10 +18,17 @@ public interface VenueMapper {
 
     Venue toVenue(VenueDTO venueDTO);
 
+    @IterableMapping(elementTargetType = VenueDTO.class)
+    List<VenueDTO> toVenueDTOs(Iterable<Venue> venues);
+
+    //////////////////////////////
+    // Méthodes de mappage pour address
+    //////////////////////////////
+
     // Utilisation de AddressMapper pour mapper Address
     AddressMapper ADDRESS_MAPPER = Mappers.getMapper(AddressMapper.class);
 
-    // Méthodes de mappage pour address
+    // Mappage for Address and its DTO
     default AddressDTO toAddressDTO(Address address) {
         if (address == null) {
             return null;
@@ -36,6 +43,7 @@ public interface VenueMapper {
         return ADDRESS_MAPPER.toAddress(addressDTO);
     }
 
+    // Mappage for Address with Venue and its DTO
     default AddressDTO toAddressDTO(Venue venue) {
         if (venue == null) {
             return null;
@@ -50,6 +58,4 @@ public interface VenueMapper {
         return toAddress(venueDTO.getAddress());
     }
 
-    @IterableMapping(elementTargetType = VenueDTO.class)
-    List<VenueDTO> toVenueDTOs(Iterable<Venue> venues);
 }

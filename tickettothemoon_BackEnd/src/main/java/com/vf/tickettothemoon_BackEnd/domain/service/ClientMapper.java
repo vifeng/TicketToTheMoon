@@ -18,10 +18,15 @@ public interface ClientMapper {
 
     Client toClient(ClientDTO clientDTO);
 
+    @IterableMapping(elementTargetType = ClientDTO.class)
+    List<ClientDTO> toClientDTOs(Iterable<Client> clients);
+
+    //////////////////////////////
+    // Méthodes de mappage pour address
+    //////////////////////////////
     // Utilisation de AddressMapper pour mapper Address
     AddressMapper ADDRESS_MAPPER = Mappers.getMapper(AddressMapper.class);
 
-    // Méthodes de mappage pour address
     default AddressDTO toAddressDTO(Address address) {
         if (address == null) {
             return null;
@@ -36,6 +41,7 @@ public interface ClientMapper {
         return ADDRESS_MAPPER.toAddress(addressDTO);
     }
 
+    // Mappage for Address with Client and its DTO
     default AddressDTO toAddressDTO(Client client) {
         if (client == null) {
             return null;
@@ -50,6 +56,4 @@ public interface ClientMapper {
         return toAddress(clientDTO.getAddress());
     }
 
-    @IterableMapping(elementTargetType = ClientDTO.class)
-    List<ClientDTO> toClientDTOs(Iterable<Client> clients);
 }
