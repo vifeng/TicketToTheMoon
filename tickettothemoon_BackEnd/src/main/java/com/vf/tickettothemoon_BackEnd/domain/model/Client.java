@@ -20,7 +20,7 @@ public class Client implements Serializable {
     @Embedded
     private Address address = new Address();
 
-    // TODO: a new @embedded class for credit card
+    // TODO_LOW: a new @embedded class for credit card
     private int creditCardNumber;
 
     public Client() {}

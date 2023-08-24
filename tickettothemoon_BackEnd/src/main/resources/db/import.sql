@@ -1,0 +1,1 @@
+insert into VENUE (ID, NAME, contact, mail, street, CITY, zipcode, COUNTRY) values (1, 'Olympia', 'Dupuis', 'dupuis@examlpe.com', 'rue de la paix', 'Paris', '75000', 'France');

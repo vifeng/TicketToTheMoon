@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.vf.tickettothemoon_BackEnd.domain.dao.VenueRepository;
 import com.vf.tickettothemoon_BackEnd.domain.dto.VenueDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Venue;
+import com.vf.tickettothemoon_BackEnd.domain.service.mappers.VenueMapper;
 import com.vf.tickettothemoon_BackEnd.exception.FinderException;
 
 @Service
@@ -36,6 +37,12 @@ public class VenueService {
         // Mapping des propriétés entre Venue et VenueDTO avec MapStruct
         List<VenueDTO> venueDTOs = VenueMapper.INSTANCE.toVenueDTOs(venues);
         return venueDTOs;
+    }
+
+    public VenueDTO findById(Long id) throws FinderException {
+        Venue venue = venueRepository.findById(id)
+                .orElseThrow(() -> new FinderException("Venue not found"));
+        return VenueMapper.INSTANCE.toVenueDTO(venue);
     }
 
 

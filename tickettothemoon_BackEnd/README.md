@@ -59,12 +59,12 @@ Backend
    gradle bootRun
 ```
 
-Access to the backend API [http://localhost:8080](http://localhost:8080) in your browser.
+Access to the backend API [http://localhost:8080/api](http://localhost:8080/api) in your browser.
 
 ### Database configuration
 
 I have use the in memory database H2 for the moment. Once the application is up and running, visit the [h2-console](http://localhost:8080/h2-console) in your browser.
-
+Connect to the database with the credentials which are in the [application.properties](src/main/resources/application.properties) file.
 </br>
 
 # Few usefull commands
@@ -90,9 +90,9 @@ gradle check
 
 # REST API & actuator
 
-<!-- TODO_LOW readme file-->
-
 ## Actuator
+
+<!-- TO_UPDATE: README file -->
 
 - There are actuator health check and info routes as well:
   - http://localhost:3306/tickettothemoon/actuator/health

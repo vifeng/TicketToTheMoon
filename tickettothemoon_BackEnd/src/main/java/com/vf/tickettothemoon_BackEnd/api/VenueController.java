@@ -22,7 +22,7 @@ public class VenueController {
     private final VenueService venueService;
     private final VenueRepository venueRepository;
 
-    private VenueController(VenueService venueService, VenueRepository venueRepository) {
+    public VenueController(VenueService venueService, VenueRepository venueRepository) {
         this.venueService = venueService;
         this.venueRepository = venueRepository;
     }
@@ -36,6 +36,16 @@ public class VenueController {
     public ResponseEntity<List<VenueDTO>> getAllVenues() {
         try {
             return ResponseEntity.ok(venueService.findAll());
+        } catch (FinderException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @CrossOrigin
+    @GetMapping
+    public ResponseEntity<VenueDTO> getVenueById(Long id) {
+        try {
+            return ResponseEntity.ok(venueService.findById(id));
         } catch (FinderException e) {
             return ResponseEntity.notFound().build();
         }

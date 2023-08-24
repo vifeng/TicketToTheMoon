@@ -1,7 +1,8 @@
 package com.vf.tickettothemoon_BackEnd.domain.dto;
 
-import org.springframework.data.annotation.Id;
+import com.vf.tickettothemoon_BackEnd.domain.model.CategorySpatial;
+import com.vf.tickettothemoon_BackEnd.domain.model.CategoryTariff;
 
-public record SeatDTO(@Id Long id, int number, int rowSeat, boolean reserved, boolean seated,
-        CategoryDTO category, AreaDTO area) {
+public record SeatDTO(Long id, boolean seated, int numberOfTheSeat, char rowOfTheSeat,
+                CategorySpatial category, CategoryTariff categoryTariff, boolean booked) {
 }

@@ -1,8 +1,7 @@
 package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalDate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -16,8 +15,8 @@ public class EventOrder implements Serializable {
     @GeneratedValue
     private Long id;
 
-    private LocalDateTime dateOrder;
-    private Date dateSessionEvent;
+    private LocalDate dateOrder;
+    private LocalDate dateSessionEvent;
     private boolean isPaid;
     private int fees;
     private double totalHT;
@@ -29,7 +28,7 @@ public class EventOrder implements Serializable {
 
     public EventOrder() {}
 
-    public EventOrder(Long id, LocalDateTime dateOrder, Date dateSessionEvent, boolean isPaid,
+    public EventOrder(Long id, LocalDate dateOrder, LocalDate dateSessionEvent, boolean isPaid,
             int fees, double totalHT, double totalTTC, Client client) {
         setId(id);
         setDateOrder(dateOrder);
@@ -41,7 +40,7 @@ public class EventOrder implements Serializable {
         setClient(client);
     }
 
-    public EventOrder(LocalDateTime dateOrder, Date dateSessionEvent, boolean isPaid, int fees,
+    public EventOrder(LocalDate dateOrder, LocalDate dateSessionEvent, boolean isPaid, int fees,
             double totalHT, double totalTTC, Client client) {
         setDateOrder(dateOrder);
         setDateSessionEvent(dateSessionEvent);
@@ -62,28 +61,28 @@ public class EventOrder implements Serializable {
         this.id = id;
     }
 
-    public LocalDateTime getDateOrder() {
+    public LocalDate getDateOrder() {
         return dateOrder;
     }
 
-    public void setDateOrder(LocalDateTime dateOrder) {
+    public void setDateOrder(LocalDate dateOrder) {
         this.dateOrder = dateOrder;
     }
 
 
-    public Date getDateSessionEvent() {
+    public LocalDate getDateSessionEvent() {
         return dateSessionEvent;
     }
 
-    public void setDateSessionEvent(Date dateSessionEvent) {
+    public void setDateSessionEvent(LocalDate dateSessionEvent) {
         this.dateSessionEvent = dateSessionEvent;
     }
 
-    public boolean isPaid() {
+    public boolean getIsPaid() {
         return isPaid;
     }
 
-    private void setIsPaid(boolean isPaid) {
+    public void setIsPaid(boolean isPaid) {
         this.isPaid = isPaid;
     }
 

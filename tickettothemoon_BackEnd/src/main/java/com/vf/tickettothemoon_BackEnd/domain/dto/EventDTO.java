@@ -1,11 +1,9 @@
 package com.vf.tickettothemoon_BackEnd.domain.dto;
 
-import java.util.Date;
-import java.util.Set;
-import org.springframework.data.annotation.Id;
-import com.vf.tickettothemoon_BackEnd.myUtil.Day;
+import java.time.LocalDate;
 
-public record EventDTO(@Id Long id, String name, Date dateStart, Date dateEnd, Set<Day> closedDay,
-        ConfigurationHallDTO configurationHall) {
+public record EventDTO(Long id, String name, LocalDate dateStart, LocalDate dateEnd,
+        String closedDay, ConfigurationHallDTO configurationHall) {
+
 
 }

@@ -19,58 +19,76 @@ public class SessionEvent implements Serializable {
     @GeneratedValue
     private Long id;
 
-    private LocalDateTime date;
-    private int eventHour;
-    private int duration;
-
+    private LocalDateTime dateHourStartSessionEvent;
+    private int durationInMinutes;
+    private LocalDateTime dateHourEndSessionEvent;
     @ManyToOne
     @JoinColumn(name = "Event_FK")
     private Event event;
 
+
     public SessionEvent() {}
 
-    public SessionEvent(Long id, LocalDateTime date, int eventHour, int duration, Event event) {
+    public SessionEvent(Long id, LocalDateTime dateHourStartSessionEvent, int durationInMinutes,
+            Event event) {
         setId(id);
-        setDate(date);
-        setHour(eventHour);
-        setDuration(duration);
+        setDateHourStartSessionEvent(dateHourStartSessionEvent);
+        setDurationInMinutes(durationInMinutes);
         setEvent(event);
     }
 
-    public SessionEvent(LocalDateTime date, int eventHour, int duration, Event event) {
-        setDate(date);
-        setHour(eventHour);
-        setDuration(duration);
+    public SessionEvent(LocalDateTime dateHourStartSessionEvent, int durationInMinutes,
+            Event event) {
+        setDateHourStartSessionEvent(dateHourStartSessionEvent);
+        setDurationInMinutes(durationInMinutes);
         setEvent(event);
     }
 
-    private void setId(Long id) {
+    //////////////
+    // METHODS
+    ////////////
+    // TODO_LOW: création de sessions
+    // - créer automatiquement les sessions en fonctions des dates de l'event et des jours
+    // de fermeture du lieu.
+    // - supression automatique des sessions en fonctions des dates de début et fins.
+
+    /////////////////////
+    // GETTERS & SETTERS
+    /////////////////////
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public LocalDateTime getDateHourStartSessionEvent() {
+        return dateHourStartSessionEvent;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public void setDateHourStartSessionEvent(LocalDateTime dateHourStartSessionEvent) {
+        this.dateHourStartSessionEvent = dateHourStartSessionEvent;
     }
 
-    public int getHour() {
-        return eventHour;
+    public LocalDateTime getDateHourEndSessionEvent() {
+        return dateHourEndSessionEvent;
     }
 
-    public void setHour(int eventHour) {
-        this.eventHour = eventHour;
+    public void setDateHourEndSessionEvent() {
+        this.dateHourEndSessionEvent = dateHourStartSessionEvent.plusMinutes(durationInMinutes);
     }
 
-    public int getDuration() {
-        return duration;
+    public int getDurationInMinutes() {
+        return durationInMinutes;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setDurationInMinutes(int durationInMinutes) {
+        this.durationInMinutes = durationInMinutes;
     }
+
+
 
     public Event getEvent() {
         return event;
@@ -82,8 +100,9 @@ public class SessionEvent implements Serializable {
 
     @Override
     public String toString() {
-        return "SessionEvent [id=" + id + ", date=" + date + ", eventHour=" + eventHour
-                + ", duration=" + duration + ", event=" + event + "]";
+        return "SessionEvent [id=" + id + ", dateHourStartSessionEvent=" + dateHourStartSessionEvent
+                + ", durationInMinutes=" + durationInMinutes + ", dateHourEndSessionEvent="
+                + dateHourEndSessionEvent + ", event=" + event + "]";
     }
 
 
