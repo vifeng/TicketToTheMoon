@@ -19,6 +19,11 @@ public class ConfigurationHall implements Serializable {
     private Long id;
 
     private String name;
+    /**
+     * @Description(value = "this capacity is the actual number of seats available within this
+     *                    configuration. exemple: for a Hall of 100, a seated configuration will
+     *                    have a capacity of 50. a standing one will have a capacity of 100.")
+     */
     private int configuration_capacity;
 
     @ManyToOne
@@ -40,11 +45,11 @@ public class ConfigurationHall implements Serializable {
         setHall(hall);
     }
 
-    private void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    private Long getId() {
+    public Long getId() {
         return id;
     }
 

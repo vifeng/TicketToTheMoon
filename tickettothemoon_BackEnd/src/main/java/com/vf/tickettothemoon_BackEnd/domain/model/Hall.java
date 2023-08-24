@@ -9,7 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 /**
- * A venue has a set of halls. A hall has a name and a capacity. A hall can have different
+ * Relation many Hall to one Venue. A hall has a name and a capacity. A hall can have different
  * configurations.
  */
 @Entity
@@ -20,7 +20,7 @@ public class Hall implements Serializable {
 
     private String name;
     /**
-     * @Description(value = "Capacity of the hall")
+     * @Description(value = "Capacity maximum legal of the hall.")
      */
     private int capacity;
 
@@ -46,36 +46,35 @@ public class Hall implements Serializable {
         setVenue(venue);
     }
 
-    private void setId(Long id) {
-        this.id = id;
-    }
-
-
-    private void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    private void setName(String name) {
-        this.name = name;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getCapacity() {
         return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     public Venue getVenue() {
         return venue;
     }
 
-    private void setVenue(Venue venue) {
+    public void setVenue(Venue venue) {
         this.venue = venue;
     }
 

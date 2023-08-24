@@ -19,6 +19,31 @@ https://www.javatpoint.com/spring-boot-actuator#:~:text=Spring%20Boot%20Actuator
 https://spring.io/guides/gs/actuator-service/
 https://www.baeldung.com/spring-boot-actuators
 
+### HAL Browser
+
+https://www.baeldung.com/spring-rest-hal
+
+```kts
+depedependencies {
+  implementation("org.springframework.data:spring-data-rest-hal-explorer")
+}
+```
+
+### LiveReload
+
+extension for chrome that reloads the page when a change is made in the code. You need to install the extension and activate it in the browser. You may allow only specific website.
+https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei
+
+### h2
+
+useful script for a mysql dump : `SCRIPT NODATA DROP TO 'dump.txt';`
+source : http://www.h2database.com/html/commands.html#script
+
+in the resources folder, the script is executed in the following order :
+schema.sql is executed before data.sql
+data.sql is executed before import.sql
+import.sql is executed before the h2 console is started
+
 ### General Documentation
 
 - https://spring.io/guides
@@ -93,3 +118,18 @@ Lombok could still be used for other purposes such as entities. I didn't because
 Mapstruct is used to map entities to DTOs and vice versa. It is a code generator that generates the mapping code at compile time.
 Firstly, I used ModelMapper but it is not compatible with the Java Record feature.
 It does seems more easy than ModelMapper to use and configure.
+
+# JPA relationships choice
+
+## ManyToOne vs OneToMany
+
+source : [https://stackoverflow.com/questions/16119531/hibernate-jpa-manytoone-vs-onetomany](https://stackoverflow.com/questions/16119531/hibernate-jpa-manytoone-vs-onetomany)
+
+Situation :
+
+The solution you choose mainly depends on the situation, and on the level of coupling between the entities. Suppose you have a User and a Message, where a user can have thousands of messages, it could make sense to model it only as a ManyToOne from Message to User, because you'll rarely ask for all the messages of a user anyway. The association could be made bidirectional only to help with queries though, since JPQL queries join between entities by navigating through their associations.
+
+Efficiency :
+
+- Also, having @ManytoOne side as the owner would require only n+1 queries while saving the associtions. Where n is the number of associations (many side).
+- Whereas having @OneToMany as the owner, while inserting the parent entity (one side) with associations (many side) would result in 2\*N + 1 queries. In which one query would be for insert of the association and other query would be for updating foreign key in the associated entity.

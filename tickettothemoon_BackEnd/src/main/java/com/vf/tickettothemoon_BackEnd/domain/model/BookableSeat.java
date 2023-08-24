@@ -1,6 +1,10 @@
 package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -8,9 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 /**
- * A BookableSeat can be applied to many areas. An area can have many BookableSeats. A BookableSeat
- * is part of a variation. A BookableSeat can be applied to many sessions events. An event session
- * can have many BookableSeats.
+ * 
  */
 @Entity
 public class BookableSeat implements Serializable {
@@ -18,17 +20,13 @@ public class BookableSeat implements Serializable {
     @GeneratedValue
     private Long id;
 
-    private double price;
-    private String name;
-    private double taxes;
-
     @ManyToOne
-    @JoinColumn(name = "sessionEvents_FK")
-    private SessionEvent sessionEvents;
-
+    @JoinColumn(name = "sessionEvent_FK")
+    private SessionEvent sessionEvent;
+    // TOCHECK: relation
     @ManyToOne
     @JoinColumn(name = "Seat")
-    private Seat seat;
+    Set<Seat> seats = new TreeSet<Seat>();
 
     @ManyToOne
     @JoinColumn(name = "EventOrder_FK")
@@ -36,27 +34,44 @@ public class BookableSeat implements Serializable {
 
     public BookableSeat() {}
 
-    public BookableSeat(Long id, double price, String name, double taxes,
-            SessionEvent sessionEvents, Seat seat, EventOrder eventOrder) {
+    public BookableSeat(Long id, SessionEvent sessionEvent, Seat seat, EventOrder eventOrder) {
         setId(id);
-        setPrice(price);
-        setName(name);
-        setTaxes(taxes);
-        setSessionEvents(sessionEvents);
+        setSessionEvent(sessionEvent);
         setSeat(seat);
         setEventOrder(eventOrder);
     }
 
-    public BookableSeat(double price, String name, double taxes, SessionEvent sessionEvents,
-            Seat seat, EventOrder eventOrder) {
-        setPrice(price);
-        setName(name);
-        setTaxes(taxes);
-        setSessionEvents(sessionEvents);
+    public BookableSeat(SessionEvent sessionEvent, Seat seat, EventOrder eventOrder) {
+        setSessionEvent(sessionEvent);
         setSeat(seat);
         setEventOrder(eventOrder);
     }
 
+    ////////////////////
+    // Utilities methods
+    ////////////////////
+
+    public List<Seat> createBundleStandingSeats(int startNumero, char rowSeat,
+            CategoryTariff categorieTariff, CategorySpatial categorieSpatial, int quantity) {
+        List<Seat> bundle = new ArrayList<>();
+        for (int i = startNumero; i < quantity; i++) {
+            bundle.add(new Seat(false, 0, '\0', categorieSpatial, categorieTariff, false));
+        }
+        return bundle;
+    }
+
+    public List<Seat> createBundleNumerotedSeats(int startNumero, char rowSeat,
+            CategoryTariff categorieTariff, CategorySpatial categorieSpatial, int quantity) {
+        List<Seat> bundle = new ArrayList<>();
+        for (int i = startNumero; i < quantity; i++) {
+            bundle.add(new Seat(true, i, rowSeat, categorieSpatial, categorieTariff, false));
+        }
+        return bundle;
+    }
+
+    ///////////////////////
+    // Getters, Setters and toString
+    ///////////////////////
     public Long getId() {
         return id;
     }
@@ -65,36 +80,12 @@ public class BookableSeat implements Serializable {
         this.id = id;
     }
 
-    public double getPrice() {
-        return price;
+    public SessionEvent getSessionEvent() {
+        return sessionEvent;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getTaxes() {
-        return taxes;
-    }
-
-    public void setTaxes(double taxes) {
-        this.taxes = taxes;
-    }
-
-    public SessionEvent getSessionEvents() {
-        return sessionEvents;
-    }
-
-    public void setSessionEvents(SessionEvent sessionEvents) {
-        this.sessionEvents = sessionEvents;
+    public void setSessionEvent(SessionEvent sessionEvent) {
+        this.sessionEvent = sessionEvent;
     }
 
     public Seat getSeat() {
@@ -115,10 +106,10 @@ public class BookableSeat implements Serializable {
 
     @Override
     public String toString() {
-        return "BookableSeat [id=" + id + ", price=" + price + ", name=" + name + ", taxes=" + taxes
-                + ", sessionEvents=" + sessionEvents + ", seat=" + seat + ", eventOrder="
-                + eventOrder + "]";
+        return "BookableSeat [id=" + id + ", bookableSeat=" + bookableSeat + ", sessionEvent="
+                + sessionEvent + ", seat=" + seat + ", eventOrder=" + eventOrder + "]";
     }
+
 
 
 }

@@ -1,10 +1,7 @@
 package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import com.vf.tickettothemoon_BackEnd.myUtil.Day;
+import java.time.LocalDate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,9 +19,9 @@ public class Event implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private Date dateStart;
-    private Date dateEnd;
-    private Set<Day> closedDay;
+    private LocalDate dateStart;
+    private LocalDate dateEnd;
+    private String closedDay;
 
     @ManyToOne
     @JoinColumn(name = "ConfigurationHall_FK")
@@ -32,22 +29,23 @@ public class Event implements Serializable {
 
     public Event() {}
 
-    public Event(Long id, String name, Date dateStart, Date dateEnd,
+    public Event(Long id, String name, LocalDate dateStart, LocalDate dateEnd, String closedDay,
             ConfigurationHall configurationHall) {
         setId(id);
         setName(name);
         setDateStart(dateStart);
         setDateEnd(dateEnd);
-        closedDay = new HashSet<Day>();
+        setClosedDay(closedDay);
         setConfigurationHall(configurationHall);
     }
 
 
-    public Event(String name, Date dateStart, Date dateEnd, ConfigurationHall configurationHall) {
+    public Event(String name, LocalDate dateStart, LocalDate dateEnd, String closedDay,
+            ConfigurationHall configurationHall) {
         setName(name);
         setDateStart(dateStart);
         setDateEnd(dateEnd);
-        closedDay = new HashSet<Day>();
+        setClosedDay(closedDay);
         setConfigurationHall(configurationHall);
     }
 
@@ -55,11 +53,11 @@ public class Event implements Serializable {
         this.id = id;
     }
 
-    private void setDateEnd(Date dateEnd) {
+    private void setDateEnd(LocalDate dateEnd) {
         this.dateEnd = dateEnd;
     }
 
-    private void setDateStart(Date dateStart) {
+    private void setDateStart(LocalDate dateStart) {
         this.dateStart = dateStart;
     }
 
@@ -67,8 +65,8 @@ public class Event implements Serializable {
         this.name = name;
     }
 
-    public void setClosedDay(Day closedDay) {
-        this.closedDay.add(closedDay);
+    public void setClosedDay(String closedDay) {
+        this.closedDay = closedDay;
     }
 
     private void setConfigurationHall(ConfigurationHall configurationHall) {
@@ -83,19 +81,19 @@ public class Event implements Serializable {
         return name;
     }
 
-    public Date getDateStart() {
+    public LocalDate getDateStart() {
         return dateStart;
     }
 
-    public Date getDateEnd() {
+    public LocalDate getDateEnd() {
         return dateEnd;
     }
 
-    public Set<Day> getClosedDay() {
+    public String getClosedDay() {
         return closedDay;
     }
 
-    private ConfigurationHall getConfigurationHall() {
+    public ConfigurationHall getConfigurationHall() {
         return configurationHall;
     }
 

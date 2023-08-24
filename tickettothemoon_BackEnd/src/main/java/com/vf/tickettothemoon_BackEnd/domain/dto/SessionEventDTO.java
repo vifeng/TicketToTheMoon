@@ -1,9 +1,7 @@
 package com.vf.tickettothemoon_BackEnd.domain.dto;
 
 import java.time.LocalDateTime;
-import org.springframework.data.annotation.Id;
 
-public record SessionEventDTO(@Id Long id, LocalDateTime date, int eventHour, int duration,
-                EventDTO event) {
-
+public record SessionEventDTO(Long id, LocalDateTime dateHourStartSessionEvent,
+        int durationInMinutes, EventDTO event) {
 }

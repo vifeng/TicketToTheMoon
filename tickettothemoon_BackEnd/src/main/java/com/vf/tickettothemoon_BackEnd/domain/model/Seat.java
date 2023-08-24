@@ -9,66 +9,81 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 /**
- * A seat can be reserved by a user.A seat is part of a category which is part of an area which is
- * part of a configuration which is part of a hall which is part of a session event which is part of
- * an event.A seat can be seated or not seated.If a seat is seated,it has a number and a
- * rowSeat.Once the user has reserved a seat,the seat is no Longer available for other users.
+ *
  */
 @Entity
 public class Seat implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int number;
-    private int rowSeat;
-    private boolean reserved = false;
+    private int numberOfTheSeat;
+    private char rowOfTheSeat;
+    private boolean booked = false;
     private boolean seated = false;
 
     @ManyToOne
     @JoinColumn(name = "Category_FK")
-    private Category category;
+    private CategorySpatial category;
 
     @ManyToOne
-    @JoinColumn(name = "Area_FK")
-    private Area area;
+    @JoinColumn(name = "CategoryTariff_FK")
+    private CategoryTariff categoryTariff;
 
     public Seat() {}
 
-    public Seat(Long id, boolean reserved, boolean seated, int number, int rowSeat,
-            Category category, Area area) {
+    /*
+     * Constructor with id. for a seated seat with a number and row or standing seat or free seated
+     * placement
+     */
+    public Seat(Long id, boolean seated, int numberOfTheSeat, char rowOfTheSeat,
+            CategorySpatial category, CategoryTariff categoryTariff, boolean booked) {
         setId(id);
-        setReserved(reserved);
-        setSeated(seated);
-        setNumber(number);
-        setRow(rowSeat);
+        setBooked(booked);
+        if (seated) {
+            setSeated(true);
+            setNumberOfTheSeat(numberOfTheSeat);
+            setRowOfTheSeat(rowOfTheSeat);
+        } else {
+            setSeated(false);
+        }
         setCategory(category);
-        setArea(area);
+        setCategoryTariff(categoryTariff);
     }
 
 
-    public Seat(boolean reserved, boolean seated, int number, int rowSeat, Category category,
-            Area area) {
-        setReserved(reserved);
-        setSeated(seated);
-        setNumber(number);
-        setRow(rowSeat);
+    /*
+     * Constructor without id. for a seated seat with a number and row or standing seat or free
+     * seated placement
+     */
+    public Seat(boolean seated, int numberOfTheSeat, char rowOfTheSeat, CategorySpatial category,
+            CategoryTariff categoryTariff, boolean booked) {
+        setBooked(booked);
+        if (seated) {
+            setSeated(true);
+            setNumberOfTheSeat(numberOfTheSeat);
+            setRowOfTheSeat(rowOfTheSeat);
+        } else {
+            setSeated(false);
+        }
         setCategory(category);
-        setArea(area);
+        setCategoryTariff(categoryTariff);
     }
 
-    public Area getArea() {
-        return area;
+
+
+    public CategoryTariff getCategoryTariff() {
+        return categoryTariff;
     }
 
-    public void setArea(Area area) {
-        this.area = area;
+    public void setCategoryTariff(CategoryTariff categoryTariff) {
+        this.categoryTariff = categoryTariff;
     }
 
-    private void setCategory(Category category) {
+    public void setCategory(CategorySpatial category) {
         this.category = category;
     }
 
-    private Category getCategory() {
+    public CategorySpatial getCategory() {
         return category;
     }
 
@@ -80,12 +95,12 @@ public class Seat implements Serializable {
         this.id = id;
     }
 
-    public boolean isReserved() {
-        return reserved;
+    public boolean isBooked() {
+        return booked;
     }
 
-    public void setReserved(boolean reserved) {
-        this.reserved = reserved;
+    public void setBooked(boolean booked) {
+        this.booked = booked;
     }
 
     public boolean isSeated() {
@@ -96,26 +111,30 @@ public class Seat implements Serializable {
         this.seated = seated;
     }
 
-    public int getNumber() {
-        return number;
+    public int getNumberOfTheSeat() {
+        return numberOfTheSeat;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setNumberOfTheSeat(int numberOfTheSeat) {
+        this.numberOfTheSeat = numberOfTheSeat;
     }
 
-    public int getRow() {
-        return rowSeat;
+    public char getRowOfTheSeat() {
+        return rowOfTheSeat;
     }
 
-    public void setRow(int rowSeat) {
-        this.rowSeat = rowSeat;
+    public void setRowOfTheSeat(char rowOfTheSeat) {
+        this.rowOfTheSeat = rowOfTheSeat;
     }
+
+    // TODO: hashCode and equals methods to be implemented. Tri selon disponibilité et prix.
+    // utiliser Comparator<E> qui permet de faire plusieurs tris.
 
     @Override
     public String toString() {
-        return "Seat [id=" + id + ", reserved=" + reserved + ", seated=" + seated + ", number="
-                + number + ", rowSeat=" + rowSeat + "]";
+        return "Seat [id=" + id + ", numberOfTheSeat=" + numberOfTheSeat + ", rowOfTheSeat="
+                + rowOfTheSeat + ", booked=" + booked + ", seated=" + seated + ", category="
+                + category + ", categoryTariff=" + categoryTariff + "]";
     }
 
 
