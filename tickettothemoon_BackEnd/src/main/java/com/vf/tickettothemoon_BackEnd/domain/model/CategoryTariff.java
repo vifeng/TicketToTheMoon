@@ -1,6 +1,7 @@
 package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -16,6 +17,7 @@ public class CategoryTariff implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(unique = true, nullable = false, length = 50)
     private String name;
 
     @ManyToOne

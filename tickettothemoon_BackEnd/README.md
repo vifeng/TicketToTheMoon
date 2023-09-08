@@ -79,7 +79,7 @@ CTL+C
 gradle clean
 # clean the build folder
 gradle clean build
-# clean the build folder and build the project
+# clean the build folder and build the project. recompile the code and execute the Test.
 gradle check
 # run all verification tasks, including tests and linting
 ```

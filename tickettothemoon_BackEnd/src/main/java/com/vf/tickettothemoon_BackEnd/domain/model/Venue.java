@@ -1,18 +1,20 @@
 package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
-/**
- * A venue has a set of halls. a hall beLongs to one venue. A venue is managed by one or more
- * people.
- */
+
 @Entity
 @Table(name = "Venue")
 public class Venue implements Serializable {
@@ -25,26 +27,32 @@ public class Venue implements Serializable {
 
     @Embedded
     private Address address = new Address();
-    private String contact;
-    private String mail;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "venue_id")
+    Set<Employee> employees = new HashSet<>();
 
 
 
     public Venue() {}
 
-    public Venue(Long id, String name, String contact, String mail, Address address) {
+
+    public Venue(Long id, String name, Address address, Set<Employee> employees) {
         setId(id);
         setName(name);
-        setContact(contact);
-        setMail(mail);
+        setAddress(address);
+        setEmployees(employees);
+    }
+
+    public Venue(String name, Address address) {
+        setName(name);
         setAddress(address);
     }
 
-    public Venue(String name, String contact, String mail, Address address) {
+    public Venue(String name, Address address, Set<Employee> employees) {
         setName(name);
-        setContact(contact);
-        setMail(mail);
         setAddress(address);
+        setEmployees(employees);
     }
 
 
@@ -72,26 +80,28 @@ public class Venue implements Serializable {
         this.name = name;
     }
 
-    public String getContact() {
-        return contact;
+    // OneToMany unidirectional setup
+    public Set<Employee> getEmployees() {
+        return employees;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
     }
 
-    public String getMail() {
-        return mail;
+    public void addEmployee(Employee employee) {
+        this.employees.add(employee);
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void removeEmployee(Employee employee) {
+        if (this.employees != null)
+            this.employees.remove(employee);
     }
 
     @Override
     public String toString() {
-        return "Venue [id=" + id + ", name=" + name + ", address=" + address + ", contact="
-                + contact + ", mail=" + mail + "]";
+        return "Venue [id=" + id + ", name=" + name + ", address=" + address + ", employees="
+                + employees + "]";
     }
 
 

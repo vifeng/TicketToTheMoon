@@ -4,7 +4,7 @@ import jakarta.persistence.Embeddable;
 
 /**
  * @see Venue
- * @see Client
+ * @see Customer
  */
 @Embeddable
 public class Address {

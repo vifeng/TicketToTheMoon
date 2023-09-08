@@ -1,14 +1,24 @@
 package com.vf.tickettothemoon_BackEnd.exception;
 
-/**
- * This abstract exception is the superclass of all application exception. It is a checked exception
- * because it extends the Exception class.
- */
-public abstract class ApplicationException extends Exception {
+
+public abstract class ApplicationException extends RuntimeException {
 
     protected ApplicationException() {}
 
+    protected ApplicationException(final String message, final Throwable cause,
+            final boolean enableSuppression, final boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    protected ApplicationException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
+
     protected ApplicationException(final String message) {
         super(message);
+    }
+
+    protected ApplicationException(final Throwable cause) {
+        super(cause);
     }
 }
