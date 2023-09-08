@@ -5,4 +5,14 @@ package com.vf.tickettothemoon_BackEnd.exception;
  * another one with the same identifier.
  */
 public class DuplicateKeyException extends CreateException {
+
+    public DuplicateKeyException() {
+        super();
+    }
+
+    public DuplicateKeyException(final String message) {
+        super(message);
+    }
+
+
 }

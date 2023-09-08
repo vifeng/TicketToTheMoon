@@ -24,7 +24,7 @@ public class ConfigurationHall implements Serializable {
      *                    configuration. exemple: for a Hall of 100, a seated configuration will
      *                    have a capacity of 50. a standing one will have a capacity of 100.")
      */
-    private int configuration_capacity;
+    private int capacityOfConfiguration;
 
     @ManyToOne
     @JoinColumn(name = "Hall_FK")
@@ -32,16 +32,16 @@ public class ConfigurationHall implements Serializable {
 
     public ConfigurationHall() {}
 
-    public ConfigurationHall(Long id, String name, int configuration_capacity, Hall hall) {
+    public ConfigurationHall(Long id, String name, int capacityOfConfiguration, Hall hall) {
         setId(id);
         setName(name);
-        setConfiguration_capacity(configuration_capacity);
+        setCapacityOfConfiguration(capacityOfConfiguration);
         setHall(hall);
     }
 
-    public ConfigurationHall(String name, int configuration_capacity, Hall hall) {
+    public ConfigurationHall(String name, int capacityOfConfiguration, Hall hall) {
         setName(name);
-        setConfiguration_capacity(configuration_capacity);
+        setCapacityOfConfiguration(capacityOfConfiguration);
         setHall(hall);
     }
 
@@ -61,12 +61,12 @@ public class ConfigurationHall implements Serializable {
         this.name = name;
     }
 
-    public int getConfiguration_capacity() {
-        return configuration_capacity;
+    public int getCapacityOfConfiguration() {
+        return capacityOfConfiguration;
     }
 
-    public void setConfiguration_capacity(int configuration_capacity) {
-        this.configuration_capacity = configuration_capacity;
+    public void setCapacityOfConfiguration(int capacityOfConfiguration) {
+        this.capacityOfConfiguration = capacityOfConfiguration;
     }
 
     public Hall getHall() {
@@ -79,8 +79,8 @@ public class ConfigurationHall implements Serializable {
 
     @Override
     public String toString() {
-        return "ConfigurationHall [id=" + id + ", name=" + name + ", configuration_capacity="
-                + configuration_capacity + ", hall=" + hall + "]";
+        return "ConfigurationHall [id=" + id + ", name=" + name + ", capacityOfConfiguration="
+                + capacityOfConfiguration + ", hall=" + hall + "]";
     }
 
 

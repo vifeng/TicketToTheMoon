@@ -2,13 +2,16 @@ package com.vf.tickettothemoon_BackEnd.domain.service.mappers;
 
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 import com.vf.tickettothemoon_BackEnd.domain.dto.SeatDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Seat;
+
 
 @Mapper
 public interface SeatMapper {
 
-    SeatMapper INSTANCE = org.mapstruct.factory.Mappers.getMapper(SeatMapper.class);
+    SeatMapper INSTANCE = Mappers.getMapper(SeatMapper.class);
+
 
     SeatDTO toSeatDTO(Seat seat);
 
@@ -19,4 +22,7 @@ public interface SeatMapper {
 
     @IterableMapping(elementTargetType = Seat.class)
     Iterable<Seat> toSeats(Iterable<SeatDTO> seatDTOs);
+
+
+
 }

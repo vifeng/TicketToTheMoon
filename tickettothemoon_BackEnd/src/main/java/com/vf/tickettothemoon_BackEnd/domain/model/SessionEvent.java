@@ -19,29 +19,36 @@ public class SessionEvent implements Serializable {
     @GeneratedValue
     private Long id;
 
-    private LocalDateTime dateHourStartSessionEvent;
+    private LocalDateTime dateAndTimeStartSessionEvent;
     private int durationInMinutes;
-    private LocalDateTime dateHourEndSessionEvent;
+    private LocalDateTime dateAndTimeEndSessionEvent;
+
     @ManyToOne
     @JoinColumn(name = "Event_FK")
     private Event event;
 
+    @ManyToOne
+    @JoinColumn(name = "ConfigurationHall_FK")
+    private ConfigurationHall configurationHall;
+
 
     public SessionEvent() {}
 
-    public SessionEvent(Long id, LocalDateTime dateHourStartSessionEvent, int durationInMinutes,
-            Event event) {
+    public SessionEvent(Long id, LocalDateTime dateAndTimeStartSessionEvent, int durationInMinutes,
+            Event event, ConfigurationHall configurationHall) {
         setId(id);
-        setDateHourStartSessionEvent(dateHourStartSessionEvent);
+        setDateAndTimeStartSessionEvent(dateAndTimeStartSessionEvent);
         setDurationInMinutes(durationInMinutes);
         setEvent(event);
+        setConfigurationHall(configurationHall);
     }
 
-    public SessionEvent(LocalDateTime dateHourStartSessionEvent, int durationInMinutes,
-            Event event) {
-        setDateHourStartSessionEvent(dateHourStartSessionEvent);
+    public SessionEvent(LocalDateTime dateAndTimeStartSessionEvent, int durationInMinutes,
+            Event event, ConfigurationHall configurationHall) {
+        setDateAndTimeStartSessionEvent(dateAndTimeStartSessionEvent);
         setDurationInMinutes(durationInMinutes);
         setEvent(event);
+        setConfigurationHall(configurationHall);
     }
 
     //////////////
@@ -64,20 +71,21 @@ public class SessionEvent implements Serializable {
         this.id = id;
     }
 
-    public LocalDateTime getDateHourStartSessionEvent() {
-        return dateHourStartSessionEvent;
+    public LocalDateTime getDateAndTimeStartSessionEvent() {
+        return dateAndTimeStartSessionEvent;
     }
 
-    public void setDateHourStartSessionEvent(LocalDateTime dateHourStartSessionEvent) {
-        this.dateHourStartSessionEvent = dateHourStartSessionEvent;
+    public void setDateAndTimeStartSessionEvent(LocalDateTime dateAndTimeStartSessionEvent) {
+        this.dateAndTimeStartSessionEvent = dateAndTimeStartSessionEvent;
     }
 
-    public LocalDateTime getDateHourEndSessionEvent() {
-        return dateHourEndSessionEvent;
+    public LocalDateTime getDateAndTimeEndSessionEvent() {
+        return dateAndTimeEndSessionEvent;
     }
 
-    public void setDateHourEndSessionEvent() {
-        this.dateHourEndSessionEvent = dateHourStartSessionEvent.plusMinutes(durationInMinutes);
+    public void setDateAndTimeEndSessionEvent() {
+        this.dateAndTimeEndSessionEvent =
+                dateAndTimeStartSessionEvent.plusMinutes(durationInMinutes);
     }
 
     public int getDurationInMinutes() {
@@ -88,7 +96,7 @@ public class SessionEvent implements Serializable {
         this.durationInMinutes = durationInMinutes;
     }
 
-
+    // relationships
 
     public Event getEvent() {
         return event;
@@ -98,11 +106,21 @@ public class SessionEvent implements Serializable {
         this.event = event;
     }
 
+
+    public ConfigurationHall getConfigurationHall() {
+        return configurationHall;
+    }
+
+    public void setConfigurationHall(ConfigurationHall configurationHall) {
+        this.configurationHall = configurationHall;
+    }
+
     @Override
     public String toString() {
-        return "SessionEvent [id=" + id + ", dateHourStartSessionEvent=" + dateHourStartSessionEvent
-                + ", durationInMinutes=" + durationInMinutes + ", dateHourEndSessionEvent="
-                + dateHourEndSessionEvent + ", event=" + event + "]";
+        return "SessionEvent [id=" + id + ", dateAndTimeStartSessionEvent="
+                + dateAndTimeStartSessionEvent + ", durationInMinutes=" + durationInMinutes
+                + ", dateAndTimeEndSessionEvent=" + dateAndTimeEndSessionEvent + ", event=" + event
+                + "]";
     }
 
 

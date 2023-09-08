@@ -4,10 +4,10 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.vf.tickettothemoon_BackEnd.domain.dao.VenueRepository;
 import com.vf.tickettothemoon_BackEnd.domain.dto.VenueDTO;
 import com.vf.tickettothemoon_BackEnd.domain.service.VenueService;
 import com.vf.tickettothemoon_BackEnd.exception.FinderException;
@@ -20,11 +20,9 @@ import com.vf.tickettothemoon_BackEnd.exception.FinderException;
 public class VenueController {
 
     private final VenueService venueService;
-    private final VenueRepository venueRepository;
 
-    public VenueController(VenueService venueService, VenueRepository venueRepository) {
+    public VenueController(VenueService venueService) {
         this.venueService = venueService;
-        this.venueRepository = venueRepository;
     }
 
     /**
@@ -42,8 +40,8 @@ public class VenueController {
     }
 
     @CrossOrigin
-    @GetMapping
-    public ResponseEntity<VenueDTO> getVenueById(Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<VenueDTO> getVenueById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(venueService.findById(id));
         } catch (FinderException e) {

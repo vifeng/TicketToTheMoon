@@ -9,8 +9,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 /**
- * Relation many Hall to one Venue. A hall has a name and a capacity. A hall can have different
- * configurations.
+ * Relation many Hall to one Venue. A hall has a name and a capacityOfHall. A hall can have
+ * different configurations.
  */
 @Entity
 public class Hall implements Serializable {
@@ -20,9 +20,9 @@ public class Hall implements Serializable {
 
     private String name;
     /**
-     * @Description(value = "Capacity maximum legal of the hall.")
+     * @Description(value = "CapacityOfHall maximum legal of the hall.")
      */
-    private int capacity;
+    private int capacityOfHall;
 
     @ManyToOne
     @JoinColumn(name = "Venue_FK")
@@ -32,17 +32,17 @@ public class Hall implements Serializable {
 
     public Hall() {}
 
-    public Hall(Long id, String name, int capacity, Venue venue) {
+    public Hall(Long id, String name, int capacityOfHall, Venue venue) {
         setId(id);
         setName(name);
-        setCapacity(capacity);
+        setCapacityOfHall(capacityOfHall);
         setVenue(venue);
     }
 
 
-    public Hall(String name, int capacity, Venue venue) {
+    public Hall(String name, int capacityOfHall, Venue venue) {
         setName(name);
-        setCapacity(capacity);
+        setCapacityOfHall(capacityOfHall);
         setVenue(venue);
     }
 
@@ -62,12 +62,12 @@ public class Hall implements Serializable {
         this.name = name;
     }
 
-    public int getCapacity() {
-        return capacity;
+    public int getCapacityOfHall() {
+        return capacityOfHall;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
+    public void setCapacityOfHall(int capacityOfHall) {
+        this.capacityOfHall = capacityOfHall;
     }
 
     public Venue getVenue() {
@@ -80,7 +80,7 @@ public class Hall implements Serializable {
 
     @Override
     public String toString() {
-        return "Hall: [" + name + " Capacity: " + capacity + "Venue : " + venue + "]";
+        return "Hall: [" + name + " CapacityOfHall: " + capacityOfHall + "Venue : " + venue + "]";
     }
 
 }
