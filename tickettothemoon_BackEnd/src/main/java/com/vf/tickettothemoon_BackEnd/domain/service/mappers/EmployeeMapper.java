@@ -1,6 +1,6 @@
 package com.vf.tickettothemoon_BackEnd.domain.service.mappers;
 
-import java.util.List;
+import java.util.Set;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,9 +18,9 @@ public interface EmployeeMapper {
     Employee toEmployee(EmployeeDTO employeeDTO);
 
     @IterableMapping(elementTargetType = EmployeeDTO.class)
-    List<EmployeeDTO> toEmployeeDTOs(Iterable<Employee> employees);
+    Set<EmployeeDTO> toEmployeeDTOs(Iterable<Employee> employees);
 
     @IterableMapping(elementTargetType = Employee.class)
-    List<Employee> toEmployees(Iterable<EmployeeDTO> employeeDTOs);
+    Set<Employee> toEmployees(Iterable<EmployeeDTO> employeeDTOs);
 
 }

@@ -2,7 +2,7 @@ package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -27,7 +27,7 @@ public class Ticket_Reservation implements Serializable {
      * @Description: the resulting date and time to track the expiryTime (set in minute) reservation
      *               expiration
      */
-    private LocalDate reservation_expiryDateTime;
+    private LocalDateTime reservation_expiryDateTime;
     // TODO_LOW : ? add a method to calculate the expiryDateTime based on the
     // reservation_creationTimestamp and the expiryTime in the service and put the constant
     // ExpiryTime in the service. we might need to have to SessionEvent to check if the event is
@@ -35,9 +35,9 @@ public class Ticket_Reservation implements Serializable {
     /**
      * @Description: the 00-minute reservation expiration
      */
-    private LocalDate expiryTime;
+    private LocalDateTime expiryTime;
 
-    // TODO_LOW: ? should be in service ?
+    // TODO_LOW: ? this variable should be in service maybe?
     /**
      * @Description: the calculated total price for the reservation, calculated based on the event's
      *               pricing
@@ -74,8 +74,8 @@ public class Ticket_Reservation implements Serializable {
 
 
     public Ticket_Reservation(Long id, Timestamp reservation_creationTimestamp,
-            LocalDate reservation_expiryDateTime, LocalDate expiryTime, double total_price_ht,
-            Customer customer, SessionEvent sessionEvent) {
+            LocalDateTime reservation_expiryDateTime, LocalDateTime expiryTime,
+            double total_price_ht, Customer customer, SessionEvent sessionEvent) {
         setId(id);
         setReservation_creationTimestamp(reservation_creationTimestamp);
         setReservation_expiryDateTime(reservation_expiryDateTime);
@@ -86,8 +86,8 @@ public class Ticket_Reservation implements Serializable {
     }
 
     public Ticket_Reservation(Timestamp reservation_creationTimestamp,
-            LocalDate reservation_expiryDateTime, LocalDate expiryTime, double total_price_ht,
-            Customer customer, SessionEvent sessionEvent) {
+            LocalDateTime reservation_expiryDateTime, LocalDateTime expiryTime,
+            double total_price_ht, Customer customer, SessionEvent sessionEvent) {
         setReservation_creationTimestamp(reservation_creationTimestamp);
         setReservation_expiryDateTime(reservation_expiryDateTime);
         setExpiryTime(expiryTime);
@@ -122,25 +122,25 @@ public class Ticket_Reservation implements Serializable {
 
 
 
-    public LocalDate getReservation_expiryDateTime() {
+    public LocalDateTime getReservation_expiryDateTime() {
         return reservation_expiryDateTime;
     }
 
 
 
-    public void setReservation_expiryDateTime(LocalDate reservation_expiryDateTime) {
+    public void setReservation_expiryDateTime(LocalDateTime reservation_expiryDateTime) {
         this.reservation_expiryDateTime = reservation_expiryDateTime;
     }
 
 
 
-    public LocalDate getExpiryTime() {
+    public LocalDateTime getExpiryTime() {
         return expiryTime;
     }
 
 
 
-    public void setExpiryTime(LocalDate expiryTime) {
+    public void setExpiryTime(LocalDateTime expiryTime) {
         this.expiryTime = expiryTime;
     }
 

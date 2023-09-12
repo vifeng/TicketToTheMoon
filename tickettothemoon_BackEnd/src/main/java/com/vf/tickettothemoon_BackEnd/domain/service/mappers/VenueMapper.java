@@ -1,12 +1,15 @@
 package com.vf.tickettothemoon_BackEnd.domain.service.mappers;
 
 import java.util.List;
+import java.util.Set;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import com.vf.tickettothemoon_BackEnd.domain.dto.AddressDTO;
+import com.vf.tickettothemoon_BackEnd.domain.dto.EmployeeDTO;
 import com.vf.tickettothemoon_BackEnd.domain.dto.VenueDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Address;
+import com.vf.tickettothemoon_BackEnd.domain.model.Employee;
 import com.vf.tickettothemoon_BackEnd.domain.model.Venue;
 
 @Mapper
@@ -59,6 +62,60 @@ public interface VenueMapper {
             return null;
         }
         return toAddress(venueDTO.getAddress());
+    }
+
+    //////////////////////////////
+    // Méthodes de mappage pour employee
+    //////////////////////////////
+
+    // Utilisation de EmployeeMapper pour mapper Employee
+    EmployeeMapper EMPLOYEE_MAPPER = Mappers.getMapper(EmployeeMapper.class);
+
+    // Mappage for Employee and its DTO
+    default EmployeeDTO toEmployeeDTO(Employee employee) {
+        if (employee == null) {
+            return null;
+        }
+        return EMPLOYEE_MAPPER.toEmployeeDTO(employee);
+    }
+
+    default Employee toEmployee(EmployeeDTO employeeDTO) {
+        if (employeeDTO == null) {
+            return null;
+        }
+        return EMPLOYEE_MAPPER.toEmployee(employeeDTO);
+    }
+
+    @IterableMapping(elementTargetType = EmployeeDTO.class)
+    default Set<EmployeeDTO> toEmployeeDTOs(Iterable<Employee> employees) {
+        if (employees == null) {
+            return null;
+        }
+        return EMPLOYEE_MAPPER.toEmployeeDTOs(employees);
+    }
+
+    @IterableMapping(elementTargetType = Employee.class)
+    default Set<Employee> toEmployees(Iterable<EmployeeDTO> employeeDTOs) {
+        if (employeeDTOs == null) {
+            return null;
+        }
+        return EMPLOYEE_MAPPER.toEmployees(employeeDTOs);
+    }
+
+    // Mappage for Employee with Venue and its DTO
+    @IterableMapping(elementTargetType = EmployeeDTO.class)
+    default Set<EmployeeDTO> toEmployeeDTO(Venue venue) {
+        if (venue == null) {
+            return null;
+        }
+        return toEmployeeDTOs(venue.getEmployees());
+    }
+
+    default Set<Employee> toEmployee(VenueDTO venueDTO) {
+        if (venueDTO == null) {
+            return null;
+        }
+        return toEmployees(venueDTO.getEmployees());
     }
 
 }
