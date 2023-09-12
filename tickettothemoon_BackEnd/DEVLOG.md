@@ -124,6 +124,17 @@ Mapstruct is used to map entities to DTOs and vice versa. It is a code generator
 Firstly, I used ModelMapper but it is not compatible with the Java Record feature.
 It does seems more easy than ModelMapper to use and configure.
 
+## Swagger Vs SpringDoc Vs Hale Explorer
+
+I tried to install swagger but didn't succeeded. I heard about Spring REST Docs during a conference and it seems to be a good alternative to swagger. It is simple, documentation is well written. The advantage is :
+
+- that it is not a runtime tool but a build time tool.
+- documentation is generated from the tests.
+
+but since you have to write the tests it's a bit more work. So in the meantime for a quick documentation I used hal explorer which give the endpoints of the API and other useful usage.
+
+In this project you'll find both Spring REST Docs and Hal Explorer.
+
 # JPA relationships choice
 
 ## ManyToOne vs OneToMany

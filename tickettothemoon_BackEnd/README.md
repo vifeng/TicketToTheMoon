@@ -10,9 +10,11 @@ Table of contents
     - [Installation \& running](#installation--running)
     - [Database configuration](#database-configuration)
 - [Few usefull commands](#few-usefull-commands)
-- [REST API \& actuator](#rest-api--actuator)
-  - [Actuator](#actuator)
-  - [Documentation](#documentation-1)
+- [REST API documentation, monitoring and testing](#rest-api-documentation-monitoring-and-testing)
+  - [Actuator (monitoring/observability)](#actuator-monitoringobservability)
+  - [Hal explorer (REST API documentation)](#hal-explorer-rest-api-documentation)
+- [Spring REST Docs (API testing and documentation)](#spring-rest-docs-api-testing-and-documentation)
+  - [How to generate the documentation](#how-to-generate-the-documentation)
 
 ---
 
@@ -88,18 +90,40 @@ gradle check
 
 ---
 
-# REST API & actuator
+# REST API documentation, monitoring and testing
 
-## Actuator
+## Actuator (monitoring/observability)
 
-<!-- TO_UPDATE: README file -->
+The spring-boot-actuator module provides all of Spring Boot’s production-ready features. It exposes a lot of endpoints to monitor and manage your application. Auditing, health, and metrics gathering can also be automatically applied to your application.
 
 - There are actuator health check and info routes as well:
-  - http://localhost:3306/tickettothemoon/actuator/health
-  - http://localhost:3306/tickettothemoon/actuator/info
+  - http://localhost:8080/manage/actuator
+  - http://localhost:8080/manage/actuator/health
 
-## Documentation
+source [official doc](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html)
 
 <br>
 
----
+## Hal explorer (REST API documentation)
+
+With HAL Explorer you can explore HAL and HAL-FORMS based RESTful Hypermedia APIs.
+
+Available at [http://localhost:8080/](http://localhost:8080/)
+
+Documentation at [github usage doc](https://toedter.github.io/hal-explorer/release/reference-doc/#usage)
+
+# Spring REST Docs (API testing and documentation)
+
+Spring REST Docs helps you to document RESTful services.
+
+It combines hand-written documentation written with Asciidoctor and auto-generated snippets produced with Spring MVC Test. This approach frees you from the limitations of the documentation produced by tools like Swagger.
+
+EmployeeControllerTest and VenueControllerTest are testing the controllers. They are using MockMvc to mock the HTTP requests and they also generate documentation for the API in the [./build/generated-snippets](./build/generated-snippets).
+
+### How to generate the documentation
+
+```sh
+gradle clean build
+```
+
+or just run the 'tests and debug' in vscode.

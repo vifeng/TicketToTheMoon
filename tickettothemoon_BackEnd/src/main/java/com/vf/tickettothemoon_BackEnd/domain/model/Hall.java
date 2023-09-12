@@ -1,6 +1,7 @@
 package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +25,8 @@ public class Hall implements Serializable {
      */
     private int capacityOfHall;
 
-    @ManyToOne
+    // TODO: cascade options to work
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "Venue_FK")
     private Venue venue;
 

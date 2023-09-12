@@ -30,7 +30,7 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Venue;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest
-public class VenueControllerTest {
+public class EmployeeControllerTest {
         private MockMvc mockMvc;
         @Autowired
         private ObjectMapper objectMapper;
@@ -48,22 +48,18 @@ public class VenueControllerTest {
         }
 
         @Test
-        public void venuesGetExample() throws Exception {
+        public void employeesGetExample() throws Exception {
 
                 Map<String, Object> crud = new HashMap<>();
                 crud.put("id", 1L);
-                crud.put("name", "name1");
-                crud.put("street", "street1");
-                crud.put("city", "city1");
-                crud.put("zipCode", "zipCode1");
-                crud.put("country", "country1");
-                crud.put("employee", "employee1");
-                // TODO_LOW: For documentation how to implement a relationship with employee
+                crud.put("username", "username1");
+                crud.put("password", "password1*");
+                crud.put("email", "email1");
 
 
                 ConstraintDescriptions desc = new ConstraintDescriptions(Venue.class);
 
-                this.mockMvc.perform(get("/api/venues").accept(MediaType.APPLICATION_JSON)
+                this.mockMvc.perform(get("/api/employees").accept(MediaType.APPLICATION_JSON)
                                 .content(this.objectMapper.writeValueAsString(crud)))
                                 .andExpect(status().isOk())
                                 .andDo(document("venues-get-example",
@@ -75,17 +71,13 @@ public class VenueControllerTest {
                                                                                                 desc.descriptionsForProperty(
                                                                                                                 "id"),
                                                                                                 ". ")),
-                                                                fieldWithPath("name").description(
-                                                                                "The name of the input"),
-                                                                fieldWithPath("street").description(
-                                                                                "The street of the input"),
-                                                                fieldWithPath("city").description(
-                                                                                "The city of the input"),
-                                                                fieldWithPath("zipCode")
-                                                                                .description("The zipCode of the input"),
-                                                                fieldWithPath("country")
-                                                                                .description("The country of the input"),
-                                                                fieldWithPath("employee")
-                                                                                .description("The employee of the input"))));
+                                                                fieldWithPath("username")
+                                                                                .description("The username of the input"),
+                                                                fieldWithPath("password")
+                                                                                .description("The password of the input"),
+                                                                fieldWithPath("email").description(
+                                                                                "The email of the input"))));
         }
+
+
 }

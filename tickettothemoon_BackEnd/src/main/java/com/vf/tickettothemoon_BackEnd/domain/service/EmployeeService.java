@@ -2,9 +2,9 @@ package com.vf.tickettothemoon_BackEnd.domain.service;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -34,13 +34,13 @@ public class EmployeeService {
     /**
      * @return all the employees DTO in the database.
      */
-    public List<EmployeeDTO> findAll() throws FinderException {
+    public Set<EmployeeDTO> findAll() throws FinderException {
         Iterable<Employee> employees = employeeRepository.findAll();
         int size = ((Collection<Employee>) employees).size();
         if (size == 0) {
             throw new FinderException("No Employees in the database");
         }
-        List<EmployeeDTO> employeeDTOs = EmployeeMapper.INSTANCE.toEmployeeDTOs(employees);
+        Set<EmployeeDTO> employeeDTOs = EmployeeMapper.INSTANCE.toEmployeeDTOs(employees);
         return employeeDTOs;
 
     }
@@ -130,8 +130,8 @@ public class EmployeeService {
                     ReflectionUtils.makeAccessible(field);
                     ReflectionUtils.setField(field, optionalEmployee.get(), value);
                 });
-                Employee updatedEmployee = employeeRepository.save(optionalEmployee.get());
-                return EmployeeMapper.INSTANCE.toEmployeeDTO(updatedEmployee);
+                Employee patchEmployee = employeeRepository.save(optionalEmployee.get());
+                return EmployeeMapper.INSTANCE.toEmployeeDTO(patchEmployee);
             } else {
                 throw new FinderException("Employee with id {" + id + "} not found");
             }
@@ -152,9 +152,9 @@ public class EmployeeService {
         try {
             Optional<Employee> optionalEmployee = employeeRepository.findById(id);
             if (optionalEmployee.isPresent()) {
-                Employee existingEmployee = optionalEmployee.get();
-                employeeRepository.delete(existingEmployee);
-                return EmployeeMapper.INSTANCE.toEmployeeDTO(existingEmployee);
+                Employee eemployeeToDelete = optionalEmployee.get();
+                employeeRepository.delete(eemployeeToDelete);
+                return EmployeeMapper.INSTANCE.toEmployeeDTO(eemployeeToDelete);
             } else {
                 throw new FinderException("Employee with id {" + id + "} not found");
             }

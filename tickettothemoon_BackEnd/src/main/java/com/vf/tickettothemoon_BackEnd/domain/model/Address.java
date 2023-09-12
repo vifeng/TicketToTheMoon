@@ -27,7 +27,7 @@ public class Address {
         return street;
     }
 
-    public void setStreet(final String street) {
+    public void setStreet(String street) {
         this.street = street;
     }
 
@@ -35,7 +35,7 @@ public class Address {
         return city;
     }
 
-    public void setCity(final String city) {
+    public void setCity(String city) {
         this.city = city;
     }
 
@@ -43,7 +43,7 @@ public class Address {
         return zipcode;
     }
 
-    public void setZipcode(final String zipcode) {
+    public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
 
@@ -51,7 +51,7 @@ public class Address {
         return country;
     }
 
-    public void setCountry(final String country) {
+    public void setCountry(String country) {
         this.country = country;
     }
 
