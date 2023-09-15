@@ -2,6 +2,7 @@ package com.vf.tickettothemoon_BackEnd.api;
 
 import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.vf.tickettothemoon_BackEnd.domain.dto.VenueDTO;
+import com.vf.tickettothemoon_BackEnd.domain.service.EmployeeService;
 import com.vf.tickettothemoon_BackEnd.domain.service.VenueService;
 import com.vf.tickettothemoon_BackEnd.exception.CreateException;
 import com.vf.tickettothemoon_BackEnd.exception.FinderException;
@@ -32,9 +34,12 @@ import com.vf.tickettothemoon_BackEnd.exception.UpdateException;
 public class VenueController {
 
     private final VenueService venueService;
+    private final EmployeeService employeeService;
 
-    public VenueController(VenueService venueService) {
+    @Autowired
+    public VenueController(VenueService venueService, EmployeeService employeeService) {
         this.venueService = venueService;
+        this.employeeService = employeeService;
     }
 
     /**
@@ -60,12 +65,9 @@ public class VenueController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VenueDTO> updateVenue(@PathVariable Long id,
-            @RequestBody VenueDTO venueDTO)
+    public ResponseEntity<VenueDTO> updateVenue(@PathVariable Long id)
             throws FinderException, UpdateException, IllegalArgumentException {
-        if (venueDTO == null)
-            throw new NullException("Venue update is null");
-        return ResponseEntity.ok(venueService.updateVenue(id, venueDTO));
+        return ResponseEntity.ok(venueService.updateVenue(id));
     }
 
     @PatchMapping("/{id}")
@@ -90,5 +92,25 @@ public class VenueController {
             throws FinderException, RemoveException {
         return ResponseEntity.ok(venueService.deleteVenue(id));
     }
+
+    ///////////////////////
+    // EMPLOYEE RELATIONSHIP
+    ///////////////////////
+    @PutMapping("/{id}/employees/{employeeId}")
+    public ResponseEntity<VenueDTO> addEmployee(@PathVariable Long id,
+            @PathVariable Long employeeId)
+            throws FinderException, UpdateException, IllegalArgumentException {
+        return ResponseEntity.ok(venueService.addEmployee(id, employeeId));
+    }
+
+    @PutMapping("/{id}/remove_employees/{employeeId}")
+    public ResponseEntity<VenueDTO> removeEmployee(@PathVariable Long id,
+            @PathVariable Long employeeId)
+            throws FinderException, UpdateException, IllegalArgumentException {
+        return ResponseEntity.ok(venueService.removeEmployee(id, employeeId));
+    }
+
+
+
 }
 

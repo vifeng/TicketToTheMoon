@@ -28,7 +28,7 @@ public interface VenueMapper {
     List<Venue> toVenues(Iterable<VenueDTO> venueDTOs);
 
     //////////////////////////////
-    // Méthodes de mappage pour address
+    // Méthodes de mappage pour address @Embedded
     //////////////////////////////
 
     // Utilisation de AddressMapper pour mapper Address
@@ -65,7 +65,7 @@ public interface VenueMapper {
     }
 
     //////////////////////////////
-    // Méthodes de mappage pour employee
+    // Méthodes de mappage pour employee @OneToMany
     //////////////////////////////
 
     // Utilisation de EmployeeMapper pour mapper Employee

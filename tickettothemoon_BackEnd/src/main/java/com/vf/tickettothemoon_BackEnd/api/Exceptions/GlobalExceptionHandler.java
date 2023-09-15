@@ -35,6 +35,13 @@ public class GlobalExceptionHandler {
         }
 
 
+        /**
+         * 400 Bad Request.
+         * 
+         * @param exception
+         * @param request
+         * @return
+         */
         @ExceptionHandler(CreateException.class)
         @ResponseStatus(HttpStatus.BAD_REQUEST)
         @ResponseBody
@@ -46,6 +53,13 @@ public class GlobalExceptionHandler {
                 return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
 
+        /**
+         * 422 Unprocessable Entity.
+         * 
+         * @param exception
+         * @param request
+         * @return
+         */
         @ExceptionHandler(UpdateException.class)
         @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
         @ResponseBody
@@ -57,6 +71,13 @@ public class GlobalExceptionHandler {
                 return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
+        /**
+         * 422 Unprocessable Entity.
+         * 
+         * @param exception
+         * @param request
+         * @return
+         */
         @ExceptionHandler(PatchException.class)
         @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
         @ResponseBody
@@ -68,7 +89,13 @@ public class GlobalExceptionHandler {
                 return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
-
+        /**
+         * 409 Conflict.
+         * 
+         * @param exception
+         * @param request
+         * @return
+         */
         @ExceptionHandler(RemoveException.class)
         @ResponseStatus(HttpStatus.CONFLICT)
         @ResponseBody
@@ -80,6 +107,13 @@ public class GlobalExceptionHandler {
                 return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
         }
 
+        /**
+         * 404 Not Found.
+         * 
+         * @param exception
+         * @param request
+         * @return
+         */
         @ExceptionHandler(FinderException.class)
         @ResponseStatus(HttpStatus.NOT_FOUND)
         @ResponseBody
@@ -91,6 +125,13 @@ public class GlobalExceptionHandler {
                 return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
 
+        /**
+         * 409 Conflict.
+         * 
+         * @param exception
+         * @param request
+         * @return
+         */
         @ExceptionHandler(DuplicateKeyException.class)
         @ResponseStatus(HttpStatus.CONFLICT)
         @ResponseBody
@@ -102,6 +143,13 @@ public class GlobalExceptionHandler {
                 return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
         }
 
+        /**
+         * 400 Bad Request.
+         * 
+         * @param exception
+         * @param request
+         * @return
+         */
         @ExceptionHandler(NullException.class)
         @ResponseStatus(HttpStatus.BAD_REQUEST)
         @ResponseBody
@@ -114,6 +162,13 @@ public class GlobalExceptionHandler {
                 return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
         }
 
+        /**
+         * 404 Not Found.
+         * 
+         * @param exception
+         * @param request
+         * @return
+         */
         @ExceptionHandler(ObjectNotFoundException.class)
         @ResponseStatus(HttpStatus.NOT_FOUND)
         @ResponseBody
@@ -125,6 +180,13 @@ public class GlobalExceptionHandler {
                 return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
         }
 
+        /**
+         * 500 Internal Server Error.
+         * 
+         * @param exception
+         * @param request
+         * @return
+         */
         @ExceptionHandler(DataAccessException.class)
         @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
         @ResponseBody

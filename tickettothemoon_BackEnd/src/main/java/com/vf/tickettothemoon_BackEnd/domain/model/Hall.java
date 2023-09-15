@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Relation many Hall to one Venue. A hall has a name and a capacityOfHall. A hall can have
@@ -19,14 +20,16 @@ public class Hall implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Hall name cannot be null or blank")
     private String name;
     /**
      * @Description(value = "CapacityOfHall maximum legal of the hall.")
      */
     private int capacityOfHall;
 
-    // TODO: cascade options to work
-    @ManyToOne(cascade = CascadeType.ALL)
+    // TOTEST: cascade options
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},
+            optional = false)
     @JoinColumn(name = "Venue_FK")
     private Venue venue;
 
@@ -61,6 +64,9 @@ public class Hall implements Serializable {
     }
 
     public void setName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Hall name cannot be null or blank");
+        }
         this.name = name;
     }
 

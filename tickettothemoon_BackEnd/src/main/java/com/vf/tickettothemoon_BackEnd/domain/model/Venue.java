@@ -102,11 +102,19 @@ public class Venue implements Serializable {
             this.employees.remove(employee);
     }
 
+    public void removeAllEmployees() {
+        if (this.employees != null)
+            this.employees.clear();
+    }
+
     @Override
     public String toString() {
         return "Venue [id=" + id + ", name=" + name + ", address=" + address + ", employees="
                 + employees + "]";
     }
+
+
+    public void add(Employee employee) {}
 
 
 
