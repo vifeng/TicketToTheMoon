@@ -69,9 +69,9 @@ public class EmployeeService {
             EmployeeDTO savedEmployeeDTO = EmployeeMapper.INSTANCE.toEmployeeDTO(savedEmployee);
             return savedEmployeeDTO;
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Employee is not created : " + e);
+            throw new IllegalArgumentException("Employee is not created : " + e.getMessage(), e);
         } catch (Exception e) {
-            throw new CreateException("Employee is not created");
+            throw new CreateException("Employee is not created" + e.getMessage(), e);
         }
     }
 
@@ -104,9 +104,10 @@ public class EmployeeService {
             }
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(
-                    "Employee with id {" + id + "} update failed : " + e);
+                    "Employee with id {" + id + "} update failed : " + e.getMessage(), e);
         } catch (Exception e) {
-            throw new UpdateException("Employee with id {" + id + "} update failed" + e);
+            throw new UpdateException(
+                    "Employee with id {" + id + "} update failed" + e.getMessage(), e);
         }
 
     }
@@ -136,9 +137,11 @@ public class EmployeeService {
                 throw new FinderException("Employee with id {" + id + "} not found");
             }
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Employee with id {" + id + "} patch failed : " + e);
+            throw new IllegalArgumentException(
+                    "Employee with id {" + id + "} patch failed : " + e.getMessage(), e);
         } catch (Exception e) {
-            throw new PatchException("Employee with id {" + id + "} patch failed" + e);
+            throw new PatchException("Employee with id {" + id + "} patch failed" + e.getMessage(),
+                    e);
         }
     }
 
@@ -159,9 +162,11 @@ public class EmployeeService {
                 throw new FinderException("Employee with id {" + id + "} not found");
             }
         } catch (Exception e) {
-            throw new RemoveException("Employee with id {" + id + "} delete failed" + e);
+            throw new RemoveException(
+                    "Employee with id {" + id + "} delete failed" + e.getMessage(), e);
         }
     }
+
 
 
 }

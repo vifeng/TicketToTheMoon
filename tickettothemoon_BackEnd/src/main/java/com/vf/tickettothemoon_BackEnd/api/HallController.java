@@ -37,18 +37,18 @@ public class HallController {
     }
 
     @GetMapping
-    public ResponseEntity<List<HallDTO>> getAllHalls() {
+    public ResponseEntity<List<HallDTO>> getAllHalls() throws FinderException {
         return ResponseEntity.ok(hallService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<HallDTO> getHallById(@PathVariable Long id) {
+    public ResponseEntity<HallDTO> getHallById(@PathVariable Long id) throws FinderException {
         return ResponseEntity.ok(hallService.findById(id));
     }
 
     @PostMapping
     public ResponseEntity<HallDTO> createHall(@RequestBody HallDTO hallDTO)
-            throws NullException, CreateException {
+            throws NullException, CreateException, FinderException, IllegalArgumentException {
         if (hallDTO == null)
             throw new NullException("Hall post is null");
         return ResponseEntity.ok(hallService.createHall(hallDTO));

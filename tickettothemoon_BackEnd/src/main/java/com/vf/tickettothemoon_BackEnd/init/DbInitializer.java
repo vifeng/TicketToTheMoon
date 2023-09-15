@@ -70,10 +70,9 @@ public class DbInitializer {
      */
     @EventListener(ContextRefreshedEvent.class)
     public void initDatabase() {
-        createTicket_Reservation();
-        createVenues();
-        // TODO: créer les relations une par une et les testées avec des collections de
-        // requêtes. il faut faire les services et les controllers
+        // createTicket_Reservation();
+        // createVenues();
+
     }
 
     private void createTicket_Reservation() {

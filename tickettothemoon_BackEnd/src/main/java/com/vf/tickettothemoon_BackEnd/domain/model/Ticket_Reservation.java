@@ -54,7 +54,7 @@ public class Ticket_Reservation implements Serializable {
     private SessionEvent sessionEvent;
 
 
-    // TODO_HIGH : add sessionEvent_id to the joinTable
+    // TODO : add sessionEvent_id to the joinTable
 
     /**
      * constraint : if a Reservation is deleted the associated seat should not be deleted and vice

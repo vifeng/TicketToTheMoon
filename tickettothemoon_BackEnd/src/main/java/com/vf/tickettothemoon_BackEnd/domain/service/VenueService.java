@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vf.tickettothemoon_BackEnd.domain.dao.EmployeeRepository;
 import com.vf.tickettothemoon_BackEnd.domain.dao.VenueRepository;
 import com.vf.tickettothemoon_BackEnd.domain.dto.VenueDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Address;
@@ -19,8 +22,8 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Employee;
 import com.vf.tickettothemoon_BackEnd.domain.model.Venue;
 import com.vf.tickettothemoon_BackEnd.domain.service.mappers.VenueMapper;
 import com.vf.tickettothemoon_BackEnd.exception.CreateException;
+import com.vf.tickettothemoon_BackEnd.exception.DuplicateKeyException;
 import com.vf.tickettothemoon_BackEnd.exception.FinderException;
-import com.vf.tickettothemoon_BackEnd.exception.NullException;
 import com.vf.tickettothemoon_BackEnd.exception.PatchException;
 import com.vf.tickettothemoon_BackEnd.exception.RemoveException;
 import com.vf.tickettothemoon_BackEnd.exception.UpdateException;
@@ -29,15 +32,16 @@ import com.vf.tickettothemoon_BackEnd.exception.UpdateException;
 @Transactional
 public class VenueService {
 
-
-    @Autowired
-    VenueRepository venueRepository;
-    @Autowired
+    private VenueRepository venueRepository;
+    private EmployeeRepository employeeRepository;
     private ObjectMapper objectMapper;
+    private static final Logger log = LoggerFactory.getLogger(VenueService.class);
 
-
-    public VenueService(VenueRepository venueRepository, ObjectMapper objectMapper) {
+    @Autowired
+    public VenueService(VenueRepository venueRepository, EmployeeRepository employeeRepository,
+            ObjectMapper objectMapper) {
         this.venueRepository = venueRepository;
+        this.employeeRepository = employeeRepository;
         this.objectMapper = objectMapper;
     }
 
@@ -62,7 +66,18 @@ public class VenueService {
         return VenueMapper.INSTANCE.toVenueDTO(venue);
     }
 
-    public VenueDTO createVenue(VenueDTO venueDTO) throws NullException, CreateException {
+    /**
+     * 
+     * @param venueDTO
+     * @return
+     * @throws IllegalArgumentException
+     * @throws CreateException
+     */
+    public VenueDTO createVenue(VenueDTO venueDTO)
+            throws IllegalArgumentException, CreateException {
+        if (venueDTO.id() != null) {
+            throw new DuplicateKeyException("Venue with id {" + venueDTO.id() + "} already exists");
+        }
         try {
             Venue venue = VenueMapper.INSTANCE.toVenue(venueDTO);
             venueRepository.save(venue);
@@ -70,35 +85,29 @@ public class VenueService {
             VenueDTO savedVenueDTO = VenueMapper.INSTANCE.toVenueDTO(savedVenue);
             return savedVenueDTO;
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Venue is not created : " + e);
+            throw new IllegalArgumentException("Venue not created : " + e.getMessage(), e);
         } catch (Exception e) {
-            throw new CreateException("Venue is not created");
+            throw new CreateException("Venue not created : " + e.getMessage(), e);
         }
     }
 
-    public VenueDTO updateVenue(Long id, VenueDTO venueDTO)
+    public VenueDTO updateVenue(Long id)
             throws FinderException, UpdateException, IllegalArgumentException {
         try {
-            Optional<Venue> venue = venueRepository.findById(id);
-            if (venue.isPresent()) {
-                Venue venueToUpdate = venue.get();
-                // Check null values and required fields
-                venueToUpdate.setName(venueDTO.name());
-                Address address = VenueMapper.INSTANCE.toAddress(venueDTO.address());
-                venueToUpdate.setAddress(address);
-                Set<Employee> employees = VenueMapper.INSTANCE.toEmployees(venueDTO.getEmployees());
-                venueToUpdate.setEmployees(employees);
-
-                venueRepository.save(venueToUpdate);
-                VenueDTO updatedVenueDTO = VenueMapper.INSTANCE.toVenueDTO(venueToUpdate);
-                return updatedVenueDTO;
+            Optional<Venue> optionalVenue = venueRepository.findById(id);
+            if (optionalVenue.isPresent()) {
+                Venue venueToUpdate = optionalVenue.get();
+                Venue updatedVenue = venueRepository.save(venueToUpdate);
+                return VenueMapper.INSTANCE.toVenueDTO(updatedVenue);
             } else {
                 throw new FinderException("Venue with id {" + id + "} not found");
             }
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Venue with id {" + id + "} update failed : " + e);
+            throw new IllegalArgumentException(
+                    "Venue with id {" + id + "} update failed : " + e.getMessage(), e);
         } catch (Exception e) {
-            throw new UpdateException("Venue with id {" + id + "} update failed" + e);
+            throw new UpdateException(
+                    "Venue with id {" + id + "} update failed : " + e.getMessage(), e);
         }
     }
 
@@ -121,7 +130,9 @@ public class VenueService {
                                 new TypeReference<Set<Employee>>() {};
                         Set<Employee> employeesPatch =
                                 objectMapper.convertValue(value, typeReference);
-
+                        // FIXME: l'employee est mis à jour avec un nouvel id si je précise rien ou
+                        // un id existant. si on supprime de la liste l'id alors il est supprimé de
+                        // la base.si aucun id dans la database alors crée l'employee.
                         // Mettre à jour l'ensemble existant avec les éléments du patch
                         // (Supprimer les éléments existants qui ne sont pas dans le patch, ajouter
                         // les éléments du patch)
@@ -130,7 +141,7 @@ public class VenueService {
 
                         if (employeesPatch != null) {
                             existingEmployees.addAll(employeesPatch); // Ajouter les employés du
-                                                                      // patch
+                            // patch
                         }
                     } else {
                         // Handle updating other fields (if any)
@@ -147,13 +158,15 @@ public class VenueService {
         } catch (
 
         IllegalArgumentException e) {
-            throw new IllegalArgumentException("Venue with id {" + id + "} patch failed : " + e);
+            throw new IllegalArgumentException(
+                    "Venue with id {" + id + "} patch failed : " + e.getMessage(), e);
         } catch (Exception e) {
-            throw new PatchException("Venue with id {" + id + "} patch failed" + e);
+            throw new PatchException("Venue with id {" + id + "} patch failed" + e.getMessage(), e);
         }
     }
 
     public VenueDTO deleteVenue(Long id) throws FinderException, RemoveException {
+        // TODO_END : delete venue because of cascade and FK
         try {
             Optional<Venue> optionalVenue = venueRepository.findById(id);
             if (optionalVenue.isPresent()) {
@@ -164,10 +177,48 @@ public class VenueService {
                 throw new FinderException("Venue with id {" + id + "} not found");
             }
         } catch (Exception e) {
-            throw new RemoveException("Venue with id {" + id + "} delete failed" + e);
+            throw new RemoveException("Venue with id {" + id + "} delete failed" + e.getMessage(),
+                    e);
         }
     }
 
+    ///////////////////////
+    // EMPLOYEE RELATIONSHIP
+    ///////////////////////
+
+
+
+    public VenueDTO addEmployee(Long id, Long employeeId) throws FinderException, UpdateException {
+        try {
+            Venue venue = venueRepository.findById(id)
+                    .orElseThrow(() -> new FinderException("Venue with id {" + id + "} not found"));
+            // Check employee exists
+            Employee employee = employeeRepository.findById(employeeId).orElseThrow(
+                    () -> new FinderException("Employee with id {" + employeeId + "} not found"));
+            venue.addEmployee(employee);
+            Venue savedVenue = venueRepository.save(venue);
+            return VenueMapper.INSTANCE.toVenueDTO(savedVenue);
+        } catch (Exception e) {
+            throw new UpdateException(
+                    "Venue with id {" + id + "} update failed : " + e.getMessage(), e);
+        }
+    }
+
+    public VenueDTO removeEmployee(Long id, Long employeeId)
+            throws FinderException, UpdateException {
+        try {
+            Venue venue = venueRepository.findById(id)
+                    .orElseThrow(() -> new FinderException("Venue with id {" + id + "} not found"));
+            Employee employee = employeeRepository.findById(employeeId).orElseThrow(
+                    () -> new FinderException("Employee with id {" + employeeId + "} not found"));
+            venue.removeEmployee(employee);
+            Venue savedVenue = venueRepository.save(venue);
+            return VenueMapper.INSTANCE.toVenueDTO(savedVenue);
+        } catch (Exception e) {
+            throw new UpdateException(
+                    "Venue with id {" + id + "} update failed : " + e.getMessage(), e);
+        }
+    }
 
 
 }
