@@ -1,7 +1,14 @@
 == My doc
 
+=== Get all employees
 .request 
-include::{snippets}/venues-get-example/curl-request.adoc[]
+include::{snippets}/employees-create-example/curl-request.adoc[]
+// .response 
+// include::{snippets}/employees-create-example/curl-response.adoc[]
 
-.response 
-include::{snippets}/venues-get-example/curl-response.adoc[]
+
+// === Get example venues
+// .request 
+// include::{snippets}/venues-get-example/curl-request.adoc[]
+// .response 
+// include::{snippets}/venues-get-example/curl-response.adoc[]

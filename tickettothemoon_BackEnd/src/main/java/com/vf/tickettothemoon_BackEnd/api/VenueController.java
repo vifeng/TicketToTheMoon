@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.vf.tickettothemoon_BackEnd.domain.dto.VenueDTO;
-import com.vf.tickettothemoon_BackEnd.domain.service.EmployeeService;
 import com.vf.tickettothemoon_BackEnd.domain.service.VenueService;
 import com.vf.tickettothemoon_BackEnd.exception.CreateException;
 import com.vf.tickettothemoon_BackEnd.exception.FinderException;
@@ -34,12 +33,10 @@ import com.vf.tickettothemoon_BackEnd.exception.UpdateException;
 public class VenueController {
 
     private final VenueService venueService;
-    private final EmployeeService employeeService;
 
     @Autowired
-    public VenueController(VenueService venueService, EmployeeService employeeService) {
+    public VenueController(VenueService venueService) {
         this.venueService = venueService;
-        this.employeeService = employeeService;
     }
 
     /**

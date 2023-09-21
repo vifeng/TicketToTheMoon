@@ -40,9 +40,10 @@ useful script for a mysql dump : `SCRIPT NODATA DROP TO 'dump.txt';`
 source : http://www.h2database.com/html/commands.html#script
 
 in the resources folder, the script is executed in the following order :
-schema.sql is executed before data.sql
-data.sql is executed before import.sql
-import.sql is executed before the h2 console is started
+
+- `schema.sql` is executed before data.sql
+- `data.sql` is executed before import.sql
+- `import.sql` is executed before the h2 console is started
 
 ### General Documentation
 
@@ -124,7 +125,9 @@ Mapstruct is used to map entities to DTOs and vice versa. It is a code generator
 Firstly, I used ModelMapper but it is not compatible with the Java Record feature.
 It does seems more easy than ModelMapper to use and configure.
 
-## Swagger Vs SpringDoc Vs Hale Explorer
+if you change an entity, a record or a mapper file, you need to rebuild the project to generate the code. It is not done automatically. in vsCode CTL+ SHIFT+P > Java : clean java langage server workspace to rebuild the project. Also sometimes a gradle clearAll is needed.
+
+## Swagger Vs SpringDoc Vs Hal Explorer
 
 I tried to install swagger but didn't succeeded. I heard about Spring REST Docs during a conference and it seems to be a good alternative to swagger. It is simple, documentation is well written. The advantage is :
 
