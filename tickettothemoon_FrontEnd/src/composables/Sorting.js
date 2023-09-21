@@ -1,22 +1,42 @@
 // Importez la fonction `ref` de Vue
 import { ref } from 'vue'
 
-export function useSorting() {
+export function useSorting(initialItems) {
   // référence réactive pour stocker la liste d'éléments
-  const items = ref([])
+  const items = ref(initialItems)
 
-  function sortByAscending() {
-    items.value.sort((a, b) => a - b)
+  function sortIdByAscending() {
+    items.value.sort((a, b) => a.id - b.id)
   }
 
-  function sortByDescending() {
-    items.value.sort((a, b) => b - a)
+  function sortIdByDescending() {
+    items.value.sort((a, b) => b.id - a.id)
+  }
+
+  function sortUsernameByAscending() {
+    items.value.sort((a, b) => a.username.localeCompare(b.username))
+  }
+
+  function sortUsernameByDescending() {
+    items.value.sort((a, b) => b.username.localeCompare(a.username))
+  }
+
+  function sortNameByAscending() {
+    items.value.sort((a, b) => a.name.localeCompare(b.name))
+  }
+
+  function sortNameByDescending() {
+    items.value.sort((a, b) => b.name.localeCompare(a.name))
   }
 
   // Retournez les fonctions et la liste pour les utiliser dans le composant
   return {
     items,
-    sortByAscending,
-    sortByDescending
+    sortIdByAscending,
+    sortIdByDescending,
+    sortUsernameByAscending,
+    sortUsernameByDescending,
+    sortNameByAscending,
+    sortNameByDescending
   }
 }
