@@ -1,8 +1,5 @@
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <TheWelcome></TheWelcome>
 </template>
 
-<script setup>
-</script>
+<script setup></script>

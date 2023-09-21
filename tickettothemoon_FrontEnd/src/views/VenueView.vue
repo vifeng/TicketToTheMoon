@@ -5,8 +5,7 @@
             <div class="venue" v-for="venue in venuesStore.venues" :key="venue.id">
                 <h2>{{ venue.name }}</h2>
                 <p>{{ venue.address }}</p>
-                <p>{{ venue.contact }}</p>
-                <p>{{ venue.mail }}</p>
+                <p>{{ venue.employees }}</p>
             </div>
         </div>
     </div>

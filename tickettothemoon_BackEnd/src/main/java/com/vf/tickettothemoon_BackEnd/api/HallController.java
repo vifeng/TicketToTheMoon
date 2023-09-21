@@ -78,5 +78,6 @@ public class HallController {
         return ResponseEntity.ok(hallService.deleteHall(id));
     }
 
+    // Other Relations
 
 }
