@@ -2,6 +2,7 @@ package com.vf.tickettothemoon_BackEnd.api;
 
 import java.util.List;
 import java.util.Map;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,7 +28,7 @@ import com.vf.tickettothemoon_BackEnd.exception.UpdateException;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/api/halls")
+@RequestMapping("/api")
 public class HallController {
 
     private final HallService hallService;
@@ -36,25 +37,23 @@ public class HallController {
         this.hallService = hallService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<HallDTO>> getAllHalls() throws FinderException {
+    // Generic routes
+    /**
+     * @apiNote Get all Halls from all Venues - Useful for testing - /halls
+     * @return List<HallDTO>
+     */
+    @GetMapping("/halls")
+    public ResponseEntity<List<HallDTO>> getAllHalls() {
         return ResponseEntity.ok(hallService.findAll());
     }
 
-    @GetMapping("/{id}")
+
+    @GetMapping("/halls/{id}")
     public ResponseEntity<HallDTO> getHallById(@PathVariable Long id) throws FinderException {
         return ResponseEntity.ok(hallService.findById(id));
     }
 
-    @PostMapping
-    public ResponseEntity<HallDTO> createHall(@RequestBody HallDTO hallDTO)
-            throws NullException, CreateException, FinderException, IllegalArgumentException {
-        if (hallDTO == null)
-            throw new NullException("Hall post is null");
-        return ResponseEntity.ok(hallService.createHall(hallDTO));
-    }
-
-    @PutMapping("/{id}")
+    @PutMapping("/halls/{id}")
     public ResponseEntity<HallDTO> updateHall(@PathVariable Long id, @RequestBody HallDTO hallDTO)
             throws FinderException, NullException, UpdateException, IllegalArgumentException {
         if (hallDTO == null)
@@ -62,7 +61,7 @@ public class HallController {
         return ResponseEntity.ok(hallService.updateHall(id, hallDTO));
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/halls/{id}")
     public ResponseEntity<HallDTO> patchHall(@PathVariable Long id,
             @RequestBody Map<String, Object> hallPatch)
             throws FinderException, NullException, PatchException, IllegalArgumentException {
@@ -71,13 +70,49 @@ public class HallController {
         return ResponseEntity.ok(hallService.patchHall(id, hallPatch));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/halls/{id}")
     public ResponseEntity<HallDTO> deleteHall(@PathVariable Long id)
             throws FinderException, RemoveException {
         // TODO_END: at the end because of the cascade
         return ResponseEntity.ok(hallService.deleteHall(id));
     }
 
-    // Other Relations
+    // Restful routes
+
+    ///////////////////////
+    // By VENUE RELATIONSHIP
+    ///////////////////////
+
+    /**
+     * @apiNote Create a Hall attached to a Venue- /venues/{venue_id}/halls
+     * @param hallDTO
+     * @return HallDTO
+     * @throws NullException
+     * @throws CreateException
+     * @throws FinderException
+     * @throws IllegalArgumentException
+     */
+    @PostMapping("/venues/{venue_id}/halls")
+    public ResponseEntity<HallDTO> createHallForVenueId(@PathVariable Long venue_id,
+            @RequestBody HallDTO hallDTO)
+            throws NullException, CreateException, FinderException, IllegalArgumentException {
+        if (hallDTO == null)
+            throw new NullException("Hall post is null");
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(hallService.createHall(venue_id, hallDTO));
+    }
+
+    /**
+     * @apiNote Get all Halls by Venue - /venues/{venue_id}/halls
+     * @param id
+     * @return List<HallDTO>
+     * @throws FinderException
+     */
+    @GetMapping("/venues/{venue_id}/halls")
+    public ResponseEntity<List<HallDTO>> getHallsByVenue(@PathVariable Long venue_id)
+            throws FinderException {
+        return ResponseEntity.ok(hallService.findHallsByVenueId(venue_id));
+    }
+
 
 }

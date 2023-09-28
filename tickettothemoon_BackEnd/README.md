@@ -72,6 +72,8 @@ Connect to the database with the credentials which are in the [application.prope
 # Few usefull commands
 
 ```sh
+gradle bootRun
+# run the application
 gradle build -x test
 # Build without the tests
 CTL+C
@@ -86,6 +88,19 @@ gradle clean build
 # clean the build folder and build the project. recompile the code and execute the Test.
 gradle check
 # run all verification tasks, including tests and linting
+
+# MAPSTRUCT
+# I have added these commands for convenience. But you don't need them since I have added a task to the build.gradle file, so that the mapstruct implementation is generated automatically, when you run `gradle bootRun`.
+gradle mapstructGenerate
+# generate the mapstruct implementation
+gradle mapstructClean
+# clean the mapstruct implementation
+gradle mapstruct
+# clean and generate the mapstruct implementation
+gradle mapstructCompile
+# compile the mapstruct implementation
+
+
 ```
 
 <br>

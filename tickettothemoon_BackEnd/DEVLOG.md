@@ -1,3 +1,32 @@
+TABLE OF CONTENTS
+
+- [Developpement Notes](#developpement-notes)
+  - [Info on the project](#info-on-the-project)
+  - [Useful Documentation](#useful-documentation)
+    - [Documentation rest](#documentation-rest)
+    - [Actuator](#actuator)
+    - [HAL Browser](#hal-browser)
+    - [LiveReload](#livereload)
+    - [h2](#h2)
+    - [General Documentation](#general-documentation)
+  - [Specific bug resolved](#specific-bug-resolved)
+- [Technologies choice](#technologies-choice)
+  - [Record for Dto](#record-for-dto)
+  - [Mapstruct](#mapstruct)
+    - [Recompile and clean the workspace](#recompile-and-clean-the-workspace)
+  - [Swagger Vs SpringDoc Vs Hal Explorer](#swagger-vs-springdoc-vs-hal-explorer)
+- [JPA relationships choice](#jpa-relationships-choice)
+  - [ManyToOne vs OneToMany](#manytoone-vs-onetomany)
+- [Questions / Débat](#questions--débat)
+  - [Vérification de code selon les règles métiers](#vérification-de-code-selon-les-règles-métiers)
+- [TODO DEVLOG :](#todo-devlog-)
+  - [Maintenant :](#maintenant-)
+  - [Plus tard :](#plus-tard-)
+- [Improvements](#improvements)
+  - [Database](#database)
+
+---
+
 # Developpement Notes
 
 ## Info on the project
@@ -125,7 +154,52 @@ Mapstruct is used to map entities to DTOs and vice versa. It is a code generator
 Firstly, I used ModelMapper but it is not compatible with the Java Record feature.
 It does seems more easy than ModelMapper to use and configure.
 
-if you change an entity, a record or a mapper file, you need to rebuild the project to generate the code. It is not done automatically. in vsCode CTL+ SHIFT+P > Java : clean java langage server workspace to rebuild the project. Also sometimes a gradle clearAll is needed.
+### Recompile and clean the workspace
+
+1. manual solution
+   If you change an entity, a record or a mapper file, you need to rebuild the project to generate the code. It is not done automatically. in vsCode CTL+ SHIFT+P > Java : clean java langage server workspace to rebuild the project. Or you can use the following gradle tasks :
+
+```shell
+gradle mapstructGenerate
+# generate the mapstruct implementation, you don't need to clean your workspace on vscode anymore.
+gradle mapstructClean
+# clean the mapstruct implementation
+gradle mapstruct
+# clean and generate the mapstruct implementation
+gradle mapstructCompile
+# compile the mapstruct implementation
+```
+
+2. vscode solution
+   If you are using VSCode, you can add the mapstructGenerate task to your build configuration. To do this, open the .vscode/tasks.json file and add the following task. Once you have added the mapstructGenerate task to your build configuration, you can run it by pressing Ctrl+Shift+B.
+
+```json
+{
+  "type": "shell",
+  "label": "mapstructGenerate",
+  "command": "./gradlew mapstructGenerate",
+  "group": "build",
+  "presentation": {
+    "reveal": "always"
+  }
+}
+```
+
+3. gradle solution
+   In this solution we add a task mapstructGenerate that will be executed before the bootRun task. So you don't need to clean your workspace on vscode anymore. But this code is not working yet. ;)
+
+```kts
+<!--  code not working -->
+tasks.register<JavaExec>("mapstructGenerate") {
+    classpath = sourceSets["main"].compileClasspath + configurations.annotationProcessor
+    mainClass.set("org.mapstruct.tools.Application")
+    args = ["-d", "build/generated/source/mapstruct/main"]
+}
+
+tasks.named("bootRun") {
+    dependsOn("mapstructGenerate")
+}
+```
 
 ## Swagger Vs SpringDoc Vs Hal Explorer
 
@@ -159,3 +233,41 @@ Efficiency :
 
 Exemple : un code postal doit être composé de 5 chiffres.
 La vérification des infos peut se faire en front ou en back pour un update ou post. J'aurais tendance à le faire que côté front, histoire de ne pas doubler le code (problème de vérifications différentes ou doublon de code) et aussi pour ne pas faire de requête inutile à la base de données. En terme de sécurité je ne sais pas si c'est une bonne idée.
+
+# TODO DEVLOG :
+
+## Maintenant :
+
+- [ ] vérifier les relations entre les entités
+  - [ ] Event
+    - [ ]
+  - [ ] Ticket
+  - [ ] Reservation
+  - [ ] Customer_Order
+- [ ] écrire les liens manquants
+  - [ ] payment
+  - [ ] payment_status_category
+- [ ] écrires les entités manquantes (tariffication, Payment, PaumentStatus_Category)
+- [ ] remplir la base de données
+- [ ] faire le controller et servie pour Ticket_Reservation
+
+## Plus tard :
+
+- [ ] apprendre à faire des tests
+- [ ] écrire les tests
+- [ ] écrire la documentation avec Spring REST Docs
+- [ ] vérifier les relations entre les entités que ce soit bien des 1..._ et pas des 0..._
+- [ ] faire des packages pour le domain?
+  - [ ] Event
+  - [ ] Ticket
+  - [ ] Reservation
+  - [ ] Customer_Order
+
+# Improvements
+
+## Database
+
+- [ ] a table bewteen hall and configurationHall could be added to guarantee that a configurationHall has a unique name per Venue.
+- [ ] SessionEvent could have a typeOfEvent attribute to know if the session is cheaper/expensier beacause it is happenning at a special time.
+- [ ] Event could have a closedDate attribute to know when the event is closed for reservation. It could be null if the event is always open. It could be a date or a period or every mondays.
+- [ ]

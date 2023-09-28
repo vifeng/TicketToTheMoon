@@ -2,6 +2,7 @@ package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -23,11 +24,13 @@ public class SessionEvent implements Serializable {
     private int durationInMinutes;
     private LocalDateTime dateAndTimeEndSessionEvent;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},
+            optional = false)
     @JoinColumn(name = "Event_FK")
     private Event event;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},
+            optional = false)
     @JoinColumn(name = "ConfigurationHall_FK")
     private ConfigurationHall configurationHall;
 

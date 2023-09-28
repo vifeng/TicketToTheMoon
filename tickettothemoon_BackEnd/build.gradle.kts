@@ -112,3 +112,4 @@ tasks.register<Delete>("clearAll") {
 	delete (".idea")
     dependsOn(tasks.clean)
 }
+
