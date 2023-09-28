@@ -1,6 +1,7 @@
 package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,28 +21,24 @@ public class CategoryTariff implements Serializable {
     @Column(unique = true, nullable = false, length = 50)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "ConfigurationHall_FK")
-    private ConfigurationHall configurationHall;
 
-    @ManyToOne
-    @JoinColumn(name = "Price_FK")
-    private Price price;
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},
+            optional = false)
+    @JoinColumn(name = "Tarification_FK")
+    private Tarification tarification;
 
 
     public CategoryTariff() {}
 
-    public CategoryTariff(Long id, String name, ConfigurationHall configurationHall, Price price) {
+    public CategoryTariff(Long id, String name, Tarification tarification) {
         setId(id);
         setName(name);
-        setConfigurationHall(configurationHall);
-        setPrice(price);
+        setTarification(tarification);
     }
 
-    public CategoryTariff(String name, ConfigurationHall configurationHall, Price Price) {
+    public CategoryTariff(String name, Tarification tarification) {
         setName(name);
-        setConfigurationHall(configurationHall);
-        setPrice(price);
+        setTarification(tarification);
     }
 
     public Long getId() {
@@ -60,26 +57,20 @@ public class CategoryTariff implements Serializable {
         this.name = name;
     }
 
-    public ConfigurationHall getConfigurationHall() {
-        return configurationHall;
+    public Tarification getTarification() {
+        return tarification;
     }
 
-    public void setConfigurationHall(ConfigurationHall configurationHall) {
-        this.configurationHall = configurationHall;
-    }
-
-    public Price getPrice() {
-        return price;
-    }
-
-    public void setPrice(Price price) {
-        this.price = price;
+    public void setTarification(Tarification tarification) {
+        this.tarification = tarification;
     }
 
     @Override
     public String toString() {
-        return "Area [id=" + id + ", name=" + name + ", configurationHall=" + configurationHall
+        return "CategoryTariff [id=" + id + ", name=" + name + ", tarification=" + tarification
                 + "]";
     }
+
+
 
 }

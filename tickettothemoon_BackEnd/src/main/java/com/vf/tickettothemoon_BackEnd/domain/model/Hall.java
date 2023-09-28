@@ -27,7 +27,6 @@ public class Hall implements Serializable {
      */
     private int capacityOfHall;
 
-    // TOTEST: cascade options
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},
             optional = false)
     @JoinColumn(name = "Venue_FK")
