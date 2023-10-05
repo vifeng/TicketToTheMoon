@@ -26,6 +26,10 @@ public class Seat implements Serializable {
     private char rowNo;
     private int seatNo;
     private boolean isBooked = false;
+    // relationships
+    @ManyToOne
+    @JoinColumn(name = "ConfigurationHall_FK")
+    private ConfigurationHall configurationHall;
 
     @ManyToOne
     @JoinColumn(name = "CategorySpatial_FK")
@@ -35,22 +39,13 @@ public class Seat implements Serializable {
     @JoinColumn(name = "CategoryTariff_FK")
     private CategoryTariff categoryTariff;
 
-    @ManyToOne
-    @JoinColumn(name = "ConfigurationHall_FK")
-    private ConfigurationHall configurationHall;
 
-    /**
-     * many-to-many Bidirectional child side of the relationship (@mappedBy). We will also use the
-     * constraint : cascade property to cascade all operations except REMOVE because we do not want
-     * to delete all associated ticket_reservation, if a seat gets deleted.
-     * FYI @JsonIgnoreProperties is used to avoid the infinite recursion
-     */
     @ManyToMany(mappedBy = "seats",
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
                     CascadeType.REFRESH},
             fetch = FetchType.LAZY)
     @JsonIgnoreProperties("seats")
-    private List<Ticket_Reservation> ticket_Reservations = new ArrayList<>();
+    private List<SessionEvent> sessionEvents = new ArrayList<>();
 
     public Seat() {}
 
@@ -58,13 +53,13 @@ public class Seat implements Serializable {
      * Constructor with id. for a seated seat with a number and row or standing seat or free
      * isSeated placement
      */
-    public Seat(Long id, boolean isSeated, int seatNo, char rowNo, CategorySpatial categorySpatial,
-            CategoryTariff categoryTariff, boolean isBooked, ConfigurationHall configurationHall,
-            List<Ticket_Reservation> ticket_Reservations) {
-        setId(id);
+    public Seat(Long id, boolean isBooked, boolean isSeated, int seatNo, char rowNo,
+            CategorySpatial categorySpatial, CategoryTariff categoryTariff,
+            ConfigurationHall configurationHall, List<SessionEvent> sessionEvents) {
         setIsBooked(isBooked);
+        setId(id);
         if (isSeated) {
-            setIsSeated(true);
+            setIsSeated(isSeated);
             setSeatNo(seatNo);
             setRowNo(rowNo);
         } else {
@@ -73,19 +68,19 @@ public class Seat implements Serializable {
         setCategorySpatial(categorySpatial);
         setCategoryTariff(categoryTariff);
         setConfigurationHall(configurationHall);
-        setTicket_Reservations(ticket_Reservations);
+        setSessionEvents(sessionEvents);
     }
 
 
     /*
-     * Constructor without id, configurationHall and Ticket_Reservation. For a seated seat with a
-     * number and row or standing seat or free seated placement
+     * Constructor without id.
      */
-    public Seat(boolean isSeated, int seatNo, char rowNo, CategorySpatial categorySpatial,
-            CategoryTariff categoryTariff, boolean isBooked) {
+    public Seat(boolean isBooked, boolean isSeated, int seatNo, char rowNo,
+            CategorySpatial categorySpatial, CategoryTariff categoryTariff,
+            ConfigurationHall configurationHall, List<SessionEvent> sessionEvents) {
         setIsBooked(isBooked);
         if (isSeated) {
-            setIsSeated(true);
+            setIsSeated(isSeated);
             setSeatNo(seatNo);
             setRowNo(rowNo);
         } else {
@@ -93,6 +88,9 @@ public class Seat implements Serializable {
         }
         setCategorySpatial(categorySpatial);
         setCategoryTariff(categoryTariff);
+        setConfigurationHall(configurationHall);
+        setSessionEvents(sessionEvents);
+
     }
 
 
@@ -136,6 +134,10 @@ public class Seat implements Serializable {
         this.isBooked = isBooked;
     }
 
+    ///////////////////
+    // RELATIONSHIPS //
+    ///////////////////
+
     public CategorySpatial getCategorySpatial() {
         return categorySpatial;
     }
@@ -160,12 +162,13 @@ public class Seat implements Serializable {
         this.configurationHall = configurationHall;
     }
 
-    public List<Ticket_Reservation> getTicket_Reservations() {
-        return ticket_Reservations;
+    // many to many bidirectionnal relationship child side
+    public List<SessionEvent> getSessionEvents() {
+        return sessionEvents;
     }
 
-    public void setTicket_Reservations(List<Ticket_Reservation> ticket_Reservations) {
-        this.ticket_Reservations = ticket_Reservations;
+    public void setSessionEvents(List<SessionEvent> sessionEvents) {
+        this.sessionEvents = sessionEvents;
     }
 
 
@@ -175,9 +178,11 @@ public class Seat implements Serializable {
     @Override
     public String toString() {
         return "Seat [id=" + id + ", isSeated=" + isSeated + ", rowNo=" + rowNo + ", seatNo="
-                + seatNo + ", isBooked=" + isBooked + ", categorySpatial=" + categorySpatial
-                + ", categoryTariff=" + categoryTariff + ", configurationHall=" + configurationHall
-                + "]";
+                + seatNo + ", isBooked=" + isBooked + ", configurationHall=" + configurationHall
+                + ", categorySpatial=" + categorySpatial + ", categoryTariff=" + categoryTariff
+                + ", sessionEvents=" + sessionEvents + "]";
     }
+
+
 
 }

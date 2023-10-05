@@ -90,7 +90,6 @@ gradle check
 # run all verification tasks, including tests and linting
 
 # MAPSTRUCT
-# I have added these commands for convenience. But you don't need them since I have added a task to the build.gradle file, so that the mapstruct implementation is generated automatically, when you run `gradle bootRun`.
 gradle mapstructGenerate
 # generate the mapstruct implementation
 gradle mapstructClean

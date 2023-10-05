@@ -239,17 +239,21 @@ La vérification des infos peut se faire en front ou en back pour un update ou p
 ## Maintenant :
 
 - [ ] vérifier les relations entre les entités
-  - [ ] Event
-    - [ ]
-  - [ ] Ticket
+  - [x] Event
+  - [x] Ticket
+    - [x] CategorySpatial
+    - [ ] Seat
+    - [x] CategoryTariff
+    - [x] Tariffication
   - [ ] Reservation
-  - [ ] Customer_Order
-- [ ] écrire les liens manquants
-  - [ ] payment
-  - [ ] payment_status_category
-- [ ] écrires les entités manquantes (tariffication, Payment, PaumentStatus_Category)
+    - [ ] TicketReservation
+  - [x] Customer_Order
+    - [x] Customer
+    - [x] payment
+    - [x] payment_status_category
+- [x] écrires les entités manquantes (tariffication, Payment, PaumentStatus_Category)
 - [ ] remplir la base de données
-- [ ] faire le controller et servie pour Ticket_Reservation
+- [ ] faire le controller et service pour Ticket_Reservation
 
 ## Plus tard :
 

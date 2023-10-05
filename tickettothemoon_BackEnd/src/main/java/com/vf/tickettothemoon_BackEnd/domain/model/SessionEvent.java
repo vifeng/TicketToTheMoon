@@ -2,11 +2,16 @@ package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
 /**
@@ -24,6 +29,7 @@ public class SessionEvent implements Serializable {
     private int durationInMinutes;
     private LocalDateTime dateAndTimeEndSessionEvent;
 
+    // relationships
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},
             optional = false)
     @JoinColumn(name = "Event_FK")
@@ -34,24 +40,31 @@ public class SessionEvent implements Serializable {
     @JoinColumn(name = "ConfigurationHall_FK")
     private ConfigurationHall configurationHall;
 
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinTable(name = "Ticket_Reservation", joinColumns = @JoinColumn(name = "SessionEvent_FK"),
+            inverseJoinColumns = @JoinColumn(name = "Seat_FK"))
+    @JsonIgnoreProperties("sessionEvents")
+    private List<Seat> seats = new ArrayList<>();
 
     public SessionEvent() {}
 
     public SessionEvent(Long id, LocalDateTime dateAndTimeStartSessionEvent, int durationInMinutes,
-            Event event, ConfigurationHall configurationHall) {
+            Event event, ConfigurationHall configurationHall, List<Seat> seats) {
         setId(id);
         setDateAndTimeStartSessionEvent(dateAndTimeStartSessionEvent);
         setDurationInMinutes(durationInMinutes);
         setEvent(event);
         setConfigurationHall(configurationHall);
+        setSeats(seats);
     }
 
     public SessionEvent(LocalDateTime dateAndTimeStartSessionEvent, int durationInMinutes,
-            Event event, ConfigurationHall configurationHall) {
+            Event event, ConfigurationHall configurationHall, List<Seat> seats) {
         setDateAndTimeStartSessionEvent(dateAndTimeStartSessionEvent);
         setDurationInMinutes(durationInMinutes);
         setEvent(event);
         setConfigurationHall(configurationHall);
+        setSeats(seats);
     }
 
     //////////////
@@ -99,8 +112,9 @@ public class SessionEvent implements Serializable {
         this.durationInMinutes = durationInMinutes;
     }
 
-    // relationships
-
+    ///////////////////
+    // RELATIONSHIPS //
+    ///////////////////
     public Event getEvent() {
         return event;
     }
@@ -117,13 +131,35 @@ public class SessionEvent implements Serializable {
     public void setConfigurationHall(ConfigurationHall configurationHall) {
         this.configurationHall = configurationHall;
     }
+    // set up many to many bidirectionnal relationship owner side
+
+    public void addSeats(Seat seat) {
+        seats.add(seat);
+        seat.getSessionEvents().add(this);
+    }
+
+
+    public void removeSeats(Seat seat) {
+        if (seats != null)
+            seats.remove(seat);
+        seat.getSessionEvents().remove(this);
+    }
+
+    public List<Seat> getSeats() {
+        return seats;
+    }
+
+    public void setSeats(List<Seat> seats) {
+        if (seats != null)
+            this.seats = seats;
+    }
 
     @Override
     public String toString() {
         return "SessionEvent [id=" + id + ", dateAndTimeStartSessionEvent="
                 + dateAndTimeStartSessionEvent + ", durationInMinutes=" + durationInMinutes
                 + ", dateAndTimeEndSessionEvent=" + dateAndTimeEndSessionEvent + ", event=" + event
-                + "]";
+                + ", configurationHall=" + configurationHall + ", seats=" + seats + "]";
     }
 
 

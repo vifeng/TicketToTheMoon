@@ -187,14 +187,23 @@ public class VenueService {
     ///////////////////////
 
 
-
+    /**
+     * add an employee venues/{id}/employees/{employeeId}
+     * 
+     * @param id
+     * @param employeeId
+     * @return
+     * @throws FinderException
+     * @throws UpdateException
+     */
     public VenueDTO addEmployee(Long id, Long employeeId) throws FinderException, UpdateException {
         try {
             Venue venue = venueRepository.findById(id)
                     .orElseThrow(() -> new FinderException("Venue with id {" + id + "} not found"));
             // Check employee exists
-            Employee employee = employeeRepository.findById(employeeId).orElseThrow(
-                    () -> new FinderException("Employee with id {" + employeeId + "} not found"));
+            Employee employee = employeeRepository.findById(employeeId)
+                    .orElseThrow(() -> new FinderException("Employee with id {" + employeeId
+                            + "} not found. create employee first."));
             venue.addEmployee(employee);
             Venue savedVenue = venueRepository.save(venue);
             return VenueMapper.INSTANCE.toVenueDTO(savedVenue);

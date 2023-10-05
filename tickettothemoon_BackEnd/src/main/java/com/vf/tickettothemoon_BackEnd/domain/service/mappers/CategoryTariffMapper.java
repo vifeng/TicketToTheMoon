@@ -12,14 +12,14 @@ public interface CategoryTariffMapper {
 
     CategoryTariffMapper INSTANCE = Mappers.getMapper(CategoryTariffMapper.class);
 
-    CategoryTariffDTO toAreaDTO(CategoryTariff area);
+    CategoryTariffDTO toCategoryTariffDTO(CategoryTariff categoryTariff);
 
-    CategoryTariff toArea(CategoryTariffDTO areaDTO);
+    CategoryTariff toCategoryTariff(CategoryTariffDTO categoryTariffDTO);
 
     @IterableMapping(elementTargetType = CategoryTariffDTO.class)
-    List<CategoryTariffDTO> toAreaDTOs(Iterable<CategoryTariff> areas);
+    List<CategoryTariffDTO> toCategoriesTariffDTOs(Iterable<CategoryTariff> categoriesTariffs);
 
     @IterableMapping(elementTargetType = CategoryTariff.class)
-    List<CategoryTariff> toAreas(Iterable<CategoryTariffDTO> areaDTOs);
+    List<CategoryTariff> toCategoriesTariffs(Iterable<CategoryTariffDTO> categoriesTariffsDTOs);
 
 }
