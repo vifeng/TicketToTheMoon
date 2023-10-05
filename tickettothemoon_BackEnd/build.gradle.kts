@@ -50,6 +50,8 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+	// If you are using mapstruct in test code
+	testAnnotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
 }
 
 asciidoctorj {

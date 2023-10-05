@@ -3,24 +3,22 @@ package com.vf.tickettothemoon_BackEnd.domain.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 
+/**
+ * This is an association class between Seat and SessionEvent. It has a composite keys which can be
+ * found in Ticket_ReservationId class.
+ */
 @Entity
 public class Ticket_Reservation implements Serializable {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+    @EmbeddedId
+    private final Ticket_ReservationId id;
+
 
     private Timestamp reservation_creationTimestamp;
     /**
@@ -44,39 +42,32 @@ public class Ticket_Reservation implements Serializable {
      */
     private double total_price_ht;
 
-    // TODO: finish the relationship setup
+    // relationships
     @ManyToOne
     @JoinColumn(name = "Customer_FK")
     private Customer customer;
 
+    // composite keys
     @ManyToOne
-    @JoinColumn(name = "SessionEvent_FK")
+    @MapsId("seatId")
+    private Seat seat;
+
+    @ManyToOne
+    @MapsId("sessionId")
     private SessionEvent sessionEvent;
 
 
-    // TODO : add sessionEvent_id to the joinTable
 
-    /**
-     * constraint : if a Reservation is deleted the associated seat should not be deleted and vice
-     * versa. many-to-many Bidirectional owner side of the relationship (@JoinTable)
-     */
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinTable(name = "Ticket_Reservation_Seat",
-            joinColumns = @JoinColumn(name = "Ticket_Reservation_FK"),
-            inverseJoinColumns = @JoinColumn(name = "Seat_FK"))
-    @JsonIgnoreProperties("ticket_Reservations")
-    private List<Seat> seats = new ArrayList<>();
+    public Ticket_Reservation() {
+        this.id = null;
+    }
 
 
 
-    public Ticket_Reservation() {}
-
-
-
-    public Ticket_Reservation(Long id, Timestamp reservation_creationTimestamp,
+    public Ticket_Reservation(Ticket_ReservationId id, Timestamp reservation_creationTimestamp,
             LocalDateTime reservation_expiryDateTime, LocalDateTime expiryTime,
-            double total_price_ht, Customer customer, SessionEvent sessionEvent) {
-        setId(id);
+            double total_price_ht, Customer customer, SessionEvent sessionEvent, Seat seat) {
+        this.id = id;
         setReservation_creationTimestamp(reservation_creationTimestamp);
         setReservation_expiryDateTime(reservation_expiryDateTime);
         setExpiryTime(expiryTime);
@@ -87,25 +78,20 @@ public class Ticket_Reservation implements Serializable {
 
     public Ticket_Reservation(Timestamp reservation_creationTimestamp,
             LocalDateTime reservation_expiryDateTime, LocalDateTime expiryTime,
-            double total_price_ht, Customer customer, SessionEvent sessionEvent) {
+            double total_price_ht, Customer customer, SessionEvent sessionEvent, Seat seat) {
         setReservation_creationTimestamp(reservation_creationTimestamp);
         setReservation_expiryDateTime(reservation_expiryDateTime);
         setExpiryTime(expiryTime);
         setTotal_price_ht(total_price_ht);
         setCustomer(customer);
         setSessionEvent(sessionEvent);
+        addSeats(seat);
     }
 
 
 
-    public Long getId() {
+    public Ticket_ReservationId getId() {
         return id;
-    }
-
-
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
 
@@ -157,6 +143,9 @@ public class Ticket_Reservation implements Serializable {
     }
 
 
+    ///////////////////
+    // RELATIONSHIPS //
+    ///////////////////
 
     public Customer getCustomer() {
         return customer;
@@ -181,19 +170,26 @@ public class Ticket_Reservation implements Serializable {
     }
 
 
-    // set up many to many bidirectionnal relationship
 
-    public void addSeats(Seat seat) {
-        seats.add(seat);
-        seat.getTicket_Reservations().add(this);
+    public Seat getSeat() {
+        return seat;
     }
 
 
 
-    public void removeSeats(Seat seat) {
-        if (seats != null)
-            seats.remove(seat);
-        seat.getTicket_Reservations().remove(this);
+    public void setSeat(Seat seat) {
+        this.seat = seat;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "Ticket_Reservation [id=" + id + ", reservation_creationTimestamp="
+                + reservation_creationTimestamp + ", reservation_expiryDateTime="
+                + reservation_expiryDateTime + ", expiryTime=" + expiryTime + ", total_price_ht="
+                + total_price_ht + ", customer=" + customer + ", seat=" + seat + ", sessionEvent="
+                + sessionEvent + "]";
     }
 
 
