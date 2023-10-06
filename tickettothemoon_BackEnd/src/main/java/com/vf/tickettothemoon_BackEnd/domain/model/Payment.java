@@ -18,8 +18,8 @@ public class Payment {
     private LocalDateTime paymentDateTime;
 
     @ManyToOne
-    @JoinColumn(name = "Ticket_Reservation_FK")
-    private Ticket_Reservation ticket_Reservation;
+    @JoinColumn(name = "Booking_FK")
+    private Booking booking;
 
     @ManyToOne
     @JoinColumn(name = "PaymentStatus_category_FK")
@@ -28,18 +28,18 @@ public class Payment {
 
     public Payment() {}
 
-    public Payment(Long id, LocalDateTime paymentDateTime, Ticket_Reservation ticket_Reservation,
+    public Payment(Long id, LocalDateTime paymentDateTime, Booking booking,
             PaymentStatus_category paymentStatus_category) {
         setId(id);
         setPaymentDateTime(paymentDateTime);
-        setTicket_Reservation(ticket_Reservation);
+        setBooking(booking);
         setPaymentStatus_category(paymentStatus_category);
     }
 
-    public Payment(LocalDateTime paymentDateTime, Ticket_Reservation ticket_Reservation,
+    public Payment(LocalDateTime paymentDateTime, Booking booking,
             PaymentStatus_category paymentStatus_category) {
         setPaymentDateTime(paymentDateTime);
-        setTicket_Reservation(ticket_Reservation);
+        setBooking(booking);
         setPaymentStatus_category(paymentStatus_category);
     }
 
@@ -59,12 +59,12 @@ public class Payment {
         this.paymentDateTime = paymentDateTime;
     }
 
-    public Ticket_Reservation getTicket_Reservation() {
-        return ticket_Reservation;
+    public Booking getBooking() {
+        return this.booking;
     }
 
-    public void setTicket_Reservation(Ticket_Reservation ticket_Reservation) {
-        this.ticket_Reservation = ticket_Reservation;
+    public void setBooking(Booking booking) {
+        this.booking = booking;
     }
 
     public PaymentStatus_category getPaymentStatus_category() {
@@ -77,9 +77,8 @@ public class Payment {
 
     @Override
     public String toString() {
-        return "Payment [id=" + id + ", paymentDateTime=" + paymentDateTime
-                + ", ticket_Reservation=" + ticket_Reservation + ", paymentStatus_category="
-                + paymentStatus_category + "]";
+        return "Payment [id=" + id + ", paymentDateTime=" + paymentDateTime + ", booking=" + booking
+                + ", paymentStatus_category=" + paymentStatus_category + "]";
     }
 
 

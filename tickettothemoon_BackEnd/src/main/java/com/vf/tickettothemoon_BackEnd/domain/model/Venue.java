@@ -33,7 +33,7 @@ public class Venue implements Serializable {
     private Address address;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "venue_id")
+    @JoinColumn(name = "venue_FK")
     Set<Employee> employees = new HashSet<>();
 
 

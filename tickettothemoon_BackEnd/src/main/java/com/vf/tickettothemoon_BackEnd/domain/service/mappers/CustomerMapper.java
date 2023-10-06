@@ -1,9 +1,11 @@
 package com.vf.tickettothemoon_BackEnd.domain.service.mappers;
 
 import java.util.List;
+
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
 import com.vf.tickettothemoon_BackEnd.domain.dto.AddressDTO;
 import com.vf.tickettothemoon_BackEnd.domain.dto.CustomerDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Address;
@@ -30,6 +32,7 @@ public interface CustomerMapper {
     // Utilisation de AddressMapper pour mapper Address
     AddressMapper ADDRESS_MAPPER = Mappers.getMapper(AddressMapper.class);
 
+    // Mappage for Address with ADDRESS and its DTO
     default AddressDTO toAddressDTO(Address address) {
         if (address == null) {
             return null;
@@ -44,7 +47,7 @@ public interface CustomerMapper {
         return ADDRESS_MAPPER.toAddress(addressDTO);
     }
 
-    // Mappage for Address with Customer and its DTO
+    // Mappage for Address with CUSTOMER and its DTO
     default AddressDTO toAddressDTO(Customer customer) {
         if (customer == null) {
             return null;
