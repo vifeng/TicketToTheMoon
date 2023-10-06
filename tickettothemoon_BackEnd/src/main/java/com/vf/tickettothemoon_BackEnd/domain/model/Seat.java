@@ -25,7 +25,6 @@ public class Seat implements Serializable {
     private boolean isSeated = false;
     private char rowNo;
     private int seatNo;
-    private boolean isBooked = false;
     // relationships
     @ManyToOne
     @JoinColumn(name = "ConfigurationHall_FK")
@@ -53,10 +52,9 @@ public class Seat implements Serializable {
      * Constructor with id. for a seated seat with a number and row or standing seat or free
      * isSeated placement
      */
-    public Seat(Long id, boolean isBooked, boolean isSeated, int seatNo, char rowNo,
-            CategorySpatial categorySpatial, CategoryTariff categoryTariff,
-            ConfigurationHall configurationHall, List<SessionEvent> sessionEvents) {
-        setIsBooked(isBooked);
+    public Seat(Long id, boolean isSeated, int seatNo, char rowNo, CategorySpatial categorySpatial,
+            CategoryTariff categoryTariff, ConfigurationHall configurationHall,
+            List<SessionEvent> sessionEvents) {
         setId(id);
         if (isSeated) {
             setIsSeated(isSeated);
@@ -75,10 +73,9 @@ public class Seat implements Serializable {
     /*
      * Constructor without id.
      */
-    public Seat(boolean isBooked, boolean isSeated, int seatNo, char rowNo,
-            CategorySpatial categorySpatial, CategoryTariff categoryTariff,
-            ConfigurationHall configurationHall, List<SessionEvent> sessionEvents) {
-        setIsBooked(isBooked);
+    public Seat(boolean isSeated, int seatNo, char rowNo, CategorySpatial categorySpatial,
+            CategoryTariff categoryTariff, ConfigurationHall configurationHall,
+            List<SessionEvent> sessionEvents) {
         if (isSeated) {
             setIsSeated(isSeated);
             setSeatNo(seatNo);
@@ -126,13 +123,7 @@ public class Seat implements Serializable {
         this.seatNo = seatNo;
     }
 
-    public boolean getIsBooked() {
-        return isBooked;
-    }
 
-    public void setIsBooked(boolean isBooked) {
-        this.isBooked = isBooked;
-    }
 
     ///////////////////
     // RELATIONSHIPS //
@@ -178,9 +169,9 @@ public class Seat implements Serializable {
     @Override
     public String toString() {
         return "Seat [id=" + id + ", isSeated=" + isSeated + ", rowNo=" + rowNo + ", seatNo="
-                + seatNo + ", isBooked=" + isBooked + ", configurationHall=" + configurationHall
-                + ", categorySpatial=" + categorySpatial + ", categoryTariff=" + categoryTariff
-                + ", sessionEvents=" + sessionEvents + "]";
+                + seatNo + ", configurationHall=" + configurationHall + ", categorySpatial="
+                + categorySpatial + ", categoryTariff=" + categoryTariff + ", sessionEvents="
+                + sessionEvents + "]";
     }
 
 

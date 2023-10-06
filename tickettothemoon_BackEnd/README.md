@@ -90,6 +90,7 @@ gradle check
 # run all verification tasks, including tests and linting
 
 # MAPSTRUCT
+# this task doesn't exists.
 gradle mapstructGenerate
 # generate the mapstruct implementation
 gradle mapstructClean

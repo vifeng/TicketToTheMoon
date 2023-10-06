@@ -41,8 +41,8 @@ public class SessionEvent implements Serializable {
     private ConfigurationHall configurationHall;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinTable(name = "Ticket_Reservation", joinColumns = @JoinColumn(name = "SessionEvent_FK"),
-            inverseJoinColumns = @JoinColumn(name = "Seat_FK"))
+    @JoinTable(name = "Ticket_Reservation", joinColumns = @JoinColumn(name = "sessionEvent_FK"),
+            inverseJoinColumns = @JoinColumn(name = "seat_FK"))
     @JsonIgnoreProperties("sessionEvents")
     private List<Seat> seats = new ArrayList<>();
 

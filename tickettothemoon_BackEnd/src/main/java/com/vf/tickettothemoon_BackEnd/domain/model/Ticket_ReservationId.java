@@ -6,24 +6,26 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public class Ticket_ReservationId implements Serializable {
 
-    private final Long id;
-    private final Long seatId;
-    private final Long sessionId;
+    private Long id;
+    private Long seatId;
+    private Long sessionEventId;
 
     private Ticket_ReservationId() {
         this.id = null;
         this.seatId = null;
-        this.sessionId = null;
+        this.sessionEventId = null;
     }
 
-    public Ticket_ReservationId(Long id, Long seatId, Long sessionId) {
+    public Ticket_ReservationId(Long id, Long seatId, Long sessionEventId) {
         this.id = id;
         this.seatId = seatId;
-        this.sessionId = sessionId;
+        this.sessionEventId = sessionEventId;
     }
 
-    // the fields within the embeddable class should be made immutable (i.e., no setters, or the
-    // setters should be protected/private) to ensure that the key remains consistent throughout the
+    // the fields within the embeddable class should be made immutable (i.e., no
+    // setters, or the
+    // setters should be protected/private) to ensure that the key remains
+    // consistent throughout the
     // entity's lifecycle.
 
     public Long getId() {
@@ -34,7 +36,7 @@ public class Ticket_ReservationId implements Serializable {
         return seatId;
     }
 
-    public Long getSessionId() {
-        return sessionId;
+    public Long getSessionEventId() {
+        return sessionEventId;
     }
 }
