@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.vf.tickettothemoon_BackEnd.domain.dao.HallRepository;
 import com.vf.tickettothemoon_BackEnd.domain.dao.VenueRepository;
 import com.vf.tickettothemoon_BackEnd.domain.dto.HallDTO;
@@ -17,7 +18,6 @@ import com.vf.tickettothemoon_BackEnd.exception.CreateException;
 import com.vf.tickettothemoon_BackEnd.exception.DuplicateKeyException;
 import com.vf.tickettothemoon_BackEnd.exception.FinderException;
 import com.vf.tickettothemoon_BackEnd.exception.UpdateException;
-import jakarta.transaction.Transactional;
 
 @Service
 @Transactional

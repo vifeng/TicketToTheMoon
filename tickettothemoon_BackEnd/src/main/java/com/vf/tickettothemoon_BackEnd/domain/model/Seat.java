@@ -38,7 +38,11 @@ public class Seat implements Serializable {
     @JoinColumn(name = "CategoryTariff_FK")
     private CategoryTariff categoryTariff;
 
+    @ManyToOne
+    @JoinColumn(name = "Seat_Status_FK")
+    private Seat_Status seat_Status;
 
+    // manytomany bidirectionnal
     @ManyToMany(mappedBy = "seats",
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
                     CascadeType.REFRESH},
@@ -53,8 +57,8 @@ public class Seat implements Serializable {
      * isSeated placement
      */
     public Seat(Long id, boolean isSeated, int seatNo, char rowNo, CategorySpatial categorySpatial,
-            CategoryTariff categoryTariff, ConfigurationHall configurationHall,
-            List<SessionEvent> sessionEvents) {
+            CategoryTariff categoryTariff, Seat_Status seat_status,
+            ConfigurationHall configurationHall) {
         setId(id);
         if (isSeated) {
             setIsSeated(isSeated);
@@ -65,8 +69,8 @@ public class Seat implements Serializable {
         }
         setCategorySpatial(categorySpatial);
         setCategoryTariff(categoryTariff);
+        setSeat_Status(seat_status);
         setConfigurationHall(configurationHall);
-        setSessionEvents(sessionEvents);
     }
 
 
@@ -74,8 +78,8 @@ public class Seat implements Serializable {
      * Constructor without id.
      */
     public Seat(boolean isSeated, int seatNo, char rowNo, CategorySpatial categorySpatial,
-            CategoryTariff categoryTariff, ConfigurationHall configurationHall,
-            List<SessionEvent> sessionEvents) {
+            CategoryTariff categoryTariff, Seat_Status seat_status,
+            ConfigurationHall configurationHall) {
         if (isSeated) {
             setIsSeated(isSeated);
             setSeatNo(seatNo);
@@ -85,9 +89,8 @@ public class Seat implements Serializable {
         }
         setCategorySpatial(categorySpatial);
         setCategoryTariff(categoryTariff);
+        setSeat_Status(seat_status);
         setConfigurationHall(configurationHall);
-        setSessionEvents(sessionEvents);
-
     }
 
 
@@ -145,11 +148,21 @@ public class Seat implements Serializable {
         this.categoryTariff = categoryTariff;
     }
 
+    public Seat_Status getSeat_Status() {
+        return seat_Status;
+    }
+
+    public void setSeat_Status(Seat_Status seat_Status) {
+        this.seat_Status = seat_Status;
+    }
+
     public ConfigurationHall getConfigurationHall() {
         return configurationHall;
     }
 
     public void setConfigurationHall(ConfigurationHall configurationHall) {
+        if (configurationHall == null)
+            throw new IllegalArgumentException("ConfigurationHall cannot be null");
         this.configurationHall = configurationHall;
     }
 

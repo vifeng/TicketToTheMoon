@@ -22,6 +22,11 @@ public class Ticket_ReservationId implements Serializable {
         this.sessionEventId = sessionEventId;
     }
 
+    public Ticket_ReservationId(Long seatId, Long sessionEventId) {
+        this.seatId = seatId;
+        this.sessionEventId = sessionEventId;
+    }
+
     // the fields within the embeddable class should be made immutable (i.e., no
     // setters, or the
     // setters should be protected/private) to ensure that the key remains
