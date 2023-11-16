@@ -69,6 +69,11 @@ public class ConfigurationHall implements Serializable {
     }
 
     public void setCapacityOfConfiguration(int capacityOfConfiguration) {
+        if (capacityOfConfiguration < 0)
+            throw new IllegalArgumentException("capacity must be positive");
+        if (capacityOfConfiguration > hall.getCapacityOfHall())
+            throw new IllegalArgumentException(
+                    "capacity of configuration must be less than capacity of hall");
         this.capacityOfConfiguration = capacityOfConfiguration;
     }
 

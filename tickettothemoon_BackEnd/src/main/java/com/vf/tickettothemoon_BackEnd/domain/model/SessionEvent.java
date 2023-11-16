@@ -40,6 +40,7 @@ public class SessionEvent implements Serializable {
     @JoinColumn(name = "ConfigurationHall_FK")
     private ConfigurationHall configurationHall;
 
+    // manytomany bidirectionnal (owner side)
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(name = "Ticket_Reservation", joinColumns = @JoinColumn(name = "sessionEvent_FK"),
             inverseJoinColumns = @JoinColumn(name = "seat_FK"))
@@ -49,22 +50,20 @@ public class SessionEvent implements Serializable {
     public SessionEvent() {}
 
     public SessionEvent(Long id, LocalDateTime dateAndTimeStartSessionEvent, int durationInMinutes,
-            Event event, ConfigurationHall configurationHall, List<Seat> seats) {
+            Event event, ConfigurationHall configurationHall) {
         setId(id);
         setDateAndTimeStartSessionEvent(dateAndTimeStartSessionEvent);
         setDurationInMinutes(durationInMinutes);
         setEvent(event);
         setConfigurationHall(configurationHall);
-        setSeats(seats);
     }
 
     public SessionEvent(LocalDateTime dateAndTimeStartSessionEvent, int durationInMinutes,
-            Event event, ConfigurationHall configurationHall, List<Seat> seats) {
+            Event event, ConfigurationHall configurationHall) {
         setDateAndTimeStartSessionEvent(dateAndTimeStartSessionEvent);
         setDurationInMinutes(durationInMinutes);
         setEvent(event);
         setConfigurationHall(configurationHall);
-        setSeats(seats);
     }
 
     //////////////
@@ -131,8 +130,8 @@ public class SessionEvent implements Serializable {
     public void setConfigurationHall(ConfigurationHall configurationHall) {
         this.configurationHall = configurationHall;
     }
-    // set up many to many bidirectionnal relationship owner side
 
+    // set up many to many bidirectionnal relationship owner side
     public void addSeats(Seat seat) {
         seats.add(seat);
         seat.getSessionEvents().add(this);

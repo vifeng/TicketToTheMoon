@@ -156,8 +156,10 @@ It does seems more easy than ModelMapper to use and configure.
 
 ### Recompile and clean the workspace
 
+If you change an entity, a record or a mapper file, you need to rebuild the project to generate the code. It is not done automatically. In vsCode **CTL+ SHIFT+P > Java : clean java langage server workspace** to rebuild the project.
+
 1. manual solution
-   If you change an entity, a record or a mapper file, you need to rebuild the project to generate the code. It is not done automatically. in vsCode CTL+ SHIFT+P > Java : clean java langage server workspace to rebuild the project. Or you can use the following gradle tasks :
+   You can use the following gradle tasks :
 
 ```shell
 gradle mapstructGenerate
@@ -171,7 +173,8 @@ gradle mapstructCompile
 ```
 
 2. vscode solution
-   If you are using VSCode, you can add the mapstructGenerate task to your build configuration. To do this, open the .vscode/tasks.json file and add the following task. Once you have added the mapstructGenerate task to your build configuration, you can run it by pressing Ctrl+Shift+B.
+
+   You can add a task to Vscode : you can add the mapstructGenerate task to your build configuration. To do this, open the .vscode/tasks.json file and add the following task. Once you have added the mapstructGenerate task to your build configuration, you can run it by pressing Ctrl+Shift+B.
 
 ```json
 {
@@ -185,7 +188,7 @@ gradle mapstructCompile
 }
 ```
 
-3. gradle solution
+1. gradle solution
    In this solution we add a task mapstructGenerate that will be executed before the bootRun task. So you don't need to clean your workspace on vscode anymore. But this code is not working yet. ;)
 
 ```kts
