@@ -141,6 +141,8 @@ then in vsCode CTL+ SHIFT+P > Java : clean java langage server workspace
 
 - Entities have also reserved names. For example, I couldn't name my entity "User" because it is a reserved name. I changed it to "Customer" and it worked. As well as "Order" which I changed to "Ticket_reservation". I should look for a list of reserved names.
 
+- Composite primary key not found :
+
 # Technologies choice
 
 ## Record for Dto

@@ -1,9 +1,8 @@
 package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.HashSet;
+import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,8 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 /**
  *
@@ -42,13 +41,11 @@ public class Seat implements Serializable {
     @JoinColumn(name = "Seat_Status_FK")
     private Seat_Status seat_Status;
 
-    // manytomany bidirectionnal
-    @ManyToMany(mappedBy = "seats",
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
-                    CascadeType.REFRESH},
-            fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("seats")
-    private List<SessionEvent> sessionEvents = new ArrayList<>();
+    // TOCHECK: FetchType.LAZY or EAGER?
+    // manytomany relationship with composite key and attribute bidirectionnal using
+    // Ticket_Reservation and Ticket_ReservationKey
+    @OneToMany(mappedBy = "seat", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    Set<Ticket_Reservation> ticket_Reservations = new HashSet<>();
 
     public Seat() {}
 
@@ -166,27 +163,53 @@ public class Seat implements Serializable {
         this.configurationHall = configurationHall;
     }
 
-    // many to many bidirectionnal relationship child side
-    public List<SessionEvent> getSessionEvents() {
-        return sessionEvents;
+
+
+    // set up manytomany with composite key relationship
+
+    public Set<Ticket_Reservation> getTicket_Reservations() {
+        return ticket_Reservations;
     }
 
-    public void setSessionEvents(List<SessionEvent> sessionEvents) {
-        this.sessionEvents = sessionEvents;
+    public void setTicket_Reservations(Set<Ticket_Reservation> ticket_Reservations) {
+        this.ticket_Reservations = ticket_Reservations;
     }
 
 
-    // TODO: hashCode and equals methods to be implemented. Tri selon disponibilité et prix.
-    // utiliser Comparator<E> qui permet de faire plusieurs tris.
+    // TODO: Tri selon disponibilité et prix. utiliser Comparator<E> qui permet de faire plusieurs
+    // tris.
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Seat other = (Seat) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
 
     @Override
     public String toString() {
         return "Seat [id=" + id + ", isSeated=" + isSeated + ", rowNo=" + rowNo + ", seatNo="
                 + seatNo + ", configurationHall=" + configurationHall + ", categorySpatial="
-                + categorySpatial + ", categoryTariff=" + categoryTariff + ", sessionEvents="
-                + sessionEvents + "]";
+                + categorySpatial + ", categoryTariff=" + categoryTariff + ", seat_Status="
+                + seat_Status + ", ticket_Reservations=" + ticket_Reservations + "]";
     }
-
-
 
 }

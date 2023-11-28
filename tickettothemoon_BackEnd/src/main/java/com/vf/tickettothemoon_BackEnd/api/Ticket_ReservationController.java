@@ -5,11 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationDTO;
+import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 import com.vf.tickettothemoon_BackEnd.domain.service.Ticket_ReservationService;
 import com.vf.tickettothemoon_BackEnd.exception.CreateException;
 import com.vf.tickettothemoon_BackEnd.exception.NullException;
@@ -31,8 +33,10 @@ public class Ticket_ReservationController {
         return ResponseEntity.ok(ticket_ReservationService.findAll());
     }
 
+    // FIXME: this id might not be correct
     @GetMapping("/{id}")
-    public ResponseEntity<Ticket_ReservationDTO> getTicket_ReservationById(Long id) {
+    public ResponseEntity<Ticket_ReservationDTO> getTicket_ReservationById(
+            @PathVariable Ticket_ReservationKey id) {
         return ResponseEntity.ok(ticket_ReservationService.findById(id));
     }
 

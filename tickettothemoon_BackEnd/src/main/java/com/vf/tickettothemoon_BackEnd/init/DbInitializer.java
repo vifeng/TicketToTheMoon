@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -43,7 +45,6 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Seat_Status;
 import com.vf.tickettothemoon_BackEnd.domain.model.SessionEvent;
 import com.vf.tickettothemoon_BackEnd.domain.model.Tarification;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_Reservation;
-import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationId;
 import com.vf.tickettothemoon_BackEnd.domain.model.Venue;
 
 @Component
@@ -76,8 +77,10 @@ public class DbInitializer {
     TarificationRepository tarificationRepository;
 
     // Package Reservation
+    // @Autowired
+    // Ticket_ReservationIdRepository ticket_ReservationIdRepository;
     @Autowired
-    Ticket_ReservationRepository Ticket_ReservationRepository;
+    Ticket_ReservationRepository ticket_ReservationRepository;
     @Autowired
     BookingRepository bookingRepository;
 
@@ -88,6 +91,8 @@ public class DbInitializer {
     PaymentRepository paymentRepository;
     @Autowired
     PaymentStatus_categoryRepository paymentStatus_categoryRepository;
+
+    private static final Logger log = LoggerFactory.getLogger(DbInitializer.class);
 
     /**
      * Cette méthode est appelée quand l'application démarre. On ne peut pas
@@ -115,43 +120,38 @@ public class DbInitializer {
         CategorySpatial categorySpatial = createCategorySpatial();
         Tarification tarification = createTarification(event);
         CategoryTariff categoryTariff = createCategoryTariff(tarification);
-        // WIP:
         List<Seat_Status> seat_statuses = createSeat_Statuses();
         // la création d'un seat nécessite sessionEvent. devrait être Event ?
-        List<Seat> seats = createSeats(categorySpatial, categoryTariff, seat_statuses.get(0),
-                configurationHall);
-        // sessionEvent is the owner side of the manytomany bidirectionnal relationship
-        SessionEvent sessionEvent = createSessionEvent(event, configurationHall, seats);
         // nécessite seats. devrait juste ajouté un seat à la liste de seats de sessionEvent pas
         // dans le controller ?
+        // FIXME:
+        List<Seat> seats = createSeats(categorySpatial, categoryTariff, seat_statuses.get(0),
+                configurationHall);
+        SessionEvent sessionEvent = createSessionEvent(event, configurationHall, seats);
 
         // Customer order
         Customer customer = createCustomer();
         PaymentStatus_category paymentStatus_category = createPaymentStatus_category();
 
         // Reservation
-        Ticket_ReservationId ticket_ReservationId1 =
-                new Ticket_ReservationId(seats.get(0).getId(), sessionEvent.getId());
-        Ticket_ReservationId ticket_ReservationId2 =
-                new Ticket_ReservationId(seats.get(1).getId(), sessionEvent.getId());
-        Ticket_Reservation oneTicket_Reservation1 =
-                new Ticket_Reservation(ticket_ReservationId1, sessionEvent, seats.get(0), true);
-        Ticket_Reservation oneTicket_Reservation2 =
-                new Ticket_Reservation(ticket_ReservationId2, sessionEvent, seats.get(1), true);
-        Set<Ticket_Reservation> reservations =
-                Set.of(oneTicket_Reservation1, oneTicket_Reservation2);
+        log.info("///////////////////////////////////////////////");
+        log.info("create a ticket reservation");
+        Set<Ticket_Reservation> reservations = createTicket_Reservation(seats, sessionEvent);
+
         // calcul expiration date and time
-        Timestamp booking_creationTimestamp = new Timestamp(System.currentTimeMillis());
-        final int BOOKING_EXPIRYDATETIME = 30;
-        LocalDateTime expiryTime = LocalDateTime.now().plusMinutes(BOOKING_EXPIRYDATETIME);
-        Booking booking = createBooking(booking_creationTimestamp, customer, reservations);
-        if (expiryTime.isBefore(LocalDateTime.now())) {
-            Payment payment = createPayment(booking, paymentStatus_category);
-            // statut place = booked
-        } else {
-            // statut place = available
-            // cancel booking and ticket_reservation
-        }
+        // log.info("///////////////////////////////////////////////");
+        // log.info("Creating a booking");
+        // Timestamp booking_creationTimestamp = new Timestamp(System.currentTimeMillis());
+        // final int BOOKING_EXPIRYDATETIME = 30;
+        // LocalDateTime expiryTime = LocalDateTime.now().plusMinutes(BOOKING_EXPIRYDATETIME);
+        // Booking booking = createBooking(booking_creationTimestamp, customer, reservations);
+        // if (expiryTime.isAfter(LocalDateTime.now())) {
+        // Payment payment = createPayment(booking, paymentStatus_category);
+        // // statut place = booked
+        // } else {
+        // // statut place = available
+        // // cancel booking and ticket_reservation
+        // }
 
     }
 
@@ -240,13 +240,28 @@ public class DbInitializer {
             List<Seat> seats) {
         SessionEvent sessionEvent = new SessionEvent(LocalDateTime.of(2024, 01, 05, 20, 00), 90,
                 event, configurationHall);
-        sessionEvent.setSeats(seats);
         return sessionEventRepository.save(sessionEvent);
     }
 
     // Package Reservation
 
+    private Set<Ticket_Reservation> createTicket_Reservation(List<Seat> seats,
+            SessionEvent sessionEvent) {
+        Ticket_Reservation oneTicket_Reservation1 =
+                new Ticket_Reservation(sessionEvent, seats.get(0), true);
+        Ticket_Reservation oneTicket_Reservation2 =
+                new Ticket_Reservation(sessionEvent, seats.get(1), true);
 
+        log.info("//////////////// TICKETS ///////////////////////////////");
+        log.info("oneTicket_Reservation1: " + oneTicket_Reservation1);
+        log.info("oneTicket_Reservation2: " + oneTicket_Reservation2);
+        ticket_ReservationRepository.save(oneTicket_Reservation1);
+        ticket_ReservationRepository.save(oneTicket_Reservation2);
+
+        Set<Ticket_Reservation> reservations =
+                Set.of(oneTicket_Reservation1, oneTicket_Reservation2);
+        return reservations;
+    }
 
     private Booking createBooking(Timestamp booking_creationTimestamp, Customer customer,
             Set<Ticket_Reservation> reservations) {

@@ -2,17 +2,17 @@ package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.HashSet;
+import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 /**
  * A session event is a session of an event. It has a date, an eventHour and a duration. It is part
@@ -22,7 +22,7 @@ import jakarta.persistence.ManyToOne;
 public class SessionEvent implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private LocalDateTime dateAndTimeStartSessionEvent;
@@ -40,12 +40,12 @@ public class SessionEvent implements Serializable {
     @JoinColumn(name = "ConfigurationHall_FK")
     private ConfigurationHall configurationHall;
 
-    // manytomany bidirectionnal (owner side)
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinTable(name = "Ticket_Reservation", joinColumns = @JoinColumn(name = "sessionEvent_FK"),
-            inverseJoinColumns = @JoinColumn(name = "seat_FK"))
-    @JsonIgnoreProperties("sessionEvents")
-    private List<Seat> seats = new ArrayList<>();
+    // TOCHECK: FetchType.LAZY or EAGER?
+    /// manytomany relationship with composite key and attribute bidirectionnal using
+    /// Ticket_Reservation and Ticket_ReservationKey
+    @OneToMany(mappedBy = "sessionEvent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    Set<Ticket_Reservation> ticket_Reservations = new HashSet<>();
+
 
     public SessionEvent() {}
 
@@ -131,26 +131,39 @@ public class SessionEvent implements Serializable {
         this.configurationHall = configurationHall;
     }
 
-    // set up many to many bidirectionnal relationship owner side
-    public void addSeats(Seat seat) {
-        seats.add(seat);
-        seat.getSessionEvents().add(this);
+    // set up manytomany with composite key relationship
+    public Set<Ticket_Reservation> getTicket_Reservations() {
+        return ticket_Reservations;
+    }
+
+    public void setTicket_Reservations(Set<Ticket_Reservation> ticket_Reservations) {
+        this.ticket_Reservations = ticket_Reservations;
     }
 
 
-    public void removeSeats(Seat seat) {
-        if (seats != null)
-            seats.remove(seat);
-        seat.getSessionEvents().remove(this);
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
     }
 
-    public List<Seat> getSeats() {
-        return seats;
-    }
-
-    public void setSeats(List<Seat> seats) {
-        if (seats != null)
-            this.seats = seats;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        SessionEvent other = (SessionEvent) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
     }
 
     @Override
@@ -158,9 +171,8 @@ public class SessionEvent implements Serializable {
         return "SessionEvent [id=" + id + ", dateAndTimeStartSessionEvent="
                 + dateAndTimeStartSessionEvent + ", durationInMinutes=" + durationInMinutes
                 + ", dateAndTimeEndSessionEvent=" + dateAndTimeEndSessionEvent + ", event=" + event
-                + ", configurationHall=" + configurationHall + ", seats=" + seats + "]";
+                + ", configurationHall=" + configurationHall + ", ticket_Reservations="
+                + ticket_Reservations + "]";
     }
-
-
 
 }

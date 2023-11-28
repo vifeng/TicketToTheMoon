@@ -28,6 +28,7 @@ public class Booking {
     private double total_price_ht;
 
     // relationships
+    // TOCHECK: OneToMany and explain why
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "Booking_FK")
     private Set<Ticket_Reservation> reservations = new HashSet<>();
