@@ -1,7 +1,6 @@
 package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.sql.Timestamp;
-import java.util.HashSet;
 import java.util.Set;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -28,11 +27,15 @@ public class Booking {
     private double total_price_ht;
 
     // relationships
-    // TOCHECK: OneToMany and explain why
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    // OneToMany unidirectional with Ticket_Reservation
+    // TODO_LOW: tester les cascades. Si on supprime une réservation, est-ce que ça supprime le
+    // ticket ? le cascade.all ne marche pas
+    @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true)
     @JoinColumn(name = "Booking_FK")
-    private Set<Ticket_Reservation> reservations = new HashSet<>();
+    private Set<Ticket_Reservation> reservations;
 
+    // TOCHECK: ManyToOne ?
+    // ManyToOne unidirectional with Customer
     @ManyToOne
     @JoinColumn(name = "Customer_FK")
     private Customer customer;
@@ -81,6 +84,7 @@ public class Booking {
     ///////////////////
 
 
+    // OneToMany unidirectional setup with Ticket_Reservation
 
     public Set<Ticket_Reservation> getReservations() {
         return reservations;

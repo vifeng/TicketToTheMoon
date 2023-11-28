@@ -112,7 +112,7 @@ public class DbInitializer {
         Venue venue = createVenue(employee);
         Hall hall = createHall(venue);
         ConfigurationHall configurationHall = createConfigurationHall(hall);
-        // TODO: on devrait choisir le hall puis la configurationHall pour créer un event à faire
+        // TOCHECK: on devrait choisir le hall puis la configurationHall pour créer un event à faire
         // dans le controller ?
         Event event = createEvent(configurationHall);
 
@@ -121,10 +121,9 @@ public class DbInitializer {
         Tarification tarification = createTarification(event);
         CategoryTariff categoryTariff = createCategoryTariff(tarification);
         List<Seat_Status> seat_statuses = createSeat_Statuses();
-        // la création d'un seat nécessite sessionEvent. devrait être Event ?
+        // TOCHECK: la création d'un seat nécessite sessionEvent. devrait être Event ?
         // nécessite seats. devrait juste ajouté un seat à la liste de seats de sessionEvent pas
         // dans le controller ?
-        // FIXME:
         List<Seat> seats = createSeats(categorySpatial, categoryTariff, seat_statuses.get(0),
                 configurationHall);
         SessionEvent sessionEvent = createSessionEvent(event, configurationHall, seats);
@@ -137,21 +136,21 @@ public class DbInitializer {
         log.info("///////////////////////////////////////////////");
         log.info("create a ticket reservation");
         Set<Ticket_Reservation> reservations = createTicket_Reservation(seats, sessionEvent);
-
         // calcul expiration date and time
-        // log.info("///////////////////////////////////////////////");
-        // log.info("Creating a booking");
-        // Timestamp booking_creationTimestamp = new Timestamp(System.currentTimeMillis());
-        // final int BOOKING_EXPIRYDATETIME = 30;
-        // LocalDateTime expiryTime = LocalDateTime.now().plusMinutes(BOOKING_EXPIRYDATETIME);
-        // Booking booking = createBooking(booking_creationTimestamp, customer, reservations);
-        // if (expiryTime.isAfter(LocalDateTime.now())) {
-        // Payment payment = createPayment(booking, paymentStatus_category);
-        // // statut place = booked
-        // } else {
-        // // statut place = available
-        // // cancel booking and ticket_reservation
-        // }
+        log.info("///////////////////////////////////////////////");
+        log.info("Creating a booking");
+        Timestamp booking_creationTimestamp = new Timestamp(System.currentTimeMillis());
+        final int BOOKING_EXPIRYDATETIME = 30;
+        LocalDateTime expiryTime = LocalDateTime.now().plusMinutes(BOOKING_EXPIRYDATETIME);
+        Booking booking = createBooking(booking_creationTimestamp, customer, reservations);
+        if (expiryTime.isAfter(LocalDateTime.now())) {
+            Payment payment = createPayment(booking, paymentStatus_category);
+            // changer le status de la place en booked
+        } else {
+            // changer le status de la place en available
+            // cancel booking and ticket_reservation
+        }
+
 
     }
 
