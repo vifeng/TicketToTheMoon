@@ -10,11 +10,12 @@ TABLE OF CONTENTS
     - [HAL Browser](#hal-browser)
     - [LiveReload](#livereload)
     - [h2](#h2)
+    - [Mapstruct](#mapstruct)
     - [General Documentation](#general-documentation)
   - [Specific bug resolved](#specific-bug-resolved)
 - [Technologies choice](#technologies-choice)
   - [Record for Dto](#record-for-dto)
-  - [Mapstruct](#mapstruct)
+  - [Mapstruct](#mapstruct-1)
     - [Recompile and clean the workspace](#recompile-and-clean-the-workspace)
   - [Swagger Vs SpringDoc Vs Hal Explorer](#swagger-vs-springdoc-vs-hal-explorer)
 - [JPA relationships choice](#jpa-relationships-choice)
@@ -73,6 +74,14 @@ in the resources folder, the script is executed in the following order :
 - `schema.sql` is executed before data.sql
 - `data.sql` is executed before import.sql
 - `import.sql` is executed before the h2 console is started
+
+### Mapstruct
+
+- [official documentation](https://mapstruct.org/documentation/stable/reference/html/#_gradle)
+- [official examples](https://github.com/eugenp/tutorials/tree/master/mapstruct)
+- [official examples with java record](https://github.com/mapstruct/mapstruct-examples/tree/main/mapstruct-record)
+- [quick guide](https://www.baeldung.com/mapstruct)
+- [Mapping Collections](https://www.baeldung.com/java-mapstruct-mapping-collections)
 
 ### General Documentation
 

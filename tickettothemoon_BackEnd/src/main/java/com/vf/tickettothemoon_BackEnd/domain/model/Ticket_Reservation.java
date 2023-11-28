@@ -39,7 +39,6 @@ public class Ticket_Reservation implements Serializable {
         Ticket_ReservationKey ticket_ReservationId = new Ticket_ReservationKey();
         setSessionEvent(sessionEvent);
         setSeat(seat);
-        // new Ticket_ReservationKey(this.seat.getId(), this.sessionEvent.getId());
         this.id = ticket_ReservationId;
         setIsBooked(isBooked);
     }

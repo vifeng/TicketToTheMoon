@@ -29,7 +29,6 @@ public class Venue implements Serializable {
     private String name;
 
     @Embedded
-    // private Address address = new Address();
     private Address address;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -84,7 +83,12 @@ public class Venue implements Serializable {
         this.name = name;
     }
 
-    // OneToMany unidirectional setup
+    ///////////////////
+    // RELATIONSHIPS //
+    ///////////////////
+
+
+    // OneToMany unidirectional setup with Employee
     public Set<Employee> getEmployees() {
         return employees;
     }
