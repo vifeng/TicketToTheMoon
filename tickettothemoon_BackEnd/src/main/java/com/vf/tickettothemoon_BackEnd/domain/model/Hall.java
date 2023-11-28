@@ -74,6 +74,8 @@ public class Hall implements Serializable {
     }
 
     public void setCapacityOfHall(int capacityOfHall) {
+        if (capacityOfHall == 0)
+            throw new IllegalArgumentException("capacityOfHall must be positive");
         this.capacityOfHall = capacityOfHall;
     }
 

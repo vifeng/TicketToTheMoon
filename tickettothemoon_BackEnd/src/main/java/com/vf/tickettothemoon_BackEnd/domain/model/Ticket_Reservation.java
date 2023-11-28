@@ -3,6 +3,7 @@ package com.vf.tickettothemoon_BackEnd.domain.model;
 import java.io.Serializable;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 
@@ -13,40 +14,63 @@ import jakarta.persistence.MapsId;
 @Entity
 public class Ticket_Reservation implements Serializable {
 
+    // in the repository dont forget to change Long to Ticket_ReservationKey as such
+    // JpaRepository<Ticket_Reservation, Ticket_ReservationKey>
     @EmbeddedId
-    private Ticket_ReservationId id;
-    private boolean isBooked = false;
-
-    // relationships
+    private Ticket_ReservationKey id;
 
     // composite keys
     @ManyToOne
     @MapsId("seatId")
+    @JoinColumn(name = "seat_id")
     private Seat seat;
 
     @ManyToOne
     @MapsId("sessionEventId")
+    @JoinColumn(name = "session_event_id")
     private SessionEvent sessionEvent;
+
+    // attributes
+    private boolean isBooked = false;
 
     public Ticket_Reservation() {}
 
-    public Ticket_Reservation(Ticket_ReservationId id, SessionEvent sessionEvent, Seat seat,
-            boolean isBooked) {
-        this.id = id;
+    public Ticket_Reservation(SessionEvent sessionEvent, Seat seat, boolean isBooked) {
+        Ticket_ReservationKey ticket_ReservationId = new Ticket_ReservationKey();
         setSessionEvent(sessionEvent);
         setSeat(seat);
+        // new Ticket_ReservationKey(this.seat.getId(), this.sessionEvent.getId());
+        this.id = ticket_ReservationId;
         setIsBooked(isBooked);
     }
 
+    // TOCHECK: is this constructor needed?
+    public Ticket_Reservation(boolean isBooked) {
+        setIsBooked(isBooked);
+    }
+    ///////////////////////////////
+    // Composite key getters //
+    /////////////////////////////
 
-
-    public Ticket_ReservationId getId() {
+    public Ticket_ReservationKey getId() {
         return id;
     }
 
-    public void setId(Ticket_ReservationId id) {
+    public void setId(Ticket_ReservationKey id) {
         this.id = id;
     }
+
+    public Long getSeatId() {
+        return this.id.getSeatId();
+    }
+
+    public Long getSessionEventId() {
+        return this.id.getSessionEventId();
+    }
+
+
+    // end of composite key getters
+
 
     public boolean getIsBooked() {
         return isBooked;
@@ -76,10 +100,36 @@ public class Ticket_Reservation implements Serializable {
         this.seat = seat;
     }
 
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Ticket_Reservation other = (Ticket_Reservation) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
+
     @Override
     public String toString() {
-        return "Ticket_Reservation [id=" + id + ", seat=" + seat + ", sessionEvent=" + sessionEvent
-                + "]";
+        return "Ticket_Reservation [id=" + id + ", isBooked=" + isBooked + ", seat=" + seat
+                + ", sessionEvent=" + sessionEvent + "]";
     }
 
 }

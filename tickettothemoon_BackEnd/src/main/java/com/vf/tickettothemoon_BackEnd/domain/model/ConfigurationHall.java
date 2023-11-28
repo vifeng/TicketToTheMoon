@@ -38,14 +38,14 @@ public class ConfigurationHall implements Serializable {
     public ConfigurationHall(Long id, String name, int capacityOfConfiguration, Hall hall) {
         setId(id);
         setName(name);
-        setCapacityOfConfiguration(capacityOfConfiguration);
         setHall(hall);
+        setCapacityOfConfiguration(capacityOfConfiguration);
     }
 
     public ConfigurationHall(String name, int capacityOfConfiguration, Hall hall) {
         setName(name);
-        setCapacityOfConfiguration(capacityOfConfiguration);
         setHall(hall);
+        setCapacityOfConfiguration(capacityOfConfiguration);
     }
 
     public void setId(Long id) {
@@ -69,6 +69,8 @@ public class ConfigurationHall implements Serializable {
     }
 
     public void setCapacityOfConfiguration(int capacityOfConfiguration) {
+        if (capacityOfConfiguration == 0)
+            throw new IllegalArgumentException("capacityOfConfiguration must be positive");
         if (capacityOfConfiguration < 0)
             throw new IllegalArgumentException("capacity must be positive");
         if (capacityOfConfiguration > hall.getCapacityOfHall())

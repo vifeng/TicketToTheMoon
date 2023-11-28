@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vf.tickettothemoon_BackEnd.domain.dao.Ticket_ReservationRepository;
 import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_Reservation;
+import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 import com.vf.tickettothemoon_BackEnd.domain.service.mappers.Ticket_ReservationMapper;
 import com.vf.tickettothemoon_BackEnd.exception.CreateException;
 import com.vf.tickettothemoon_BackEnd.exception.DuplicateKeyException;
@@ -38,7 +39,7 @@ public class Ticket_ReservationService {
         return ticket_ReservationDTOs;
     }
 
-    public Ticket_ReservationDTO findById(Long id) throws FinderException {
+    public Ticket_ReservationDTO findById(Ticket_ReservationKey id) throws FinderException {
         Ticket_Reservation ticket_Reservation =
                 ticket_ReservationRepository.findById(id).orElseThrow(() -> new FinderException(
                         "Ticket_Reservation with id " + id + " not found"));
@@ -49,9 +50,9 @@ public class Ticket_ReservationService {
     public Ticket_ReservationDTO createTicket_Reservation(
             Ticket_ReservationDTO ticket_ReservationDTO)
             throws IllegalArgumentException, CreateException {
-        if (ticket_ReservationDTO.id() != null)
-            throw new DuplicateKeyException(
-                    "Ticket_Reservation with id " + ticket_ReservationDTO.id() + " already exists");
+        if (ticket_ReservationDTO.getId() != null)
+            throw new DuplicateKeyException("Ticket_Reservation with id "
+                    + ticket_ReservationDTO.getId() + " already exists");
         try {
             Ticket_Reservation ticket_Reservation =
                     Ticket_ReservationMapper.INSTANCE.toTicket_Reservation(ticket_ReservationDTO);

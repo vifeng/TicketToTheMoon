@@ -1,18 +1,27 @@
 package com.vf.tickettothemoon_BackEnd.domain.service.mappers;
 
 import java.util.List;
+import java.util.Set;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import com.vf.tickettothemoon_BackEnd.domain.dto.SessionEventDTO;
+import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationDTO;
+import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationKeyDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.SessionEvent;
+import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_Reservation;
+import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 
 @Mapper
 public interface SessionEventMapper {
     SessionEventMapper INSTANCE = Mappers.getMapper(SessionEventMapper.class);
 
+    @Mapping(target = "ticketReservations", source = "sessionEvent.ticket_Reservations")
     SessionEventDTO toSessionEventDTO(SessionEvent sessionEvent);
 
+    @InheritInverseConfiguration
     SessionEvent toSessionEvent(SessionEventDTO sessionEventDTO);
 
     @IterableMapping(elementTargetType = SessionEventDTO.class)
@@ -20,4 +29,20 @@ public interface SessionEventMapper {
 
     @IterableMapping(elementTargetType = SessionEvent.class)
     List<SessionEvent> toSessionEvents(Iterable<SessionEventDTO> sessionEventDTOs);
+
+    //////////////////////////////
+    // Ticket_Reservation relationship
+    //////////////////////////////
+    @Mapping(target = "seat", source = "ticket_Reservation.seat")
+    @Mapping(target = "sessionEvent", source = "ticket_Reservation.sessionEvent")
+    Ticket_ReservationDTO toTicket_ReservationDTO(Ticket_Reservation ticket_Reservation);
+
+    @InheritInverseConfiguration
+    Ticket_Reservation toTicket_Reservation(Ticket_ReservationDTO ticket_ReservationDTO);
+
+    Set<Ticket_Reservation> map(Set<Ticket_ReservationDTO> ticket_ReservationDTOs);
+
+    Ticket_ReservationKey map(Ticket_ReservationKeyDTO ticket_ReservationKey);
+
+
 }
