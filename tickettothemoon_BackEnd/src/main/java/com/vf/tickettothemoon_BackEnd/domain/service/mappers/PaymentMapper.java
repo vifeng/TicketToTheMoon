@@ -2,14 +2,11 @@ package com.vf.tickettothemoon_BackEnd.domain.service.mappers;
 
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 import com.vf.tickettothemoon_BackEnd.domain.dto.PaymentDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Payment;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface PaymentMapper {
-
-    PaymentMapper INSTANCE = Mappers.getMapper(PaymentMapper.class);
 
     PaymentDTO toPaymentDTO(Payment payment);
 

@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.vf.tickettothemoon_BackEnd.domain.dao.HallRepository;
@@ -25,14 +24,16 @@ public class HallService {
 
     HallRepository hallRepository;
     VenueRepository venueRepository;
+    HallMapper hallMapper;
 
 
     private static final Logger log = LoggerFactory.getLogger(HallService.class);
 
-    @Autowired
-    public HallService(HallRepository hallRepository, VenueRepository venueRepository) {
+    public HallService(HallRepository hallRepository, VenueRepository venueRepository,
+            HallMapper hallMapper) {
         this.hallRepository = hallRepository;
         this.venueRepository = venueRepository;
+        this.hallMapper = hallMapper;
     }
 
 
@@ -51,7 +52,7 @@ public class HallService {
         if (size == 0) {
             throw new FinderException("No Halls in the database");
         }
-        List<HallDTO> hallDTOs = HallMapper.INSTANCE.toHallDTOs(halls);
+        List<HallDTO> hallDTOs = hallMapper.toHallDTOs(halls);
         return hallDTOs;
 
     }
@@ -66,7 +67,7 @@ public class HallService {
     public HallDTO findById(Long id) throws FinderException {
         Hall hall = hallRepository.findById(id)
                 .orElseThrow(() -> new FinderException("Hall with id {\" + id + \"} not found"));
-        return HallMapper.INSTANCE.toHallDTO(hall);
+        return hallMapper.toHallDTO(hall);
     }
 
     /**
@@ -101,7 +102,7 @@ public class HallService {
                 }
                 log.info("Hall to update : " + hallToUpdate.toString());
                 hallRepository.save(hallToUpdate);
-                return HallMapper.INSTANCE.toHallDTO(hallToUpdate);
+                return hallMapper.toHallDTO(hallToUpdate);
             } else {
                 throw new FinderException("Hall with id {" + id + "} not found");
             }
@@ -165,9 +166,9 @@ public class HallService {
         }
         // create and save
         try {
-            Hall hall = HallMapper.INSTANCE.toHall(hallDTO);
+            Hall hall = hallMapper.toHall(hallDTO);
             Hall savedHall = hallRepository.save(hall);
-            return HallMapper.INSTANCE.toHallDTO(savedHall);
+            return hallMapper.toHallDTO(savedHall);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(
                     "Hall not created, IllegalArgumentException : " + e.getMessage(), e);
@@ -190,7 +191,7 @@ public class HallService {
             throw new FinderException(
                     "No Halls in the database for Venue with id {" + venue_id + "}");
         }
-        List<HallDTO> hallDTOs = HallMapper.INSTANCE.toHallDTOs(halls);
+        List<HallDTO> hallDTOs = hallMapper.toHallDTOs(halls);
         return hallDTOs;
     }
 

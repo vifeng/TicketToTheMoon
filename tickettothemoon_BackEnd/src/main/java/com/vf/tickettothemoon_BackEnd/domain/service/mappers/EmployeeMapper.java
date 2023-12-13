@@ -4,13 +4,11 @@ import java.util.Set;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 import com.vf.tickettothemoon_BackEnd.domain.dto.EmployeeDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Employee;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface EmployeeMapper {
-    EmployeeMapper INSTANCE = Mappers.getMapper(EmployeeMapper.class);
 
     EmployeeDTO toEmployeeDTO(Employee employee);
 

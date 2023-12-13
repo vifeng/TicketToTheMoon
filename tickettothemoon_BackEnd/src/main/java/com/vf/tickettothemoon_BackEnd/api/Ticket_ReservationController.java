@@ -1,7 +1,6 @@
 package com.vf.tickettothemoon_BackEnd.api;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +22,6 @@ public class Ticket_ReservationController {
 
     private Ticket_ReservationService ticket_ReservationService;
 
-    @Autowired
     public Ticket_ReservationController(Ticket_ReservationService ticket_ReservationService) {
         this.ticket_ReservationService = ticket_ReservationService;
     }
@@ -33,7 +31,7 @@ public class Ticket_ReservationController {
         return ResponseEntity.ok(ticket_ReservationService.findAll());
     }
 
-    // FIXME: this id might not be correct
+    // FIXME: this id might not be the best one
     @GetMapping("/{id}")
     public ResponseEntity<Ticket_ReservationDTO> getTicket_ReservationById(
             @PathVariable Ticket_ReservationKey id) {
