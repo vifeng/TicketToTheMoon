@@ -11,10 +11,12 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_Reservation;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 
 @Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring")
 public interface Ticket_ReservationMapper {
 
         @Mapping(target = "seat", source = "ticket_Reservation.seat")
         @Mapping(target = "sessionEvent", source = "ticket_Reservation.sessionEvent")
+        @Mapping(source = "isBooked", target = "isBooked")
         @Mapping(source = "isBooked", target = "isBooked")
         Ticket_ReservationDTO toTicket_ReservationDTO(Ticket_Reservation ticket_Reservation);
 
@@ -32,12 +34,10 @@ public interface Ticket_ReservationMapper {
 
         // Composite key mappers
 
-        // FIXME: this is not working
-        // @Mapping(target = "seatId", source = "ticket_ReservationKeyDTO.seatId")
-        // @Mapping(target = "sessionEventId", source = "ticket_ReservationKeyDTO.sessionEventId")
+        @Mapping(target = "seatId", source = "ticket_ReservationKeyDTO.seatId")
+        @Mapping(target = "sessionEventId", source = "ticket_ReservationKeyDTO.sessionEventId")
         Ticket_ReservationKey map(Ticket_ReservationKeyDTO ticket_ReservationKeyDTO);
 
-        // ok
         Ticket_ReservationKeyDTO map(Ticket_ReservationKey ticket_ReservationKey);
 
 }
