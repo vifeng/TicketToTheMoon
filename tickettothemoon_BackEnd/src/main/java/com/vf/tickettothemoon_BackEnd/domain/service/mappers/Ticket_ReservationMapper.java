@@ -5,18 +5,17 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationDTO;
 import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationKeyDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_Reservation;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface Ticket_ReservationMapper {
-        Ticket_ReservationMapper INSTANCE = Mappers.getMapper(Ticket_ReservationMapper.class);
 
         @Mapping(target = "seat", source = "ticket_Reservation.seat")
         @Mapping(target = "sessionEvent", source = "ticket_Reservation.sessionEvent")
+        @Mapping(source = "isBooked", target = "isBooked")
         Ticket_ReservationDTO toTicket_ReservationDTO(Ticket_Reservation ticket_Reservation);
 
         @InheritInverseConfiguration
@@ -30,5 +29,15 @@ public interface Ticket_ReservationMapper {
         List<Ticket_Reservation> toTicket_Reservations(
                         Iterable<Ticket_ReservationDTO> ticket_ReservationDTOs);
 
+
+        // Composite key mappers
+
+        // FIXME: this is not working
+        // @Mapping(target = "seatId", source = "ticket_ReservationKeyDTO.seatId")
+        // @Mapping(target = "sessionEventId", source = "ticket_ReservationKeyDTO.sessionEventId")
         Ticket_ReservationKey map(Ticket_ReservationKeyDTO ticket_ReservationKeyDTO);
+
+        // ok
+        Ticket_ReservationKeyDTO map(Ticket_ReservationKey ticket_ReservationKey);
+
 }

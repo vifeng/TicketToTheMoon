@@ -12,9 +12,8 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Address;
 import com.vf.tickettothemoon_BackEnd.domain.model.Employee;
 import com.vf.tickettothemoon_BackEnd.domain.model.Venue;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface VenueMapper {
-    VenueMapper INSTANCE = Mappers.getMapper(VenueMapper.class);
 
     // Mappage des propriétés entre Venue et VenueDTO
     VenueDTO toVenueDTO(Venue venue);

@@ -6,7 +6,6 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 import com.vf.tickettothemoon_BackEnd.domain.dto.SeatDTO;
 import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationDTO;
 import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationKeyDTO;
@@ -15,10 +14,8 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_Reservation;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface SeatMapper {
-
-    SeatMapper INSTANCE = Mappers.getMapper(SeatMapper.class);
 
     @Mapping(target = "ticketReservations", source = "seat.ticket_Reservations")
     SeatDTO toSeatDTO(Seat seat);

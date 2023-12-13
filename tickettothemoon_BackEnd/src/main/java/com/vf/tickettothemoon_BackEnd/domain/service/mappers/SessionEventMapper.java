@@ -6,7 +6,6 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 import com.vf.tickettothemoon_BackEnd.domain.dto.SessionEventDTO;
 import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationDTO;
 import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationKeyDTO;
@@ -14,9 +13,8 @@ import com.vf.tickettothemoon_BackEnd.domain.model.SessionEvent;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_Reservation;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface SessionEventMapper {
-    SessionEventMapper INSTANCE = Mappers.getMapper(SessionEventMapper.class);
 
     @Mapping(target = "ticketReservations", source = "sessionEvent.ticket_Reservations")
     SessionEventDTO toSessionEventDTO(SessionEvent sessionEvent);

@@ -2,7 +2,6 @@ package com.vf.tickettothemoon_BackEnd.api;
 
 import java.util.List;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,7 +33,6 @@ public class VenueController {
 
     private final VenueService venueService;
 
-    @Autowired
     public VenueController(VenueService venueService) {
         this.venueService = venueService;
     }

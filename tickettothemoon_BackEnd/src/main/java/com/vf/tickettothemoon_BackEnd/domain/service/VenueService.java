@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
@@ -35,13 +32,14 @@ public class VenueService {
     private VenueRepository venueRepository;
     private EmployeeRepository employeeRepository;
     private ObjectMapper objectMapper;
-    private static final Logger log = LoggerFactory.getLogger(VenueService.class);
+    private VenueMapper venueMapper;
+    // private static final Logger log = LoggerFactory.getLogger(VenueService.class);
 
-    @Autowired
     public VenueService(VenueRepository venueRepository, EmployeeRepository employeeRepository,
-            ObjectMapper objectMapper) {
+            VenueMapper venueMapper, ObjectMapper objectMapper) {
         this.venueRepository = venueRepository;
         this.employeeRepository = employeeRepository;
+        this.venueMapper = venueMapper;
         this.objectMapper = objectMapper;
     }
 
@@ -56,14 +54,14 @@ public class VenueService {
             throw new FinderException("No Venues in the database");
         }
         // Mapping des propriétés entre Venue et VenueDTO avec MapStruct
-        List<VenueDTO> venueDTOs = VenueMapper.INSTANCE.toVenueDTOs(venues);
+        List<VenueDTO> venueDTOs = venueMapper.toVenueDTOs(venues);
         return venueDTOs;
     }
 
     public VenueDTO findById(Long id) throws FinderException {
         Venue venue = venueRepository.findById(id)
                 .orElseThrow(() -> new FinderException("Venue with id {\" + id + \"} not found"));
-        return VenueMapper.INSTANCE.toVenueDTO(venue);
+        return venueMapper.toVenueDTO(venue);
     }
 
     /**
@@ -79,10 +77,10 @@ public class VenueService {
             throw new DuplicateKeyException("Venue with id {" + venueDTO.id() + "} already exists");
         }
         try {
-            Venue venue = VenueMapper.INSTANCE.toVenue(venueDTO);
+            Venue venue = venueMapper.toVenue(venueDTO);
             venueRepository.save(venue);
             Venue savedVenue = venueRepository.save(venue);
-            VenueDTO savedVenueDTO = VenueMapper.INSTANCE.toVenueDTO(savedVenue);
+            VenueDTO savedVenueDTO = venueMapper.toVenueDTO(savedVenue);
             return savedVenueDTO;
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Venue not created : " + e.getMessage(), e);
@@ -98,7 +96,7 @@ public class VenueService {
             if (optionalVenue.isPresent()) {
                 Venue venueToUpdate = optionalVenue.get();
                 Venue updatedVenue = venueRepository.save(venueToUpdate);
-                return VenueMapper.INSTANCE.toVenueDTO(updatedVenue);
+                return venueMapper.toVenueDTO(updatedVenue);
             } else {
                 throw new FinderException("Venue with id {" + id + "} not found");
             }
@@ -151,7 +149,7 @@ public class VenueService {
                     }
                 });
                 Venue patchVenue = venueRepository.save(venueToUpdate);
-                return VenueMapper.INSTANCE.toVenueDTO(patchVenue);
+                return venueMapper.toVenueDTO(patchVenue);
             } else {
                 throw new FinderException("Venue with id {" + id + "} not found");
             }
@@ -172,7 +170,7 @@ public class VenueService {
             if (optionalVenue.isPresent()) {
                 Venue venueToDelete = optionalVenue.get();
                 venueRepository.delete(venueToDelete);
-                return VenueMapper.INSTANCE.toVenueDTO(venueToDelete);
+                return venueMapper.toVenueDTO(venueToDelete);
             } else {
                 throw new FinderException("Venue with id {" + id + "} not found");
             }
@@ -206,7 +204,7 @@ public class VenueService {
                             + "} not found. create employee first."));
             venue.addEmployee(employee);
             Venue savedVenue = venueRepository.save(venue);
-            return VenueMapper.INSTANCE.toVenueDTO(savedVenue);
+            return venueMapper.toVenueDTO(savedVenue);
         } catch (Exception e) {
             throw new UpdateException(
                     "Venue with id {" + id + "} update failed : " + e.getMessage(), e);
@@ -222,7 +220,7 @@ public class VenueService {
                     () -> new FinderException("Employee with id {" + employeeId + "} not found"));
             venue.removeEmployee(employee);
             Venue savedVenue = venueRepository.save(venue);
-            return VenueMapper.INSTANCE.toVenueDTO(savedVenue);
+            return venueMapper.toVenueDTO(savedVenue);
         } catch (Exception e) {
             throw new UpdateException(
                     "Venue with id {" + id + "} update failed : " + e.getMessage(), e);

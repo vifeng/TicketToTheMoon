@@ -2,14 +2,11 @@ package com.vf.tickettothemoon_BackEnd.domain.service.mappers;
 
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
-
 import com.vf.tickettothemoon_BackEnd.domain.dto.AddressDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Address;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface AddressMapper {
-    AddressMapper INSTANCE = Mappers.getMapper(AddressMapper.class);
 
     AddressDTO toAddressDTO(Address address);
 

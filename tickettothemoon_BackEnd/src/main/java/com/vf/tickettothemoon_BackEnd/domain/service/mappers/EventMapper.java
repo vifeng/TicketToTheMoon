@@ -3,14 +3,11 @@ package com.vf.tickettothemoon_BackEnd.domain.service.mappers;
 import java.util.List;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 import com.vf.tickettothemoon_BackEnd.domain.dto.EventDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Event;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface EventMapper {
-
-    EventMapper INSTANCE = Mappers.getMapper(EventMapper.class);
 
     EventDTO toEventDTO(Event event);
 

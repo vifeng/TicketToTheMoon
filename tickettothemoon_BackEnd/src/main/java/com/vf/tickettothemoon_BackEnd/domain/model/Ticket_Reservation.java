@@ -1,6 +1,7 @@
 package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -23,11 +24,13 @@ public class Ticket_Reservation implements Serializable {
     @ManyToOne
     @MapsId("seatId")
     @JoinColumn(name = "seat_id")
+    @JsonManagedReference
     private Seat seat;
 
     @ManyToOne
     @MapsId("sessionEventId")
     @JoinColumn(name = "session_event_id")
+    @JsonManagedReference
     private SessionEvent sessionEvent;
 
     // attributes

@@ -1,19 +1,16 @@
 package com.vf.tickettothemoon_BackEnd.domain.service.mappers;
 
 import java.util.List;
-
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-
 import com.vf.tickettothemoon_BackEnd.domain.dto.AddressDTO;
 import com.vf.tickettothemoon_BackEnd.domain.dto.CustomerDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Address;
 import com.vf.tickettothemoon_BackEnd.domain.model.Customer;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CustomerMapper {
-    CustomerMapper INSTANCE = Mappers.getMapper(CustomerMapper.class);
 
     // Mappage des propriétés entre Customer et CustomerDTO
     CustomerDTO toCustomerDTO(Customer customer);

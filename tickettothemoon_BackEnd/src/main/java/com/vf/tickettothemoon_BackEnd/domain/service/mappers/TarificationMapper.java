@@ -2,15 +2,11 @@ package com.vf.tickettothemoon_BackEnd.domain.service.mappers;
 
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
-
 import com.vf.tickettothemoon_BackEnd.domain.dto.TarificationDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Tarification;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface TarificationMapper {
-
-    TarificationMapper INSTANCE = Mappers.getMapper(TarificationMapper.class);
 
     TarificationDTO toTarificationDTO(Tarification tarification);
 
