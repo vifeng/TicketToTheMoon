@@ -11,12 +11,10 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_Reservation;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 
 @Mapper(componentModel = "spring")
-@Mapper(componentModel = "spring")
 public interface Ticket_ReservationMapper {
 
         @Mapping(target = "seat", source = "ticket_Reservation.seat")
         @Mapping(target = "sessionEvent", source = "ticket_Reservation.sessionEvent")
-        @Mapping(source = "isBooked", target = "isBooked")
         @Mapping(source = "isBooked", target = "isBooked")
         Ticket_ReservationDTO toTicket_ReservationDTO(Ticket_Reservation ticket_Reservation);
 
