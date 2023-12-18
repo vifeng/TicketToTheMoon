@@ -1,8 +1,6 @@
 package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
@@ -11,14 +9,13 @@ public class Ticket_ReservationKey implements Serializable {
 
     @Column(name = "seat_id")
     private Long seatId;
+
     @Column(name = "session_event_id")
     private Long sessionEventId;
 
     public Ticket_ReservationKey() {}
 
-    @JsonCreator
-    public Ticket_ReservationKey(@JsonProperty("seatId") Long seatId,
-            @JsonProperty("sessionEventId") Long sessionEventId) {
+    public Ticket_ReservationKey(Long seatId, Long sessionEventId) {
         this.seatId = seatId;
         this.sessionEventId = sessionEventId;
     }
@@ -68,6 +65,5 @@ public class Ticket_ReservationKey implements Serializable {
             return false;
         return true;
     }
-
 
 }

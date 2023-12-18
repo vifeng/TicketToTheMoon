@@ -32,8 +32,8 @@ public interface Ticket_ReservationMapper {
 
         // Composite key mappers
 
-        @Mapping(target = "seatId", source = "ticket_ReservationKeyDTO.seatId")
-        @Mapping(target = "sessionEventId", source = "ticket_ReservationKeyDTO.sessionEventId")
+        // @Mapping(target = "seatId", source = "ticket_ReservationKeyDTO.seatId")
+        // @Mapping(target = "sessionEventId", source = "ticket_ReservationKeyDTO.sessionEventId")
         Ticket_ReservationKey map(Ticket_ReservationKeyDTO ticket_ReservationKeyDTO);
 
         Ticket_ReservationKeyDTO map(Ticket_ReservationKey ticket_ReservationKey);
