@@ -38,9 +38,16 @@ public interface SessionEventMapper {
     @InheritInverseConfiguration
     Ticket_Reservation toTicket_Reservation(Ticket_ReservationDTO ticket_ReservationDTO);
 
-    Set<Ticket_Reservation> map(Set<Ticket_ReservationDTO> ticket_ReservationDTOs);
+    Set<Ticket_Reservation> mapTicket_Reservation(
+            Set<Ticket_ReservationDTO> ticket_ReservationDTOs);
 
+    Set<Ticket_ReservationDTO> mapTicket_ReservationDTO(
+            Set<Ticket_Reservation> ticket_Reservations);
+
+    // Ticket_ReservationKey
     Ticket_ReservationKey map(Ticket_ReservationKeyDTO ticket_ReservationKey);
+
+    Ticket_ReservationKeyDTO map(Ticket_ReservationKey ticket_ReservationKey);
 
 
 }

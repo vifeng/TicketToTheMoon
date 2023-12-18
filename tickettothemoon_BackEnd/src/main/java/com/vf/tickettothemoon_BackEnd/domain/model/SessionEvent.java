@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,6 +21,7 @@ import jakarta.persistence.OneToMany;
  * of an event.
  */
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class SessionEvent implements Serializable {
 
     @Id
