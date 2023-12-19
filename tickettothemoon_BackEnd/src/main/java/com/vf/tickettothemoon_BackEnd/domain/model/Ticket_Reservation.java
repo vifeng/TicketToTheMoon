@@ -3,9 +3,6 @@ package com.vf.tickettothemoon_BackEnd.domain.model;
 import java.io.Serializable;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
 
 /**
  * This is an association class between Seat and SessionEvent. It has a composite keys which can be
@@ -19,27 +16,13 @@ public class Ticket_Reservation implements Serializable {
     @EmbeddedId
     private Ticket_ReservationKey id;
 
-    // composite keys
-    @ManyToOne
-    @MapsId("seatId")
-    @JoinColumn(name = "seat_id")
-    private Seat seat;
-
-    @ManyToOne
-    @MapsId("sessionEventId")
-    @JoinColumn(name = "session_event_id")
-    private SessionEvent sessionEvent;
-
     // attributes
     private boolean isBooked = false;
 
     public Ticket_Reservation() {}
 
-    public Ticket_Reservation(SessionEvent sessionEvent, Seat seat, boolean isBooked) {
-        Ticket_ReservationKey ticket_ReservationId = new Ticket_ReservationKey();
-        setSessionEvent(sessionEvent);
-        setSeat(seat);
-        this.id = ticket_ReservationId;
+    public Ticket_Reservation(Ticket_ReservationKey ticket_ReservationKey, boolean isBooked) {
+        this.id = ticket_ReservationKey;
         setIsBooked(isBooked);
     }
 
@@ -59,11 +42,11 @@ public class Ticket_Reservation implements Serializable {
         this.id = id;
     }
 
-    public Long getSeatId() {
+    public Seat getSeatId() {
         return this.id.getSeatId();
     }
 
-    public Long getSessionEventId() {
+    public SessionEvent getSessionEventId() {
         return this.id.getSessionEventId();
     }
 
@@ -79,25 +62,6 @@ public class Ticket_Reservation implements Serializable {
         this.isBooked = isBooked;
     }
 
-    ///////////////////
-    // RELATIONSHIPS //
-    ///////////////////
-
-    public SessionEvent getSessionEvent() {
-        return sessionEvent;
-    }
-
-    public void setSessionEvent(SessionEvent sessionEvent) {
-        this.sessionEvent = sessionEvent;
-    }
-
-    public Seat getSeat() {
-        return seat;
-    }
-
-    public void setSeat(Seat seat) {
-        this.seat = seat;
-    }
 
 
     @Override
@@ -127,8 +91,7 @@ public class Ticket_Reservation implements Serializable {
 
     @Override
     public String toString() {
-        return "Ticket_Reservation [id=" + id + ", isBooked=" + isBooked + ", seat=" + seat
-                + ", sessionEvent=" + sessionEvent + "]";
+        return "Ticket_Reservation [id=" + id + ", isBooked=" + isBooked + "]";
     }
 
 }

@@ -1,21 +1,25 @@
 package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Embeddable
 public class Ticket_ReservationKey implements Serializable {
 
-    @Column(name = "seat_id")
-    private Long seatId;
+    // composite keys
+    @ManyToOne
+    @JoinColumn(name = "seat_id")
+    private Seat seatId;
 
-    @Column(name = "session_event_id")
-    private Long sessionEventId;
+    @ManyToOne
+    @JoinColumn(name = "session_event_id")
+    private SessionEvent sessionEventId;
 
     public Ticket_ReservationKey() {}
 
-    public Ticket_ReservationKey(Long seatId, Long sessionEventId) {
+    public Ticket_ReservationKey(Seat seatId, SessionEvent sessionEventId) {
         this.seatId = seatId;
         this.sessionEventId = sessionEventId;
     }
@@ -26,11 +30,11 @@ public class Ticket_ReservationKey implements Serializable {
     // consistent throughout the
     // entity's lifecycle.
 
-    public Long getSeatId() {
+    public Seat getSeatId() {
         return seatId;
     }
 
-    public Long getSessionEventId() {
+    public SessionEvent getSessionEventId() {
         return sessionEventId;
     }
 
