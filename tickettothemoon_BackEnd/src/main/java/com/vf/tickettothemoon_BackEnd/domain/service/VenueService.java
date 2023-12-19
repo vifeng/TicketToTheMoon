@@ -32,6 +32,7 @@ public class VenueService {
     private VenueRepository venueRepository;
     private EmployeeRepository employeeRepository;
     private ObjectMapper objectMapper;
+    // TODO : maybe I should use AddressMapper instead of objectMapper
     private VenueMapper venueMapper;
     // private static final Logger log = LoggerFactory.getLogger(VenueService.class);
 

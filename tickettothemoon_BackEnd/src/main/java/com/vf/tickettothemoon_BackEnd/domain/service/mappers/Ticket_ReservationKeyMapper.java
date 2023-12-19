@@ -9,7 +9,6 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 @Mapper(componentModel = "spring")
 public interface Ticket_ReservationKeyMapper {
 
-
         Ticket_ReservationKeyDTO toTicket_ReservationKeyDTO(
                         Ticket_ReservationKey ticket_ReservationKey);
 

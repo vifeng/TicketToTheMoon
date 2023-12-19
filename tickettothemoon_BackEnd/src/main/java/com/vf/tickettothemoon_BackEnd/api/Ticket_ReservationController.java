@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationDTO;
-import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 import com.vf.tickettothemoon_BackEnd.domain.service.Ticket_ReservationService;
 import com.vf.tickettothemoon_BackEnd.exception.CreateException;
 import com.vf.tickettothemoon_BackEnd.exception.NullException;
@@ -31,11 +30,11 @@ public class Ticket_ReservationController {
         return ResponseEntity.ok(ticket_ReservationService.findAll());
     }
 
-    // FIXME: this id might not be the best one
-    @GetMapping("/{id}")
+    // TODISCUSS: is this the right way to do it?
+    @GetMapping("/{seatId}&{eventId}")
     public ResponseEntity<Ticket_ReservationDTO> getTicket_ReservationById(
-            @PathVariable Ticket_ReservationKey id) {
-        return ResponseEntity.ok(ticket_ReservationService.findById(id));
+            @PathVariable Long seatId, @PathVariable Long eventId) {
+        return ResponseEntity.ok(ticket_ReservationService.findById(seatId, eventId));
     }
 
     @PostMapping

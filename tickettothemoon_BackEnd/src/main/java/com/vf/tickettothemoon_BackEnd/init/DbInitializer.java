@@ -232,7 +232,11 @@ public class DbInitializer {
                 configurationHall);
         Seat seat2 = new Seat(true, 2, 'A', categorySpatial, categoryTariff, seat_Status,
                 configurationHall);
-        List<Seat> seats = List.of(seat1, seat2);
+        Seat seat3 = new Seat(true, 3, 'B', categorySpatial, categoryTariff, seat_Status,
+                configurationHall);
+        Seat seat4 = new Seat(true, 4, 'B', categorySpatial, categoryTariff, seat_Status,
+                configurationHall);
+        List<Seat> seats = List.of(seat1, seat2, seat3, seat4);
         return seatRepository.saveAll(seats);
     }
 
