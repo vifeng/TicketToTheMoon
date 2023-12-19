@@ -10,10 +10,6 @@ public interface Ticket_ReservationRepository
 
         Optional<Ticket_Reservation> findById(Ticket_ReservationKey id);
 
-        Long findByIdSeatId(Long seatId);
 
-        Long findByIdSessionEventId(Long sessionEventId);
-
-        boolean findByIsBooked(boolean isBooked);
 
 }

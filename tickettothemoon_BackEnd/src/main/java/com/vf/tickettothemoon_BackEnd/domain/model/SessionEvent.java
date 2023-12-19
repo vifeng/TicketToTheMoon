@@ -2,26 +2,19 @@ package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 
 /**
  * A session event is a session of an event. It has a date, an eventHour and a duration. It is part
  * of an event.
  */
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class SessionEvent implements Serializable {
 
     @Id
@@ -42,12 +35,6 @@ public class SessionEvent implements Serializable {
             optional = false)
     @JoinColumn(name = "ConfigurationHall_FK")
     private ConfigurationHall configurationHall;
-
-    // TOCHECK: FetchType.LAZY or EAGER?
-    /// manytomany relationship with composite key and attribute bidirectionnal using
-    /// Ticket_Reservation and Ticket_ReservationKey
-    @OneToMany(mappedBy = "sessionEvent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    Set<Ticket_Reservation> ticket_Reservations = new HashSet<>();
 
 
     public SessionEvent() {}
@@ -134,14 +121,6 @@ public class SessionEvent implements Serializable {
         this.configurationHall = configurationHall;
     }
 
-    // set up manytomany with composite key relationship
-    public Set<Ticket_Reservation> getTicket_Reservations() {
-        return ticket_Reservations;
-    }
-
-    public void setTicket_Reservations(Set<Ticket_Reservation> ticket_Reservations) {
-        this.ticket_Reservations = ticket_Reservations;
-    }
 
 
     @Override
@@ -174,8 +153,7 @@ public class SessionEvent implements Serializable {
         return "SessionEvent [id=" + id + ", dateAndTimeStartSessionEvent="
                 + dateAndTimeStartSessionEvent + ", durationInMinutes=" + durationInMinutes
                 + ", dateAndTimeEndSessionEvent=" + dateAndTimeEndSessionEvent + ", event=" + event
-                + ", configurationHall=" + configurationHall + ", ticket_Reservations="
-                + ticket_Reservations + "]";
+                + ", configurationHall=" + configurationHall + "]";
     }
 
 }
