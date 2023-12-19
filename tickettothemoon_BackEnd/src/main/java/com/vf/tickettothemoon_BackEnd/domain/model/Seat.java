@@ -1,25 +1,17 @@
 package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 
 /**
  *
  */
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Seat implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,13 +36,6 @@ public class Seat implements Serializable {
     @JoinColumn(name = "Seat_Status_FK")
     private Seat_Status seat_Status;
 
-    // TODO: How to add and remove a Ticket_Reservation from the Set<Ticket_Reservation>? On which
-    // side of the relationship?
-    // TOCHECK: FetchType.LAZY or EAGER?
-    // manytomany relationship with composite key and attribute bidirectionnal using
-    // Ticket_Reservation and Ticket_ReservationKey
-    @OneToMany(mappedBy = "seat", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    Set<Ticket_Reservation> ticket_Reservations = new HashSet<>();
 
     public Seat() {}
 
@@ -170,17 +155,6 @@ public class Seat implements Serializable {
 
 
 
-    // set up manytomany with composite key relationship
-
-    public Set<Ticket_Reservation> getTicket_Reservations() {
-        return ticket_Reservations;
-    }
-
-    public void setTicket_Reservations(Set<Ticket_Reservation> ticket_Reservations) {
-        this.ticket_Reservations = ticket_Reservations;
-    }
-
-
     // TODO: Tri selon disponibilité et prix. utiliser Comparator<E> qui permet de faire plusieurs
     // tris.
 
@@ -214,7 +188,7 @@ public class Seat implements Serializable {
         return "Seat [id=" + id + ", isSeated=" + isSeated + ", rowNo=" + rowNo + ", seatNo="
                 + seatNo + ", configurationHall=" + configurationHall + ", categorySpatial="
                 + categorySpatial + ", categoryTariff=" + categoryTariff + ", seat_Status="
-                + seat_Status + ", ticket_Reservations=" + ticket_Reservations + "]";
+                + seat_Status + "]";
     }
 
 }

@@ -96,7 +96,7 @@ public class Booking {
         for (Ticket_Reservation reservation : reservations) {
             // TODO_LOW: DISCOUNT - how should we calculate the discount ?
             total_price_ht +=
-                    reservation.getSeat().getCategoryTariff().getTarification().getBasePrice();
+                    reservation.getSeatId().getCategoryTariff().getTarification().getBasePrice();
         }
     }
 
@@ -104,7 +104,7 @@ public class Booking {
         this.reservations.add(reservation);
         // TODO_LOW: DISCOUNT - how should we calculate the discount ?
         total_price_ht +=
-                reservation.getSeat().getCategoryTariff().getTarification().getBasePrice();
+                reservation.getSeatId().getCategoryTariff().getTarification().getBasePrice();
     }
 
     public void removeReservation(Ticket_Reservation reservation) {
@@ -112,7 +112,7 @@ public class Booking {
             this.reservations.remove(reservation);
             // TODO_LOW: DISCOUNT - how should we calculate the discount ?
             total_price_ht -=
-                    reservation.getSeat().getCategoryTariff().getTarification().getBasePrice();
+                    reservation.getSeatId().getCategoryTariff().getTarification().getBasePrice();
         }
     }
 

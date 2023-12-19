@@ -28,7 +28,7 @@ public class Ticket_ReservationService {
 
 
     public List<Ticket_ReservationDTO> findAll() throws FinderException {
-        Iterable<Ticket_Reservation> ticket_Reservations = ticket_ReservationRepository.findAll();;
+        Iterable<Ticket_Reservation> ticket_Reservations = ticket_ReservationRepository.findAll();
         int size = ((Collection<Ticket_Reservation>) ticket_Reservations).size();
         if (size == 0)
             throw new FinderException("No ticket_Reservations in the database");
@@ -48,9 +48,9 @@ public class Ticket_ReservationService {
     public Ticket_ReservationDTO createTicket_Reservation(
             Ticket_ReservationDTO ticket_ReservationDTO)
             throws IllegalArgumentException, CreateException {
-        if (ticket_ReservationDTO.getId() != null)
+        if (ticket_ReservationDTO.ticket_ReservationKey() != null)
             throw new DuplicateKeyException("Ticket_Reservation with id "
-                    + ticket_ReservationDTO.getId() + " already exists");
+                    + ticket_ReservationDTO.ticket_ReservationKey() + " already exists");
         try {
             Ticket_Reservation ticket_Reservation =
                     ticket_ReservationMapper.toTicket_Reservation(ticket_ReservationDTO);

@@ -45,6 +45,7 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Seat_Status;
 import com.vf.tickettothemoon_BackEnd.domain.model.SessionEvent;
 import com.vf.tickettothemoon_BackEnd.domain.model.Tarification;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_Reservation;
+import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 import com.vf.tickettothemoon_BackEnd.domain.model.Venue;
 
 @Component
@@ -246,10 +247,14 @@ public class DbInitializer {
 
     private Set<Ticket_Reservation> createTicket_Reservation(List<Seat> seats,
             SessionEvent sessionEvent) {
+        Ticket_ReservationKey ticket_ReservationKey1 =
+                new Ticket_ReservationKey(seats.get(0), sessionEvent);
         Ticket_Reservation oneTicket_Reservation1 =
-                new Ticket_Reservation(sessionEvent, seats.get(0), true);
+                new Ticket_Reservation(ticket_ReservationKey1, true);
+        Ticket_ReservationKey ticket_ReservationKey2 =
+                new Ticket_ReservationKey(seats.get(1), sessionEvent);
         Ticket_Reservation oneTicket_Reservation2 =
-                new Ticket_Reservation(sessionEvent, seats.get(1), true);
+                new Ticket_Reservation(ticket_ReservationKey2, true);
 
         log.info("//////////////// TICKETS ///////////////////////////////");
         log.info("oneTicket_Reservation1: " + oneTicket_Reservation1);
