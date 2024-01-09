@@ -5,15 +5,17 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import com.vf.tickettothemoon_BackEnd.domain.dto.ConfigurationHallDTO;
 import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationDTO;
 import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationKeyDTO;
+import com.vf.tickettothemoon_BackEnd.domain.model.ConfigurationHall;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_Reservation;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 
 @Mapper(componentModel = "spring")
 public interface Ticket_ReservationMapper {
 
-        @Mapping(source = "id", target = "ticket_ReservationKey")
+        @Mapping(source = "ticket_Reservation.id", target = "ticket_ReservationKey")
         Ticket_ReservationDTO toTicket_ReservationDTO(Ticket_Reservation ticket_Reservation);
 
         @InheritInverseConfiguration
@@ -27,11 +29,15 @@ public interface Ticket_ReservationMapper {
         List<Ticket_Reservation> toTicket_Reservations(
                         Iterable<Ticket_ReservationDTO> ticket_ReservationDTOs);
 
-
         // Composite key mappers
+
+        Ticket_ReservationKeyDTO map(Ticket_ReservationKey ticket_ReservationKey);
 
         Ticket_ReservationKey map(Ticket_ReservationKeyDTO ticket_ReservationKeyDTO);
 
-        Ticket_ReservationKeyDTO map(Ticket_ReservationKey ticket_ReservationKey);
+        ConfigurationHall map(ConfigurationHallDTO configurationHallDTO);
+
+        ConfigurationHallDTO map(ConfigurationHall configurationHall);
+
 
 }

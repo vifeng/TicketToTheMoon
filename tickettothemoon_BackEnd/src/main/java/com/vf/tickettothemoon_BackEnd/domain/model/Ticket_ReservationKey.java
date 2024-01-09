@@ -38,6 +38,14 @@ public class Ticket_ReservationKey implements Serializable {
         return sessionEventId;
     }
 
+    public void setSeatId(Seat seatId) {
+        this.seatId = seatId;
+    }
+
+    public void setSessionEventId(SessionEvent sessionEventId) {
+        this.sessionEventId = sessionEventId;
+    }
+
     // hashCode and equals are needed for composite keys
     @Override
     public int hashCode() {
@@ -69,5 +77,12 @@ public class Ticket_ReservationKey implements Serializable {
             return false;
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Ticket_ReservationKey [seatId=" + seatId + ", sessionEventId=" + sessionEventId
+                + "]";
+    }
+
 
 }
