@@ -173,7 +173,7 @@ public class DbInitializer {
     }
 
     private ConfigurationHall createConfigurationHall(Hall hall) {
-        ConfigurationHall configurationHall = new ConfigurationHall("debout", 120, hall);
+        ConfigurationHall configurationHall = new ConfigurationHall("debout", hall, 120);
         return configurationHallRepository.save(configurationHall);
     }
 

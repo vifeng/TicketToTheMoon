@@ -150,7 +150,9 @@ then in vsCode CTL+ SHIFT+P > Java : clean java langage server workspace
 
 - Entities have also reserved names. For example, I couldn't name my entity "User" because it is a reserved name. I changed it to "Customer" and it worked. As well as "Order" which I changed to "Ticket_reservation". I should look for a list of reserved names.
 
-- Composite primary key not found :
+- Composite primary key not found : I had to change my implementation. I should give it another try later. I added some setters to the composite key because the generated implementation uses the empty constructor then uses the setters to set the values.
+
+- Implementation order : In mapstruct the generated implementation uses the empty constructor then uses the setters to set the values. The orders of the setters is not guaranteed. So if you have a setter that depends on another setter, you can't be sure that the other setter has been called. One of the solution is to use custom mapping method using the builder pattern or validate the entity object in the service layer instead of the setters. For example see the configurationHall.java and its mapper (see `setCapacityOfConfiguration()`, Hall has to be already defined because we call one of his variable to check against a value of the current object).
 
 # Technologies choice
 

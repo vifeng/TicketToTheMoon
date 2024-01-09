@@ -33,20 +33,64 @@ public class ConfigurationHall implements Serializable {
     @JoinColumn(name = "Hall_FK")
     private Hall hall;
 
+    /////////////////////////// Builder for Mapstruct Use ///////////////////////////
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Long id;
+        private String name;
+        private Hall hall;
+        private int capacityOfConfiguration;
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder hall(Hall hall) {
+            this.hall = hall;
+            return this;
+        }
+
+        public Builder capacityOfConfiguration(int capacityOfConfiguration) {
+            this.capacityOfConfiguration = capacityOfConfiguration;
+            return this;
+        }
+
+        public ConfigurationHall build() {
+            if (id != null) {
+                return new ConfigurationHall(id, name, hall, capacityOfConfiguration);
+            } else {
+                return new ConfigurationHall(name, hall, capacityOfConfiguration);
+            }
+        }
+
+    }
+
+    /////////////////////////// Constructors ///////////////////////////
     public ConfigurationHall() {}
 
-    public ConfigurationHall(Long id, String name, int capacityOfConfiguration, Hall hall) {
+    public ConfigurationHall(Long id, String name, Hall hall, int capacityOfConfiguration) {
         setId(id);
         setName(name);
         setHall(hall);
         setCapacityOfConfiguration(capacityOfConfiguration);
     }
 
-    public ConfigurationHall(String name, int capacityOfConfiguration, Hall hall) {
+    public ConfigurationHall(String name, Hall hall, int capacityOfConfiguration) {
         setName(name);
         setHall(hall);
         setCapacityOfConfiguration(capacityOfConfiguration);
     }
+
+    /////////////////////////// Getters & Setters ///////////////////////////
 
     public void setId(Long id) {
         this.id = id;

@@ -10,6 +10,7 @@ Table of contents
     - [Installation \& running](#installation--running)
     - [Database configuration](#database-configuration)
 - [Few usefull commands](#few-usefull-commands)
+- [Mapstruct implementation](#mapstruct-implementation)
 - [REST API documentation, monitoring and testing](#rest-api-documentation-monitoring-and-testing)
   - [Actuator (monitoring/observability)](#actuator-monitoringobservability)
   - [Hal explorer (REST API documentation)](#hal-explorer-rest-api-documentation)
@@ -41,6 +42,7 @@ README files are available in each folder to explain its purpose.
 - Gradle 8.0.2
 - Java 17.0.2
 - Kotlin 1.8.10
+- SpringBoot 3.1.0
 
 # GETTING STARTED
 
@@ -102,6 +104,15 @@ gradle mapstructCompile
 
 
 ```
+
+<br>
+
+---
+
+# Mapstruct implementation
+
+Mapstruct is a code generator that simplifies the implementation of mappings between Java bean types by generating mapping code at compile time, following a convention-over-configuration approach.
+the genereated code is in the `build/generated/sources/annotationProcessor/java/main` folder.
 
 <br>
 
