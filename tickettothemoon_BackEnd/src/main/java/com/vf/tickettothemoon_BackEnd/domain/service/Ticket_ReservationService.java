@@ -2,6 +2,8 @@ package com.vf.tickettothemoon_BackEnd.domain.service;
 
 import java.util.Collection;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.vf.tickettothemoon_BackEnd.domain.dao.SeatRepository;
@@ -14,6 +16,7 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_Reservation;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 import com.vf.tickettothemoon_BackEnd.domain.service.mappers.Ticket_ReservationMapper;
 import com.vf.tickettothemoon_BackEnd.exception.CreateException;
+import com.vf.tickettothemoon_BackEnd.exception.DuplicateKeyException;
 import com.vf.tickettothemoon_BackEnd.exception.FinderException;
 
 @Service
@@ -23,6 +26,8 @@ public class Ticket_ReservationService {
     private final Ticket_ReservationMapper ticket_ReservationMapper;
     private SeatRepository seatRepository;
     private SessionEventRepository sessionEventRepository;
+
+    private static final Logger log = LoggerFactory.getLogger(HallService.class);
 
 
     public Ticket_ReservationService(Ticket_ReservationRepository ticket_ReservationRepository,
@@ -47,11 +52,11 @@ public class Ticket_ReservationService {
 
 
 
-    public Ticket_ReservationDTO findById(Long seatId, Long eventId) throws FinderException {
+    public Ticket_ReservationDTO findById(Long sessioneventId, Long seatId) throws FinderException {
         Seat seat = seatRepository.findById(seatId)
                 .orElseThrow(() -> new FinderException("Seat with id " + seatId + " not found"));
-        SessionEvent sessionEvent = sessionEventRepository.findById(eventId).orElseThrow(
-                () -> new FinderException("SessionEvent with id " + eventId + " not found"));
+        SessionEvent sessionEvent = sessionEventRepository.findById(sessioneventId).orElseThrow(
+                () -> new FinderException("SessionEvent with id " + sessioneventId + " not found"));
         Ticket_ReservationKey id = new Ticket_ReservationKey(seat, sessionEvent);
         Ticket_Reservation ticket_Reservation =
                 ticket_ReservationRepository.findById(id).orElseThrow(() -> new FinderException(
@@ -60,20 +65,25 @@ public class Ticket_ReservationService {
     }
 
 
+    // TODO : Booking_FK to complete
     public Ticket_ReservationDTO createTicket_Reservation(
             Ticket_ReservationDTO ticket_ReservationDTO)
-            throws IllegalArgumentException, CreateException {
-        // FIXME: I have a duplicate key exception here
-        // if (ticket_ReservationDTO.ticket_ReservationKey() != null)
-        // throw new DuplicateKeyException("Ticket_Reservation with id "
-        // + ticket_ReservationDTO.ticket_ReservationKey() + " already exists");
+            throws IllegalArgumentException, CreateException, DuplicateKeyException {
         try {
             Ticket_Reservation ticket_Reservation =
                     ticket_ReservationMapper.toTicket_Reservation(ticket_ReservationDTO);
+            ticket_ReservationRepository.findById(ticket_Reservation.getId())
+                    .ifPresent(ticket_ReservationKey -> {
+                        throw new DuplicateKeyException(
+                                "Ticket_Reservation not created, The following id already exists in the database: "
+                                        + ticket_ReservationDTO.ticket_ReservationKey());
+                    });
             ticket_ReservationRepository.save(ticket_Reservation);
             Ticket_ReservationDTO savedTicket_ReservationDTO =
                     ticket_ReservationMapper.toTicket_ReservationDTO(ticket_Reservation);
             return savedTicket_ReservationDTO;
+        } catch (DuplicateKeyException e) {
+            throw new DuplicateKeyException(e.getMessage());
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Ticket_Reservation not created : " + e.getMessage(),
                     e);
@@ -82,7 +92,7 @@ public class Ticket_ReservationService {
         }
     }
 
-    // TOFINISH:
+    // TOFINISH: PUT, PATCH, DELETE
 
     ///////////////////////
     // RELATIONSHIP

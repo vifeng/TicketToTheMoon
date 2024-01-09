@@ -64,7 +64,7 @@ public class VenueService {
                 .orElseThrow(() -> new FinderException("Venue with id {\" + id + \"} not found"));
         return venueMapper.toVenueDTO(venue);
     }
-
+    
     /**
      * 
      * @param venueDTO

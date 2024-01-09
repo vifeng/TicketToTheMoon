@@ -30,11 +30,10 @@ public class Ticket_ReservationController {
         return ResponseEntity.ok(ticket_ReservationService.findAll());
     }
 
-    // TODISCUSS: is this the right way to do it?
-    @GetMapping("/{seatId}&{eventId}")
+    @GetMapping("/sessionevent/{sessioneventId}/seat/{seatId}")
     public ResponseEntity<Ticket_ReservationDTO> getTicket_ReservationById(
-            @PathVariable Long seatId, @PathVariable Long eventId) {
-        return ResponseEntity.ok(ticket_ReservationService.findById(seatId, eventId));
+            @PathVariable Long seatId, @PathVariable Long sessioneventId) {
+        return ResponseEntity.ok(ticket_ReservationService.findById(sessioneventId, seatId));
     }
 
     @PostMapping
