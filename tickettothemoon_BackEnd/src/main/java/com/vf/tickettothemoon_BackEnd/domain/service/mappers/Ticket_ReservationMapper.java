@@ -5,10 +5,8 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import com.vf.tickettothemoon_BackEnd.domain.dto.ConfigurationHallDTO;
 import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationDTO;
 import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationKeyDTO;
-import com.vf.tickettothemoon_BackEnd.domain.model.ConfigurationHall;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_Reservation;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 
@@ -35,9 +33,6 @@ public interface Ticket_ReservationMapper {
 
         Ticket_ReservationKey map(Ticket_ReservationKeyDTO ticket_ReservationKeyDTO);
 
-        ConfigurationHall map(ConfigurationHallDTO configurationHallDTO);
-
-        ConfigurationHallDTO map(ConfigurationHall configurationHall);
 
 
 }
