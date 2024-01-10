@@ -7,6 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import com.vf.tickettothemoon_BackEnd.domain.dto.ConfigurationHallDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.ConfigurationHall;
+import jakarta.validation.Valid;
 
 @Mapper(componentModel = "spring")
 public interface ConfigurationHallMapper {
@@ -15,7 +16,7 @@ public interface ConfigurationHallMapper {
 
         @AfterMapping
         default void checkConstructorAfterToDto(ConfigurationHall entity,
-                        @MappingTarget ConfigurationHallDTO dto) {
+                        @Valid @MappingTarget ConfigurationHallDTO dto) {
                 dto.checkConstructor();
         }
 
@@ -23,7 +24,7 @@ public interface ConfigurationHallMapper {
 
         @AfterMapping
         default void checkConstructorAfterToEntity(ConfigurationHallDTO dto,
-                        @MappingTarget ConfigurationHall entity) {
+                        @Valid @MappingTarget ConfigurationHall entity) {
                 entity.checkConstructor();
         }
 

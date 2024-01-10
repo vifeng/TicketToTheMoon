@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,7 @@ import com.vf.tickettothemoon_BackEnd.exception.UpdateException;
 @CrossOrigin
 @RestController
 @RequestMapping("/api")
+@Validated
 public class HallController {
 
     private final HallService hallService;
@@ -71,10 +73,11 @@ public class HallController {
     }
 
     @DeleteMapping("/halls/{id}")
-    public ResponseEntity<HallDTO> deleteHall(@PathVariable Long id)
+    public ResponseEntity<Void> deleteHall(@PathVariable Long id)
             throws FinderException, RemoveException {
         // TODO_END: at the end because of the cascade
-        return ResponseEntity.ok(hallService.deleteHall(id));
+        hallService.deleteHall(id);
+        return ResponseEntity.noContent().build();
     }
 
     // Restful routes

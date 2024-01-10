@@ -2,6 +2,7 @@ package com.vf.tickettothemoon_BackEnd.api;
 
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import com.vf.tickettothemoon_BackEnd.exception.NullException;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/ticket_reservation")
+@Validated
 public class Ticket_ReservationController {
 
     private Ticket_ReservationService ticket_ReservationService;

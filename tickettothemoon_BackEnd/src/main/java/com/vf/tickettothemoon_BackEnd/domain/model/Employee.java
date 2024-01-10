@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 
+// REFACTOR: use the heritance strategy, and create a new class for the customer and the employee.
 @Entity
 public class Employee implements Serializable {
     @Id
