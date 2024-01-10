@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Set;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ import com.vf.tickettothemoon_BackEnd.exception.UpdateException;
 
 @CrossOrigin
 @RestController
+@Validated
 @RequestMapping("/api/employees")
 public class EmployeeController {
 
@@ -114,9 +116,10 @@ public class EmployeeController {
      * @throws RemoveException if the employee could not be removed.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<EmployeeDTO> deleteEmployee(@PathVariable Long id)
+    public ResponseEntity<Void> deleteEmployee(@PathVariable Long id)
             throws FinderException, RemoveException {
-        return ResponseEntity.ok(employeeService.deleteEmployee(id));
+        employeeService.deleteEmployee(id);
+        return ResponseEntity.noContent().build();
     }
 
 

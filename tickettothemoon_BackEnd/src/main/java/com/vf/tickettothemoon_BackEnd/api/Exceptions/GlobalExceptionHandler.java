@@ -1,8 +1,16 @@
 package com.vf.tickettothemoon_BackEnd.api.Exceptions;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,6 +26,8 @@ import com.vf.tickettothemoon_BackEnd.exception.PatchException;
 import com.vf.tickettothemoon_BackEnd.exception.RemoveException;
 import com.vf.tickettothemoon_BackEnd.exception.UpdateException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 
 /**
  * GlobalExceptionHandler for handling the Application exceptions
@@ -198,4 +208,57 @@ public class GlobalExceptionHandler {
                 return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+        @ExceptionHandler(MethodArgumentNotValidException.class)
+        @ResponseStatus(HttpStatus.BAD_REQUEST)
+        public ResponseEntity<Object> handleValidationExceptions(
+                        MethodArgumentNotValidException ex) {
+                Map<String, Object> body = new LinkedHashMap<>();
+                body.put("timestamp", LocalDateTime.now());
+                body.put("status", HttpStatus.BAD_REQUEST.value());
+
+                // Get all validation errors
+                List<String> errors = ex.getBindingResult().getFieldErrors().stream()
+                                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                                .collect(Collectors.toList());
+
+                body.put("errors", errors);
+
+                return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+        }
+
+        @ExceptionHandler(ConstraintViolationException.class)
+        @ResponseStatus(HttpStatus.BAD_REQUEST)
+        public ResponseEntity<Object> handleConstraintViolationException(
+                        ConstraintViolationException ex) {
+                Map<String, Object> body = new LinkedHashMap<>();
+                body.put("timestamp", LocalDateTime.now());
+                body.put("status", HttpStatus.BAD_REQUEST.value());
+
+                // Get all validation errors
+                List<String> errors = ex.getConstraintViolations().stream()
+                                .map(ConstraintViolation::getMessage).collect(Collectors.toList());
+
+                body.put("errors", errors);
+
+                return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+        }
+
+        @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)
+        @ResponseStatus(HttpStatus.BAD_REQUEST)
+        public ResponseEntity<Object> handleHttpMessageNotReadableException(
+                        org.springframework.http.converter.HttpMessageNotReadableException ex) {
+                Map<String, Object> body = new LinkedHashMap<>();
+                body.put("timestamp", LocalDateTime.now());
+                body.put("status", HttpStatus.BAD_REQUEST.value());
+                body.put("message",
+                                "Peobably a malformed JSON request. Please check your request body and its data types.");
+
+                // Get all validation errors
+                List<String> errors = Arrays.stream(ex.getStackTrace())
+                                .map(StackTraceElement::toString).collect(Collectors.toList());
+
+                body.put("errors", errors);
+
+                return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+        }
 }

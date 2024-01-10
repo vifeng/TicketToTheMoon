@@ -7,37 +7,48 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+// REFACTOR: use the heritance strategy, and create a new class for the customer and the employee.
+// use the @Embeddable annotation for the address and credit card
 @Entity
 public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String firstName;
-    private String username;
     private String lastName;
+    private String username;
     private String email;
     private String phoneNumber;
 
     @Embedded
     private Address address = new Address();
 
-    // TODO_LOW: a new @embedded class for credit card
-    private int creditCardNumber;
+    private String creditCardNumber;
 
     public Customer() {}
 
-    public Customer(String username) {
+    public Customer(Long id, String firstName, String lastName, String username, String email,
+            String phoneNumber, Address address, String creditCardNumber) {
+        setId(id);
+        setFirstName(firstName);
+        setLastName(lastName);
         setUsername(username);
-    }
-
-    public Customer(String username, String firstname, String lastname, Address address) {
-        setUsername(username);
-        setFirstName(firstname);
-        setLastName(lastname);
+        setEmail(email);
+        setPhoneNumber(phoneNumber);
         setAddress(address);
+        setCreditCardNumber(creditCardNumber);
     }
 
-
+    public Customer(String firstName, String lastName, String username, String email,
+            String phoneNumber, Address address, String creditCardNumber) {
+        setFirstName(firstName);
+        setLastName(lastName);
+        setUsername(username);
+        setEmail(email);
+        setPhoneNumber(phoneNumber);
+        setAddress(address);
+        setCreditCardNumber(creditCardNumber);
+    }
 
     public Long getId() {
         return id;
@@ -95,11 +106,11 @@ public class Customer implements Serializable {
         this.address = address;
     }
 
-    public int getCreditCardNumber() {
+    public String getCreditCardNumber() {
         return creditCardNumber;
     }
 
-    public void setCreditCardNumber(int creditCardNumber) {
+    public void setCreditCardNumber(String creditCardNumber) {
         this.creditCardNumber = creditCardNumber;
     }
 

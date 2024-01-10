@@ -154,6 +154,8 @@ then in vsCode CTL+ SHIFT+P > Java : clean java langage server workspace
 
 - Implementation order : In mapstruct the generated implementation uses the empty constructor then uses the setters to set the values. The orders of the setters is not guaranteed. So if you have a setter that depends on another setter, you can't be sure that the other setter has been called. One of the solution is to use custom mapping method using the builder pattern or validate the entity object in the service layer instead of the setters. For example see the configurationHall.java and its mapper (see `setCapacityOfConfiguration()`, Hall has to be already defined because we call one of his variable to check against a value of the current object).
 
+- A generic error occurred : JSON parse error: Cannot construct instance of `com.vf.tickettothemoon_BackEnd.domain.dto.CustomerDTO` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('{....}')" : My JSON payload request was not correct. I had to change the payload to match the DTO and check the data types. For example, I had a int instead of a String for the phoneNumber in Customer.
+
 # Technologies choice
 
 ## Record for Dto

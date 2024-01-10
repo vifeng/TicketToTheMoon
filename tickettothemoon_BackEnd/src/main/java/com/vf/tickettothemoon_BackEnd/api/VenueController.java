@@ -3,6 +3,7 @@ package com.vf.tickettothemoon_BackEnd.api;
 import java.util.List;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,7 @@ import com.vf.tickettothemoon_BackEnd.exception.UpdateException;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/venues")
+@Validated
 public class VenueController {
 
     private final VenueService venueService;
@@ -75,7 +77,7 @@ public class VenueController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<VenueDTO> deleteVenue(@PathVariable Long id)
+    public ResponseEntity<Void> deleteVenue(@PathVariable Long id)
             // TODO_END: At the end, because of the cascade, we will have to delete hall,
             // configHall,
             // sessionEvent, event, tariffication, seat, categoryTariff, CategorySpatial related to
@@ -85,7 +87,8 @@ public class VenueController {
             // TicketReservation maybe we should not delete to keep the history of the venue. We
             // should not delete customer, payment and paymentstatus
             throws FinderException, RemoveException {
-        return ResponseEntity.ok(venueService.deleteVenue(id));
+        venueService.deleteVenue(id);
+        return ResponseEntity.noContent().build();
     }
 
     ///////////////////////

@@ -282,7 +282,8 @@ public class DbInitializer {
 
     private Customer createCustomer() {
         Address address = new Address("sesame street", "Paris", "75001", "France");
-        Customer customer = new Customer("cookie", "Macaron", "Le glouton", address);
+        Customer customer = new Customer("Macaron", "Le glouton", "cookie", "cookie@gmail.com",
+                "06 06 06 06 06", address, "1234567891234567");
 
         Customer c = customerRepository.save(customer);
         return c;
