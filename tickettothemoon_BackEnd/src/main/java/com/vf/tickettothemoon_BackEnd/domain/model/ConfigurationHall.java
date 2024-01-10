@@ -33,47 +33,6 @@ public class ConfigurationHall implements Serializable {
     @JoinColumn(name = "Hall_FK")
     private Hall hall;
 
-    /////////////////////////// Builder for Mapstruct Use ///////////////////////////
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    public static class Builder {
-        private Long id;
-        private String name;
-        private Hall hall;
-        private int capacityOfConfiguration;
-
-        public Builder id(Long id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder hall(Hall hall) {
-            this.hall = hall;
-            return this;
-        }
-
-        public Builder capacityOfConfiguration(int capacityOfConfiguration) {
-            this.capacityOfConfiguration = capacityOfConfiguration;
-            return this;
-        }
-
-        public ConfigurationHall build() {
-            if (id != null) {
-                return new ConfigurationHall(id, name, hall, capacityOfConfiguration);
-            } else {
-                return new ConfigurationHall(name, hall, capacityOfConfiguration);
-            }
-        }
-
-    }
-
     /////////////////////////// Constructors ///////////////////////////
     public ConfigurationHall() {}
 
@@ -88,6 +47,22 @@ public class ConfigurationHall implements Serializable {
         setName(name);
         setHall(hall);
         setCapacityOfConfiguration(capacityOfConfiguration);
+    }
+
+    /**
+     * @Description(value = "this method is used to check if the constructor is valid. it is called
+     *                    by the mapper after mapping.")
+     */
+    public void checkConstructor() {
+        if (capacityOfConfiguration == 0)
+            throw new IllegalArgumentException("capacityOfConfiguration must be positive");
+        if (capacityOfConfiguration < 0)
+            throw new IllegalArgumentException("capacity must be positive");
+        if (hall == null)
+            throw new IllegalArgumentException("hall must not be null - setHall() first");
+        if (capacityOfConfiguration > hall.getCapacityOfHall())
+            throw new IllegalArgumentException(
+                    "capacity of configuration must be less than capacity of hall");
     }
 
     /////////////////////////// Getters & Setters ///////////////////////////
@@ -113,13 +88,6 @@ public class ConfigurationHall implements Serializable {
     }
 
     public void setCapacityOfConfiguration(int capacityOfConfiguration) {
-        if (capacityOfConfiguration == 0)
-            throw new IllegalArgumentException("capacityOfConfiguration must be positive");
-        if (capacityOfConfiguration < 0)
-            throw new IllegalArgumentException("capacity must be positive");
-        if (capacityOfConfiguration > hall.getCapacityOfHall())
-            throw new IllegalArgumentException(
-                    "capacity of configuration must be less than capacity of hall");
         this.capacityOfConfiguration = capacityOfConfiguration;
     }
 
