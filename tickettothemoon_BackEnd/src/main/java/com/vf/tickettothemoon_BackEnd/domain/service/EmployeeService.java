@@ -151,7 +151,7 @@ public class EmployeeService {
      * @throws RemoveException
      */
     public EmployeeDTO deleteEmployee(Long id) throws FinderException, RemoveException {
-        // REFACTOR : use the deleteById method
+        // REFACTOR : use the deleteById method ? less fine error handling
         try {
             Optional<Employee> optionalEmployee = employeeRepository.findById(id);
             if (optionalEmployee.isPresent()) {

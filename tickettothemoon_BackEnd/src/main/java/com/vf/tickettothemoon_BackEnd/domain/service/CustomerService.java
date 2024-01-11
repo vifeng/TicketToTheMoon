@@ -7,8 +7,10 @@ import java.util.Map;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vf.tickettothemoon_BackEnd.domain.dao.CustomerRepository;
 import com.vf.tickettothemoon_BackEnd.domain.dto.CustomerDTO;
+import com.vf.tickettothemoon_BackEnd.domain.model.Address;
 import com.vf.tickettothemoon_BackEnd.domain.model.Customer;
 import com.vf.tickettothemoon_BackEnd.domain.service.mappers.CustomerMapper;
 import com.vf.tickettothemoon_BackEnd.exception.CreateException;
@@ -23,10 +25,13 @@ import jakarta.transaction.Transactional;
 public class CustomerService {
     private CustomerRepository customerRepository;
     private CustomerMapper customerMapper;
+    private ObjectMapper objectMapper;
 
-    public CustomerService(CustomerRepository customerRepository, CustomerMapper customerMapper) {
+    public CustomerService(CustomerRepository customerRepository, CustomerMapper customerMapper,
+            ObjectMapper objectMapper) {
         this.customerRepository = customerRepository;
         this.customerMapper = customerMapper;
+        this.objectMapper = objectMapper;
     }
 
     public List<CustomerDTO> findAll() throws FinderException {
@@ -84,13 +89,67 @@ public class CustomerService {
         }
     }
 
-    public boolean customerExists(String email, String phone) {
-        return customerRepository.existsByEmailAndPhone(email, phone);
+    public boolean customerExists(String email, String phoneNumber) {
+        return customerRepository.existsByEmailAndPhoneNumber(email, phoneNumber);
     }
 
 
-    public CustomerDTO updateCustomer(Long id, CustomerDTO customerDTO)
-            throws IllegalArgumentException, CreateException {
+
+    /**
+     * Update the whole object : updates only the given fields and erase the rest of the existing
+     * fields.
+     * 
+     * @param id
+     * @param customerPatch
+     * @return
+     * @throws IllegalArgumentException
+     * @throws CreateException
+     */
+    public CustomerDTO updateCustomer(Long id, Map<String, Object> customerPatch)
+            throws IllegalArgumentException, CreateException, FinderException {
+        try {
+            Optional<Customer> optionalCustomer = customerRepository.findById(id);
+            if (optionalCustomer.isPresent()) {
+                customerPatch.forEach((key, value) -> {
+                    if ("address".equals(key)) {
+                        // the address field is a nested map (a LinkedHashMap in this case), not an
+                        // instance of the Address class which why we need to convert it with
+                        // objectMapper
+                        Address addressPatch = objectMapper.convertValue(value, Address.class);
+                        optionalCustomer.get().setAddress(addressPatch);
+                    } else {
+                        // For other fields, use reflection as before
+                        Field field = ReflectionUtils.findField(Customer.class, key);
+                        ReflectionUtils.makeAccessible(field);
+                        ReflectionUtils.setField(field, optionalCustomer.get(), value);
+                    }
+                });
+
+                Customer savedPatchCustomer = customerRepository.save(optionalCustomer.get());
+                return customerMapper.toCustomerDTO(savedPatchCustomer);
+            } else {
+                throw new FinderException("Customer with id {" + id + "} not found");
+            }
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Customer is not patched : " + e.getMessage(), e);
+        } catch (Exception e) {
+            throw new CreateException("Customer is not patched" + e.getMessage(), e);
+        }
+    }
+
+
+    /**
+     * Patch the given field only : patch only the fields that are not null, the rest of the
+     * existing fields remain.
+     * 
+     * @param id
+     * @param customerDTO
+     * @return
+     * @throws IllegalArgumentException
+     * @throws CreateException
+     */
+    public CustomerDTO patchCustomer(Long id, CustomerDTO customerDTO)
+            throws IllegalArgumentException, CreateException, FinderException {
         try {
             Optional<Customer> customerOptional = customerRepository.findById(id);
             if (!customerOptional.isPresent()) {
@@ -117,28 +176,6 @@ public class CustomerService {
             throw new IllegalArgumentException("Customer is not updated : " + e.getMessage(), e);
         } catch (Exception e) {
             throw new CreateException("Customer is not updated" + e.getMessage(), e);
-        }
-    }
-
-    public CustomerDTO patchCustomer(Long id, Map<String, Object> customerPatch)
-            throws IllegalArgumentException, CreateException, FinderException {
-        try {
-            Optional<Customer> optionalCustomer = customerRepository.findById(id);
-            if (optionalCustomer.isPresent()) {
-                customerPatch.forEach((key, value) -> {
-                    Field field = ReflectionUtils.findField(Customer.class, key);
-                    ReflectionUtils.makeAccessible(field);
-                    ReflectionUtils.setField(field, optionalCustomer.get(), value);
-                });
-                Customer savedPatchCustomer = customerRepository.save(optionalCustomer.get());
-                return customerMapper.toCustomerDTO(savedPatchCustomer);
-            } else {
-                throw new FinderException("Customer with id {" + customerPatch + "} not found");
-            }
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Customer is not patched : " + e.getMessage(), e);
-        } catch (Exception e) {
-            throw new CreateException("Customer is not patched" + e.getMessage(), e);
         }
     }
 
