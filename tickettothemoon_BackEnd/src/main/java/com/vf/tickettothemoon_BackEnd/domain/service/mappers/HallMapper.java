@@ -10,14 +10,14 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Hall;
 public interface HallMapper {
 
 
-    HallDTO toHallDTO(Hall hall);
+    HallDTO toDTO(Hall hall);
 
-    Hall toHall(HallDTO hallDTO);
+    Hall toEntity(HallDTO hallDTO);
 
     @IterableMapping(elementTargetType = HallDTO.class)
-    List<HallDTO> toHallDTOs(Iterable<Hall> halls);
+    List<HallDTO> toDTOs(Iterable<Hall> halls);
 
     @IterableMapping(elementTargetType = Hall.class)
-    List<Hall> toHalls(Iterable<HallDTO> hallDTOs);
+    List<Hall> toEntities(Iterable<HallDTO> hallDTOs);
 
 }

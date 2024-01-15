@@ -16,15 +16,15 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Venue;
 public interface VenueMapper {
 
     // Mappage des propriétés entre Venue et VenueDTO
-    VenueDTO toVenueDTO(Venue venue);
+    VenueDTO toDTO(Venue venue);
 
-    Venue toVenue(VenueDTO venueDTO);
+    Venue toEntity(VenueDTO venueDTO);
 
     @IterableMapping(elementTargetType = VenueDTO.class)
-    List<VenueDTO> toVenueDTOs(Iterable<Venue> venues);
+    List<VenueDTO> toDTOs(Iterable<Venue> venues);
 
     @IterableMapping(elementTargetType = Venue.class)
-    List<Venue> toVenues(Iterable<VenueDTO> venueDTOs);
+    List<Venue> toEntities(Iterable<VenueDTO> venueDTOs);
 
     //////////////////////////////
     // Méthodes de mappage pour address @Embedded
@@ -38,14 +38,14 @@ public interface VenueMapper {
         if (address == null) {
             return null;
         }
-        return ADDRESS_MAPPER.toAddressDTO(address);
+        return ADDRESS_MAPPER.toDTO(address);
     }
 
     default Address toAddress(AddressDTO addressDTO) {
         if (addressDTO == null) {
             return null;
         }
-        return ADDRESS_MAPPER.toAddress(addressDTO);
+        return ADDRESS_MAPPER.toEntity(addressDTO);
     }
 
     // Mappage for Address with Venue and its DTO
@@ -75,14 +75,14 @@ public interface VenueMapper {
         if (employee == null) {
             return null;
         }
-        return EMPLOYEE_MAPPER.toEmployeeDTO(employee);
+        return EMPLOYEE_MAPPER.toDTO(employee);
     }
 
     default Employee toEmployee(EmployeeDTO employeeDTO) {
         if (employeeDTO == null) {
             return null;
         }
-        return EMPLOYEE_MAPPER.toEmployee(employeeDTO);
+        return EMPLOYEE_MAPPER.toEntity(employeeDTO);
     }
 
     @IterableMapping(elementTargetType = EmployeeDTO.class)
@@ -90,7 +90,7 @@ public interface VenueMapper {
         if (employees == null) {
             return null;
         }
-        return EMPLOYEE_MAPPER.toEmployeeDTOs(employees);
+        return EMPLOYEE_MAPPER.toDTOs(employees);
     }
 
     @IterableMapping(elementTargetType = Employee.class)
@@ -98,7 +98,7 @@ public interface VenueMapper {
         if (employeeDTOs == null) {
             return null;
         }
-        return EMPLOYEE_MAPPER.toEmployees(employeeDTOs);
+        return EMPLOYEE_MAPPER.toEntities(employeeDTOs);
     }
 
     // Mappage for Employee with Venue and its DTO

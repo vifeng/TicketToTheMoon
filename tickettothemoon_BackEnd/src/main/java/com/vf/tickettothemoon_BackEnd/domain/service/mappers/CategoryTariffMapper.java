@@ -10,14 +10,14 @@ import com.vf.tickettothemoon_BackEnd.domain.model.CategoryTariff;
 public interface CategoryTariffMapper {
 
 
-    CategoryTariffDTO toCategoryTariffDTO(CategoryTariff categoryTariff);
+    CategoryTariffDTO toDTO(CategoryTariff categoryTariff);
 
-    CategoryTariff toCategoryTariff(CategoryTariffDTO categoryTariffDTO);
+    CategoryTariff toEntity(CategoryTariffDTO categoryTariffDTO);
 
     @IterableMapping(elementTargetType = CategoryTariffDTO.class)
-    List<CategoryTariffDTO> toCategoriesTariffDTOs(Iterable<CategoryTariff> categoriesTariffs);
+    List<CategoryTariffDTO> toDTOs(Iterable<CategoryTariff> categoriesTariffs);
 
     @IterableMapping(elementTargetType = CategoryTariff.class)
-    List<CategoryTariff> toCategoriesTariffs(Iterable<CategoryTariffDTO> categoriesTariffsDTOs);
+    List<CategoryTariff> toEntities(Iterable<CategoryTariffDTO> categoriesTariffsDTOs);
 
 }

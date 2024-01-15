@@ -9,14 +9,14 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Employee;
 @Mapper(componentModel = "spring")
 public interface EmployeeMapper {
 
-    EmployeeDTO toEmployeeDTO(Employee employee);
+    EmployeeDTO toDTO(Employee employee);
 
-    Employee toEmployee(EmployeeDTO employeeDTO);
+    Employee toEntity(EmployeeDTO employeeDTO);
 
     @IterableMapping(elementTargetType = EmployeeDTO.class)
-    Set<EmployeeDTO> toEmployeeDTOs(Iterable<Employee> employees);
+    Set<EmployeeDTO> toDTOs(Iterable<Employee> employees);
 
     @IterableMapping(elementTargetType = Employee.class)
-    Set<Employee> toEmployees(Iterable<EmployeeDTO> employeeDTOs);
+    Set<Employee> toEntities(Iterable<EmployeeDTO> employeeDTOs);
 
 }

@@ -8,14 +8,14 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Payment;
 @Mapper(componentModel = "spring")
 public interface PaymentMapper {
 
-    PaymentDTO toPaymentDTO(Payment payment);
+    PaymentDTO toDTO(Payment payment);
 
-    Payment toPayment(PaymentDTO paymentDTO);
+    Payment toEntity(PaymentDTO paymentDTO);
 
 
     @IterableMapping(elementTargetType = PaymentDTO.class)
-    Iterable<PaymentDTO> toPaymentsDTOs(Iterable<Payment> payments);
+    Iterable<PaymentDTO> toDTOs(Iterable<Payment> payments);
 
     @IterableMapping(elementTargetType = Payment.class)
-    Iterable<Payment> toPayments(Iterable<PaymentDTO> paymentDTOs);
+    Iterable<Payment> toEntities(Iterable<PaymentDTO> paymentDTOs);
 }

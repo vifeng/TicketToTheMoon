@@ -8,14 +8,14 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Tarification;
 @Mapper(componentModel = "spring")
 public interface TarificationMapper {
 
-    TarificationDTO toTarificationDTO(Tarification tarification);
+    TarificationDTO toDTO(Tarification tarification);
 
-    Tarification toTarification(TarificationDTO tarificationDTO);
+    Tarification toEntity(TarificationDTO tarificationDTO);
 
     @IterableMapping(elementTargetType = TarificationDTO.class)
-    Iterable<TarificationDTO> toTarificationDTOs(Iterable<Tarification> tarifications);
+    Iterable<TarificationDTO> toDTOs(Iterable<Tarification> tarifications);
 
     @IterableMapping(elementTargetType = Tarification.class)
-    Iterable<Tarification> toTarifications(Iterable<TarificationDTO> tarificationDTOs);
+    Iterable<Tarification> toEntities(Iterable<TarificationDTO> tarificationDTOs);
 
 }

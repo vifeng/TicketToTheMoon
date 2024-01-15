@@ -10,15 +10,15 @@ import com.vf.tickettothemoon_BackEnd.domain.model.CategorySpatial;
 public interface CategorySpatialMapper {
 
 
-    CategorySpatialDTO toCategorySpatialDTO(CategorySpatial category);
+    CategorySpatialDTO toDTO(CategorySpatial category);
 
-    CategorySpatial toCategorySpatial(CategorySpatialDTO categoryDTO);
+    CategorySpatial toEntity(CategorySpatialDTO categoryDTO);
 
     @IterableMapping(elementTargetType = CategorySpatialDTO.class)
-    List<CategorySpatialDTO> toCategoriesSpatialDTOs(Iterable<CategorySpatial> categories);
+    List<CategorySpatialDTO> toDTOs(Iterable<CategorySpatial> categories);
 
     @IterableMapping(elementTargetType = CategorySpatial.class)
-    List<CategorySpatial> toCategoriesSpatial(Iterable<CategorySpatialDTO> categoryDTOs);
+    List<CategorySpatial> toEntities(Iterable<CategorySpatialDTO> categoryDTOs);
 
 
 }
