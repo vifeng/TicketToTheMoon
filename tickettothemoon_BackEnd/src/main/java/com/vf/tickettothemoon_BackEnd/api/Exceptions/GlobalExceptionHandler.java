@@ -35,6 +35,7 @@ import jakarta.validation.ConstraintViolationException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+
         @ExceptionHandler(Exception.class)
         public ResponseEntity<GlobalErrorResponse> genericHandler(Exception exception,
                         HttpServletRequest request) {
@@ -42,6 +43,24 @@ public class GlobalExceptionHandler {
                                 HttpStatus.BAD_REQUEST.value(), request.getRequestURI(),
                                 "A generic error occurred : " + exception.getMessage());
                 return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        }
+
+        /**
+         * 422 Unprocessable Entity.
+         * 
+         * @param exception
+         * @param request
+         * @return
+         */
+        @ExceptionHandler(IllegalArgumentException.class)
+        @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+        @ResponseBody
+        public ResponseEntity<GlobalErrorResponse> handleIllegalArgumentException(
+                        IllegalArgumentException exception, HttpServletRequest request) {
+                GlobalErrorResponse errorResponse = new GlobalErrorResponse(ZonedDateTime.now(),
+                                HttpStatus.UNPROCESSABLE_ENTITY.value(), request.getRequestURI(),
+                                "An illegal argument error occurred : " + exception.getMessage());
+                return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
 

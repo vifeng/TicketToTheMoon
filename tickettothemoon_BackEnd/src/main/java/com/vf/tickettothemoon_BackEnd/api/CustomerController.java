@@ -1,7 +1,6 @@
 package com.vf.tickettothemoon_BackEnd.api;
 
 import java.util.List;
-import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -78,21 +77,24 @@ public class CustomerController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable Long id,
-            @RequestBody CustomerDTO customerDTO)
+            @RequestBody CustomerDTO customerUpdateDTO)
             throws NullException, FinderException, UpdateException, IllegalArgumentException {
-        if (customerDTO == null) {
+        if (customerUpdateDTO == null || id == null) {
             throw new NullException("CustomerDTO update is null");
         }
-        return ResponseEntity.ok(customerService.updateCustomer(id, customerDTO));
+        if (customerUpdateDTO.id() != id) {
+            throw new IllegalArgumentException("Customer id and query id is not the same");
+        }
+        return ResponseEntity.ok(customerService.updateCustomer(id, customerUpdateDTO));
     }
 
 
     @PatchMapping("/{id}")
     public ResponseEntity<CustomerDTO> patchCustomer(@PathVariable Long id,
-            @RequestBody Map<String, Object> customerPatch)
+            @RequestBody CustomerDTO customerPatch)
             throws NullException, FinderException, UpdateException, IllegalArgumentException {
-        if (customerPatch == null || customerPatch.isEmpty()) {
-            throw new NullException("Customer patch is null");
+        if (customerPatch == null || id == null) {
+            throw new NullException("Customer patch is null or empty");
         }
         return ResponseEntity.ok(customerService.patchCustomer(id, customerPatch));
     }

@@ -149,12 +149,14 @@ public class HallService {
      * @throws IllegalArgumentException
      * @throws CreateException
      * @throws FinderException
+     * @throws DuplicateKeyException
      */
-    public HallDTO createHall(Long venue_id, HallDTO hallDTO)
-            throws IllegalArgumentException, CreateException, FinderException {
+    public HallDTO createHall(Long venue_id, HallDTO hallDTO) throws IllegalArgumentException,
+            CreateException, FinderException, DuplicateKeyException {
         // TODISCUSS : Maybe checking the DTO id is enough, no need to check the DB ?
 
         // checks
+        venueRepository.getReferenceById(venue_id);
         venueRepository.findById(venue_id).orElseThrow(() -> new FinderException(
                 "FinderException : Venue with id {" + venue_id + "} not found"));
         if (venue_id != hallDTO.venue().id())

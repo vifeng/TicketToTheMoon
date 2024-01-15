@@ -1,6 +1,7 @@
 package com.vf.tickettothemoon_BackEnd.api;
 
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -44,8 +45,8 @@ public class Ticket_ReservationController {
             throws NullException, CreateException {
         if (ticket_ReservationDTO == null)
             throw new NullException("Ticket_Reservation post is null");
-        return ResponseEntity
-                .ok(ticket_ReservationService.createTicket_Reservation(ticket_ReservationDTO));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ticket_ReservationService.createTicket_Reservation(ticket_ReservationDTO));
     }
 
     // TOFINISH: PUT, PATCH, DELETE

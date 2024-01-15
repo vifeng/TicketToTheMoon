@@ -14,6 +14,7 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Employee;
 import com.vf.tickettothemoon_BackEnd.domain.service.mappers.EmployeeMapper;
 import com.vf.tickettothemoon_BackEnd.exception.CreateException;
 import com.vf.tickettothemoon_BackEnd.exception.FinderException;
+import com.vf.tickettothemoon_BackEnd.exception.NullException;
 import com.vf.tickettothemoon_BackEnd.exception.PatchException;
 import com.vf.tickettothemoon_BackEnd.exception.RemoveException;
 import com.vf.tickettothemoon_BackEnd.exception.UpdateException;
@@ -75,44 +76,45 @@ public class EmployeeService {
     }
 
     /**
+     * Send the complete object. It replaces the old one.
      * 
      * @param id
      * @param employeeDTO
-     * @return the whole updated employee DTO.
+     * @return the updated employee DTO.
      * @throws FinderException
      * @throws UpdateException
      * @throws IllegalArgumentException
      */
-    public EmployeeDTO updateEmployee(Long id, EmployeeDTO employeeDTO)
+    public EmployeeDTO updateEmployee(Long id, EmployeeDTO employeeDTOUpdate)
             throws FinderException, UpdateException, IllegalArgumentException {
         try {
-            Optional<Employee> optionalEmployee = employeeRepository.findById(id);
-            if (optionalEmployee.isPresent()) {
-                Employee existingEmployee = optionalEmployee.get();
-                // Check null values and required fields
-                if (employeeDTO.username() != null)
-                    existingEmployee.setUsername(employeeDTO.username());
-                if (employeeDTO.password() != null)
-                    existingEmployee.setPassword(employeeDTO.password());
-                if (employeeDTO.email() != null)
-                    existingEmployee.setEmail(employeeDTO.email());
-                Employee updatedEmployee = employeeRepository.save(existingEmployee);
-                return employeeMapper.toEmployeeDTO(updatedEmployee);
+            if (id == null) {
+                throw new NullException("Employee " + id + " cannot be null");
             } else {
-                throw new FinderException("Employee with id {" + id + "} not found");
+                Optional<Employee> optionalEmployee = employeeRepository.findById(id);
+                if (!optionalEmployee.isPresent()) {
+                    throw new FinderException("Employee with id {" + id + "} not found");
+                }
+                Employee updatedEmployee = employeeMapper.toEmployee(employeeDTOUpdate);
+                Employee savedEmployee = employeeRepository.save(updatedEmployee);
+                return employeeMapper.toEmployeeDTO(savedEmployee);
             }
+        } catch (FinderException e) {
+            throw new FinderException(e.getMessage(), e);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(
                     "Employee with id {" + id + "} update failed : " + e.getMessage(), e);
         } catch (Exception e) {
             throw new UpdateException(
-                    "Employee with id {" + id + "} update failed" + e.getMessage(), e);
+                    "Employee with id {" + id + "} update failed : " + e.getMessage(), e);
         }
 
     }
 
 
     /**
+     * Partial update. Sends only the fields to update. the others are not modified.
+     * 
      * @param id
      * @param Map<String, Object> employeePatch
      * @return a partial update of the employee DTO. very interesting for nested or huge objects.
@@ -128,7 +130,8 @@ public class EmployeeService {
                 employeePatch.forEach((key, value) -> {
                     Field field = ReflectionUtils.findField(Employee.class, key);
                     ReflectionUtils.makeAccessible(field);
-                    ReflectionUtils.setField(field, optionalEmployee.get(), value);
+                    if (value != null)
+                        ReflectionUtils.setField(field, optionalEmployee.get(), value);
                 });
                 Employee patchEmployee = employeeRepository.save(optionalEmployee.get());
                 return employeeMapper.toEmployeeDTO(patchEmployee);

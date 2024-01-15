@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vf.tickettothemoon_BackEnd.domain.dto.HallDTO;
 import com.vf.tickettothemoon_BackEnd.domain.service.HallService;
 import com.vf.tickettothemoon_BackEnd.exception.CreateException;
+import com.vf.tickettothemoon_BackEnd.exception.DuplicateKeyException;
 import com.vf.tickettothemoon_BackEnd.exception.FinderException;
 import com.vf.tickettothemoon_BackEnd.exception.NullException;
 import com.vf.tickettothemoon_BackEnd.exception.PatchException;
@@ -97,8 +98,8 @@ public class HallController {
      */
     @PostMapping("/venues/{venue_id}/halls")
     public ResponseEntity<HallDTO> createHallForVenueId(@PathVariable Long venue_id,
-            @RequestBody HallDTO hallDTO)
-            throws NullException, CreateException, FinderException, IllegalArgumentException {
+            @RequestBody HallDTO hallDTO) throws NullException, CreateException, FinderException,
+            IllegalArgumentException, DuplicateKeyException {
         if (hallDTO == null)
             throw new NullException("Hall post is null");
         return ResponseEntity.status(HttpStatus.CREATED)
