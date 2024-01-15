@@ -14,18 +14,16 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 public interface Ticket_ReservationMapper {
 
         @Mapping(source = "ticket_Reservation.id", target = "ticket_ReservationKey")
-        Ticket_ReservationDTO toTicket_ReservationDTO(Ticket_Reservation ticket_Reservation);
+        Ticket_ReservationDTO toDTO(Ticket_Reservation ticket_Reservation);
 
         @InheritInverseConfiguration
-        Ticket_Reservation toTicket_Reservation(Ticket_ReservationDTO ticket_ReservationDTO);
+        Ticket_Reservation toEntity(Ticket_ReservationDTO ticket_ReservationDTO);
 
         @IterableMapping(elementTargetType = Ticket_ReservationDTO.class)
-        List<Ticket_ReservationDTO> toTicket_ReservationDTOs(
-                        Iterable<Ticket_Reservation> ticket_Reservations);
+        List<Ticket_ReservationDTO> toDTOs(Iterable<Ticket_Reservation> ticket_Reservations);
 
         @IterableMapping(elementTargetType = Ticket_Reservation.class)
-        List<Ticket_Reservation> toTicket_Reservations(
-                        Iterable<Ticket_ReservationDTO> ticket_ReservationDTOs);
+        List<Ticket_Reservation> toEntities(Iterable<Ticket_ReservationDTO> ticket_ReservationDTOs);
 
         // Composite key mappers
 

@@ -9,14 +9,14 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Event;
 @Mapper(componentModel = "spring")
 public interface EventMapper {
 
-    EventDTO toEventDTO(Event event);
+    EventDTO toDTO(Event event);
 
-    Event toEvent(EventDTO eventDTO);
+    Event toEntity(EventDTO eventDTO);
 
     @IterableMapping(elementTargetType = EventDTO.class)
-    List<EventDTO> toEventDTOs(Iterable<Event> events);
+    List<EventDTO> toDTOs(Iterable<Event> events);
 
     @IterableMapping(elementTargetType = Event.class)
-    List<Event> toEvents(Iterable<EventDTO> eventDTOs);
+    List<Event> toEntities(Iterable<EventDTO> eventDTOs);
 
 }

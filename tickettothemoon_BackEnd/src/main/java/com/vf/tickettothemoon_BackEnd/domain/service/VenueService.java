@@ -55,16 +55,16 @@ public class VenueService {
             throw new FinderException("No Venues in the database");
         }
         // Mapping des propriétés entre Venue et VenueDTO avec MapStruct
-        List<VenueDTO> venueDTOs = venueMapper.toVenueDTOs(venues);
+        List<VenueDTO> venueDTOs = venueMapper.toDTOs(venues);
         return venueDTOs;
     }
 
     public VenueDTO findById(Long id) throws FinderException {
         Venue venue = venueRepository.findById(id)
                 .orElseThrow(() -> new FinderException("Venue with id {\" + id + \"} not found"));
-        return venueMapper.toVenueDTO(venue);
+        return venueMapper.toDTO(venue);
     }
-    
+
     /**
      * 
      * @param venueDTO
@@ -78,10 +78,10 @@ public class VenueService {
             throw new DuplicateKeyException("Venue with id {" + venueDTO.id() + "} already exists");
         }
         try {
-            Venue venue = venueMapper.toVenue(venueDTO);
+            Venue venue = venueMapper.toEntity(venueDTO);
             venueRepository.save(venue);
             Venue savedVenue = venueRepository.save(venue);
-            VenueDTO savedVenueDTO = venueMapper.toVenueDTO(savedVenue);
+            VenueDTO savedVenueDTO = venueMapper.toDTO(savedVenue);
             return savedVenueDTO;
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Venue not created : " + e.getMessage(), e);
@@ -97,7 +97,7 @@ public class VenueService {
             if (optionalVenue.isPresent()) {
                 Venue venueToUpdate = optionalVenue.get();
                 Venue updatedVenue = venueRepository.save(venueToUpdate);
-                return venueMapper.toVenueDTO(updatedVenue);
+                return venueMapper.toDTO(updatedVenue);
             } else {
                 throw new FinderException("Venue with id {" + id + "} not found");
             }
@@ -150,7 +150,7 @@ public class VenueService {
                     }
                 });
                 Venue patchVenue = venueRepository.save(venueToUpdate);
-                return venueMapper.toVenueDTO(patchVenue);
+                return venueMapper.toDTO(patchVenue);
             } else {
                 throw new FinderException("Venue with id {" + id + "} not found");
             }
@@ -171,7 +171,7 @@ public class VenueService {
             if (optionalVenue.isPresent()) {
                 Venue venueToDelete = optionalVenue.get();
                 venueRepository.delete(venueToDelete);
-                return venueMapper.toVenueDTO(venueToDelete);
+                return venueMapper.toDTO(venueToDelete);
             } else {
                 throw new FinderException("Venue with id {" + id + "} not found");
             }
@@ -205,7 +205,7 @@ public class VenueService {
                             + "} not found. create employee first."));
             venue.addEmployee(employee);
             Venue savedVenue = venueRepository.save(venue);
-            return venueMapper.toVenueDTO(savedVenue);
+            return venueMapper.toDTO(savedVenue);
         } catch (Exception e) {
             throw new UpdateException(
                     "Venue with id {" + id + "} update failed : " + e.getMessage(), e);
@@ -221,7 +221,7 @@ public class VenueService {
                     () -> new FinderException("Employee with id {" + employeeId + "} not found"));
             venue.removeEmployee(employee);
             Venue savedVenue = venueRepository.save(venue);
-            return venueMapper.toVenueDTO(savedVenue);
+            return venueMapper.toDTO(savedVenue);
         } catch (Exception e) {
             throw new UpdateException(
                     "Venue with id {" + id + "} update failed : " + e.getMessage(), e);

@@ -9,18 +9,16 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 @Mapper(componentModel = "spring")
 public interface Ticket_ReservationKeyMapper {
 
-        Ticket_ReservationKeyDTO toTicket_ReservationKeyDTO(
-                        Ticket_ReservationKey ticket_ReservationKey);
+        Ticket_ReservationKeyDTO toDTO(Ticket_ReservationKey ticket_ReservationKey);
 
-        Ticket_ReservationKey toTicket_ReservationKey(
-                        Ticket_ReservationKeyDTO ticket_ReservationKeyDTO);
+        Ticket_ReservationKey toEntity(Ticket_ReservationKeyDTO ticket_ReservationKeyDTO);
 
         @IterableMapping(elementTargetType = Ticket_ReservationKeyDTO.class)
-        List<Ticket_ReservationKeyDTO> toTicket_ReservationKeyDTOs(
+        List<Ticket_ReservationKeyDTO> toDTOs(
                         Iterable<Ticket_ReservationKey> ticket_ReservationKeys);
 
         @IterableMapping(elementTargetType = Ticket_ReservationKey.class)
-        List<Ticket_ReservationKey> toTicket_ReservationKeys(
+        List<Ticket_ReservationKey> toEntities(
                         Iterable<Ticket_ReservationKeyDTO> ticket_ReservationKeyDTOs);
 
 }

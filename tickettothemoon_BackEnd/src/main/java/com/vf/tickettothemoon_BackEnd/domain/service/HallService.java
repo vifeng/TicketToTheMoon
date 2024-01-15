@@ -52,7 +52,7 @@ public class HallService {
         if (size == 0) {
             throw new FinderException("No Halls in the database");
         }
-        List<HallDTO> hallDTOs = hallMapper.toHallDTOs(halls);
+        List<HallDTO> hallDTOs = hallMapper.toDTOs(halls);
         return hallDTOs;
 
     }
@@ -67,7 +67,7 @@ public class HallService {
     public HallDTO findById(Long id) throws FinderException {
         Hall hall = hallRepository.findById(id)
                 .orElseThrow(() -> new FinderException("Hall with id {\" + id + \"} not found"));
-        return hallMapper.toHallDTO(hall);
+        return hallMapper.toDTO(hall);
     }
 
     /**
@@ -102,7 +102,7 @@ public class HallService {
                 }
                 log.info("Hall to update : " + hallToUpdate.toString());
                 hallRepository.save(hallToUpdate);
-                return hallMapper.toHallDTO(hallToUpdate);
+                return hallMapper.toDTO(hallToUpdate);
             } else {
                 throw new FinderException("Hall with id {" + id + "} not found");
             }
@@ -168,9 +168,9 @@ public class HallService {
         }
         // create and save
         try {
-            Hall hall = hallMapper.toHall(hallDTO);
+            Hall hall = hallMapper.toEntity(hallDTO);
             Hall savedHall = hallRepository.save(hall);
-            return hallMapper.toHallDTO(savedHall);
+            return hallMapper.toDTO(savedHall);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(
                     "Hall not created, IllegalArgumentException : " + e.getMessage(), e);
@@ -193,7 +193,7 @@ public class HallService {
             throw new FinderException(
                     "No Halls in the database for Venue with id {" + venue_id + "}");
         }
-        List<HallDTO> hallDTOs = hallMapper.toHallDTOs(halls);
+        List<HallDTO> hallDTOs = hallMapper.toDTOs(halls);
         return hallDTOs;
     }
 

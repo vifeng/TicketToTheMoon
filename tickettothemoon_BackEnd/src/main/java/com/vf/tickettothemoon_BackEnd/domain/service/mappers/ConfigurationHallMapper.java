@@ -12,7 +12,7 @@ import jakarta.validation.Valid;
 @Mapper(componentModel = "spring")
 public interface ConfigurationHallMapper {
 
-        ConfigurationHallDTO toConfigurationHallDTO(ConfigurationHall configurationHall);
+        ConfigurationHallDTO toDTO(ConfigurationHall configurationHall);
 
         @AfterMapping
         default void checkConstructorAfterToDto(ConfigurationHall entity,
@@ -20,7 +20,7 @@ public interface ConfigurationHallMapper {
                 dto.checkConstructor();
         }
 
-        ConfigurationHall toConfigurationHall(ConfigurationHallDTO configurationHallDTO);
+        ConfigurationHall toEntity(ConfigurationHallDTO configurationHallDTO);
 
         @AfterMapping
         default void checkConstructorAfterToEntity(ConfigurationHallDTO dto,
@@ -30,12 +30,10 @@ public interface ConfigurationHallMapper {
 
 
         @IterableMapping(elementTargetType = ConfigurationHallDTO.class)
-        List<ConfigurationHallDTO> toConfigurationHallDTOs(
-                        Iterable<ConfigurationHall> configurationHalls);
+        List<ConfigurationHallDTO> toDTOs(Iterable<ConfigurationHall> configurationHalls);
 
         @IterableMapping(elementTargetType = ConfigurationHall.class)
-        List<ConfigurationHall> toConfigurationHalls(
-                        Iterable<ConfigurationHallDTO> configurationHallDTOs);
+        List<ConfigurationHall> toEntities(Iterable<ConfigurationHallDTO> configurationHallDTOs);
 
 
 

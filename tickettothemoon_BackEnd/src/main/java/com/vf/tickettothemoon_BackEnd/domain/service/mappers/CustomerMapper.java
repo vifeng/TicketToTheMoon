@@ -9,14 +9,14 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Customer;
 @Mapper(componentModel = "spring")
 public interface CustomerMapper {
 
-    CustomerDTO toCustomerDTO(Customer customer);
+    CustomerDTO toDTO(Customer customer);
 
-    Customer toCustomer(CustomerDTO customerDTO);
+    Customer toEntity(CustomerDTO customerDTO);
 
     @IterableMapping(elementTargetType = CustomerDTO.class)
-    List<CustomerDTO> toCustomerDTOs(Iterable<Customer> customers);
+    List<CustomerDTO> toDTOs(Iterable<Customer> customers);
 
     @IterableMapping(elementTargetType = Customer.class)
-    List<Customer> toCustomers(Iterable<CustomerDTO> customerDTOs);
+    List<Customer> toEntities(Iterable<CustomerDTO> customerDTOs);
 
 }

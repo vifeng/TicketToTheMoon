@@ -8,13 +8,13 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Address;
 @Mapper(componentModel = "spring")
 public interface AddressMapper {
 
-    AddressDTO toAddressDTO(Address address);
+    AddressDTO toDTO(Address address);
 
-    Address toAddress(AddressDTO addressDTO);
+    Address toEntity(AddressDTO addressDTO);
 
     @IterableMapping(elementTargetType = AddressDTO.class)
-    Iterable<AddressDTO> toAddressDTOs(Iterable<Address> addresses);
+    Iterable<AddressDTO> toDTOs(Iterable<Address> addresses);
 
     @IterableMapping(elementTargetType = Address.class)
-    Iterable<Address> toAddresses(Iterable<AddressDTO> addressDTOs);
+    Iterable<Address> toEntities(Iterable<AddressDTO> addressDTOs);
 }

@@ -40,7 +40,7 @@ public class EmployeeService {
         if (size == 0) {
             throw new FinderException("No Employees in the database");
         }
-        Set<EmployeeDTO> employeeDTOs = employeeMapper.toEmployeeDTOs(employees);
+        Set<EmployeeDTO> employeeDTOs = employeeMapper.toDTOs(employees);
         return employeeDTOs;
 
     }
@@ -52,7 +52,7 @@ public class EmployeeService {
     public EmployeeDTO findById(Long id) throws FinderException {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new FinderException("Employee with id {" + id + "} not found"));
-        return employeeMapper.toEmployeeDTO(employee);
+        return employeeMapper.toDTO(employee);
     }
 
     /**
@@ -64,9 +64,9 @@ public class EmployeeService {
     public EmployeeDTO createEmployee(EmployeeDTO employeeDTO)
             throws CreateException, IllegalArgumentException {
         try {
-            Employee employee = employeeMapper.toEmployee(employeeDTO);
+            Employee employee = employeeMapper.toEntity(employeeDTO);
             Employee savedEmployee = employeeRepository.save(employee);
-            EmployeeDTO savedEmployeeDTO = employeeMapper.toEmployeeDTO(savedEmployee);
+            EmployeeDTO savedEmployeeDTO = employeeMapper.toDTO(savedEmployee);
             return savedEmployeeDTO;
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Employee is not created : " + e.getMessage(), e);
@@ -95,9 +95,9 @@ public class EmployeeService {
                 if (!optionalEmployee.isPresent()) {
                     throw new FinderException("Employee with id {" + id + "} not found");
                 }
-                Employee updatedEmployee = employeeMapper.toEmployee(employeeDTOUpdate);
+                Employee updatedEmployee = employeeMapper.toEntity(employeeDTOUpdate);
                 Employee savedEmployee = employeeRepository.save(updatedEmployee);
-                return employeeMapper.toEmployeeDTO(savedEmployee);
+                return employeeMapper.toDTO(savedEmployee);
             }
         } catch (FinderException e) {
             throw new FinderException(e.getMessage(), e);
@@ -134,7 +134,7 @@ public class EmployeeService {
                         ReflectionUtils.setField(field, optionalEmployee.get(), value);
                 });
                 Employee patchEmployee = employeeRepository.save(optionalEmployee.get());
-                return employeeMapper.toEmployeeDTO(patchEmployee);
+                return employeeMapper.toDTO(patchEmployee);
             } else {
                 throw new FinderException("Employee with id {" + id + "} not found");
             }
@@ -160,7 +160,7 @@ public class EmployeeService {
             if (optionalEmployee.isPresent()) {
                 Employee eemployeeToDelete = optionalEmployee.get();
                 employeeRepository.delete(eemployeeToDelete);
-                return employeeMapper.toEmployeeDTO(eemployeeToDelete);
+                return employeeMapper.toDTO(eemployeeToDelete);
             } else {
                 throw new FinderException("Employee with id {" + id + "} not found");
             }

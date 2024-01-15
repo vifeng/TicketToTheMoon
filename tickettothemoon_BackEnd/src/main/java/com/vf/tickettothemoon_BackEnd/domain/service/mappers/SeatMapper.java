@@ -10,14 +10,14 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Seat;
 @Mapper(componentModel = "spring")
 public interface SeatMapper {
 
-        SeatDTO toSeatDTO(Seat seat);
+        SeatDTO toDTO(Seat seat);
 
-        Seat toSeat(SeatDTO seatDTO);
+        Seat toEntity(SeatDTO seatDTO);
 
         @IterableMapping(elementTargetType = SeatDTO.class)
-        List<SeatDTO> toSeatDTOs(Iterable<Seat> seats);
+        List<SeatDTO> toDTOs(Iterable<Seat> seats);
 
         @IterableMapping(elementTargetType = Seat.class)
-        List<Seat> toSeats(Iterable<SeatDTO> seatDTOs);
+        List<Seat> toEntities(Iterable<SeatDTO> seatDTOs);
 
 }

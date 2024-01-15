@@ -46,7 +46,7 @@ public class Ticket_ReservationService {
         if (size == 0)
             throw new FinderException("No ticket_Reservations in the database");
         List<Ticket_ReservationDTO> ticket_ReservationDTOs =
-                ticket_ReservationMapper.toTicket_ReservationDTOs(ticket_Reservations);
+                ticket_ReservationMapper.toDTOs(ticket_Reservations);
         return ticket_ReservationDTOs;
     }
 
@@ -61,7 +61,7 @@ public class Ticket_ReservationService {
         Ticket_Reservation ticket_Reservation =
                 ticket_ReservationRepository.findById(id).orElseThrow(() -> new FinderException(
                         "Ticket_Reservation with id " + id + " not found"));
-        return ticket_ReservationMapper.toTicket_ReservationDTO(ticket_Reservation);
+        return ticket_ReservationMapper.toDTO(ticket_Reservation);
     }
 
 
@@ -71,7 +71,7 @@ public class Ticket_ReservationService {
             throws IllegalArgumentException, CreateException, DuplicateKeyException {
         try {
             Ticket_Reservation ticket_Reservation =
-                    ticket_ReservationMapper.toTicket_Reservation(ticket_ReservationDTO);
+                    ticket_ReservationMapper.toEntity(ticket_ReservationDTO);
             ticket_ReservationRepository.findById(ticket_Reservation.getId())
                     .ifPresent(ticket_ReservationKey -> {
                         throw new DuplicateKeyException(
@@ -80,7 +80,7 @@ public class Ticket_ReservationService {
                     });
             ticket_ReservationRepository.save(ticket_Reservation);
             Ticket_ReservationDTO savedTicket_ReservationDTO =
-                    ticket_ReservationMapper.toTicket_ReservationDTO(ticket_Reservation);
+                    ticket_ReservationMapper.toDTO(ticket_Reservation);
             return savedTicket_ReservationDTO;
         } catch (DuplicateKeyException e) {
             throw new DuplicateKeyException(e.getMessage());

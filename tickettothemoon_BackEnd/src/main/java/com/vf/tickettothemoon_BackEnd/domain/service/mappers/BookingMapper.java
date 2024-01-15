@@ -10,14 +10,14 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Booking;
 public interface BookingMapper {
 
 
-    BookingDTO toBookingDTO(Booking booking);
+    BookingDTO toDTO(Booking booking);
 
-    Booking toBooking(BookingDTO bookingDTO);
+    Booking toEntity(BookingDTO bookingDTO);
 
     @IterableMapping(elementTargetType = BookingDTO.class)
-    Set<BookingDTO> toBookingDTOs(Iterable<Booking> bookings);
+    Set<BookingDTO> toDTOs(Iterable<Booking> bookings);
 
     @IterableMapping(elementTargetType = Booking.class)
-    Set<Booking> toBookings(Iterable<BookingDTO> bookingDTOs);
+    Set<Booking> toEntities(Iterable<BookingDTO> bookingDTOs);
 
 }
