@@ -3,7 +3,6 @@ package com.vf.tickettothemoon_BackEnd.domain.service.mappers;
 import java.util.List;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import com.vf.tickettothemoon_BackEnd.domain.dto.CustomerDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Customer;
 
@@ -12,7 +11,6 @@ public interface CustomerMapper {
 
     CustomerDTO toCustomerDTO(Customer customer);
 
-    @Mapping(target = "id", ignore = true)
     Customer toCustomer(CustomerDTO customerDTO);
 
     @IterableMapping(elementTargetType = CustomerDTO.class)
@@ -20,4 +18,5 @@ public interface CustomerMapper {
 
     @IterableMapping(elementTargetType = Customer.class)
     List<Customer> toCustomers(Iterable<CustomerDTO> customerDTOs);
+
 }

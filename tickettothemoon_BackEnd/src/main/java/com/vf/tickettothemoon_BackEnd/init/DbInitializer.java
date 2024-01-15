@@ -260,9 +260,6 @@ public class DbInitializer {
         Ticket_Reservation oneTicket_Reservation2 =
                 new Ticket_Reservation(ticket_ReservationKey2, true);
 
-        log.info("//////////////// TICKETS ///////////////////////////////");
-        log.info("oneTicket_Reservation1: " + oneTicket_Reservation1);
-        log.info("oneTicket_Reservation2: " + oneTicket_Reservation2);
         ticket_ReservationRepository.save(oneTicket_Reservation1);
         ticket_ReservationRepository.save(oneTicket_Reservation2);
 
