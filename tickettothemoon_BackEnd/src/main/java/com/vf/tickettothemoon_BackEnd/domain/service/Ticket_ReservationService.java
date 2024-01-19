@@ -1,7 +1,7 @@
 package com.vf.tickettothemoon_BackEnd.domain.service;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -40,12 +40,12 @@ public class Ticket_ReservationService {
     }
 
 
-    public List<Ticket_ReservationDTO> findAll() throws FinderException {
+    public Set<Ticket_ReservationDTO> findAll() throws FinderException {
         Iterable<Ticket_Reservation> ticket_Reservations = ticket_ReservationRepository.findAll();
         int size = ((Collection<Ticket_Reservation>) ticket_Reservations).size();
         if (size == 0)
             throw new FinderException("No ticket_Reservations in the database");
-        List<Ticket_ReservationDTO> ticket_ReservationDTOs =
+        Set<Ticket_ReservationDTO> ticket_ReservationDTOs =
                 ticket_ReservationMapper.toDTOs(ticket_Reservations);
         return ticket_ReservationDTOs;
     }
@@ -65,7 +65,6 @@ public class Ticket_ReservationService {
     }
 
 
-    // TODO : Booking_FK to complete
     public Ticket_ReservationDTO createTicket_Reservation(
             Ticket_ReservationDTO ticket_ReservationDTO)
             throws IllegalArgumentException, CreateException, DuplicateKeyException {

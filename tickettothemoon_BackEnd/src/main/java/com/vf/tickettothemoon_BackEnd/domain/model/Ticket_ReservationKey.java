@@ -1,6 +1,7 @@
 package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
+import org.springframework.lang.NonNull;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -19,7 +20,7 @@ public class Ticket_ReservationKey implements Serializable {
 
     public Ticket_ReservationKey() {}
 
-    public Ticket_ReservationKey(Seat seatId, SessionEvent sessionEventId) {
+    public Ticket_ReservationKey(@NonNull Seat seatId, @NonNull SessionEvent sessionEventId) {
         this.seatId = seatId;
         this.sessionEventId = sessionEventId;
     }
@@ -38,11 +39,11 @@ public class Ticket_ReservationKey implements Serializable {
         return sessionEventId;
     }
 
-    public void setSeatId(Seat seatId) {
+    public void setSeatId(@NonNull Seat seatId) {
         this.seatId = seatId;
     }
 
-    public void setSessionEventId(SessionEvent sessionEventId) {
+    public void setSessionEventId(@NonNull SessionEvent sessionEventId) {
         this.sessionEventId = sessionEventId;
     }
 
