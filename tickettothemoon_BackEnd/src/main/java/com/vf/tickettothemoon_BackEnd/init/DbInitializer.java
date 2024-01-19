@@ -242,7 +242,7 @@ public class DbInitializer {
 
     private SessionEvent createSessionEvent(Event event, ConfigurationHall configurationHall,
             List<Seat> seats) {
-        SessionEvent sessionEvent = new SessionEvent(LocalDateTime.of(2024, 01, 05, 20, 00), 90,
+        SessionEvent sessionEvent = new SessionEvent(LocalDateTime.of(2026, 01, 05, 20, 00), 90,
                 event, configurationHall);
         return sessionEventRepository.save(sessionEvent);
     }

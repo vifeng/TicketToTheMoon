@@ -3,6 +3,7 @@ package com.vf.tickettothemoon_BackEnd.domain.service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vf.tickettothemoon_BackEnd.domain.dao.CustomerRepository;
@@ -42,7 +43,7 @@ public class CustomerService {
         return customerDTOs;
     }
 
-    public CustomerDTO findById(Long id) throws FinderException {
+    public CustomerDTO findById(@NonNull Long id) throws FinderException {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new FinderException("Customer with id {" + id + "} not found"));
         return customerMapper.toDTO(customer);

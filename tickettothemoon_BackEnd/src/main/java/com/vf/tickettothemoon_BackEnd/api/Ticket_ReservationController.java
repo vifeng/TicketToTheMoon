@@ -1,6 +1,6 @@
 package com.vf.tickettothemoon_BackEnd.api;
 
-import java.util.List;
+import java.util.Set;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -29,7 +29,7 @@ public class Ticket_ReservationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Ticket_ReservationDTO>> getAllTicket_Reservations() {
+    public ResponseEntity<Set<Ticket_ReservationDTO>> getAllTicket_Reservations() {
         return ResponseEntity.ok(ticket_ReservationService.findAll());
     }
 

@@ -1,14 +1,11 @@
 package com.vf.tickettothemoon_BackEnd.domain.service.mappers;
 
-import java.util.List;
-import org.mapstruct.InheritInverseConfiguration;
+import java.util.Set;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationDTO;
-import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationKeyDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_Reservation;
-import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 
 @Mapper(componentModel = "spring")
 public interface Ticket_ReservationMapper {
@@ -16,20 +13,20 @@ public interface Ticket_ReservationMapper {
         @Mapping(source = "ticket_Reservation.id", target = "ticket_ReservationKey")
         Ticket_ReservationDTO toDTO(Ticket_Reservation ticket_Reservation);
 
-        @InheritInverseConfiguration
+        @Mapping(source = "ticket_ReservationDTO.ticket_ReservationKey", target = "id")
         Ticket_Reservation toEntity(Ticket_ReservationDTO ticket_ReservationDTO);
 
         @IterableMapping(elementTargetType = Ticket_ReservationDTO.class)
-        List<Ticket_ReservationDTO> toDTOs(Iterable<Ticket_Reservation> ticket_Reservations);
+        Set<Ticket_ReservationDTO> toDTOs(Iterable<Ticket_Reservation> ticket_Reservations);
 
         @IterableMapping(elementTargetType = Ticket_Reservation.class)
-        List<Ticket_Reservation> toEntities(Iterable<Ticket_ReservationDTO> ticket_ReservationDTOs);
+        Set<Ticket_Reservation> toEntities(Iterable<Ticket_ReservationDTO> ticket_ReservationDTOs);
 
         // Composite key mappers
 
-        Ticket_ReservationKeyDTO map(Ticket_ReservationKey ticket_ReservationKey);
+        // Ticket_ReservationKeyDTO map(Ticket_ReservationKey ticket_ReservationKey);
 
-        Ticket_ReservationKey map(Ticket_ReservationKeyDTO ticket_ReservationKeyDTO);
+        // Ticket_ReservationKey map(Ticket_ReservationKeyDTO ticket_ReservationKeyDTO);
 
 
 

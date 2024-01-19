@@ -2,6 +2,7 @@ package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.sql.Timestamp;
 import java.util.Set;
+import org.springframework.lang.NonNull;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,8 +29,8 @@ public class Booking {
 
     // relationships
     // OneToMany unidirectional with Ticket_Reservation
-    // TODO_LOW: tester les cascades. Si on supprime une réservation, est-ce que ça supprime le
-    // ticket ? le cascade.all ne marche pas
+    // FIXME: tester les cascades. Si on supprime une réservation, ça ne supprime pas le
+    // ticket. le cascade.all ne marche pas
     @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true)
     @JoinColumn(name = "Booking_FK")
     private Set<Ticket_Reservation> reservations;
@@ -43,8 +44,9 @@ public class Booking {
     // constructors
     public Booking() {}
 
+
     public Booking(Long id, Timestamp booking_creationTimestamp, Customer customer,
-            Set<Ticket_Reservation> reservations) {
+            @NonNull Set<Ticket_Reservation> reservations) {
         setId(id);
         setBooking_creationTimestamp(booking_creationTimestamp);
         setCustomer(customer);
@@ -52,7 +54,7 @@ public class Booking {
     }
 
     public Booking(Timestamp booking_creationTimestamp, Customer customer,
-            Set<Ticket_Reservation> reservations) {
+            @NonNull Set<Ticket_Reservation> reservations) {
         setBooking_creationTimestamp(booking_creationTimestamp);
         setCustomer(customer);
         setReservations(reservations);
@@ -90,7 +92,7 @@ public class Booking {
         return reservations;
     }
 
-    public void setReservations(Set<Ticket_Reservation> reservations) {
+    public void setReservations(@NonNull Set<Ticket_Reservation> reservations) {
         this.reservations = reservations;
         total_price_ht = 0;
         for (Ticket_Reservation reservation : reservations) {
@@ -100,14 +102,14 @@ public class Booking {
         }
     }
 
-    public void addReservation(Ticket_Reservation reservation) {
+    public void addReservation(@NonNull Ticket_Reservation reservation) {
         this.reservations.add(reservation);
         // TODO_LOW: DISCOUNT - how should we calculate the discount ?
         total_price_ht +=
                 reservation.getSeatId().getCategoryTariff().getTarification().getBasePrice();
     }
 
-    public void removeReservation(Ticket_Reservation reservation) {
+    public void removeReservation(@NonNull Ticket_Reservation reservation) {
         if (reservation != null) {
             this.reservations.remove(reservation);
             // TODO_LOW: DISCOUNT - how should we calculate the discount ?

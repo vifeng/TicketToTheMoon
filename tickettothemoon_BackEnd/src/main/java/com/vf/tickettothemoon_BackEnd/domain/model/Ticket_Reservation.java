@@ -1,6 +1,7 @@
 package com.vf.tickettothemoon_BackEnd.domain.model;
 
 import java.io.Serializable;
+import org.springframework.lang.NonNull;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 
@@ -38,7 +39,7 @@ public class Ticket_Reservation implements Serializable {
         return id;
     }
 
-    public void setId(Ticket_ReservationKey id) {
+    public void setId(@NonNull Ticket_ReservationKey id) {
         this.id = id;
     }
 
