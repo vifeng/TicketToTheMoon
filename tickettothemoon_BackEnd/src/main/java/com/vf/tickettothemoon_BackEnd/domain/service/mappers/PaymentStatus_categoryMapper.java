@@ -1,5 +1,6 @@
 package com.vf.tickettothemoon_BackEnd.domain.service.mappers;
 
+import java.util.List;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import com.vf.tickettothemoon_BackEnd.domain.dto.PaymentStatus_categoryDTO;
@@ -14,11 +15,11 @@ public interface PaymentStatus_categoryMapper {
         PaymentStatus_category toEntity(PaymentStatus_categoryDTO paymentStatus_categoryDTO);
 
         @IterableMapping(elementTargetType = PaymentStatus_categoryDTO.class)
-        Iterable<PaymentStatus_categoryDTO> toDTOs(
+        List<PaymentStatus_categoryDTO> toDTOs(
                         Iterable<PaymentStatus_category> paymentStatus_categories);
 
 
         @IterableMapping(elementTargetType = PaymentStatus_category.class)
-        Iterable<PaymentStatus_category> toEntities(
+        List<PaymentStatus_category> toEntities(
                         Iterable<PaymentStatus_categoryDTO> paymentStatus_categoryDTOs);
 }

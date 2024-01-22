@@ -43,13 +43,13 @@ public class Ticket_Reservation implements Serializable {
         this.id = id;
     }
 
-    public Seat getSeatId() {
-        return this.id.getSeatId();
-    }
+    // public Seat getSeatId() {
+    // return this.id.getSeatId();
+    // }
 
-    public SessionEvent getSessionEventId() {
-        return this.id.getSessionEventId();
-    }
+    // public SessionEvent getSessionEventId() {
+    // return this.id.getSessionEventId();
+    // }
 
 
     // end of composite key getters

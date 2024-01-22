@@ -100,6 +100,7 @@ public class BookingService {
         Booking booking =
                 new Booking(booking_creationTimestamp, customer, reservationsByAvaibility);
         Booking savedBooking = bookingRepository.save(booking);
+        updateSeatAvailability(booking.getId(), "booked");
         BookingDTO bookingDTOSaved = bookingMapper.toDTO(savedBooking);
         return bookingDTOSaved;
     }
@@ -123,6 +124,7 @@ public class BookingService {
                         "Ticket_Reservation with id {" + reservationKeyDTO + "} not found"));
         booking.addReservation(ticket_Reservation);
         Booking savedBooking = bookingRepository.save(booking);
+        updateSeatAvailability(booking_id, "booked");
         return bookingMapper.toDTO(savedBooking);
     }
 
@@ -145,11 +147,62 @@ public class BookingService {
                         "Ticket_Reservation with id {" + reservationKeyDTO + "} not found"));
         booking.removeReservation(ticket_Reservation);
         if (booking.getReservations().isEmpty()) {
-            bookingRepository.delete(booking);
+            deleteBooking(booking_id);
             return null;
         }
         Booking savedBooking = bookingRepository.save(booking);
+        updateSeatAvailability(booking_id, "available");
         return bookingMapper.toDTO(savedBooking);
     }
+
+
+    public void deleteBooking(Long booking_id) throws FinderException, IllegalArgumentException {
+        if (booking_id == null) {
+            throw new NullException("Booking id cannot be null");
+        }
+        Booking booking = bookingRepository.findById(booking_id).orElseThrow(
+                () -> new FinderException("Booking with id {" + booking_id + "} not found"));
+        // FIXME : If the booking is paid the seats are not available, if we just want to delete
+        // then it's available.
+        bookingRepository.delete(booking);
+    }
+
+    /**
+     * This method is used to roll over the seats availability to available when the booking is
+     * expired. It also deletes the ticket_reservations that are related to the booking which is
+     * expired and the booking itself. It is called from the createPayment method.
+     * 
+     * @param booking_id
+     * @throws FinderException
+     * @throws IllegalArgumentException
+     */
+    public void rollOverSeatsAvailability(Long booking_id)
+            throws FinderException, IllegalArgumentException {
+        if (booking_id == null) {
+            throw new NullException("Booking id cannot be null");
+        }
+        Booking booking = bookingRepository.findById(booking_id).orElseThrow(
+                () -> new FinderException("Booking with id {" + booking_id + "} not found"));
+        Set<Ticket_Reservation> reservations = booking.getReservations();
+        for (Ticket_Reservation reservation : reservations) {
+            ticket_ReservationService.changeSeatsStatus(reservation, "available");
+            ticket_ReservationRepository.delete(reservation);
+        }
+        bookingRepository.delete(booking);
+    }
+
+    public void updateSeatAvailability(Long booking_id, String status) {
+        if (booking_id == null) {
+            throw new NullException("Booking id cannot be null");
+        }
+        Booking booking = bookingRepository.findById(booking_id).orElseThrow(
+                () -> new FinderException("Booking with id {" + booking_id + "} not found"));
+        Set<Ticket_Reservation> reservations = booking.getReservations();
+        for (Ticket_Reservation reservation : reservations) {
+            ticket_ReservationService.changeSeatsStatus(reservation, status);
+        }
+    }
+
+
 
 }
