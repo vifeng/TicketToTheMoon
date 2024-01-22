@@ -5,7 +5,9 @@ import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationDTO;
+import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationKeyDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_Reservation;
+import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 
 @Mapper(componentModel = "spring")
 public interface Ticket_ReservationMapper {
@@ -23,10 +25,10 @@ public interface Ticket_ReservationMapper {
         Set<Ticket_Reservation> toEntities(Iterable<Ticket_ReservationDTO> ticket_ReservationDTOs);
 
         // Composite key mappers
+        // TOCHECK : not sure if this is needed
+        Ticket_ReservationKeyDTO map(Ticket_ReservationKey ticket_ReservationKey);
 
-        // Ticket_ReservationKeyDTO map(Ticket_ReservationKey ticket_ReservationKey);
-
-        // Ticket_ReservationKey map(Ticket_ReservationKeyDTO ticket_ReservationKeyDTO);
+        Ticket_ReservationKey map(Ticket_ReservationKeyDTO ticket_ReservationKeyDTO);
 
 
 
