@@ -1,5 +1,6 @@
 package com.vf.tickettothemoon_BackEnd.domain.service.mappers;
 
+import java.util.List;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import com.vf.tickettothemoon_BackEnd.domain.dto.PaymentDTO;
@@ -14,8 +15,8 @@ public interface PaymentMapper {
 
 
     @IterableMapping(elementTargetType = PaymentDTO.class)
-    Iterable<PaymentDTO> toDTOs(Iterable<Payment> payments);
+    List<PaymentDTO> toDTOs(Iterable<Payment> payments);
 
     @IterableMapping(elementTargetType = Payment.class)
-    Iterable<Payment> toEntities(Iterable<PaymentDTO> paymentDTOs);
+    List<Payment> toEntities(Iterable<PaymentDTO> paymentDTOs);
 }

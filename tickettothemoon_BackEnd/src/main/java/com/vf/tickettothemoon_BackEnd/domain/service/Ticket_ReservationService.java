@@ -7,10 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.vf.tickettothemoon_BackEnd.domain.dao.SeatRepository;
+import com.vf.tickettothemoon_BackEnd.domain.dao.Seat_StatusRepository;
 import com.vf.tickettothemoon_BackEnd.domain.dao.SessionEventRepository;
 import com.vf.tickettothemoon_BackEnd.domain.dao.Ticket_ReservationRepository;
 import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Seat;
+import com.vf.tickettothemoon_BackEnd.domain.model.Seat_Status;
 import com.vf.tickettothemoon_BackEnd.domain.model.SessionEvent;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_Reservation;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
@@ -18,6 +20,7 @@ import com.vf.tickettothemoon_BackEnd.domain.service.mappers.Ticket_ReservationM
 import com.vf.tickettothemoon_BackEnd.exception.CreateException;
 import com.vf.tickettothemoon_BackEnd.exception.DuplicateKeyException;
 import com.vf.tickettothemoon_BackEnd.exception.FinderException;
+import com.vf.tickettothemoon_BackEnd.exception.UpdateException;
 
 @Service
 @Transactional
@@ -26,17 +29,19 @@ public class Ticket_ReservationService {
     private final Ticket_ReservationMapper ticket_ReservationMapper;
     private SeatRepository seatRepository;
     private SessionEventRepository sessionEventRepository;
-
+    private Seat_StatusRepository seat_StatusRepository;
     private static final Logger log = LoggerFactory.getLogger(HallService.class);
 
 
     public Ticket_ReservationService(Ticket_ReservationRepository ticket_ReservationRepository,
             Ticket_ReservationMapper ticket_ReservationMapper, SeatRepository seatRepository,
-            SessionEventRepository sessionEventRepository) {
+            SessionEventRepository sessionEventRepository,
+            Seat_StatusRepository seat_StatusRepository) {
         this.ticket_ReservationRepository = ticket_ReservationRepository;
         this.ticket_ReservationMapper = ticket_ReservationMapper;
         this.seatRepository = seatRepository;
         this.sessionEventRepository = sessionEventRepository;
+        this.seat_StatusRepository = seat_StatusRepository;
     }
 
 
@@ -88,6 +93,22 @@ public class Ticket_ReservationService {
                     e);
         } catch (Exception e) {
             throw new CreateException("Ticket_Reservation not created : " + e.getMessage(), e);
+        }
+    }
+
+
+    public void changeSeatsStatus(Ticket_Reservation ticket_Reservation, String status)
+            throws UpdateException {
+        try {
+            // TODO_LOW : use SeatStatusService when it will be created
+            // change the seat availbitity to true
+            Seat seat = ticket_Reservation.getId().getSeatId();
+            Seat_Status seat_Status_available = seat_StatusRepository.findByName(status);
+            seat.setSeat_Status(seat_Status_available);
+            seatRepository.save(seat);
+        } catch (Exception e) {
+            throw new UpdateException(
+                    "Error while rolling over seats availability: " + e.getMessage());
         }
     }
 

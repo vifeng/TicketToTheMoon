@@ -142,12 +142,16 @@ public class DbInitializer {
         log.info("Creating a booking");
         Timestamp booking_creationTimestamp = new Timestamp(System.currentTimeMillis());
         final int BOOKING_EXPIRYDATETIME = 30;
-        LocalDateTime expiryTime = LocalDateTime.now().plusMinutes(BOOKING_EXPIRYDATETIME);
+        LocalDateTime booking_creationLocalDateTime = booking_creationTimestamp.toLocalDateTime();
+        LocalDateTime expiryTime =
+                booking_creationLocalDateTime.plusMinutes(BOOKING_EXPIRYDATETIME);
         Booking booking = createBooking(booking_creationTimestamp, customer, reservations);
         if (expiryTime.isAfter(LocalDateTime.now())) {
-            Payment payment = createPayment(booking, paymentStatus_category);
+            System.out.println("Booking is valid");
+            // Payment payment = createPayment(booking, paymentStatus_category);
             // changer le status de la place en booked
         } else {
+            System.out.println("Booking is not valid");
             // changer le status de la place en available
             // cancel booking and ticket_reservation
         }
