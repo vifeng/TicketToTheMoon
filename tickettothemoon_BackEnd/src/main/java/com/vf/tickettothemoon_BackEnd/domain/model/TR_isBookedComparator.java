@@ -11,7 +11,10 @@ public class TR_isBookedComparator implements Comparator<Ticket_Reservation> {
         // compare si les deux id sont égales
         // si oui on compare les deux isBooked, sinon renvoie -1
         if (o1.getId().equals(o2.getId())) {
-            return Boolean.compare(o1.getIsBooked(), o2.getIsBooked());
+            // return Boolean.compare(o1.getIsBooked(), o2.getIsBooked());
+            // sorted by true first false last
+            return Boolean.compare(o2.getIsBooked(), o1.getIsBooked());
+            // sorted by false first true last
         }
         return -1;
     }

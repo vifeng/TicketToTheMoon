@@ -93,6 +93,7 @@ public class BookingService {
             throw new IllegalArgumentException("Booking Failed : SessionEvent with id "
                     + reservationKey.getSessionEventId() + " is finished");
         }
+        // FIXME : comparator is not implemented in the mapper
         Set<Ticket_Reservation> reservationsByAvaibility =
                 new TreeSet<Ticket_Reservation>(new TR_isBookedComparator());
         reservationsByAvaibility.add(ticketReservation);
