@@ -29,7 +29,7 @@ public class Booking {
 
     // relationships
     // OneToMany unidirectional with Ticket_Reservation
-    // FIXME: tester les cascades. Si on supprime une réservation, ça ne supprime pas le
+    // TODO_HIGH: tester les cascades. Si on supprime une réservation, ça ne supprime pas le
     // ticket. le cascade.all ne marche pas
     @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true)
     @JoinColumn(name = "Booking_FK")
@@ -97,24 +97,24 @@ public class Booking {
         total_price_ht = 0;
         for (Ticket_Reservation reservation : reservations) {
             // TODO_LOW: DISCOUNT - how should we calculate the discount ?
-            total_price_ht +=
-                    reservation.getSeatId().getCategoryTariff().getTarification().getBasePrice();
+            total_price_ht += reservation.getId().getSeatId().getCategoryTariff().getTarification()
+                    .getBasePrice();
         }
     }
 
     public void addReservation(@NonNull Ticket_Reservation reservation) {
         this.reservations.add(reservation);
         // TODO_LOW: DISCOUNT - how should we calculate the discount ?
-        total_price_ht +=
-                reservation.getSeatId().getCategoryTariff().getTarification().getBasePrice();
+        total_price_ht += reservation.getId().getSeatId().getCategoryTariff().getTarification()
+                .getBasePrice();
     }
 
     public void removeReservation(@NonNull Ticket_Reservation reservation) {
         if (reservation != null) {
             this.reservations.remove(reservation);
             // TODO_LOW: DISCOUNT - how should we calculate the discount ?
-            total_price_ht -=
-                    reservation.getSeatId().getCategoryTariff().getTarification().getBasePrice();
+            total_price_ht -= reservation.getId().getSeatId().getCategoryTariff().getTarification()
+                    .getBasePrice();
         }
     }
 

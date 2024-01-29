@@ -39,10 +39,10 @@ public class PaymentStatus_categoryController {
         return ResponseEntity.ok(paymentStatus_categoryService.findById(id));
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/status/{status}")
     public ResponseEntity<PaymentStatus_categoryDTO> getPaymentStatus_categoryByName(
-            @PathVariable String name) throws FinderException {
-        return ResponseEntity.ok(paymentStatus_categoryService.findByName(name));
+            @PathVariable String status) throws FinderException {
+        return ResponseEntity.ok(paymentStatus_categoryService.findByPaymentStatus(status));
     }
 
 
