@@ -3,16 +3,19 @@ package com.vf.tickettothemoon_BackEnd.domain.service;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import org.springframework.stereotype.Service;
 import com.vf.tickettothemoon_BackEnd.domain.dao.BookingRepository;
 import com.vf.tickettothemoon_BackEnd.domain.dao.CustomerRepository;
+import com.vf.tickettothemoon_BackEnd.domain.dao.PaymentRepository;
 import com.vf.tickettothemoon_BackEnd.domain.dao.Ticket_ReservationRepository;
 import com.vf.tickettothemoon_BackEnd.domain.dto.BookingDTO;
 import com.vf.tickettothemoon_BackEnd.domain.dto.Ticket_ReservationKeyDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Booking;
 import com.vf.tickettothemoon_BackEnd.domain.model.Customer;
+import com.vf.tickettothemoon_BackEnd.domain.model.Payment;
 import com.vf.tickettothemoon_BackEnd.domain.model.TR_isBookedComparator;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_Reservation;
 import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
@@ -21,8 +24,11 @@ import com.vf.tickettothemoon_BackEnd.domain.service.mappers.Ticket_ReservationK
 import com.vf.tickettothemoon_BackEnd.domain.service.mappers.Ticket_ReservationMapper;
 import com.vf.tickettothemoon_BackEnd.exception.FinderException;
 import com.vf.tickettothemoon_BackEnd.exception.NullException;
+import com.vf.tickettothemoon_BackEnd.exception.RemoveException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
+// REFACTOR : all services should depend on an abstract service that has the common methods.
 @Service
 @Transactional
 public class BookingService {
@@ -34,14 +40,15 @@ public class BookingService {
     Ticket_ReservationRepository ticket_ReservationRepository;
     Ticket_ReservationService ticket_ReservationService;
     Ticket_ReservationKeyMapper ticket_ReservationKeyMapper;
-
+    PaymentRepository paymentRepository;
 
     public BookingService(BookingRepository bookingRepository, BookingMapper bookingMapper,
             CustomerRepository customerRepository,
             Ticket_ReservationMapper ticket_ReservationMapper,
             Ticket_ReservationRepository ticket_ReservationRepository,
             Ticket_ReservationService ticket_ReservationService,
-            Ticket_ReservationKeyMapper ticket_ReservationKeyMapper) {
+            Ticket_ReservationKeyMapper ticket_ReservationKeyMapper,
+            PaymentRepository paymentRepository) {
         this.bookingRepository = bookingRepository;
         this.bookingMapper = bookingMapper;
         this.customerRepository = customerRepository;
@@ -49,6 +56,7 @@ public class BookingService {
         this.ticket_ReservationRepository = ticket_ReservationRepository;
         this.ticket_ReservationService = ticket_ReservationService;
         this.ticket_ReservationKeyMapper = ticket_ReservationKeyMapper;
+        this.paymentRepository = paymentRepository;
     }
 
     public Set<BookingDTO> findAll() throws FinderException {
@@ -130,8 +138,9 @@ public class BookingService {
 
     public BookingDTO deleteReservation(Long booking_id, Ticket_ReservationKeyDTO reservationKeyDTO)
             throws FinderException, IllegalArgumentException {
-        // FIXME : if it deletes the last reservation, it should delete the booking and the relevant
-        // ticket_reservation see cascade options
+        // TODO_HIGH : if it deletes the last reservation, it should delete the booking and the
+        // relevant
+        // ticket_reservation see cascade options - should be ok
         if (booking_id == null) {
             throw new IllegalArgumentException("No booking id is null");
         }
@@ -140,37 +149,53 @@ public class BookingService {
         }
         Booking booking = bookingRepository.findById(booking_id).orElseThrow(
                 () -> new FinderException("Booking with id {" + booking_id + "} not found"));
+        if (booking.getReservations().size() < 0) {
+            throw new IllegalArgumentException(
+                    "Booking with id {" + booking_id + "} has no reservation");
+        }
         Ticket_ReservationKey reservationKey =
                 ticket_ReservationKeyMapper.toEntity(reservationKeyDTO);
         Ticket_Reservation ticket_Reservation = ticket_ReservationRepository
                 .findById(reservationKey).orElseThrow(() -> new FinderException(
                         "Ticket_Reservation with id {" + reservationKeyDTO + "} not found"));
+        if (!booking.getReservations().contains(ticket_Reservation)) {
+            throw new IllegalArgumentException("Ticket_Reservation with id {" + reservationKeyDTO
+                    + "} not found in booking with id {" + booking_id + "}");
+        }
+        updateSeatAvailability(booking_id, "available");
         booking.removeReservation(ticket_Reservation);
         if (booking.getReservations().isEmpty()) {
-            deleteBooking(booking_id);
+            deleteById(booking_id);
             return null;
         }
         Booking savedBooking = bookingRepository.save(booking);
-        updateSeatAvailability(booking_id, "available");
         return bookingMapper.toDTO(savedBooking);
     }
 
 
-    public void deleteBooking(Long booking_id) throws FinderException, IllegalArgumentException {
+    public void deleteById(Long booking_id) throws FinderException, IllegalArgumentException,
+            EntityNotFoundException, RemoveException {
         if (booking_id == null) {
             throw new NullException("Booking id cannot be null");
         }
-        Booking booking = bookingRepository.findById(booking_id).orElseThrow(
-                () -> new FinderException("Booking with id {" + booking_id + "} not found"));
-        // FIXME : If the booking is paid the seats are not available, if we just want to delete
-        // then it's available.
-        bookingRepository.delete(booking);
+        Booking booking = bookingRepository.getReferenceById(booking_id);
+        Optional<Payment> payment = paymentRepository.findByBookingId(booking_id);
+        payment.ifPresent(p -> {
+            if (p.getPaymentStatus_category().equals("paid")) {
+                throw new RemoveException("Booking with id {" + booking_id
+                        + "} cannot be deleted because it is paid");
+            } else {
+                rollOverSeatsAvailability(booking_id);
+                // TODO_HIGH: should delete payment first. check cascade options
+                bookingRepository.deleteById(booking_id);
+            }
+        });
     }
 
     /**
      * This method is used to roll over the seats availability to available when the booking is
-     * expired. It also deletes the ticket_reservations that are related to the booking which is
-     * expired and the booking itself. It is called from the createPayment method.
+     * expired or deleted. It also deletes the ticket_reservations that are related to the booking
+     * and the booking itself.
      * 
      * @param booking_id
      * @throws FinderException

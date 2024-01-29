@@ -13,9 +13,13 @@ TABLE OF CONTENTS
     - [Mapstruct](#mapstruct)
     - [General Documentation](#general-documentation)
   - [Specific bug resolved](#specific-bug-resolved)
+    - [Gradle](#gradle)
+    - [Spring \& JPA](#spring--jpa)
+    - [Mapstruct](#mapstruct-1)
+    - [Other](#other)
 - [Technologies choice](#technologies-choice)
   - [Record for Dto](#record-for-dto)
-  - [Mapstruct](#mapstruct-1)
+  - [Mapstruct](#mapstruct-2)
     - [Recompile and clean the workspace](#recompile-and-clean-the-workspace)
   - [Swagger Vs SpringDoc Vs Hal Explorer](#swagger-vs-springdoc-vs-hal-explorer)
 - [JPA relationships choice](#jpa-relationships-choice)
@@ -91,6 +95,8 @@ in the resources folder, the script is executed in the following order :
 
 ## Specific bug resolved
 
+### Gradle
+
 - Spring Initializr with Gradle Kotlin and actuator : see [bug pb & solution](https://github.com/spring-io/initializr/issues/922)
 
 - error message : `Could not resolve all files for configuration ':classpath'.
@@ -141,6 +147,8 @@ delete '.idea'
 }
 then in vsCode CTL+ SHIFT+P > Java : clean java langage server workspace
 
+### Spring & JPA
+
 - error message : `The import javax.persistence cannot be resolved` :
   The javax.persistence package was moved to a newly named dependency (jakarta.persistence. The persistence package is part of the larger JPA (Java Persistence API). See Intro to JPA.
   https://stackoverflow.com/questions/15598210/the-import-javax-persistence-cannot-be-resolved/74996933#74996933
@@ -152,7 +160,48 @@ then in vsCode CTL+ SHIFT+P > Java : clean java langage server workspace
 
 - Composite primary key not found : I had to change my implementation. I should give it another try later. I added some setters to the composite key because the generated implementation uses the empty constructor then uses the setters to set the values.
 
+### Mapstruct
+
 - Implementation order : In mapstruct the generated implementation uses the empty constructor then uses the setters to set the values. The orders of the setters is not guaranteed. So if you have a setter that depends on another setter, you can't be sure that the other setter has been called. One of the solution is to use custom mapping method using the builder pattern or validate the entity object in the service layer instead of the setters. For example see the configurationHall.java and its mapper (see `setCapacityOfConfiguration()`, Hall has to be already defined because we call one of his variable to check against a value of the current object).
+
+- A request sends back info that is not needed : for exemple, I added an utilitary get Field to booking such as getSeatId {return id.getSeatId();} and same for the other key sesssionEventID. The request returned :
+
+```json
+[
+  {
+    "id": {
+      "seatId": {},
+      "sessionEventId": {}
+    },
+    "isBooked": true,
+    "sessionEventId": {},
+    "seatId": {}
+  }
+]
+```
+
+thus duplicating the info seatId and sessionEventId. The solution is to delete the utility methods or if it is needed just add the following to the Mapper. This is also the way to go to ignore a field such as a password for example:
+
+```java
+@Mapping(target = "id", ignore = true)
+BookingDTO toDto(Booking booking);
+```
+
+which wiill result in :
+
+```json
+[
+  {
+    "id": {
+      "seatId": {},
+      "sessionEventId": {}
+    },
+    "isBooked": true
+  }
+]
+```
+
+### Other
 
 - A generic error occurred : JSON parse error: Cannot construct instance of `com.vf.tickettothemoon_BackEnd.domain.dto.CustomerDTO` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('{....}')" : My JSON payload request was not correct. I had to change the payload to match the DTO and check the data types. For example, I had a int instead of a String for the phoneNumber in Customer.
 
