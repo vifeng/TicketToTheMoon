@@ -4,7 +4,9 @@ TABLE OF CONTENTS
   - [Info on the project](#info-on-the-project)
     - [Project board](#project-board)
     - [Code and issues](#code-and-issues)
-  - [Useful Documentation](#useful-documentation)
+  - [Useful Documentation on tools and technologies](#useful-documentation-on-tools-and-technologies)
+    - [Thunder VSCode Extension](#thunder-vscode-extension)
+    - [Todo Tree VSCode Extension](#todo-tree-vscode-extension)
     - [Documentation rest](#documentation-rest)
     - [Actuator](#actuator)
     - [HAL Browser](#hal-browser)
@@ -24,6 +26,7 @@ TABLE OF CONTENTS
   - [Swagger Vs SpringDoc Vs Hal Explorer](#swagger-vs-springdoc-vs-hal-explorer)
 - [JPA relationships choice](#jpa-relationships-choice)
   - [ManyToOne vs OneToMany](#manytoone-vs-onetomany)
+  - [Cascade.PERSIST for reservations in booking](#cascadepersist-for-reservations-in-booking)
 - [Questions / Débat](#questions--débat)
   - [Vérification de code selon les règles métiers](#vérification-de-code-selon-les-règles-métiers)
 
@@ -31,9 +34,13 @@ TABLE OF CONTENTS
 
 # Developpement Notes
 
+This document is a log of the development of the project. It contains useful documentation, bugs resolved, and questions/choices about the project. I use it to keep track of the project and to help me to remember what I did and why I did it. It is also a good way to share my knowledge and to help others. I hope it will be useful to you.
+
 ## Info on the project
 
 ### Project board
+
+It's the good place to see the progress, and what remains to be done, learned, improved, etc.
 
 https://github.com/users/vifeng/projects/2/views/1
 
@@ -41,7 +48,21 @@ https://github.com/users/vifeng/projects/2/views/1
 
 https://github.com/vifeng/TicketToTheMoon
 
-## Useful Documentation
+I haven't really used consistently the issues features of github. I should use it, but since I'm alone and junior it feels like everything is an issue !! ;)
+
+## Useful Documentation on tools and technologies
+
+### Thunder VSCode Extension
+
+Thunder is a REST API client extension for Visual Studio Code. It is a lightweight and easy-to-use extension for sending HTTP requests to test your REST API. it is a good alternative to Postman. Now I use it for all my tests. you'll find the collections of requests in the thunder folder : ./thunder. You can import them in your thunder extension. So you now, there is a free plan limiting the number of requests per day.
+
+link to extension : https://marketplace.visualstudio.com/items?itemName=rongwong.thunder-client
+
+### Todo Tree VSCode Extension
+
+I use Todo Tree, a vscode extension that allows you to see all the TODOs in your code. It is very useful to keep track of what remains to be done. You will find the Tags that I use, and my configuration for the highlights in the ./todoTree. You can copy my configuration in the settings.json file of the .vscode folder of your project or via the command palette menu.
+
+link to extension : https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree
 
 ### Documentation rest
 
@@ -56,6 +77,7 @@ https://www.baeldung.com/spring-boot-actuators
 ### HAL Browser
 
 https://www.baeldung.com/spring-rest-hal
+Basically, just add the following dependency to your build.gradle.kts file and it's done !
 
 ```kts
 depedependencies {
@@ -158,7 +180,7 @@ then in vsCode CTL+ SHIFT+P > Java : clean java langage server workspace
 
 - Entities have also reserved names. For example, I couldn't name my entity "User" because it is a reserved name. I changed it to "Customer" and it worked. As well as "Order" which I changed to "Ticket_reservation". I should look for a list of reserved names.
 
-- Composite primary key not found : I had to change my implementation. I should give it another try later. I added some setters to the composite key because the generated implementation uses the empty constructor then uses the setters to set the values.
+- Composite primary key not found : This is something that took me ages to resolve, so for the moment I just enjoy what is working but I should give it another try later. I had to change my first implementation. see commit for details or the github project board. I added some setters to the composite key because the generated implementation uses the empty constructor then uses the setters to set the values.
 
 ### Mapstruct
 
@@ -223,7 +245,7 @@ It does seems more easy than ModelMapper to use and configure.
 If you change an entity, a record or a mapper file, you need to rebuild the project to generate the code. It is not done automatically. In vsCode **CTL+ SHIFT+P > Java : clean java langage server workspace** to rebuild the project.
 
 1. manual solution
-   You can use the following gradle tasks :
+   You can use the following gradle tasks (but I haven't implemented it yet) :
 
 ```shell
 gradle mapstructGenerate
@@ -277,7 +299,7 @@ I tried to install swagger but didn't succeeded. I heard about Spring REST Docs 
 
 but since you have to write the tests it's a bit more work. So in the meantime for a quick documentation I used hal explorer which give the endpoints of the API and other useful usage.
 
-In this project you'll find both Spring REST Docs and Hal Explorer.
+In this project you'll find both Spring REST Docs(I haven't written much test yet) and Hal Explorer.
 
 # JPA relationships choice
 
@@ -293,6 +315,27 @@ Efficiency :
 
 - Also, having @ManytoOne side as the owner would require only n+1 queries while saving the associtions. Where n is the number of associations (many side).
 - Whereas having @OneToMany as the owner, while inserting the parent entity (one side) with associations (many side) would result in 2\*N + 1 queries. In which one query would be for insert of the association and other query would be for updating foreign key in the associated entity.
+
+## Cascade.PERSIST for reservations in booking
+
+**Problème** : options de cascades de reservations dans booking. si je mets cascadeType.PERSIST, comme ci-dessous, ça persiste les ticket_reservation qui ont déjà été enregistré en base de données par ailleurs (juste avant dans DBInit) et donc peut causer une duplicate erreur.
+
+```java
+@OneToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+@JoinColumn(name = "Booking_FK")
+private Set<Ticket_Reservation> reservations;
+```
+
+**Ca revient à se poser la question : Est ce que je devrais persister les ticketReservation que via booking ?**
+
+Exemple de choix métier :
+
+1.  Un utilisateur effectue une réservation en sélectionnant plusieurs tickets, puis confirme la réservation. La création du Booking et la persistance des Ticket_Reservation sont effectuées en une seule opération atomique.
+2.  Une Ticket_Reservation est persistée lorsqu'un client sélectionne un siège, mais elle n'est associée à un Booking que si le client confirme sa réservation.
+3.  Un client peut réserver un ticket pour un spectacle, puis plus tard ajouter un autre ticket à la même réservation sans créer un nouveau Booking.
+4.  Si un client réserve plusieurs tickets pour un concert, toutes les Ticket_Reservation associées à cette réservation ne sont persistées qu'une fois que le Booking est confirmé.
+
+**Solution choisie :** Pour l'instant on est sur l'option 3 la plus simple à mettre en oeuvre, j'enlève l'option PERSIST. On peut toujours changer plus tard...
 
 # Questions / Débat
 

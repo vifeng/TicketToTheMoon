@@ -63,8 +63,6 @@ public class Ticket_Reservation implements Serializable {
         this.isBooked = isBooked;
     }
 
-
-
     @Override
     public int hashCode() {
         final int prime = 31;

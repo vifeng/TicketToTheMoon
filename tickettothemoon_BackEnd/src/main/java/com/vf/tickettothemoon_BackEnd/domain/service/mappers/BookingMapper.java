@@ -9,7 +9,6 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Booking;
 @Mapper(componentModel = "spring")
 public interface BookingMapper {
 
-
     BookingDTO toDTO(Booking booking);
 
     Booking toEntity(BookingDTO bookingDTO);
