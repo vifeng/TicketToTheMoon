@@ -29,9 +29,11 @@ public class Booking {
 
     // relationships
     // OneToMany unidirectional with Ticket_Reservation
-    // TODO_HIGH: tester les cascades. Si on supprime une réservation, ça ne supprime pas le
-    // ticket. le cascade.all ne marche pas
-    @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true)
+    // TODO_HIGH: tester les cascades. Si on supprime un booking, ça doit supprimer les
+    // Ticket_reservation sauf si le payment a été fait auquel cas il est impossible de supprimer
+    // car on veux garder un historique des achats. Pour info, le cascade.all ne marche pas-je ne
+    // sais pas pourquoi pour l'instant
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     @JoinColumn(name = "Booking_FK")
     private Set<Ticket_Reservation> reservations;
 
@@ -125,6 +127,35 @@ public class Booking {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Booking other = (Booking) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
+
 
     @Override
     public String toString() {

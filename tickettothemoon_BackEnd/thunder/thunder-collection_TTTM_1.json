@@ -1,0 +1,1682 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "TTTM_1",
+    "dateExported": "2024-02-02T16:00:28.230Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "af79e90c-9762-4399-beec-78e14dd8dad3",
+            "name": "base_Employee",
+            "containerId": "",
+            "created": "2023-08-22T15:17:24.880Z",
+            "sortNum": 2500
+        },
+        {
+            "_id": "5d3b1009-2304-4e81-80fb-8e98d584ee5b",
+            "name": "base_Venues",
+            "containerId": "",
+            "created": "2023-09-08T18:52:55.769Z",
+            "sortNum": 5000
+        },
+        {
+            "_id": "27b1cb0f-2576-4d5f-8a80-f50ddea2a6de",
+            "name": "base_Hall",
+            "containerId": "",
+            "created": "2023-09-12T17:08:41.648Z",
+            "sortNum": 27500
+        },
+        {
+            "_id": "a8ce858d-e332-4fdc-b483-80584a376492",
+            "name": "X_TestWrong",
+            "containerId": "",
+            "created": "2023-09-07T16:08:40.235Z",
+            "sortNum": 50000
+        },
+        {
+            "_id": "353fdcf4-b57c-4cb3-b5e3-55a156514872",
+            "name": "wrong Employee",
+            "containerId": "a8ce858d-e332-4fdc-b483-80584a376492",
+            "created": "2023-09-07T16:08:54.419Z",
+            "sortNum": 60000
+        },
+        {
+            "_id": "f21ef734-98f6-4f67-b523-a0625cd44d82",
+            "name": "wrong Hall",
+            "containerId": "a8ce858d-e332-4fdc-b483-80584a376492",
+            "created": "2023-09-14T08:48:50.688Z",
+            "sortNum": 70000
+        },
+        {
+            "_id": "2ca2bd6e-39bd-4a24-b993-8873f84d00aa",
+            "name": "base_TicketReservation",
+            "containerId": "",
+            "created": "2023-12-19T15:57:06.053Z",
+            "sortNum": 90000
+        },
+        {
+            "_id": "9cb1bf20-27ea-43a9-a678-54013606f388",
+            "name": "Customer",
+            "containerId": "",
+            "created": "2024-01-10T17:35:59.009Z",
+            "sortNum": 100000
+        },
+        {
+            "_id": "abac68ce-7f98-4c3e-810e-1306e92dcdc6",
+            "name": "Booking",
+            "containerId": "",
+            "created": "2024-01-15T15:42:23.460Z",
+            "sortNum": 110000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "184c6663-5029-4d55-a4a8-e75161412e23",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "5d3b1009-2304-4e81-80fb-8e98d584ee5b",
+            "name": "Venues without employee",
+            "url": "venues",
+            "method": "POST",
+            "sortNum": 2500,
+            "created": "2023-08-22T15:17:33.986Z",
+            "modified": "2024-01-15T09:48:26.664Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"name\":\"venue 1\",\n    \"address\":{\n        \"street\": \"12 faubourg Saint-Martin\",\n        \"city\": \"Paris\",\n        \"zipcode\": \"75000\",\n        \"country\": \"France\"\n    }\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.id",
+                    "action": "equal",
+                    "value": "2"
+                }
+            ]
+        },
+        {
+            "_id": "65f522ba-e8aa-4a6b-9a25-bc42234b7a8f",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "5d3b1009-2304-4e81-80fb-8e98d584ee5b",
+            "name": "venues",
+            "url": "venues",
+            "method": "GET",
+            "sortNum": 5000,
+            "created": "2023-08-22T15:24:14.003Z",
+            "modified": "2024-01-15T10:35:19.503Z",
+            "headers": [],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.items | length",
+                    "action": "equal",
+                    "value": "2"
+                }
+            ]
+        },
+        {
+            "_id": "709a4347-4a26-420f-827a-d6877d932d89",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "5d3b1009-2304-4e81-80fb-8e98d584ee5b",
+            "name": "venueById",
+            "url": "venues/{id}",
+            "method": "GET",
+            "sortNum": 7500,
+            "created": "2023-09-12T18:39:54.209Z",
+            "modified": "2024-01-15T11:15:19.744Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "1",
+                    "isPath": true
+                }
+            ],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.name",
+                    "action": "equal",
+                    "value": "Le Trianon"
+                }
+            ]
+        },
+        {
+            "_id": "6649018f-6c38-4500-afc4-a23874caaf7b",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "353fdcf4-b57c-4cb3-b5e3-55a156514872",
+            "name": "Employee wrong data",
+            "url": "employees",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2023-09-07T16:09:03.339Z",
+            "modified": "2024-01-15T09:49:18.613Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"hoompaLoompa\",\n  \"password\": \"secretpwD1\",\n  \"email\": \"mymail@mail\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                }
+            ]
+        },
+        {
+            "_id": "8722b790-751c-4151-b70b-8c5307f296d5",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "2ca2bd6e-39bd-4a24-b993-8873f84d00aa",
+            "name": "TicketReservation",
+            "url": "ticket_reservation",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2023-12-19T15:56:52.275Z",
+            "modified": "2024-01-15T10:48:19.947Z",
+            "headers": [],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.items | length",
+                    "action": "equal",
+                    "value": "2"
+                }
+            ]
+        },
+        {
+            "_id": "3ec74710-461b-4d08-853f-3277c77b9170",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "af79e90c-9762-4399-beec-78e14dd8dad3",
+            "name": "Employee add",
+            "url": "employees",
+            "method": "POST",
+            "sortNum": 12500,
+            "created": "2023-09-01T17:36:44.989Z",
+            "modified": "2024-01-15T09:04:01.514Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"employee 2\",\n  \"password\": \"secretpwD%1\",\n  \"email\": \"mymail@mail.fr\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "json-query",
+                    "custom": "json.id",
+                    "action": "equal",
+                    "value": "2"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.username",
+                    "action": "equal",
+                    "value": "employee 2"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "201"
+                }
+            ]
+        },
+        {
+            "_id": "17ab2b9d-f438-42f1-a319-ebb996a80013",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "af79e90c-9762-4399-beec-78e14dd8dad3",
+            "name": "Employee add Copy",
+            "url": "employees",
+            "method": "POST",
+            "sortNum": 18750,
+            "created": "2023-09-15T17:40:36.811Z",
+            "modified": "2024-01-15T09:04:49.342Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"ariette\",\n  \"password\": \"secretpwD%1\",\n  \"email\": \"mymail@mail.fr\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "201"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.username",
+                    "action": "equal",
+                    "value": "ariette"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.id",
+                    "action": "equal",
+                    "value": "3"
+                }
+            ]
+        },
+        {
+            "_id": "5a600290-a5eb-40b3-95c5-26827aecdc38",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "27b1cb0f-2576-4d5f-8a80-f50ddea2a6de",
+            "name": "hall",
+            "url": "venues/{venue_id}/halls",
+            "method": "POST",
+            "sortNum": 19375,
+            "created": "2023-09-12T17:10:09.052Z",
+            "modified": "2023-09-28T13:09:22.320Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "venue_id",
+                    "value": "2",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"name\" : \"Hall 2\",\n    \"capacityOfHall\": 300,\n    \"venue\": {\n      \"id\": 2\n    }\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "201"
+                }
+            ]
+        },
+        {
+            "_id": "5c3f31cc-bbd1-4a03-8388-41402ae0a9cd",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "af79e90c-9762-4399-beec-78e14dd8dad3",
+            "name": "employees",
+            "url": "employees",
+            "method": "GET",
+            "sortNum": 25000,
+            "created": "2023-09-01T15:51:57.421Z",
+            "modified": "2024-01-15T10:27:52.062Z",
+            "headers": [],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "c3fff173-6d5b-450f-ba3a-081496c1d652",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "5d3b1009-2304-4e81-80fb-8e98d584ee5b",
+            "name": "venue add employee",
+            "url": "venues/{id}/employees/{employeeId}",
+            "method": "PUT",
+            "sortNum": 25000,
+            "created": "2023-09-14T10:17:24.644Z",
+            "modified": "2023-09-15T18:50:50.832Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "1",
+                    "isPath": true
+                },
+                {
+                    "name": "employeeId",
+                    "value": "1",
+                    "isPath": true
+                }
+            ],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.employees[0].id",
+                    "action": "equal",
+                    "value": "1"
+                }
+            ]
+        },
+        {
+            "_id": "92209d2f-314e-4769-9663-510be5b8fa56",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "5d3b1009-2304-4e81-80fb-8e98d584ee5b",
+            "name": "venue add employee Copy",
+            "url": "venues/{id}/employees/{employeeId}",
+            "method": "PUT",
+            "sortNum": 26250,
+            "created": "2023-09-15T17:20:13.796Z",
+            "modified": "2023-09-15T18:52:33.281Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "1",
+                    "isPath": true
+                },
+                {
+                    "name": "employeeId",
+                    "value": "3",
+                    "isPath": true
+                }
+            ],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.employees[0].id",
+                    "action": "equal",
+                    "value": "1"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.employees[1].id",
+                    "action": "equal",
+                    "value": "3"
+                }
+            ]
+        },
+        {
+            "_id": "6a70402d-ca76-43b5-8b8c-ba977fabf539",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "5d3b1009-2304-4e81-80fb-8e98d584ee5b",
+            "name": "venue remove employee",
+            "url": "venues/{id}/remove_employees/{employeeId}",
+            "method": "PUT",
+            "sortNum": 27500,
+            "created": "2023-09-15T17:15:11.162Z",
+            "modified": "2023-09-15T18:53:06.401Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "1",
+                    "isPath": true
+                },
+                {
+                    "name": "employeeId",
+                    "value": "3",
+                    "isPath": true
+                }
+            ],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.employees[0].id",
+                    "action": "equal",
+                    "value": "1"
+                }
+            ]
+        },
+        {
+            "_id": "7bbcac77-d972-4a55-a50c-944e1dd6f172",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "5d3b1009-2304-4e81-80fb-8e98d584ee5b",
+            "name": "venue patch without employee",
+            "url": "venues/{id}",
+            "method": "PATCH",
+            "sortNum": 30000,
+            "created": "2023-09-11T15:43:57.389Z",
+            "modified": "2023-09-15T13:23:52.542Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "1",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"name\":\"Criquet\",\n    \"address\":{\n        \"street\": \"151 faubourg Sainte-Janine\",\n        \"city\": \"Paris\",\n        \"zipcode\": \"75000\",\n        \"country\": \"France\"\n    }\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.name",
+                    "action": "equal",
+                    "value": "Criquet"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.address.street",
+                    "action": "equal",
+                    "value": "151 faubourg Sainte-Janine"
+                }
+            ]
+        },
+        {
+            "_id": "f057fb51-8c6e-4dd5-8b44-5c76c3899902",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "af79e90c-9762-4399-beec-78e14dd8dad3",
+            "name": "employeesById",
+            "url": "employees/{id}",
+            "method": "GET",
+            "sortNum": 37500,
+            "created": "2023-09-01T15:52:43.510Z",
+            "modified": "2024-01-15T11:16:43.629Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "1",
+                    "isPath": true
+                }
+            ],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.id",
+                    "action": "equal",
+                    "value": "1"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.username",
+                    "action": "equal",
+                    "value": "username"
+                }
+            ]
+        },
+        {
+            "_id": "c6d83285-4707-4002-bffe-b8ec1aabf33d",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "27b1cb0f-2576-4d5f-8a80-f50ddea2a6de",
+            "name": "hall Copy",
+            "url": "venues/{venue_id}/halls",
+            "method": "POST",
+            "sortNum": 38750,
+            "created": "2023-09-28T13:01:13.219Z",
+            "modified": "2023-09-28T13:01:47.943Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "venue_id",
+                    "value": "1",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"name\" : \"Hall 1\",\n    \"capacityOfHall\": 150,\n    \"venue\": {\n      \"id\": 1\n    }\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "201"
+                }
+            ]
+        },
+        {
+            "_id": "b26549c4-1aab-4e49-ab69-9e2e1c8a322e",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "5d3b1009-2304-4e81-80fb-8e98d584ee5b",
+            "name": "venue patch including employee",
+            "url": "venues/{id}",
+            "method": "PATCH",
+            "sortNum": 40000,
+            "created": "2023-09-12T10:02:56.122Z",
+            "modified": "2023-09-15T17:56:28.830Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "1",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"name\":\"Criquette\",\n    \"address\":{\n        \"street\": \"151 faubourg Sainte-Janine\",\n        \"city\": \"Paris\",\n        \"zipcode\": \"75000\",\n        \"country\": \"France\"\n    },\n    \"employees\": [\n    {\n      \"id\": 3,\n      \"username\": \"employee 3 new patch from venue\",\n      \"password\": \"Secret1*\",\n      \"email\": \"flip@flop.fr\"\n    }\n  ]\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "json-query",
+                    "custom": "json.employees[0].username",
+                    "action": "equal",
+                    "value": "employee 3 new patch from venue"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.name",
+                    "action": "equal",
+                    "value": "Criquette"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "bbbd925c-f8b7-41dc-b718-ee7abc0e5bef",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "f21ef734-98f6-4f67-b523-a0625cd44d82",
+            "name": "hall Copy",
+            "url": "venues/{venue_id}/halls",
+            "method": "POST",
+            "sortNum": 46250,
+            "created": "2023-09-28T13:08:56.381Z",
+            "modified": "2024-01-15T09:51:32.798Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "venue_id",
+                    "value": "1",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\":1,\n    \"name\" : \"Hall 2\",\n    \"capacityOfHall\": 300,\n    \"venue\": {\n      \"id\": 2\n    }\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                }
+            ]
+        },
+        {
+            "_id": "07760c08-1061-43a2-a02d-8244b20f7366",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "5d3b1009-2304-4e81-80fb-8e98d584ee5b",
+            "name": "venue patch including employee Copy",
+            "url": "venues/{id}",
+            "method": "PATCH",
+            "sortNum": 50000,
+            "created": "2023-09-15T17:26:08.441Z",
+            "modified": "2023-09-15T18:10:22.878Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "1",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"name\":\"Criquette\",\n    \"address\":{\n        \"street\": \"151 faubourg Sainte-Janine\",\n        \"city\": \"Paris\",\n        \"zipcode\": \"75000\",\n        \"country\": \"France\"\n    },\n    \"employees\": [\n    {\n      \"id\": 4,\n      \"username\": \"employee 4 with venuepatch\",\n      \"password\": \"secretpwD%1\",\n      \"email\": \"mymail@mail.fr\"\n    }\n  ]\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "json-query",
+                    "custom": "json.employees[0].username",
+                    "action": "equal",
+                    "value": "employee 4 with venuepatch"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.name",
+                    "action": "equal",
+                    "value": "Criquette"
+                },
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "1e3a968c-7e89-4953-b6a5-5f9e34f27b66",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "af79e90c-9762-4399-beec-78e14dd8dad3",
+            "name": "employee put",
+            "url": "employees/{id}",
+            "method": "PUT",
+            "sortNum": 55000,
+            "created": "2023-09-01T19:05:15.372Z",
+            "modified": "2024-01-15T09:09:38.760Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "2",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\":2,\n  \"username\": \"employee 2 update\",\n  \"password\": \"secretpwD*1\",\n  \"email\": \"youpi@mail.fr\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.username",
+                    "action": "equal",
+                    "value": "employee 2 update"
+                }
+            ]
+        },
+        {
+            "_id": "8b79d224-a6a5-468a-a1e2-99d5834d4415",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "5d3b1009-2304-4e81-80fb-8e98d584ee5b",
+            "name": "Venues without employee Copy",
+            "url": "venues",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2023-09-28T12:56:02.616Z",
+            "modified": "2024-01-15T09:11:55.551Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"name\":\"venue 2\",\n    \"address\":{\n        \"street\": \"avenue Rats des Champs\",\n        \"city\": \"Paris\",\n        \"zipcode\": \"75000\",\n        \"country\": \"France\"\n    }\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.id",
+                    "action": "equal",
+                    "value": "3"
+                }
+            ]
+        },
+        {
+            "_id": "99846e50-509f-4d96-bba9-cdb074b9b6d5",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "af79e90c-9762-4399-beec-78e14dd8dad3",
+            "name": "employee patch",
+            "url": "employees/{id}",
+            "method": "PATCH",
+            "sortNum": 75000,
+            "created": "2023-09-08T18:12:18.800Z",
+            "modified": "2024-01-12T15:21:34.124Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "2",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"employee 2 patch\",\n  \"email\": \"employee@mail.fr\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.email",
+                    "action": "equal",
+                    "value": "employee@mail.fr"
+                }
+            ]
+        },
+        {
+            "_id": "632a0acd-47a9-4022-bd0f-3e770be9fd11",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "af79e90c-9762-4399-beec-78e14dd8dad3",
+            "name": "employee delete",
+            "url": "employees/{id}",
+            "method": "DELETE",
+            "sortNum": 85000,
+            "created": "2023-09-08T18:14:10.481Z",
+            "modified": "2024-01-12T15:22:12.107Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "2",
+                    "isPath": true
+                }
+            ],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "204"
+                }
+            ]
+        },
+        {
+            "_id": "aee79a02-23f7-4fb3-bbda-8e09b7cf4eb0",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "f21ef734-98f6-4f67-b523-a0625cd44d82",
+            "name": "hall  with unfound venue",
+            "url": "halls",
+            "method": "POST",
+            "sortNum": 92500,
+            "created": "2023-09-14T08:46:58.234Z",
+            "modified": "2023-09-14T09:12:57.371Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"name\" : \"Hall 2\",\n    \"capacityOfHall\": 150,\n    \"venue\": {\n      \"id\": 2\n    }\n  }",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "400"
+                }
+            ]
+        },
+        {
+            "_id": "7ea590f2-2f59-4806-907c-35a8d2776f08",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "353fdcf4-b57c-4cb3-b5e3-55a156514872",
+            "name": "employee empty",
+            "url": "employees",
+            "method": "POST",
+            "sortNum": 95000,
+            "created": "2023-09-08T19:02:05.915Z",
+            "modified": "2024-01-15T09:49:27.463Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                }
+            ]
+        },
+        {
+            "_id": "13142c8f-5738-4005-8a72-83d4c067848f",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "af79e90c-9762-4399-beec-78e14dd8dad3",
+            "name": "Employee add back",
+            "url": "employees",
+            "method": "POST",
+            "sortNum": 95000,
+            "created": "2023-09-15T17:44:54.442Z",
+            "modified": "2024-01-12T15:22:41.779Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"employee 4\",\n  \"password\": \"secretpwD%1\",\n  \"email\": \"mymail@mail.fr\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "201"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.username",
+                    "action": "equal",
+                    "value": "employee 4"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.id",
+                    "action": "equal",
+                    "value": "4"
+                }
+            ]
+        },
+        {
+            "_id": "829c0ad3-0ed2-4460-ae0c-11d0bcdb8848",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "353fdcf4-b57c-4cb3-b5e3-55a156514872",
+            "name": "employee update",
+            "url": "employees/{id}",
+            "method": "PUT",
+            "sortNum": 105000,
+            "created": "2023-09-08T19:12:21.297Z",
+            "modified": "2024-01-15T11:09:13.180Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "1",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\": 1,\n  \"username\": \"username_3\",\n  \"password\": \"secretpwD1\",\n  \"email\": \"mymail@mail\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "404"
+                }
+            ]
+        },
+        {
+            "_id": "3014c018-5980-491e-8880-bc33e2a2bfba",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "353fdcf4-b57c-4cb3-b5e3-55a156514872",
+            "name": "employee wrong data",
+            "url": "employees/{id}",
+            "method": "PATCH",
+            "sortNum": 115000,
+            "created": "2023-09-08T19:13:48.322Z",
+            "modified": "2023-09-15T18:55:54.408Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "1",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": " {\n   \"email\": \"mail.fr\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                }
+            ]
+        },
+        {
+            "_id": "b44d0639-61e4-4a8c-912f-39c7d2fbe49c",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "27b1cb0f-2576-4d5f-8a80-f50ddea2a6de",
+            "name": "hall Copy",
+            "url": "venues/{venue_id}/halls",
+            "method": "POST",
+            "sortNum": 116250,
+            "created": "2023-09-28T14:05:08.965Z",
+            "modified": "2023-09-28T14:05:08.965Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "venue_id",
+                    "value": "2",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"name\" : \"Hall 2\",\n    \"capacityOfHall\": 300,\n    \"venue\": {\n      \"id\": 2\n    }\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "201"
+                }
+            ]
+        },
+        {
+            "_id": "db572c6f-48b8-423c-9826-2b27fe38978b",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "353fdcf4-b57c-4cb3-b5e3-55a156514872",
+            "name": "employee wrong id",
+            "url": "employees/{id}",
+            "method": "PATCH",
+            "sortNum": 125000,
+            "created": "2023-09-08T20:00:18.387Z",
+            "modified": "2023-09-08T20:02:22.278Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "127",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n   \"email\": \"mail@mail.fr\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                }
+            ]
+        },
+        {
+            "_id": "8fa52028-53d3-4591-833c-8e4e9bdc608f",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "9cb1bf20-27ea-43a9-a678-54013606f388",
+            "name": "customer",
+            "url": "customers",
+            "method": "POST",
+            "sortNum": 127500,
+            "created": "2024-01-11T08:07:26.447Z",
+            "modified": "2024-01-11T09:30:08.176Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"firstName\": \"Elmo\",\n  \"lastName\": \"orangeNose\",\n  \"username\": \"fireFur\",\n  \"email\": \"elmo@gmail.com\",\n  \"phoneNumber\": \"0700000000\",\n  \"address\": {\n    \"street\": \"sesame street\",\n    \"city\": \"Paris\",\n    \"zipcode\": \"75001\",\n    \"country\": \"France\"\n  },\n  \"creditCardNumber\": 0\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "201"
+                }
+            ]
+        },
+        {
+            "_id": "f781fd78-fea5-43c6-949e-1079a7d9bfbe",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "353fdcf4-b57c-4cb3-b5e3-55a156514872",
+            "name": "employee id",
+            "url": "employees/{id}",
+            "method": "GET",
+            "sortNum": 135000,
+            "created": "2023-09-08T20:04:29.777Z",
+            "modified": "2023-09-08T20:04:51.413Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "127",
+                    "isPath": true
+                }
+            ],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "404"
+                }
+            ]
+        },
+        {
+            "_id": "20b1beec-ed8b-4579-a81b-363574674e58",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "27b1cb0f-2576-4d5f-8a80-f50ddea2a6de",
+            "name": "hall Copy Copy",
+            "url": "venues/{venue_id}/halls",
+            "method": "POST",
+            "sortNum": 135625,
+            "created": "2023-09-28T14:06:04.209Z",
+            "modified": "2023-09-28T14:06:27.739Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "venue_id",
+                    "value": "1",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"name\" : \"Hall 4\",\n    \"capacityOfHall\": 300,\n    \"venue\": {\n      \"id\": 1\n    }\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "201"
+                }
+            ]
+        },
+        {
+            "_id": "9ba73d46-6b36-4378-9e79-d213e889f746",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "353fdcf4-b57c-4cb3-b5e3-55a156514872",
+            "name": "employee id",
+            "url": "employees/{id}",
+            "method": "DELETE",
+            "sortNum": 145000,
+            "created": "2023-09-08T20:05:26.572Z",
+            "modified": "2023-09-08T20:05:46.776Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "",
+                    "isPath": true
+                }
+            ],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "404"
+                }
+            ]
+        },
+        {
+            "_id": "e37de85b-4050-489f-b8b2-99cf3af45b6a",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "27b1cb0f-2576-4d5f-8a80-f50ddea2a6de",
+            "name": "ALL halls ordered by venue Id",
+            "url": "halls",
+            "method": "GET",
+            "sortNum": 155000,
+            "created": "2023-09-12T17:08:52.875Z",
+            "modified": "2024-01-15T09:12:27.474Z",
+            "headers": [],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.items | length",
+                    "action": "equal",
+                    "value": "5"
+                }
+            ]
+        },
+        {
+            "_id": "c63860aa-0667-43bc-8637-77797ce39c76",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "27b1cb0f-2576-4d5f-8a80-f50ddea2a6de",
+            "name": "hallsByVenueId : venues/{venue_id}/halls",
+            "url": "venues/{venue_id}/halls",
+            "method": "GET",
+            "sortNum": 160000,
+            "created": "2023-09-28T12:58:35.742Z",
+            "modified": "2024-01-15T09:48:41.830Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "venue_id",
+                    "value": "1",
+                    "isPath": true
+                }
+            ],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.items | length",
+                    "action": "equal",
+                    "value": "3"
+                }
+            ]
+        },
+        {
+            "_id": "78370e61-07c1-499a-b219-7ca3d94f7bf4",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "27b1cb0f-2576-4d5f-8a80-f50ddea2a6de",
+            "name": "HallByid",
+            "url": "halls/{id}",
+            "method": "GET",
+            "sortNum": 165000,
+            "created": "2023-09-12T17:09:44.049Z",
+            "modified": "2023-09-28T13:03:43.359Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "1",
+                    "isPath": true
+                }
+            ],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "c0450a23-8fb0-4f08-8a21-4634cbd9becb",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "f21ef734-98f6-4f67-b523-a0625cd44d82",
+            "name": "duplicate",
+            "url": "venues/{venue_id}/halls",
+            "method": "POST",
+            "sortNum": 185000,
+            "created": "2023-09-14T08:54:53.661Z",
+            "modified": "2024-01-15T10:26:11.886Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "venue_id",
+                    "value": "1",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"id\" : 1,\n    \"name\" : \"Hall 2\",\n    \"capacityOfHall\": 150,\n    \"venue\": {\n      \"id\": 1\n    }\n  }",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "409"
+                }
+            ]
+        },
+        {
+            "_id": "c7af806c-deae-4a56-8dd4-a48ac187b524",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "27b1cb0f-2576-4d5f-8a80-f50ddea2a6de",
+            "name": "hall",
+            "url": "halls/{id}",
+            "method": "PUT",
+            "sortNum": 195000,
+            "created": "2023-09-14T09:57:46.580Z",
+            "modified": "2023-09-28T13:06:39.012Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "1",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"name\": \"Hall 1 new\",\n    \"capacityOfHall\": 350,\n    \"venue\": {\n      \"id\": 2\n    }\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.name",
+                    "action": "equal",
+                    "value": "Hall 1 new"
+                }
+            ]
+        },
+        {
+            "_id": "153228cb-9e65-4302-97b0-763a04efcc45",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "f21ef734-98f6-4f67-b523-a0625cd44d82",
+            "name": "wrong venue id",
+            "url": "halls/{id}",
+            "method": "PUT",
+            "sortNum": 205000,
+            "created": "2023-09-14T10:15:03.123Z",
+            "modified": "2023-09-14T10:16:14.619Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "1",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"name\": \"Hall 1 new\",\n    \"capacityOfHall\": 350,\n    \"venue\": {\n      \"id\": 30\n    }\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "422"
+                }
+            ]
+        },
+        {
+            "_id": "e549656d-b2f8-47d9-8469-da192471b365",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "2ca2bd6e-39bd-4a24-b993-8873f84d00aa",
+            "name": "ticket_reservation/id",
+            "url": "ticket_reservation/sessionevent/{sessioneventId}/seat/{seatId}",
+            "method": "GET",
+            "sortNum": 235000,
+            "created": "2023-12-19T15:58:03.749Z",
+            "modified": "2024-01-19T19:12:00.177Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "sessioneventId",
+                    "value": "1",
+                    "isPath": true
+                },
+                {
+                    "name": "seatId",
+                    "value": "4",
+                    "isPath": true
+                }
+            ],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.ticket_ReservationKey.seatId.id",
+                    "action": "equal",
+                    "value": "2"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.ticket_ReservationKey.sessionEventId.id",
+                    "action": "equal",
+                    "value": "1"
+                }
+            ]
+        },
+        {
+            "_id": "dd0b5fa7-0613-4894-b6f2-2d8c67797eea",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "2ca2bd6e-39bd-4a24-b993-8873f84d00aa",
+            "name": "ticketReservation",
+            "url": "ticket_reservation",
+            "method": "POST",
+            "sortNum": 245000,
+            "created": "2023-12-19T16:36:47.708Z",
+            "modified": "2024-01-19T17:11:51.215Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"ticket_ReservationKey\": {\n    \"seatId\": {\n      \"id\": 3,\n      \"isSeated\": true,\n      \"seatNo\": 3,\n      \"rowNo\": \"B\",\n      \"categorySpatial\": {\n        \"id\": 1,\n        \"name\": \"orchestre\"\n      },\n      \"categoryTariff\": {\n        \"id\": 1,\n        \"name\": \"catégorie 1\",\n        \"tarification\": {\n          \"id\": 1,\n          \"basePrice\": 10.0,\n          \"taxeRate\": 0.2,\n          \"discountStudentRate\": 0.5,\n          \"discountSeniorRate\": 0.1,\n          \"discountChildRate\": 0.2,\n          \"discountUnemployedRate\": 0.3,\n          \"event\": {\n            \"id\": 1,\n            \"name\": \"Concert\",\n            \"description\": \"concert rock super bien\",\n            \"dateStart\": [\n              2026,\n              1,\n              5\n            ],\n            \"dateEnd\": [\n              2026,\n              2,\n              25\n            ],\n            \"closedDay\": \"Lundi\"\n          }\n        }\n      },\n      \"seat_Status\": {\n        \"id\": 2,\n        \"name\": \"available\"\n      },\n      \"configurationHall\": {\n        \"id\": 1,\n        \"name\": \"debout\",\n        \"capacityOfConfiguration\": 120,\n        \"hall\": {\n          \"id\": 1,\n          \"name\": \"Hall 1\",\n          \"capacityOfHall\": 300,\n          \"venue\": {\n            \"id\": 1,\n            \"name\": \"Le Trianon\",\n            \"address\": {\n              \"street\": \"sesame street\",\n              \"city\": \"Paris\",\n              \"zipcode\": \"75001\",\n              \"country\": \"France\"\n            },\n            \"employees\": [\n              {\n                \"id\": 1,\n                \"username\": \"username\",\n                \"password\": \"Secret1*\",\n                \"email\": \"email@admin.fr\"\n              }\n            ]\n          }\n        }\n      }\n    },\n    \"sessionEventId\": {\n      \"id\": 1,\n      \"dateAndTimeStartSessionEvent\": [\n        2026,\n        1,\n        5,\n        20,\n        0\n      ],\n      \"durationInMinutes\": 90,\n      \"event\": {\n        \"id\": 1,\n        \"name\": \"Concert\",\n        \"description\": \"concert rock super bien\",\n        \"dateStart\": [\n          2026,\n          1,\n          5\n        ],\n        \"dateEnd\": [\n          2026,\n          2,\n          25\n        ],\n        \"closedDay\": \"Lundi\"\n      },\n      \"configurationHall\": {\n        \"id\": 1,\n        \"name\": \"debout\",\n        \"capacityOfConfiguration\": 120,\n        \"hall\": {\n          \"id\": 1,\n          \"name\": \"Hall 1\",\n          \"capacityOfHall\": 300,\n          \"venue\": {\n            \"id\": 1,\n            \"name\": \"Le Trianon\",\n            \"address\": {\n              \"street\": \"sesame street\",\n              \"city\": \"Paris\",\n              \"zipcode\": \"75001\",\n              \"country\": \"France\"\n            },\n            \"employees\": [\n              {\n                \"id\": 1,\n                \"username\": \"username\",\n                \"password\": \"Secret1*\",\n                \"email\": \"email@admin.fr\"\n              }\n            ]\n          }\n        }\n      }\n    }\n  },\n  \"isBooked\": true\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "201"
+                }
+            ]
+        },
+        {
+            "_id": "9c721eaf-7e1c-4ff7-8ef8-f254356a6bc3",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "9cb1bf20-27ea-43a9-a678-54013606f388",
+            "name": "customer",
+            "url": "customers/{id}",
+            "method": "PATCH",
+            "sortNum": 255000,
+            "created": "2024-01-10T17:36:12.995Z",
+            "modified": "2024-01-15T10:57:56.576Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "2",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"lastName\": \"RedFur\",\n  \"email\": \"theElm@gmail.com\",\n  \"phoneNumber\": \"0600000000\",\n  \"address\": {\n    \"zipcode\": \"75002\"\n  }\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.email",
+                    "action": "equal",
+                    "value": "theElm@gmail.com"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.address.zipcode",
+                    "action": "equal",
+                    "value": "75002"
+                }
+            ]
+        },
+        {
+            "_id": "e16341d3-72fd-4c5e-ab1c-e6919d79e9a1",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "9cb1bf20-27ea-43a9-a678-54013606f388",
+            "name": "customer update",
+            "url": "customers/{id}",
+            "method": "PUT",
+            "sortNum": 260000,
+            "created": "2024-01-11T08:08:04.707Z",
+            "modified": "2024-01-15T10:59:10.916Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "2",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\": 2,\n  \"firstName\": \"Elmo\",\n  \"lastName\": \"Nose\",\n  \"address\": {\n    \"street\": \"115, sesame street\"\n  },\n  \"creditCardNumber\": \"1\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.id",
+                    "action": "equal",
+                    "value": "2"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.lastName",
+                    "action": "equal",
+                    "value": "Nose"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.address.street",
+                    "action": "equal",
+                    "value": "115, sesame street"
+                }
+            ]
+        },
+        {
+            "_id": "6a3d3dbd-3f72-4224-ae6d-68448041cc45",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "9cb1bf20-27ea-43a9-a678-54013606f388",
+            "name": "customer",
+            "url": "customers/{id}",
+            "method": "DELETE",
+            "sortNum": 265000,
+            "created": "2024-01-11T08:24:42.476Z",
+            "modified": "2024-01-11T09:35:24.590Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "2",
+                    "isPath": true
+                }
+            ],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "204"
+                }
+            ]
+        },
+        {
+            "_id": "80a11f02-42b2-4717-a41d-255763b9b0e3",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "abac68ce-7f98-4c3e-810e-1306e92dcdc6",
+            "name": "bookings",
+            "url": "bookings",
+            "method": "GET",
+            "sortNum": 275000,
+            "created": "2024-01-15T15:44:42.818Z",
+            "modified": "2024-01-15T15:51:55.836Z",
+            "headers": [],
+            "params": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "fe5babe1-69b2-4394-ba70-0016dba52c9c",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "abac68ce-7f98-4c3e-810e-1306e92dcdc6",
+            "name": "bookings by id",
+            "url": "bookings/{id}",
+            "method": "GET",
+            "sortNum": 285000,
+            "created": "2024-01-15T15:50:20.925Z",
+            "modified": "2024-01-15T15:51:17.544Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "1",
+                    "isPath": true
+                }
+            ],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.id",
+                    "action": "equal",
+                    "value": "1"
+                }
+            ]
+        },
+        {
+            "_id": "63b11846-9677-4fcf-baac-e1d2be0dbfb5",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "abac68ce-7f98-4c3e-810e-1306e92dcdc6",
+            "name": "add TR before new booking",
+            "url": "ticket_reservation",
+            "method": "POST",
+            "sortNum": 290000,
+            "created": "2024-01-19T18:24:18.798Z",
+            "modified": "2024-01-19T18:26:31.864Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"ticket_ReservationKey\": {\n    \"seatId\": {\n      \"id\": 3,\n      \"isSeated\": true,\n      \"seatNo\": 3,\n      \"rowNo\": \"B\",\n      \"categorySpatial\": {\n        \"id\": 1,\n        \"name\": \"orchestre\"\n      },\n      \"categoryTariff\": {\n        \"id\": 1,\n        \"name\": \"catégorie 1\",\n        \"tarification\": {\n          \"id\": 1,\n          \"basePrice\": 10.0,\n          \"taxeRate\": 0.2,\n          \"discountStudentRate\": 0.5,\n          \"discountSeniorRate\": 0.1,\n          \"discountChildRate\": 0.2,\n          \"discountUnemployedRate\": 0.3,\n          \"event\": {\n            \"id\": 1,\n            \"name\": \"Concert\",\n            \"description\": \"concert rock super bien\",\n            \"dateStart\": [\n              2026,\n              1,\n              5\n            ],\n            \"dateEnd\": [\n              2026,\n              1,\n              25\n            ],\n            \"closedDay\": \"Lundi\"\n          }\n        }\n      },\n      \"seat_Status\": {\n        \"id\": 2,\n        \"name\": \"available\"\n      },\n      \"configurationHall\": {\n        \"id\": 1,\n        \"name\": \"debout\",\n        \"capacityOfConfiguration\": 120,\n        \"hall\": {\n          \"id\": 1,\n          \"name\": \"Hall 1\",\n          \"capacityOfHall\": 300,\n          \"venue\": {\n            \"id\": 1,\n            \"name\": \"Le Trianon\",\n            \"address\": {\n              \"street\": \"sesame street\",\n              \"city\": \"Paris\",\n              \"zipcode\": \"75001\",\n              \"country\": \"France\"\n            },\n            \"employees\": [\n              {\n                \"id\": 1,\n                \"username\": \"username\",\n                \"password\": \"Secret1*\",\n                \"email\": \"email@admin.fr\"\n              }\n            ]\n          }\n        }\n      }\n    },\n    \"sessionEventId\": {\n      \"id\": 1,\n      \"dateAndTimeStartSessionEvent\": [\n        2026,\n        1,\n        5,\n        20,\n        0\n      ],\n      \"durationInMinutes\": 90,\n      \"event\": {\n        \"id\": 1,\n        \"name\": \"Concert\",\n        \"description\": \"concert rock super bien\",\n        \"dateStart\": [\n          2026,\n          1,\n          5\n        ],\n        \"dateEnd\": [\n          2026,\n          1,\n          25\n        ],\n        \"closedDay\": \"Lundi\"\n      },\n      \"configurationHall\": {\n        \"id\": 1,\n        \"name\": \"debout\",\n        \"capacityOfConfiguration\": 120,\n        \"hall\": {\n          \"id\": 1,\n          \"name\": \"Hall 1\",\n          \"capacityOfHall\": 300,\n          \"venue\": {\n            \"id\": 1,\n            \"name\": \"Le Trianon\",\n            \"address\": {\n              \"street\": \"sesame street\",\n              \"city\": \"Paris\",\n              \"zipcode\": \"75001\",\n              \"country\": \"France\"\n            },\n            \"employees\": [\n              {\n                \"id\": 1,\n                \"username\": \"username\",\n                \"password\": \"Secret1*\",\n                \"email\": \"email@admin.fr\"\n              }\n            ]\n          }\n        }\n      }\n    }\n  },\n \"isBooked\": true\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "201"
+                }
+            ]
+        },
+        {
+            "_id": "885ded5f-8ee7-4157-ac17-3dffde138f71",
+            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
+            "containerId": "abac68ce-7f98-4c3e-810e-1306e92dcdc6",
+            "name": "create booking",
+            "url": "bookings/customer/{customer_id}/reservationKey",
+            "method": "POST",
+            "sortNum": 295000,
+            "created": "2024-01-18T13:38:08.409Z",
+            "modified": "2024-01-19T18:54:59.413Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "customer_id",
+                    "value": "1",
+                    "isPath": true
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"seatId\": {\n      \"id\": 3,\n      \"isSeated\": true,\n      \"seatNo\": 3,\n      \"rowNo\": \"B\",\n      \"categorySpatial\": {\n        \"id\": 1,\n        \"name\": \"orchestre\"\n      },\n      \"categoryTariff\": {\n        \"id\": 1,\n        \"name\": \"catégorie 1\",\n        \"tarification\": {\n          \"id\": 1,\n          \"basePrice\": 10.0,\n          \"taxeRate\": 0.2,\n          \"discountStudentRate\": 0.5,\n          \"discountSeniorRate\": 0.1,\n          \"discountChildRate\": 0.2,\n          \"discountUnemployedRate\": 0.3,\n          \"event\": {\n            \"id\": 1,\n            \"name\": \"Concert\",\n            \"description\": \"concert rock super bien\",\n            \"dateStart\": [\n              2026,\n              1,\n              5\n            ],\n            \"dateEnd\": [\n              2026,\n              1,\n              25\n            ],\n            \"closedDay\": \"Lundi\"\n          }\n        }\n      },\n      \"seat_Status\": {\n        \"id\": 2,\n        \"name\": \"available\"\n      },\n      \"configurationHall\": {\n        \"id\": 1,\n        \"name\": \"debout\",\n        \"hall\": {\n          \"id\": 1,\n          \"name\": \"Hall 1\",\n          \"capacityOfHall\": 300,\n          \"venue\": {\n            \"id\": 1,\n            \"name\": \"Le Trianon\",\n            \"address\": {\n              \"street\": \"sesame street\",\n              \"city\": \"Paris\",\n              \"zipcode\": \"75001\",\n              \"country\": \"France\"\n            },\n            \"employees\": [\n              {\n                \"id\": 1,\n                \"username\": \"username\",\n                \"password\": \"Secret1*\",\n                \"email\": \"email@admin.fr\"\n              }\n            ]\n          }\n        },\n        \"capacityOfConfiguration\": 120\n      }\n    },\n    \"sessionEventId\": {\n      \"id\": 1,\n      \"dateAndTimeStartSessionEvent\": [\n        2026,\n        1,\n        5,\n        20,\n        0\n      ],\n      \"durationInMinutes\": 90,\n      \"event\": {\n        \"id\": 1,\n        \"name\": \"Concert\",\n        \"description\": \"concert rock super bien\",\n        \"dateStart\": [\n          2026,\n          1,\n          5\n        ],\n        \"dateEnd\": [\n          2026,\n          1,\n          25\n        ],\n        \"closedDay\": \"Lundi\"\n      },\n      \"configurationHall\": {\n        \"id\": 1,\n        \"name\": \"debout\",\n        \"hall\": {\n          \"id\": 1,\n          \"name\": \"Hall 1\",\n          \"capacityOfHall\": 300,\n          \"venue\": {\n            \"id\": 1,\n            \"name\": \"Le Trianon\",\n            \"address\": {\n              \"street\": \"sesame street\",\n              \"city\": \"Paris\",\n              \"zipcode\": \"75001\",\n              \"country\": \"France\"\n            },\n            \"employees\": [\n              {\n                \"id\": 1,\n                \"username\": \"username\",\n                \"password\": \"Secret1*\",\n                \"email\": \"email@admin.fr\"\n              }\n            ]\n          }\n        },\n        \"capacityOfConfiguration\": 120\n      }\n    }\n  }",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "201"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.reservations[0].id.seatId.id",
+                    "action": "equal",
+                    "value": "3"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.reservations[0].id.sessionEventId.id",
+                    "action": "equal",
+                    "value": "1"
+                },
+                {
+                    "type": "json-query",
+                    "custom": "json.reservations.items | length",
+                    "action": "equal",
+                    "value": "1"
+                }
+            ]
+        }
+    ],
+    "settings": {
+        "options": {
+            "baseUrl": "http://localhost:8080/api/"
+        }
+    }
+}

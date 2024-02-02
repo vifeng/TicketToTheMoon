@@ -35,6 +35,9 @@ public class BookingService {
 
     BookingRepository bookingRepository;
     BookingMapper bookingMapper;
+    // TONOTE: this line actually throw a circular dependency error
+    // so I should not use services in other services
+    // PaymentService paymentService;
     CustomerRepository customerRepository;
     Ticket_ReservationMapper ticket_ReservationMapper;
     Ticket_ReservationRepository ticket_ReservationRepository;
@@ -138,9 +141,8 @@ public class BookingService {
 
     public BookingDTO deleteReservation(Long booking_id, Ticket_ReservationKeyDTO reservationKeyDTO)
             throws FinderException, IllegalArgumentException {
-        // TODO_HIGH : if it deletes the last reservation, it should delete the booking and the
-        // relevant
-        // ticket_reservation see cascade options - should be ok
+        // FIXME: it is not deleting the TR when deleting one Reservation of 2. it writes null in
+        // the foreign key
         if (booking_id == null) {
             throw new IllegalArgumentException("No booking id is null");
         }
@@ -162,6 +164,8 @@ public class BookingService {
             throw new IllegalArgumentException("Ticket_Reservation with id {" + reservationKeyDTO
                     + "} not found in booking with id {" + booking_id + "}");
         }
+        // FIXME : should only make available the seats that are deleted. right now it's all seats
+        // of the booking
         updateSeatAvailability(booking_id, "available");
         booking.removeReservation(ticket_Reservation);
         if (booking.getReservations().isEmpty()) {
@@ -176,20 +180,21 @@ public class BookingService {
     public void deleteById(Long booking_id) throws FinderException, IllegalArgumentException,
             EntityNotFoundException, RemoveException {
         if (booking_id == null) {
-            throw new NullException("Booking id cannot be null");
+            throw new IllegalArgumentException("Booking id cannot be null");
         }
         Booking booking = bookingRepository.getReferenceById(booking_id);
         Optional<Payment> payment = paymentRepository.findByBookingId(booking_id);
-        payment.ifPresent(p -> {
-            if (p.getPaymentStatus_category().equals("paid")) {
+        if (payment != null) {
+            if (payment.get().getPaymentStatus_category().equals("paid")) {
                 throw new RemoveException("Booking with id {" + booking_id
                         + "} cannot be deleted because it is paid");
-            } else {
-                rollOverSeatsAvailability(booking_id);
-                // TODO_HIGH: should delete payment first. check cascade options
-                bookingRepository.deleteById(booking_id);
             }
-        });
+            // write other cases
+            // if all other cases are not met but payment has been created, delete the payment
+            paymentRepository.deleteById(payment.get().getId());
+        } ;
+        rollOverSeatsAvailability(booking_id);
+        // bookingRepository.deleteById(booking_id);
     }
 
     /**
@@ -213,6 +218,7 @@ public class BookingService {
             ticket_ReservationService.changeSeatsStatus(reservation, "available");
             ticket_ReservationRepository.delete(reservation);
         }
+        // FIXME: maybe should not be in this method
         bookingRepository.delete(booking);
     }
 

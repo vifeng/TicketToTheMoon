@@ -147,14 +147,15 @@ public class DbInitializer {
                 booking_creationLocalDateTime.plusMinutes(BOOKING_EXPIRYDATETIME);
         Booking booking = createBooking(booking_creationTimestamp, customer, reservations);
         if (expiryTime.isAfter(LocalDateTime.now())) {
-            // TODO_HIGH: changer le status de la place en sold
             Payment payment = createPayment(booking, paymentStatus_category);
+            // changes the seat status to "sold" and save the seat
             booking.getReservations().forEach(reservation -> {
-                reservation.getId().getSeatId().setSeat_Status(seat_statuses.get(3));
-                Seat savedseat = seatRepository.save(reservation.getId().getSeatId());
-                ticket_ReservationRepository.save(reservation);
+                Seat seat = reservation.getId().getSeatId();
+                if (seat != null) {
+                    seat.setSeat_Status(seat_statuses.get(3));
+                    seatRepository.save(seat);
+                }
             });
-            bookingRepository.save(booking);
         } else {
             System.out.println("Booking is not valid");
             // changer le status de la place en available
@@ -268,7 +269,6 @@ public class DbInitializer {
                 new Ticket_ReservationKey(seats.get(1), sessionEvent);
         Ticket_Reservation oneTicket_Reservation2 =
                 new Ticket_Reservation(ticket_ReservationKey2, true);
-
         ticket_ReservationRepository.save(oneTicket_Reservation1);
         ticket_ReservationRepository.save(oneTicket_Reservation2);
 

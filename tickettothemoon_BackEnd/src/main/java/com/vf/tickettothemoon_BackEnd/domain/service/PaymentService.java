@@ -98,4 +98,11 @@ public class PaymentService {
         }
     }
 
+    public void deleteById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Id cannot be null");
+        }
+        paymentRepository.deleteById(id);
+    }
+
 }
