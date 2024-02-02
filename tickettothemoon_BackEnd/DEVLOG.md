@@ -34,7 +34,7 @@ TABLE OF CONTENTS
 
 # Developpement Notes
 
-This document is a log of the development of the project. It contains useful documentation, bugs resolved, and questions/choices about the project. I use it to keep track of the project and to help me to remember what I did and why I did it. It is also a good way to share my knowledge and to help others. I hope it will be useful to you.
+This document is a log of the development of the project. It contains useful documentation, bugs resolved, and questions/choices about the project. I use it to keep track of the project and to help me to remember what I did and why I did it. It is also a good way to share my knowledge and to help others. I hope it will be useful to you. :)
 
 ## Info on the project
 
