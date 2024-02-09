@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.stereotype.Service;
 import com.vf.tickettothemoon_BackEnd.domain.dao.BookingRepository;
 import com.vf.tickettothemoon_BackEnd.domain.dao.PaymentRepository;
@@ -13,6 +14,7 @@ import com.vf.tickettothemoon_BackEnd.domain.dto.PaymentDTO;
 import com.vf.tickettothemoon_BackEnd.domain.model.Booking;
 import com.vf.tickettothemoon_BackEnd.domain.model.Payment;
 import com.vf.tickettothemoon_BackEnd.domain.model.PaymentStatus_category;
+import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_Reservation;
 import com.vf.tickettothemoon_BackEnd.domain.service.mappers.BookingMapper;
 import com.vf.tickettothemoon_BackEnd.domain.service.mappers.PaymentMapper;
 import com.vf.tickettothemoon_BackEnd.exception.CreateException;
@@ -75,26 +77,26 @@ public class PaymentService {
                     "Booking with id {" + bookingId + "} not found, cannot create payment");
         }
         Booking booking = optionalBooking.get();
-        Timestamp booking_creationTimestamp = booking.getBooking_creationTimestamp();
-        LocalDateTime booking_creationLocalDateTime = booking_creationTimestamp.toLocalDateTime();
-        LocalDateTime expiryTimeForBooking =
-                booking_creationLocalDateTime.plusMinutes(BOOKING_EXPIRYDATETIME);
+        Boolean timeExpired = checkIfReservationTimeIsExpired(
+                booking.getBooking_creationTimestamp(), booking.getReservations());
 
-        if (expiryTimeForBooking.isAfter(LocalDateTime.now())) {
+        Boolean sessionExpired = bookingService.checkIfReservationIsSessionExpired(
+                booking.getBooking_creationTimestamp(), booking.getReservations());
+
+        if (timeExpired && sessionExpired) {
             // booking is still valid
             Optional<PaymentStatus_category> paymentStatus =
                     payment_StatusRepository.findByPaymentStatus("paid");
             Payment payment = new Payment(LocalDateTime.now(), booking, paymentStatus.get());
             // change seat availability to sold
-            bookingService.updateSeatAvailability(bookingId, "sold");
+            bookingService.updateSeatAvailability(booking.getReservations(), "sold");
             Payment savedPayment = paymentRepository.save(payment);
             return paymentMapper.toDTO(savedPayment);
         } else {
             // booking has expired
-            bookingService.rollOverSeatsAvailability(bookingId);
             bookingService.deleteById(bookingId);
             throw new CreateException("Payment has not been made, booking with id {" + bookingId
-                    + "} has expired. Booking has been deleted. Please try again.");
+                    + "} has expired. Booking and its reservations has been deleted. Please try again.");
         }
     }
 
@@ -103,6 +105,27 @@ public class PaymentService {
             throw new IllegalArgumentException("Id cannot be null");
         }
         paymentRepository.deleteById(id);
+    }
+
+    /**
+     * Check if the reservation time is expired based on the booking creation time and the
+     * BOOKING_EXPIRYDATETIME
+     * 
+     * @param booking_creationTimestamp
+     * @param reservations
+     * @return true if the reservation time is expired, false if the reservation time is still valid
+     */
+    public Boolean checkIfReservationTimeIsExpired(Timestamp booking_creationTimestamp,
+            Set<Ticket_Reservation> reservations) {
+        LocalDateTime booking_creationLocalDateTime = booking_creationTimestamp.toLocalDateTime();
+        LocalDateTime expiryTimeForBooking =
+                booking_creationLocalDateTime.plusMinutes(BOOKING_EXPIRYDATETIME);
+        Boolean res;
+        if (expiryTimeForBooking.isAfter(LocalDateTime.now())) {
+            // booking is still valid
+            return false;
+        }
+        return true;
     }
 
 }

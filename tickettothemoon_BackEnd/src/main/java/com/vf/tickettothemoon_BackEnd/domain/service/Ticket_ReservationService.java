@@ -96,7 +96,16 @@ public class Ticket_ReservationService {
         }
     }
 
+    public void deleteById(Ticket_ReservationKey id) {
+        if (!ticket_ReservationRepository.existsById(id))
+            throw new IllegalArgumentException("Ticket_Reservation with id " + id + " not found");
+        ticket_ReservationRepository.deleteById(id);
+    }
 
+    // TOFINISH: PUT, PATCH, DELETE
+
+
+    // UTILITIES
     public void changeSeatsStatus(Ticket_Reservation ticket_Reservation, String status)
             throws UpdateException {
         try {
@@ -112,7 +121,15 @@ public class Ticket_ReservationService {
         }
     }
 
-    // TOFINISH: PUT, PATCH, DELETE
+
+    public Boolean checkIfSeatStatusIsAvailable(Ticket_Reservation ticket_Reservation) {
+        if (ticket_Reservation.getId().getSeatId().getSeat_Status().getName().equals("available")) {
+            return true;
+        }
+        return false;
+    }
+
+
 
     ///////////////////////
     // RELATIONSHIP
