@@ -43,6 +43,16 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.findById(id));
     }
 
+    /**
+     * Creates a booking for a customer
+     * 
+     * @param customer_id
+     * @param reservationKeyDTO
+     * @return
+     * @throws FinderException
+     * @throws IllegalArgumentException
+     * @throws NullException
+     */
     @PostMapping("/customer/{customer_id}/reservationKey")
     public ResponseEntity<BookingDTO> createBookingForCustomerId(@PathVariable Long customer_id,
             @RequestBody Ticket_ReservationKeyDTO reservationKeyDTO)
@@ -51,6 +61,14 @@ public class BookingController {
         return ResponseEntity.status(HttpStatus.CREATED).body(bookingDTO);
     }
 
+    /**
+     * Adds a Ticket_Reservation to a booking
+     * 
+     * @param booking_id
+     * @param reservationKeyDTO
+     * @return
+     * @throws FinderException
+     */
     @PostMapping("/{booking_id}/reservationKey")
     public ResponseEntity<BookingDTO> addReservationToBooking(@PathVariable Long booking_id,
             @RequestBody Ticket_ReservationKeyDTO reservationKeyDTO) throws FinderException {
@@ -59,6 +77,15 @@ public class BookingController {
 
     }
 
+    /**
+     * Deletes a Ticket_Reservation from a booking. the last reservation deletes the booking.
+     * 
+     * @param booking_id
+     * @param reservationKeyDTO
+     * @return a BookingDTO object with status code 200 if other reservations are found, or a 204 No
+     *         Content response if no reservations exist after the delete.
+     * @throws FinderException
+     */
     @DeleteMapping("/{booking_id}/reservationKey")
     public ResponseEntity<BookingDTO> deleteReservationFromBooking(@PathVariable Long booking_id,
             @RequestBody Ticket_ReservationKeyDTO reservationKeyDTO) throws FinderException {
@@ -69,6 +96,12 @@ public class BookingController {
         return ResponseEntity.ok(bookingDTO);
     }
 
+    /**
+     * Deletes a booking by id
+     * 
+     * @param id
+     * @return a 204 No Content response
+     */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteBookingById(@PathVariable Long id) {

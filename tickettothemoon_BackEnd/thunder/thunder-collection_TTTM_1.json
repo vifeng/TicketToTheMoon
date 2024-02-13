@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "TTTM_1",
-    "dateExported": "2024-02-02T16:00:28.230Z",
+    "dateExported": "2024-02-13T18:38:13.566Z",
     "version": "1.1",
     "folders": [
         {
@@ -59,13 +59,6 @@
             "containerId": "",
             "created": "2024-01-10T17:35:59.009Z",
             "sortNum": 100000
-        },
-        {
-            "_id": "abac68ce-7f98-4c3e-810e-1306e92dcdc6",
-            "name": "Booking",
-            "containerId": "",
-            "created": "2024-01-15T15:42:23.460Z",
-            "sortNum": 110000
         }
     ],
     "requests": [
@@ -1540,136 +1533,6 @@
                     "custom": "",
                     "action": "equal",
                     "value": "204"
-                }
-            ]
-        },
-        {
-            "_id": "80a11f02-42b2-4717-a41d-255763b9b0e3",
-            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
-            "containerId": "abac68ce-7f98-4c3e-810e-1306e92dcdc6",
-            "name": "bookings",
-            "url": "bookings",
-            "method": "GET",
-            "sortNum": 275000,
-            "created": "2024-01-15T15:44:42.818Z",
-            "modified": "2024-01-15T15:51:55.836Z",
-            "headers": [],
-            "params": [],
-            "tests": [
-                {
-                    "type": "res-code",
-                    "custom": "",
-                    "action": "equal",
-                    "value": "200"
-                }
-            ]
-        },
-        {
-            "_id": "fe5babe1-69b2-4394-ba70-0016dba52c9c",
-            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
-            "containerId": "abac68ce-7f98-4c3e-810e-1306e92dcdc6",
-            "name": "bookings by id",
-            "url": "bookings/{id}",
-            "method": "GET",
-            "sortNum": 285000,
-            "created": "2024-01-15T15:50:20.925Z",
-            "modified": "2024-01-15T15:51:17.544Z",
-            "headers": [],
-            "params": [
-                {
-                    "name": "id",
-                    "value": "1",
-                    "isPath": true
-                }
-            ],
-            "tests": [
-                {
-                    "type": "res-code",
-                    "custom": "",
-                    "action": "equal",
-                    "value": "200"
-                },
-                {
-                    "type": "json-query",
-                    "custom": "json.id",
-                    "action": "equal",
-                    "value": "1"
-                }
-            ]
-        },
-        {
-            "_id": "63b11846-9677-4fcf-baac-e1d2be0dbfb5",
-            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
-            "containerId": "abac68ce-7f98-4c3e-810e-1306e92dcdc6",
-            "name": "add TR before new booking",
-            "url": "ticket_reservation",
-            "method": "POST",
-            "sortNum": 290000,
-            "created": "2024-01-19T18:24:18.798Z",
-            "modified": "2024-01-19T18:26:31.864Z",
-            "headers": [],
-            "params": [],
-            "body": {
-                "type": "json",
-                "raw": "{\n  \"ticket_ReservationKey\": {\n    \"seatId\": {\n      \"id\": 3,\n      \"isSeated\": true,\n      \"seatNo\": 3,\n      \"rowNo\": \"B\",\n      \"categorySpatial\": {\n        \"id\": 1,\n        \"name\": \"orchestre\"\n      },\n      \"categoryTariff\": {\n        \"id\": 1,\n        \"name\": \"catégorie 1\",\n        \"tarification\": {\n          \"id\": 1,\n          \"basePrice\": 10.0,\n          \"taxeRate\": 0.2,\n          \"discountStudentRate\": 0.5,\n          \"discountSeniorRate\": 0.1,\n          \"discountChildRate\": 0.2,\n          \"discountUnemployedRate\": 0.3,\n          \"event\": {\n            \"id\": 1,\n            \"name\": \"Concert\",\n            \"description\": \"concert rock super bien\",\n            \"dateStart\": [\n              2026,\n              1,\n              5\n            ],\n            \"dateEnd\": [\n              2026,\n              1,\n              25\n            ],\n            \"closedDay\": \"Lundi\"\n          }\n        }\n      },\n      \"seat_Status\": {\n        \"id\": 2,\n        \"name\": \"available\"\n      },\n      \"configurationHall\": {\n        \"id\": 1,\n        \"name\": \"debout\",\n        \"capacityOfConfiguration\": 120,\n        \"hall\": {\n          \"id\": 1,\n          \"name\": \"Hall 1\",\n          \"capacityOfHall\": 300,\n          \"venue\": {\n            \"id\": 1,\n            \"name\": \"Le Trianon\",\n            \"address\": {\n              \"street\": \"sesame street\",\n              \"city\": \"Paris\",\n              \"zipcode\": \"75001\",\n              \"country\": \"France\"\n            },\n            \"employees\": [\n              {\n                \"id\": 1,\n                \"username\": \"username\",\n                \"password\": \"Secret1*\",\n                \"email\": \"email@admin.fr\"\n              }\n            ]\n          }\n        }\n      }\n    },\n    \"sessionEventId\": {\n      \"id\": 1,\n      \"dateAndTimeStartSessionEvent\": [\n        2026,\n        1,\n        5,\n        20,\n        0\n      ],\n      \"durationInMinutes\": 90,\n      \"event\": {\n        \"id\": 1,\n        \"name\": \"Concert\",\n        \"description\": \"concert rock super bien\",\n        \"dateStart\": [\n          2026,\n          1,\n          5\n        ],\n        \"dateEnd\": [\n          2026,\n          1,\n          25\n        ],\n        \"closedDay\": \"Lundi\"\n      },\n      \"configurationHall\": {\n        \"id\": 1,\n        \"name\": \"debout\",\n        \"capacityOfConfiguration\": 120,\n        \"hall\": {\n          \"id\": 1,\n          \"name\": \"Hall 1\",\n          \"capacityOfHall\": 300,\n          \"venue\": {\n            \"id\": 1,\n            \"name\": \"Le Trianon\",\n            \"address\": {\n              \"street\": \"sesame street\",\n              \"city\": \"Paris\",\n              \"zipcode\": \"75001\",\n              \"country\": \"France\"\n            },\n            \"employees\": [\n              {\n                \"id\": 1,\n                \"username\": \"username\",\n                \"password\": \"Secret1*\",\n                \"email\": \"email@admin.fr\"\n              }\n            ]\n          }\n        }\n      }\n    }\n  },\n \"isBooked\": true\n}",
-                "form": []
-            },
-            "tests": [
-                {
-                    "type": "res-code",
-                    "custom": "",
-                    "action": "equal",
-                    "value": "201"
-                }
-            ]
-        },
-        {
-            "_id": "885ded5f-8ee7-4157-ac17-3dffde138f71",
-            "colId": "7f92819a-425d-4135-992b-c4b6c96c4361",
-            "containerId": "abac68ce-7f98-4c3e-810e-1306e92dcdc6",
-            "name": "create booking",
-            "url": "bookings/customer/{customer_id}/reservationKey",
-            "method": "POST",
-            "sortNum": 295000,
-            "created": "2024-01-18T13:38:08.409Z",
-            "modified": "2024-01-19T18:54:59.413Z",
-            "headers": [],
-            "params": [
-                {
-                    "name": "customer_id",
-                    "value": "1",
-                    "isPath": true
-                }
-            ],
-            "body": {
-                "type": "json",
-                "raw": "{\n    \"seatId\": {\n      \"id\": 3,\n      \"isSeated\": true,\n      \"seatNo\": 3,\n      \"rowNo\": \"B\",\n      \"categorySpatial\": {\n        \"id\": 1,\n        \"name\": \"orchestre\"\n      },\n      \"categoryTariff\": {\n        \"id\": 1,\n        \"name\": \"catégorie 1\",\n        \"tarification\": {\n          \"id\": 1,\n          \"basePrice\": 10.0,\n          \"taxeRate\": 0.2,\n          \"discountStudentRate\": 0.5,\n          \"discountSeniorRate\": 0.1,\n          \"discountChildRate\": 0.2,\n          \"discountUnemployedRate\": 0.3,\n          \"event\": {\n            \"id\": 1,\n            \"name\": \"Concert\",\n            \"description\": \"concert rock super bien\",\n            \"dateStart\": [\n              2026,\n              1,\n              5\n            ],\n            \"dateEnd\": [\n              2026,\n              1,\n              25\n            ],\n            \"closedDay\": \"Lundi\"\n          }\n        }\n      },\n      \"seat_Status\": {\n        \"id\": 2,\n        \"name\": \"available\"\n      },\n      \"configurationHall\": {\n        \"id\": 1,\n        \"name\": \"debout\",\n        \"hall\": {\n          \"id\": 1,\n          \"name\": \"Hall 1\",\n          \"capacityOfHall\": 300,\n          \"venue\": {\n            \"id\": 1,\n            \"name\": \"Le Trianon\",\n            \"address\": {\n              \"street\": \"sesame street\",\n              \"city\": \"Paris\",\n              \"zipcode\": \"75001\",\n              \"country\": \"France\"\n            },\n            \"employees\": [\n              {\n                \"id\": 1,\n                \"username\": \"username\",\n                \"password\": \"Secret1*\",\n                \"email\": \"email@admin.fr\"\n              }\n            ]\n          }\n        },\n        \"capacityOfConfiguration\": 120\n      }\n    },\n    \"sessionEventId\": {\n      \"id\": 1,\n      \"dateAndTimeStartSessionEvent\": [\n        2026,\n        1,\n        5,\n        20,\n        0\n      ],\n      \"durationInMinutes\": 90,\n      \"event\": {\n        \"id\": 1,\n        \"name\": \"Concert\",\n        \"description\": \"concert rock super bien\",\n        \"dateStart\": [\n          2026,\n          1,\n          5\n        ],\n        \"dateEnd\": [\n          2026,\n          1,\n          25\n        ],\n        \"closedDay\": \"Lundi\"\n      },\n      \"configurationHall\": {\n        \"id\": 1,\n        \"name\": \"debout\",\n        \"hall\": {\n          \"id\": 1,\n          \"name\": \"Hall 1\",\n          \"capacityOfHall\": 300,\n          \"venue\": {\n            \"id\": 1,\n            \"name\": \"Le Trianon\",\n            \"address\": {\n              \"street\": \"sesame street\",\n              \"city\": \"Paris\",\n              \"zipcode\": \"75001\",\n              \"country\": \"France\"\n            },\n            \"employees\": [\n              {\n                \"id\": 1,\n                \"username\": \"username\",\n                \"password\": \"Secret1*\",\n                \"email\": \"email@admin.fr\"\n              }\n            ]\n          }\n        },\n        \"capacityOfConfiguration\": 120\n      }\n    }\n  }",
-                "form": []
-            },
-            "tests": [
-                {
-                    "type": "res-code",
-                    "custom": "",
-                    "action": "equal",
-                    "value": "201"
-                },
-                {
-                    "type": "json-query",
-                    "custom": "json.reservations[0].id.seatId.id",
-                    "action": "equal",
-                    "value": "3"
-                },
-                {
-                    "type": "json-query",
-                    "custom": "json.reservations[0].id.sessionEventId.id",
-                    "action": "equal",
-                    "value": "1"
-                },
-                {
-                    "type": "json-query",
-                    "custom": "json.reservations.items | length",
-                    "action": "equal",
-                    "value": "1"
                 }
             ]
         }

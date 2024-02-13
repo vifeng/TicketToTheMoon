@@ -11,18 +11,18 @@ public class PaymentStatus_category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String paymentStatus;
+    private String paymentStatusName;
 
 
     public PaymentStatus_category() {}
 
-    public PaymentStatus_category(Long id, String paymentStatus) {
+    public PaymentStatus_category(Long id, String paymentStatusName) {
         setId(id);
-        setPaymentStatus(paymentStatus);
+        setPaymentStatusName(paymentStatusName);
     }
 
-    public PaymentStatus_category(String paymentStatus) {
-        setPaymentStatus(paymentStatus);
+    public PaymentStatus_category(String paymentStatusName) {
+        setPaymentStatusName(paymentStatusName);
     }
 
     public Long getId() {
@@ -33,17 +33,17 @@ public class PaymentStatus_category {
         this.id = id;
     }
 
-    public String getPaymentStatus() {
-        return paymentStatus;
+    public String getPaymentStatusName() {
+        return paymentStatusName;
     }
 
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
+    public void setPaymentStatusName(String paymentStatusName) {
+        this.paymentStatusName = paymentStatusName;
     }
 
     @Override
     public String toString() {
-        return "PaymentStatus_category [id=" + id + ", paymentStatus=" + paymentStatus + "]";
+        return "PaymentStatus_category [id=" + id + ", paymentStatus=" + paymentStatusName + "]";
     }
 
 

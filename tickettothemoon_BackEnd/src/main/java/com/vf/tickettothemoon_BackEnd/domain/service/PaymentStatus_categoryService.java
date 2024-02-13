@@ -43,9 +43,9 @@ public class PaymentStatus_categoryService {
         return paymentStatus_categoryMapper.toDTO(paymentStatus_category);
     }
 
-    public PaymentStatus_categoryDTO findByPaymentStatus(String status) throws FinderException {
+    public PaymentStatus_categoryDTO findByPaymentStatusName(String status) throws FinderException {
         PaymentStatus_category paymentStatus_category = paymentStatus_categoryRepository
-                .findByPaymentStatus(status).orElseThrow(() -> new FinderException(
+                .findByPaymentStatusName(status).orElseThrow(() -> new FinderException(
                         "PaymentStatus_category with Payment Status {" + status + "} not found"));
         return paymentStatus_categoryMapper.toDTO(paymentStatus_category);
     }
