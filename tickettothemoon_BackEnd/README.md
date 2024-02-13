@@ -1,6 +1,6 @@
 Table of contents
 
-- [PROJECT : TicketToTheMoon_BackEnd](#project--tickettothemoon_backend)
+- [PROJECT : TicketToTheMoon\_BackEnd](#project--tickettothemoon_backend)
   - [About The Project](#about-the-project)
   - [Documentation](#documentation)
   - [Build with](#build-with)
@@ -12,10 +12,11 @@ Table of contents
 - [Few usefull commands](#few-usefull-commands)
 - [Mapstruct implementation](#mapstruct-implementation)
 - [REST API documentation, monitoring and testing](#rest-api-documentation-monitoring-and-testing)
-  - [Actuator (monitoring/observability)](#actuator-monitoringobservability)
+  - [Spring REST Docs (API testing and documentation)](#spring-rest-docs-api-testing-and-documentation)
+    - [How to generate the documentation](#how-to-generate-the-documentation)
+  - [Thunder tests](#thunder-tests)
   - [Hal explorer (REST API documentation)](#hal-explorer-rest-api-documentation)
-- [Spring REST Docs (API testing and documentation)](#spring-rest-docs-api-testing-and-documentation)
-  - [How to generate the documentation](#how-to-generate-the-documentation)
+  - [Actuator (monitoring/observability)](#actuator-monitoringobservability)
 
 ---
 
@@ -32,8 +33,9 @@ TicketToTheMoon is a ticket office website. Main features are :
 
 ## Documentation
 
-[Documentation] https://github.com/vifeng/TicketToTheMoon/tree/main/documentation  
+[Documentation] (https://github.com/vifeng/TicketToTheMoon/tree/main/documentation)  
 README files are available in each folder to explain its purpose.
+[Devlog](DEVLOG.md) is available to follow the development process.
 
 ## Build with
 
@@ -92,7 +94,7 @@ gradle check
 # run all verification tasks, including tests and linting
 
 # MAPSTRUCT
-# this task doesn't exists.
+# this task doesn't exists yet.
 gradle mapstructGenerate
 # generate the mapstruct implementation
 gradle mapstructClean
@@ -120,27 +122,7 @@ the genereated code is in the `build/generated/sources/annotationProcessor/java/
 
 # REST API documentation, monitoring and testing
 
-## Actuator (monitoring/observability)
-
-The spring-boot-actuator module provides all of Spring Boot’s production-ready features. It exposes a lot of endpoints to monitor and manage your application. Auditing, health, and metrics gathering can also be automatically applied to your application.
-
-- There are actuator health check and info routes as well:
-  - http://localhost:8080/manage/actuator
-  - http://localhost:8080/manage/actuator/health
-
-source [official doc](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html)
-
-<br>
-
-## Hal explorer (REST API documentation)
-
-With HAL Explorer you can explore HAL and HAL-FORMS based RESTful Hypermedia APIs.
-
-Available at [http://localhost:8080/](http://localhost:8080/)
-
-Documentation at [github usage doc](https://toedter.github.io/hal-explorer/release/reference-doc/#usage)
-
-# Spring REST Docs (API testing and documentation)
+## Spring REST Docs (API testing and documentation)
 
 Spring REST Docs helps you to document RESTful services. It combines hand-written documentation written with Asciidoctor and auto-generated snippets produced with Spring MVC Test.
 
@@ -153,3 +135,29 @@ gradle clean build
 ```
 
 or just run the 'tests and debug' in vscode if the app is launched (`gradle bootRun`).
+
+## Thunder tests
+
+Thunder is a REST API client extension for Visual Studio Code. It is a lightweight and easy-to-use extension for sending HTTP requests to test your REST API. it is a good alternative to Postman. Now I use it for all my tests. you'll find the collections of requests in the thunder folder : ./thunder. You can import them in your thunder extension. So you now, there is a free plan limiting the number of requests per day.
+
+link to extension : https://marketplace.visualstudio.com/items?itemName=rongwong.thunder-client
+
+## Hal explorer (REST API documentation)
+
+With HAL Explorer you can explore HAL and HAL-FORMS based RESTful Hypermedia APIs.
+
+Available at [http://localhost:8080/](http://localhost:8080/)
+
+Documentation at [github usage doc](https://toedter.github.io/hal-explorer/release/reference-doc/#usage)
+
+## Actuator (monitoring/observability)
+
+The spring-boot-actuator module provides all of Spring Boot’s production-ready features. It exposes a lot of endpoints to monitor and manage your application. Auditing, health, and metrics gathering can also be automatically applied to your application.
+
+- There are actuator health check and info routes as well:
+  - http://localhost:8080/manage/actuator
+  - http://localhost:8080/manage/actuator/health
+
+source [official doc](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html)
+
+<br>
