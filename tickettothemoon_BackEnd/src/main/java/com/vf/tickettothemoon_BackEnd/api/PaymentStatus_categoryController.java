@@ -42,7 +42,7 @@ public class PaymentStatus_categoryController {
     @GetMapping("/status/{status}")
     public ResponseEntity<PaymentStatus_categoryDTO> getPaymentStatus_categoryByName(
             @PathVariable String status) throws FinderException {
-        return ResponseEntity.ok(paymentStatus_categoryService.findByPaymentStatus(status));
+        return ResponseEntity.ok(paymentStatus_categoryService.findByPaymentStatusName(status));
     }
 
 

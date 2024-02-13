@@ -122,8 +122,15 @@ public class Ticket_ReservationService {
     }
 
 
+    /**
+     * Seat Status are :
+     * 
+     * @param ticket_Reservation
+     * @return true if seat is available, false if the status is different from "available"
+     */
     public Boolean checkIfSeatStatusIsAvailable(Ticket_Reservation ticket_Reservation) {
-        if (ticket_Reservation.getId().getSeatId().getSeat_Status().getName().equals("available")) {
+        String seatStatus = ticket_Reservation.getId().getSeatId().getSeat_Status().getName();
+        if (seatStatus.equals("available")) {
             return true;
         }
         return false;

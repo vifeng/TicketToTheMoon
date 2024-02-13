@@ -55,12 +55,21 @@ public class GlobalExceptionHandler {
         @ExceptionHandler(IllegalArgumentException.class)
         @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
         @ResponseBody
-        public ResponseEntity<GlobalErrorResponse> handleIllegalArgumentException(
+        public ResponseEntity<Object> handleIllegalArgumentException(
                         IllegalArgumentException exception, HttpServletRequest request) {
-                GlobalErrorResponse errorResponse = new GlobalErrorResponse(ZonedDateTime.now(),
-                                HttpStatus.UNPROCESSABLE_ENTITY.value(), request.getRequestURI(),
-                                "An illegal argument error occurred : " + exception.getMessage());
-                return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+                Map<String, Object> body = new LinkedHashMap<>();
+                body.put("timestamp", LocalDateTime.now());
+                body.put("status", HttpStatus.UNPROCESSABLE_ENTITY.value());
+                body.put("path", request.getRequestURI());
+                body.put("message", "An illegal argument error occurred : ");
+
+                // Get all validation errors
+                List<String> errors = Arrays.stream(exception.getStackTrace())
+                                .map(StackTraceElement::toString).collect(Collectors.toList());
+
+                body.put("errors", errors);
+
+                return new ResponseEntity<>(body, HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
 
@@ -279,5 +288,23 @@ public class GlobalExceptionHandler {
                 body.put("errors", errors);
 
                 return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+        }
+
+        @ExceptionHandler(java.util.NoSuchElementException.class)
+        @ResponseStatus(HttpStatus.NOT_FOUND)
+        public ResponseEntity<Object> handleNoSuchElementException(
+                        java.util.NoSuchElementException ex) {
+                Map<String, Object> body = new LinkedHashMap<>();
+                body.put("timestamp", LocalDateTime.now());
+                body.put("status", HttpStatus.NOT_FOUND.value());
+                body.put("message", "No such element found in the database.");
+
+                // Get all validation errors
+                List<String> errors = Arrays.stream(ex.getStackTrace())
+                                .map(StackTraceElement::toString).collect(Collectors.toList());
+
+                body.put("errors", errors);
+
+                return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
         }
 }

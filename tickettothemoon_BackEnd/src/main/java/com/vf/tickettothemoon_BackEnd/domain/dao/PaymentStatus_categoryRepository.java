@@ -7,6 +7,6 @@ import com.vf.tickettothemoon_BackEnd.domain.model.PaymentStatus_category;
 public interface PaymentStatus_categoryRepository
                 extends JpaRepository<PaymentStatus_category, Long> {
 
-        Optional<PaymentStatus_category> findByPaymentStatus(String name);
+        Optional<PaymentStatus_category> findByPaymentStatusName(String name);
 
 }

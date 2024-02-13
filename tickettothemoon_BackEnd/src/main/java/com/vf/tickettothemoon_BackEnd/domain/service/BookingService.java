@@ -22,8 +22,8 @@ import com.vf.tickettothemoon_BackEnd.domain.model.Ticket_ReservationKey;
 import com.vf.tickettothemoon_BackEnd.domain.service.mappers.BookingMapper;
 import com.vf.tickettothemoon_BackEnd.domain.service.mappers.Ticket_ReservationKeyMapper;
 import com.vf.tickettothemoon_BackEnd.domain.service.mappers.Ticket_ReservationMapper;
+import com.vf.tickettothemoon_BackEnd.exception.DuplicateKeyException;
 import com.vf.tickettothemoon_BackEnd.exception.FinderException;
-import com.vf.tickettothemoon_BackEnd.exception.NullException;
 import com.vf.tickettothemoon_BackEnd.exception.RemoveException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -35,8 +35,8 @@ public class BookingService {
 
     BookingRepository bookingRepository;
     BookingMapper bookingMapper;
-    // TONOTE: this line actually throw a circular dependency error
-    // so I should not use services in other services
+    // TODISCUSS: this line actually throw a circular dependency error
+    // so I should not use services in other services maybe
     // PaymentService paymentService;
     CustomerRepository customerRepository;
     Ticket_ReservationMapper ticket_ReservationMapper;
@@ -82,13 +82,16 @@ public class BookingService {
     }
 
     public BookingDTO createBooking(Long customer_id, Ticket_ReservationKeyDTO reservationKeyDTO)
-            throws FinderException, IllegalArgumentException, NullException {
+            throws FinderException, IllegalArgumentException {
+        // TODISCUSS : how much precise should I be in the error message, that can be a lot of if{}
+        // statements
         if (customer_id == null || customer_id == 0) {
-            throw new NullException("No customer id found");
+            throw new IllegalArgumentException("No customer id argument");
         }
         if (reservationKeyDTO == null) {
-            throw new NullException("No reservations found");
+            throw new IllegalArgumentException("No reservations argument");
         }
+
         Customer customer = customerRepository.findById(customer_id).orElseThrow(
                 () -> new FinderException("Customer with id {" + customer_id + "} not found"));
         Ticket_ReservationKey reservationKey =
@@ -96,6 +99,7 @@ public class BookingService {
         Ticket_Reservation ticketReservation = ticket_ReservationRepository.findById(reservationKey)
                 .orElseThrow(() -> new FinderException(
                         "Ticket_Reservation with id {" + reservationKeyDTO + "} not found"));
+
         // checks if the reservation is expired or the seat is available
         Timestamp booking_creationTimestamp = new Timestamp(System.currentTimeMillis());
         checkIfReservationIsSessionExpired(booking_creationTimestamp, ticketReservation);
@@ -106,6 +110,12 @@ public class BookingService {
         Set<Ticket_Reservation> reservationsByAvaibility =
                 new TreeSet<Ticket_Reservation>(new TR_isBookedComparator());
         reservationsByAvaibility.add(ticketReservation);
+        Optional<Booking> existingBooking =
+                bookingRepository.findByCustomerAndReservations(customer, ticketReservation);
+        if (existingBooking.isPresent()) {
+            throw new DuplicateKeyException("Booking already exists for customer with ID "
+                    + customer_id + " and reservation key " + reservationKeyDTO);
+        }
         Booking booking =
                 new Booking(booking_creationTimestamp, customer, reservationsByAvaibility);
         Booking savedBooking = bookingRepository.save(booking);
@@ -136,9 +146,11 @@ public class BookingService {
         checkIfReservationIsSessionExpired(booking.getBooking_creationTimestamp(),
                 ticket_Reservation);
         checkIfSeatStatusIsAvailable(ticket_Reservation);
+        if (booking.getReservations().contains(ticket_Reservation)) {
+            throw new IllegalArgumentException("Ticket_Reservation with id {" + reservationKeyDTO
+                    + "} already exists in booking with id {" + booking_id + "}");
+        }
 
-        Set<Ticket_Reservation> reservation =
-                new TreeSet<Ticket_Reservation>(new TR_isBookedComparator());
         booking.addReservation(ticket_Reservation);
         Booking savedBooking = bookingRepository.save(booking);
         updateSeatAvailability(ticket_Reservation, "booked");
@@ -185,6 +197,16 @@ public class BookingService {
     }
 
 
+    /**
+     * Delete a booking and its reservations from the database, rollback the seat status to
+     * available. You cannot delete a booking if the payment has been made.
+     * 
+     * @param booking_id
+     * @throws FinderException
+     * @throws IllegalArgumentException
+     * @throws EntityNotFoundException
+     * @throws RemoveException
+     */
     public void deleteById(Long booking_id) throws FinderException, IllegalArgumentException,
             EntityNotFoundException, RemoveException {
         if (booking_id == null) {
@@ -196,10 +218,13 @@ public class BookingService {
         }
         Booking booking = bookingRepository.findById(booking_id).orElseThrow(
                 () -> new FinderException("Booking with id {" + booking_id + "} not found"));
-
-        updateSeatAvailability(booking.getReservations(), "available");
-        deleteTicket_Reservation(booking.getReservations());
-        bookingRepository.delete(booking);
+        if (booking.getReservations().isEmpty() || booking.getReservations() == null) {
+            bookingRepository.delete(booking);
+        } else {
+            updateSeatAvailability(booking.getReservations(), "available");
+            deleteTicket_Reservation(booking.getReservations());
+            bookingRepository.delete(booking);
+        }
     }
 
 
@@ -208,19 +233,27 @@ public class BookingService {
     // -----------------------------------------------------------------------------------------
 
     /**
-     * Update the seat status of a set of reservations
+     * Update the seat status of a set of reservations.
      * 
      * @param reservations
      * @param status
      */
     public void updateSeatAvailability(Set<Ticket_Reservation> reservations, String status) {
+        if (reservations == null || reservations.isEmpty()) {
+            throw new IllegalArgumentException("Ticket_Reservation Set is null or empty");
+        }
+        if (status == null || status.isEmpty()) {
+            throw new IllegalArgumentException("Status is null or empty");
+        }
         for (Ticket_Reservation reservation : reservations) {
-            ticket_ReservationService.changeSeatsStatus(reservation, status);
+            updateSeatAvailability(reservation, status);
         }
     }
 
     /**
-     * Update the seat status of a reservation
+     * Update the seat status of a reservation.
+     * 
+     * Example of status : "available", "booked", "sold", "unavailable"
      * 
      * @param reservation
      * @param status
@@ -241,15 +274,7 @@ public class BookingService {
     public Boolean checkIfReservationIsSessionExpired(Timestamp booking_creationTimestamp,
             Set<Ticket_Reservation> reservations) throws IllegalArgumentException {
         for (Ticket_Reservation reservation : reservations) {
-            LocalDateTime sessionEventDate =
-                    reservation.getId().getSessionEventId().getDateAndTimeStartSessionEvent();
-            Timestamp sessionEventTimestamp = Timestamp.valueOf(sessionEventDate);
-            if (booking_creationTimestamp.after(sessionEventTimestamp)) {
-                throw new IllegalArgumentException("Booking Failed : SessionEvent with id "
-                        + reservation.getId().getSessionEventId()
-                        + " is finished + Ticket_Reservation " + reservation.getId()
-                        + " is expired");
-            }
+            checkIfReservationIsSessionExpired(booking_creationTimestamp, reservation);
         }
         return false;
     }
@@ -266,6 +291,12 @@ public class BookingService {
      */
     public Boolean checkIfReservationIsSessionExpired(Timestamp booking_creationTimestamp,
             Ticket_Reservation reservation) throws IllegalArgumentException {
+        if (reservation == null) {
+            throw new IllegalArgumentException("Ticket_Reservation is null");
+        }
+        if (booking_creationTimestamp == null) {
+            throw new IllegalArgumentException("Booking creation timestamp is null");
+        }
         LocalDateTime sessionEventDate =
                 reservation.getId().getSessionEventId().getDateAndTimeStartSessionEvent();
         Timestamp sessionEventTimestamp = Timestamp.valueOf(sessionEventDate);
@@ -278,33 +309,39 @@ public class BookingService {
     }
 
     /**
-     * Check if seat status is of status "available" for a set of reservations
+     * Check if all seat status of the reservation set are of status "available". If one is not
+     * available, it throws an exception
      * 
      * @param reservations
-     * @return true if all seat status of the set are "available"
+     * @return true if all seat status of the set are "available" or throw an
+     *         IllegalArgumentException if the seat status is not "available"
      * @throws IllegalArgumentException
      */
     private Boolean checkIfSeatStatusIsAvailable(Set<Ticket_Reservation> reservations)
             throws IllegalArgumentException {
+        if (reservations == null || reservations.isEmpty()) {
+            throw new IllegalArgumentException("Ticket_Reservation set is null or empty");
+        }
         for (Ticket_Reservation reservation : reservations) {
-            Boolean available = ticket_ReservationService.checkIfSeatStatusIsAvailable(reservation);
-            if (!available) {
-                throw new IllegalArgumentException("Booking Failed : Seat with id "
-                        + reservation.getId().getSeatId() + " is not available");
-            }
+            checkIfSeatStatusIsAvailable(reservation);
         }
         return true;
     }
 
     /**
-     * Check if the seat status of a reservation is of status "available"
+     * Check if the seat status of a reservation is of status "available".If not available, it
+     * throws an exception
      * 
      * @param reservation
-     * @return true if the seat status is "available"
+     * @return true if the seat status is "available" or throw an IllegalArgumentException if the
+     *         seat status is not "available"
      * @throws IllegalArgumentException
      */
     private Boolean checkIfSeatStatusIsAvailable(Ticket_Reservation reservation)
             throws IllegalArgumentException {
+        if (reservation == null) {
+            throw new IllegalArgumentException("Ticket_Reservation is null");
+        }
         Boolean available = ticket_ReservationService.checkIfSeatStatusIsAvailable(reservation);
         if (!available) {
             throw new IllegalArgumentException("Booking Failed : Seat with id "
@@ -319,6 +356,9 @@ public class BookingService {
      * @param ticket_Reservation
      */
     private void deleteTicket_Reservation(Ticket_Reservation ticket_Reservation) {
+        if (ticket_Reservation == null) {
+            throw new IllegalArgumentException("Ticket_Reservation is null");
+        }
         ticket_ReservationService.deleteById(ticket_Reservation.getId());
     }
 
@@ -327,17 +367,33 @@ public class BookingService {
      * 
      * @param ticket_Reservations
      */
-    private void deleteTicket_Reservation(Set<Ticket_Reservation> ticket_Reservations) {
-        for (Ticket_Reservation ticket_Reservation : ticket_Reservations) {
-            ticket_ReservationService.deleteById(ticket_Reservation.getId());
+    private void deleteTicket_Reservation(Set<Ticket_Reservation> reservations) {
+        if (reservations == null || reservations.isEmpty()) {
+            throw new IllegalArgumentException("Ticket_Reservation Set is null or empty");
+        }
+        for (Ticket_Reservation reservation : reservations) {
+            ticket_ReservationService.deleteById(reservation.getId());
         }
     }
 
+    /**
+     * 
+     * @param booking_id
+     * @return true if payment has been made, false if the payment is not made
+     */
     public Boolean checkIfPaymentIsPaid(Long booking_id) {
+        if (booking_id == null) {
+            throw new IllegalArgumentException("Booking id is null");
+        }
         Optional<Payment> payment = paymentRepository.findByBookingId(booking_id);
-        if (payment.isPresent() && payment.get().getPaymentStatus_category().equals("paid")) {
+        if (payment.isEmpty()) {
+            return false;
+        }
+        String paymentStatus = payment.get().getPaymentStatus_category().getPaymentStatusName();
+        if (payment.isPresent() && paymentStatus.equals("paid")) {
             return true;
         }
         return false;
     }
+
 }

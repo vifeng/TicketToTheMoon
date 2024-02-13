@@ -86,7 +86,7 @@ public class PaymentService {
         if (timeExpired && sessionExpired) {
             // booking is still valid
             Optional<PaymentStatus_category> paymentStatus =
-                    payment_StatusRepository.findByPaymentStatus("paid");
+                    payment_StatusRepository.findByPaymentStatusName("paid");
             Payment payment = new Payment(LocalDateTime.now(), booking, paymentStatus.get());
             // change seat availability to sold
             bookingService.updateSeatAvailability(booking.getReservations(), "sold");

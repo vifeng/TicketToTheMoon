@@ -43,6 +43,8 @@ public class Booking {
     @JoinColumn(name = "Customer_FK")
     private Customer customer;
 
+
+
     // constructors
     public Booking() {}
 
