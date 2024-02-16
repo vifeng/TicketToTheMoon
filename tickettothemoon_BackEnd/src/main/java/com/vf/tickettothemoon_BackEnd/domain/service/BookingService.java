@@ -28,6 +28,8 @@ import com.vf.tickettothemoon_BackEnd.exception.RemoveException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
+// TODISCUSS : How should I use Spring devtools for the development environment ? it doesn't reload
+// automatically.
 // REFACTOR : all services should depend on an abstract service that has the common methods.
 @Service
 @Transactional

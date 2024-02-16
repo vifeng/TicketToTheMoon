@@ -31,7 +31,7 @@ public class EmployeeControllerTest {
         private MockMvc mockMvc;
         @Autowired
         private ObjectMapper objectMapper;
-        String url = "http://localhost:8080/api/";
+        String baseUrl = "http://localhost:8080/api/";
         @Autowired
         private EmployeeRepository employeeRepository;
 
@@ -48,7 +48,7 @@ public class EmployeeControllerTest {
         }
 
         @Test
-        public void employeesCreateExample() throws Exception {
+        public void employeesCreate() throws Exception {
 
                 Map<String, Object> employee = new HashMap<>();
                 // employee.put("id", 2L);
@@ -58,7 +58,8 @@ public class EmployeeControllerTest {
 
 
                 String employees = this.mockMvc
-                                .perform(post(url + "employees").contentType(MediaTypes.HAL_JSON)
+                                .perform(post(baseUrl + "employees")
+                                                .contentType(MediaTypes.HAL_JSON)
                                                 .content(this.objectMapper
                                                                 .writeValueAsString(employee)))
                                 .andExpect(status().isCreated()).andReturn().getResponse()
@@ -75,14 +76,15 @@ public class EmployeeControllerTest {
                 // employee.put("email", "mymail@mail.fr");
 
                 // String employees = this.mockMvc
-                // .perform(post(url + "employees").contentType(MediaTypes.HAL_JSON)
+                // .perform(post(baseUrl + "employees").contentType(MediaTypes.HAL_JSON)
                 // .content(this.objectMapper
                 // .writeValueAsString(employee)))
                 // .andExpect(status().isCreated()).andReturn().getResponse()
                 // .getHeader("Location");
 
                 // // ConstraintDescriptions desc = new ConstraintDescriptions(Employee.class);
-                // // FIXME : url seems to be correct as well as the code but it sends a 404 error
+                // // FIXME : baseUrl seems to be correct as well as the code but it sends a 404
+                // error
                 // // instead of a 200 expected.
                 // // to see the trace you could go
                 // //
@@ -114,7 +116,7 @@ public class EmployeeControllerTest {
         // this.createEmployee("username2");
         // this.createEmployee("username3");
 
-        // MvcResult result = this.mockMvc.perform(get(url + "employees"))
+        // MvcResult result = this.mockMvc.perform(get(baseUrl + "employees"))
         // .andExpect(status().isOk())
         // .andDo(document("employees-list-example", links(linkWithRel("self")
         // .description("Canonical link for this resource"),

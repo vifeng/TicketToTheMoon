@@ -1,0 +1,16 @@
+
+==== Hall
+===== get Hall
+// .request
+// include::{snippets}/hall-get/curl-request.adoc[]
+operation::hall-get[snippets='curl-request,http-request,http-response,request-body,response-body,response-fields']
+
+===== get Hall by id
+operation::halls-get-by-id[snippets='curl-request,http-request,http-response,request-body,response-body']
+
+===== create Hall
+
+==== Employees
+
+===== Create Employee
+operation::employees-create[snippets='curl-request,http-request,http-response,request-body,response-body']
