@@ -1,9 +1,9 @@
 package com.vf.tickettothemoon_BackEnd.api;
 
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -14,8 +14,11 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.util.HashSet;
+import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,6 +33,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vf.tickettothemoon_BackEnd.domain.dao.EmployeeRepository;
+import com.vf.tickettothemoon_BackEnd.domain.dao.HallRepository;
+import com.vf.tickettothemoon_BackEnd.domain.dao.VenueRepository;
+import com.vf.tickettothemoon_BackEnd.domain.model.Address;
+import com.vf.tickettothemoon_BackEnd.domain.model.Employee;
+import com.vf.tickettothemoon_BackEnd.domain.model.Hall;
+import com.vf.tickettothemoon_BackEnd.domain.model.Venue;
+import com.vf.tickettothemoon_BackEnd.utilities.EntitiesFieldDescriptor;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest
@@ -40,6 +51,12 @@ public class HallControllerTest {
         private MockMvc mockMvc;
         String baseUrl = "http://localhost:8080/api/";
         private EntitiesFieldDescriptor entitiesFieldDescriptor = new EntitiesFieldDescriptor();
+        @Autowired
+        EmployeeRepository employeeRepository;
+        @Autowired
+        VenueRepository venueRepository;
+        @Autowired
+        HallRepository hallRepository;
 
         @BeforeEach
         public void setUp(WebApplicationContext webApplicationContext,
@@ -50,6 +67,31 @@ public class HallControllerTest {
                                                 preprocessRequest(prettyPrint()),
                                                 preprocessResponse(prettyPrint())))
                                 .build();
+        }
+
+        @Test
+        public void createHallForVenueId() throws Exception {
+                Address address =
+                                new Address("testStreet", "testCity", "testZipCode", "testCountry");
+                Employee employee = new Employee("testUsername", "testPassword1&",
+                                "testEmail@example.com");
+                Set<Employee> employees = new HashSet<>();
+                employees.add(employee);
+                Venue venue = new Venue("testName", address, employees);
+                venueRepository.save(venue);
+                Hall hall = new Hall("testName", 500, venue);
+
+                this.mockMvc.perform(post(baseUrl + "venues/{venue_id}/halls", "1")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(hall)))
+                                .andExpect(status().isCreated())
+                                .andExpect(jsonPath("$.id", is(notNullValue())))
+                                .andExpect(jsonPath("$.name", is(notNullValue())))
+                                .andExpect(jsonPath("$.capacityOfHall", is(notNullValue())))
+                                .andExpect(jsonPath("$.venue", is(notNullValue())))
+                                .andExpect(jsonPath("$.venue.employees", not(empty())))
+                                .andDo(document("hall-create", preprocessRequest(prettyPrint()),
+                                                preprocessResponse(prettyPrint())));
         }
 
         @Test
@@ -92,43 +134,6 @@ public class HallControllerTest {
 
 
 
-        // @Test
-        // public void updateHall() throws Exception {
-        // Venue venue = new Venue("testName", "testAddress", "testCity", "testCountry");
-        // Hall hall = new Hall("testName", 500, venue);
-        // // Set the properties of hallDTO for update
-
-        // this.mockMvc.perform(put(baseUrl + "halls/{id}", 1L)
-        // .contentType(MediaType.APPLICATION_JSON)
-        // .content(objectMapper.writeValueAsString(hallDTO)))
-        // .andExpect(status().isOk())
-        // .andExpect(jsonPath("$.id", is(notNullValue())))
-        // .andExpect(jsonPath("$.name", is(notNullValue())))
-        // .andExpect(jsonPath("$.capacityOfHall", is(notNullValue())))
-        // .andExpect(jsonPath("$.venue", is(notNullValue())))
-        // .andExpect(jsonPath("$.employees", is(notNullValue())))
-        // .andDo(document("hall-update", preprocessRequest(prettyPrint()),
-        // preprocessResponse(prettyPrint())));
-        // }
-
-        // @Test
-        // public void patchHall() throws Exception {
-        // Map<String, Object> hallPatch = new HashMap<>();
-        // // Set the properties of hallPatch for patch
-
-        // this.mockMvc.perform(patch(baseUrl + "halls/{id}", 1L)
-        // .contentType(MediaType.APPLICATION_JSON)
-        // .content(objectMapper.writeValueAsString(hallPatch)))
-        // .andExpect(status().isOk())
-        // .andExpect(jsonPath("$.id", is(notNullValue())))
-        // .andExpect(jsonPath("$.name", is(notNullValue())))
-        // .andExpect(jsonPath("$.capacityOfHall", is(notNullValue())))
-        // .andExpect(jsonPath("$.venue", is(notNullValue())))
-        // .andExpect(jsonPath("$.employees", is(notNullValue())))
-        // .andDo(document("hall-patch", preprocessRequest(prettyPrint()),
-        // preprocessResponse(prettyPrint())));
-        // }
-
         @Test
         public void deleteHall() throws Exception {
                 this.mockMvc.perform(delete(baseUrl + "halls/{id}", 1L))
@@ -137,31 +142,6 @@ public class HallControllerTest {
                                                 preprocessResponse(prettyPrint())));
         }
 
-        // @Test
-        // public void createHallForVenueId() throws Exception {
-        // HallDTO hallDTO = new HallDTO();
-        // // Set the properties of hallDTO for creation
 
-        // this.mockMvc.perform(post(baseUrl + "venues/{venue_id}/halls", 1L)
-        // .contentType(MediaType.APPLICATION_JSON)
-        // .content(objectMapper.writeValueAsString(hallDTO)))
-        // .andExpect(status().isCreated())
-        // .andExpect(jsonPath("$.id", is(notNullValue())))
-        // .andExpect(jsonPath("$.name", is(notNullValue())))
-        // .andExpect(jsonPath("$.capacityOfHall", is(notNullValue())))
-        // .andExpect(jsonPath("$.venue", is(notNullValue())))
-        // .andExpect(jsonPath("$.employees", is(notNullValue())))
-        // .andDo(document("hall-create", preprocessRequest(prettyPrint()),
-        // preprocessResponse(prettyPrint())));
-        // }
 
-        @Test
-        public void getHallsByVenueId() throws Exception {
-                this.mockMvc.perform(get(baseUrl + "venues/{venue_id}/halls", 1L))
-                                .andExpect(status().isOk())
-                                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(0))))
-                                .andDo(document("hall-get-by-venue",
-                                                preprocessRequest(prettyPrint()),
-                                                preprocessResponse(prettyPrint())));
-        }
 }

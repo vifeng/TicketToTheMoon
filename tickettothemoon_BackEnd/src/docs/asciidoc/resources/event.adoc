@@ -1,16 +1,24 @@
+:snippetCurlPost: curl-request,request-body,response-body
+:snippetCurlGetFields: curl-request,response-body,response-fields
+:snippetCurlGet: curl-request,response-body
+:snippetHttp: http-request, http-response,request-body,response-body,response-fields
 
 ==== Hall
-===== get Hall
-// .request
-// include::{snippets}/hall-get/curl-request.adoc[]
-operation::hall-get[snippets='curl-request,http-request,http-response,request-body,response-body,response-fields']
+This is a simple example of a Hall documentation. It is accurate but not complete. Endpoints are missing.
 
-===== get Hall by id
-operation::halls-get-by-id[snippets='curl-request,http-request,http-response,request-body,response-body']
+===== POST Hall
+operation::hall-create[snippets='{snippetCurlPost}']
 
-===== create Hall
+===== GET Hall
+operation::hall-get[snippets='{snippetCurlGetFields}']
+
+===== GET Hall by id
+operation::halls-get-by-id[snippets='{snippetCurlGet}']
 
 ==== Employees
 
-===== Create Employee
-operation::employees-create[snippets='curl-request,http-request,http-response,request-body,response-body']
+===== POST Employee
+operation::employees-create[snippets='{snippetCurlPost}']
+
+===== GET All Employees
+operation::employees-get[snippets='{snippetCurlGetFields}']

@@ -1,4 +1,4 @@
-package com.vf.tickettothemoon_BackEnd.api;
+package com.vf.tickettothemoon_BackEnd.utilities;
 
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;

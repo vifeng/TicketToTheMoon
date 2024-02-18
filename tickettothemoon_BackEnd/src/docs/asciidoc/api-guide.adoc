@@ -11,7 +11,10 @@ Vifeng
 :wip: Coming soon: This feature is in active development and we're excited to bring it to you soon!
 :next: In our roadmap: We're planning to introduce this feature in the near future to enhance your experience. Stay tuned!
 :resources: src/docs/asciidoc/resources
-
+:snippetCurlPost: curl-request,request-body,response-body
+:snippetCurlGetFields: curl-request,response-body,response-fields
+:snippetCurlGet: curl-request,response-body
+:snippetHttp: http-request, http-response,request-body,response-body,response-fields
 
 .Overview
 
