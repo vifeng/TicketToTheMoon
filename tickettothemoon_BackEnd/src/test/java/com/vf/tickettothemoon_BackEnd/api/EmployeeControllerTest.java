@@ -75,6 +75,9 @@ public class EmployeeControllerTest {
                                 .getHeader("Location");
         }
 
+        // TODISCUSS : this doesn't use repository whereas the hallControllerTest does. which should
+        // be the best practice? Can we do something for .andDo(document(... to avoid repetition in
+        // the tests?
         @Test
         public void employeesGet() throws Exception {
                 Map<String, Object> employee = new HashMap<>();
@@ -124,45 +127,6 @@ public class EmployeeControllerTest {
                                                                                                                 "email"),
                                                                                                 ". ")))));
         }
-        // @Test
-        // public void employeesListExample() throws Exception {
-        // FIXME MismatchedInputException
-        // this.employeeRepository.deleteAll();
-        // this.createEmployee("username1");
-        // this.createEmployee("username2");
-        // this.createEmployee("username3");
-
-        // MvcResult result = this.mockMvc.perform(get(baseUrl + "employees"))
-        // .andExpect(status().isOk())
-        // .andDo(document("employees-list-example", links(linkWithRel("self")
-        // .description("Canonical link for this resource"),
-        // linkWithRel("profile").description(
-        // "The ALPS profile for this resource")),
-        // responseFields(subsectionWithPath(
-        // "_embedded.employees").description(
-        // "An array of <<resources_employee,Employee resources>>"),
-        // subsectionWithPath("_links")
-        // .description("<<resources_employees_list_links, Links>> to other resources"))))
-        // .andReturn();
-
-        // String yourJsonObject =
-        // "[{\"id\": 1,\"username\": \"username1\",\"password\": \"secretpwD%1\",\"email\":
-        // \"mail@monmail.fr\"}, {\"id\": 2,\"username\": \"username2\",\"password\":
-        // \"secretpwD%1\",\"email\": \"mail@monmail.fr\"}, {\"id\": 3,\"username\":
-        // \"username3\",\"password\": \"secretpwD%1\",\"email\": \"mail@monmail.fr\"}]";
-
-        // List<Employee> employees = objectMapper.readValue(yourJsonObject,
-        // new TypeReference<List<Employee>>() {});
-        // String jsonResponse = objectMapper.writeValueAsString(employees);
-
-
-        // // Remplacez le contenu de la réponse dans le résultat de la requête
-        // MockHttpServletResponse response = result.getResponse();
-        // response.setContentLength(jsonResponse.length());
-        // response.setContentType("application/json");
-        // response.getWriter().write(jsonResponse);
-
-        // }
 
 
 

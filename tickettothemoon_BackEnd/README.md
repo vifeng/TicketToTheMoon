@@ -45,6 +45,7 @@ README files are available in each folder to explain its purpose.
 - Java 17.0.2
 - Kotlin 1.8.10
 - SpringBoot 3.1.0
+- Junit 5.8.1
 
 # GETTING STARTED
 

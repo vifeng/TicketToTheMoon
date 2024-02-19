@@ -14,6 +14,8 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -90,20 +92,22 @@ public class HallControllerTest {
                                 .andExpect(jsonPath("$.capacityOfHall", is(notNullValue())))
                                 .andExpect(jsonPath("$.venue", is(notNullValue())))
                                 .andExpect(jsonPath("$.venue.employees", not(empty())))
-                                .andDo(document("hall-create", preprocessRequest(prettyPrint()),
+                                .andDo(document("hall-create-for-venue-id",
+                                                preprocessRequest(prettyPrint()),
                                                 preprocessResponse(prettyPrint())));
         }
 
         @Test
-        public void hallsGetById() throws Exception {
+        public void hallGetById() throws Exception {
                 // reset the database if needed
                 // create a hall if needed
                 this.mockMvc.perform(get(baseUrl + "halls/{id}", 1L)
                                 .accept(MediaType.APPLICATION_JSON_VALUE))
                                 .andExpect(status().isOk()).andExpect(jsonPath("$.id", equalTo(1)))
                                 .andExpect(jsonPath("$.id").value(1))
-                                .andDo(document("hall-get-by-id", preprocessRequest(prettyPrint()),
-                                                preprocessResponse(prettyPrint())));
+                                .andDo(document("hall-get-by-id",
+                                                pathParameters(parameterWithName("id").description(
+                                                                "The id of the hall to be retrieved"))));
 
         }
 
@@ -116,7 +120,7 @@ public class HallControllerTest {
                                 .andExpect(jsonPath("$[*].capacityOfHall", is(notNullValue())))
                                 .andExpect(jsonPath("$[*].venue", is(notNullValue())))
                                 .andExpect(jsonPath("$[*].employees", is(notNullValue())))
-                                .andDo(document("hall-get", responseFields(fieldWithPath("[]")
+                                .andDo(document("halls-get", responseFields(fieldWithPath("[]")
                                                 .description("An array of halls")).andWithPrefix(
                                                                 "[].",
                                                                 entitiesFieldDescriptor

@@ -19,7 +19,7 @@ Vifeng
 .Overview
 
 == Introduction
-
+*THIS DOCUMENTATION IS A WORK IN PROGRESS. IT IS ACCURATE BUT NOT COMPLETE.*
 This is a sample of the documentation for the Ticket To The Moon API. The Ticket To The Moon (TTTM) API is the backend of the ticket office website of which you can find the full documentation at {url-repo}. The API is used to manage the following resources ordered in categories event, ticket, reservation and customer order.
 
 == Authentication
@@ -65,6 +65,7 @@ Where possible, the TTTM REST API strives to use an appropriate HTTP method for 
 | 403 Forbidden | Forbidden | The client is authorized, but access to the resource is still denied. | Used for permission-related errors or restricted resources. 
 | 404 Not Found | Not Found | The requested resource could not be found. | Common error for non-existent resources or invalid IDs. 
 | 405 Method Not Allowed | Method Not Allowed | The requested HTTP method is not supported for the resource. | Used when trying to use an incorrect verb (e.g., GET instead of POST) for an operation. 
+| 409 Conflict | Conflict | The request could not be completed due to a conflict with the current state of the resource. | Often used for concurrent updates or conflicting data.
 | 422 Unprocessable Entity | Unprocessable Entity | The request was well-formed but could not be processed due to semantic errors. | Often used for validation errors in data submissions. 
 | **5xx Server Error** | | Indicates an error on the server side. | Less common than client errors, but can still occur due to internal server issues. 
 | 500 Internal Server Error | Internal Server Error | An unexpected error occurred on the server. | Generic error message, often accompanied by logs for debugging. 

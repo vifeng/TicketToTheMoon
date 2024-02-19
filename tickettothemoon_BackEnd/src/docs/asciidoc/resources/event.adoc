@@ -7,13 +7,13 @@
 This is a simple example of a Hall documentation. It is accurate but not complete. Endpoints are missing.
 
 ===== POST Hall
-operation::hall-create[snippets='{snippetCurlPost}']
+operation::hall-create-for-venue-id[snippets='{snippetCurlPost}']
 
 ===== GET Hall
-operation::hall-get[snippets='{snippetCurlGetFields}']
+operation::halls-get[snippets='{snippetCurlGetFields}']
 
 ===== GET Hall by id
-operation::halls-get-by-id[snippets='{snippetCurlGet}']
+operation::hall-get-by-id[snippets='path-parameters,{snippetCurlGet}']
 
 ==== Employees
 

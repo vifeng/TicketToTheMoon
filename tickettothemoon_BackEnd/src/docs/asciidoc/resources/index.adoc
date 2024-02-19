@@ -1,1 +1,8 @@
+:snippetCurlPost: curl-request,request-body,response-body
+:snippetCurlGetFields: curl-request,response-body,response-fields
+:snippetCurlGet: curl-request,response-body
+:snippetHttp: http-request, http-response,request-body,response-body,response-fields
+
 This is the index for Rest API endpoint.
+
+operation::index-get[snippets='{snippetCurlGet}']
