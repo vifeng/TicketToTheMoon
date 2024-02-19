@@ -34,7 +34,9 @@ TicketToTheMoon is a ticket office website. Main features are :
 ## Documentation
 
 [Documentation] (https://github.com/vifeng/TicketToTheMoon/tree/main/documentation)  
+[Documentation] (https://github.com/vifeng/TicketToTheMoon/tree/main/documentation)  
 README files are available in each folder to explain its purpose.
+[Devlog](DEVLOG.md) is available to follow the development process.
 [Devlog](DEVLOG.md) is available to follow the development process.
 
 ## Build with
@@ -95,6 +97,7 @@ gradle check
 # run all verification tasks, including tests and linting
 
 # MAPSTRUCT
+# this task doesn't exists yet.
 # this task doesn't exists yet.
 gradle mapstructGenerate
 # generate the mapstruct implementation
