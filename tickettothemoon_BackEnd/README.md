@@ -1,6 +1,6 @@
 Table of contents
 
-- [PROJECT : TicketToTheMoon\_BackEnd](#project--tickettothemoon_backend)
+- [PROJECT : TicketToTheMoon_BackEnd](#project--tickettothemoon_backend)
   - [About The Project](#about-the-project)
   - [Documentation](#documentation)
   - [Build with](#build-with)
@@ -45,6 +45,7 @@ README files are available in each folder to explain its purpose.
 - Java 17.0.2
 - Kotlin 1.8.10
 - SpringBoot 3.1.0
+- Junit 5.8.1
 
 # GETTING STARTED
 
@@ -124,14 +125,14 @@ the genereated code is in the `build/generated/sources/annotationProcessor/java/
 
 ## Spring REST Docs (API testing and documentation)
 
-Spring REST Docs helps you to document RESTful services. It combines hand-written documentation written with Asciidoctor and auto-generated snippets produced with Spring MVC Test.
-
-EmployeeControllerTest and VenueControllerTest are testing the controllers. They are using MockMvc to mock the HTTP requests and they also generate documentation for the API in the [./build/generated-snippets](./build/generated-snippets).
+Spring REST Docs helps you to document RESTful services. It combines hand-written documentation written with Asciidoctor and auto-generated snippets produced with Spring MVC Test. The tests are using MockMvc to mock the HTTP requests and they also generate documentation for the API in the [./build/generated-snippets](./build/generated-snippets) file ensuring an uptodate documentation (or non at all !).
 
 ### How to generate the documentation
 
+the task ascidoctor (which depends on test) is implemented in the build.gradle file. You can generate the documentation with the following command. The documentation will be available in the [./build/docs/asciidoc](./build/docs/asciidoc) folder.
+
 ```sh
-gradle clean build
+gradle asciidoctor
 ```
 
 or just run the 'tests and debug' in vscode if the app is launched (`gradle bootRun`).
