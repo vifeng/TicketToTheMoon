@@ -82,8 +82,10 @@ public class HallControllerTest {
                 Venue venue = new Venue("testName", address, employees);
                 venueRepository.save(venue);
                 Hall hall = new Hall("testName", 500, venue);
-
-                this.mockMvc.perform(post(baseUrl + "venues/{venue_id}/halls", "1")
+                // TODISCUSS: venue_id is 2 because we are using /init/DbInitializer.java to
+                // populate the database. How to get the id of the venue created in the test? Or
+                // maybe I shouldn't have some fixtures in the database?
+                this.mockMvc.perform(post(baseUrl + "venues/{venue_id}/halls", "2")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(hall)))
                                 .andExpect(status().isCreated())
