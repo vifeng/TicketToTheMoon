@@ -35,7 +35,7 @@ public class Booking {
     // sais pas pourquoi pour l'instant
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     @JoinColumn(name = "Booking_FK")
-    private Set<Ticket_Reservation> reservations;
+    private Set<TicketReservation> reservations;
 
     // TOCHECK: ManyToOne ?
     // ManyToOne unidirectional with Customer
@@ -50,7 +50,7 @@ public class Booking {
 
 
     public Booking(Long id, Timestamp booking_creationTimestamp, Customer customer,
-            @NonNull Set<Ticket_Reservation> reservations) {
+            @NonNull Set<TicketReservation> reservations) {
         setId(id);
         setBooking_creationTimestamp(booking_creationTimestamp);
         setCustomer(customer);
@@ -58,7 +58,7 @@ public class Booking {
     }
 
     public Booking(Timestamp booking_creationTimestamp, Customer customer,
-            @NonNull Set<Ticket_Reservation> reservations) {
+            @NonNull Set<TicketReservation> reservations) {
         setBooking_creationTimestamp(booking_creationTimestamp);
         setCustomer(customer);
         setReservations(reservations);
@@ -92,28 +92,28 @@ public class Booking {
 
     // OneToMany unidirectional setup with Ticket_Reservation
 
-    public Set<Ticket_Reservation> getReservations() {
+    public Set<TicketReservation> getReservations() {
         return reservations;
     }
 
-    public void setReservations(@NonNull Set<Ticket_Reservation> reservations) {
+    public void setReservations(@NonNull Set<TicketReservation> reservations) {
         this.reservations = reservations;
         total_price_ht = 0;
-        for (Ticket_Reservation reservation : reservations) {
+        for (TicketReservation reservation : reservations) {
             // TODO_LOW: DISCOUNT - how should we calculate the discount ?
             total_price_ht += reservation.getId().getSeatId().getCategoryTariff().getTarification()
                     .getBasePrice();
         }
     }
 
-    public void addReservation(@NonNull Ticket_Reservation reservation) {
+    public void addReservation(@NonNull TicketReservation reservation) {
         this.reservations.add(reservation);
         // TODO_LOW: DISCOUNT - how should we calculate the discount ?
         total_price_ht += reservation.getId().getSeatId().getCategoryTariff().getTarification()
                 .getBasePrice();
     }
 
-    public void removeReservation(@NonNull Ticket_Reservation reservation) {
+    public void removeReservation(@NonNull TicketReservation reservation) {
         if (reservation != null) {
             this.reservations.remove(reservation);
             // TODO_LOW: DISCOUNT - how should we calculate the discount ?

@@ -23,13 +23,13 @@ public class Payment {
 
     @ManyToOne
     @JoinColumn(name = "PaymentStatus_category_FK")
-    private PaymentStatus_category paymentStatus_category;
+    private PaymentStatus paymentStatus_category;
 
 
     public Payment() {}
 
     public Payment(Long id, LocalDateTime paymentDateTime, Booking booking,
-            PaymentStatus_category paymentStatus_category) {
+            PaymentStatus paymentStatus_category) {
         setId(id);
         setPaymentDateTime(paymentDateTime);
         setBooking(booking);
@@ -37,7 +37,7 @@ public class Payment {
     }
 
     public Payment(LocalDateTime paymentDateTime, Booking booking,
-            PaymentStatus_category paymentStatus_category) {
+            PaymentStatus paymentStatus_category) {
         setPaymentDateTime(paymentDateTime);
         setBooking(booking);
         setPaymentStatus_category(paymentStatus_category);
@@ -67,11 +67,11 @@ public class Payment {
         this.booking = booking;
     }
 
-    public PaymentStatus_category getPaymentStatus_category() {
+    public PaymentStatus getPaymentStatus_category() {
         return paymentStatus_category;
     }
 
-    public void setPaymentStatus_category(PaymentStatus_category paymentStatus_category) {
+    public void setPaymentStatus_category(PaymentStatus paymentStatus_category) {
         this.paymentStatus_category = paymentStatus_category;
     }
 

@@ -9,12 +9,12 @@ import java.util.Set;
 import org.springframework.stereotype.Service;
 import com.vf.eventhubserver.domain.dao.BookingRepository;
 import com.vf.eventhubserver.domain.dao.PaymentRepository;
-import com.vf.eventhubserver.domain.dao.PaymentStatus_categoryRepository;
+import com.vf.eventhubserver.domain.dao.PaymentStatusRepository;
 import com.vf.eventhubserver.domain.dto.PaymentDTO;
 import com.vf.eventhubserver.domain.model.Booking;
 import com.vf.eventhubserver.domain.model.Payment;
-import com.vf.eventhubserver.domain.model.PaymentStatus_category;
-import com.vf.eventhubserver.domain.model.Ticket_Reservation;
+import com.vf.eventhubserver.domain.model.PaymentStatus;
+import com.vf.eventhubserver.domain.model.TicketReservation;
 import com.vf.eventhubserver.domain.service.mapper.BookingMapper;
 import com.vf.eventhubserver.domain.service.mapper.PaymentMapper;
 import com.vf.eventhubserver.exception.CreateException;
@@ -32,12 +32,11 @@ public class PaymentService {
     BookingService bookingService;
     BookingMapper bookingMapper;
     final int BOOKING_EXPIRYDATETIME = 30;
-    PaymentStatus_categoryRepository payment_StatusRepository;
+    PaymentStatusRepository payment_StatusRepository;
 
     public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper,
             BookingMapper bookingMapper, BookingRepository bookingRepository,
-            BookingService bookingService,
-            PaymentStatus_categoryRepository Payment_StatusRepository) {
+            BookingService bookingService, PaymentStatusRepository Payment_StatusRepository) {
         this.paymentRepository = paymentRepository;
         this.paymentMapper = paymentMapper;
         this.bookingMapper = bookingMapper;
@@ -85,7 +84,7 @@ public class PaymentService {
 
         if (timeExpired && sessionExpired) {
             // booking is still valid
-            Optional<PaymentStatus_category> paymentStatus =
+            Optional<PaymentStatus> paymentStatus =
                     payment_StatusRepository.findByPaymentStatusName("paid");
             Payment payment = new Payment(LocalDateTime.now(), booking, paymentStatus.get());
             // change seat availability to sold
@@ -116,7 +115,7 @@ public class PaymentService {
      * @return true if the reservation time is expired, false if the reservation time is still valid
      */
     public Boolean checkIfReservationTimeIsExpired(Timestamp booking_creationTimestamp,
-            Set<Ticket_Reservation> reservations) {
+            Set<TicketReservation> reservations) {
         LocalDateTime booking_creationLocalDateTime = booking_creationTimestamp.toLocalDateTime();
         LocalDateTime expiryTimeForBooking =
                 booking_creationLocalDateTime.plusMinutes(BOOKING_EXPIRYDATETIME);

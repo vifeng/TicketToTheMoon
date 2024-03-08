@@ -34,7 +34,7 @@ public class Seat implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "Seat_Status_FK")
-    private Seat_Status seat_Status;
+    private SeatStatus seat_Status;
 
 
     public Seat() {}
@@ -44,7 +44,7 @@ public class Seat implements Serializable {
      * isSeated placement
      */
     public Seat(Long id, boolean isSeated, int seatNo, char rowNo, CategorySpatial categorySpatial,
-            CategoryTariff categoryTariff, Seat_Status seat_status,
+            CategoryTariff categoryTariff, SeatStatus seat_status,
             ConfigurationHall configurationHall) {
         setId(id);
         if (isSeated) {
@@ -65,7 +65,7 @@ public class Seat implements Serializable {
      * Constructor without id.
      */
     public Seat(boolean isSeated, int seatNo, char rowNo, CategorySpatial categorySpatial,
-            CategoryTariff categoryTariff, Seat_Status seat_status,
+            CategoryTariff categoryTariff, SeatStatus seat_status,
             ConfigurationHall configurationHall) {
         if (isSeated) {
             setIsSeated(isSeated);
@@ -135,11 +135,11 @@ public class Seat implements Serializable {
         this.categoryTariff = categoryTariff;
     }
 
-    public Seat_Status getSeat_Status() {
+    public SeatStatus getSeat_Status() {
         return seat_Status;
     }
 
-    public void setSeat_Status(Seat_Status seat_Status) {
+    public void setSeat_Status(SeatStatus seat_Status) {
         this.seat_Status = seat_Status;
     }
 

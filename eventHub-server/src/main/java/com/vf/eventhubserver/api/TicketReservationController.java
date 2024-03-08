@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.vf.eventhubserver.domain.dto.Ticket_ReservationDTO;
-import com.vf.eventhubserver.domain.service.Ticket_ReservationService;
+import com.vf.eventhubserver.domain.dto.TicketReservationDTO;
+import com.vf.eventhubserver.domain.service.TicketReservationService;
 import com.vf.eventhubserver.exception.CreateException;
 import com.vf.eventhubserver.exception.NullException;
 
@@ -20,28 +20,28 @@ import com.vf.eventhubserver.exception.NullException;
 @RestController
 @RequestMapping("/api/ticket_reservation")
 @Validated
-public class Ticket_ReservationController {
+public class TicketReservationController {
 
-    private Ticket_ReservationService ticket_ReservationService;
+    private TicketReservationService ticket_ReservationService;
 
-    public Ticket_ReservationController(Ticket_ReservationService ticket_ReservationService) {
+    public TicketReservationController(TicketReservationService ticket_ReservationService) {
         this.ticket_ReservationService = ticket_ReservationService;
     }
 
     @GetMapping
-    public ResponseEntity<Set<Ticket_ReservationDTO>> getAllTicket_Reservations() {
+    public ResponseEntity<Set<TicketReservationDTO>> getAllTicket_Reservations() {
         return ResponseEntity.ok(ticket_ReservationService.findAll());
     }
 
     @GetMapping("/sessionevent/{sessioneventId}/seat/{seatId}")
-    public ResponseEntity<Ticket_ReservationDTO> getTicket_ReservationById(
-            @PathVariable Long seatId, @PathVariable Long sessioneventId) {
+    public ResponseEntity<TicketReservationDTO> getTicket_ReservationById(@PathVariable Long seatId,
+            @PathVariable Long sessioneventId) {
         return ResponseEntity.ok(ticket_ReservationService.findById(sessioneventId, seatId));
     }
 
     @PostMapping
-    public ResponseEntity<Ticket_ReservationDTO> createTicket_Reservation(
-            @RequestBody Ticket_ReservationDTO ticket_ReservationDTO)
+    public ResponseEntity<TicketReservationDTO> createTicket_Reservation(
+            @RequestBody TicketReservationDTO ticket_ReservationDTO)
             throws NullException, CreateException {
         if (ticket_ReservationDTO == null)
             throw new NullException("Ticket_Reservation post is null");

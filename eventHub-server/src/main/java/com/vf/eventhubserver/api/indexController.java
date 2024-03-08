@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 @Validated
-public class indexController {
+public class IndexController {
 
     @GetMapping("/")
     public String getDocumentation() {

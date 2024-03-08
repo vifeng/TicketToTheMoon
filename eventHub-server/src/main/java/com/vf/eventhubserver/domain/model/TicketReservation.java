@@ -10,36 +10,36 @@ import jakarta.persistence.Entity;
  * found in Ticket_ReservationId class.
  */
 @Entity
-public class Ticket_Reservation implements Serializable {
+public class TicketReservation implements Serializable {
 
     // in the repository dont forget to change Long to Ticket_ReservationKey as such
     // JpaRepository<Ticket_Reservation, Ticket_ReservationKey>
     @EmbeddedId
-    private Ticket_ReservationKey id;
+    private TicketReservationKey id;
 
     // attributes
     private boolean isBooked = false;
 
-    public Ticket_Reservation() {}
+    public TicketReservation() {}
 
-    public Ticket_Reservation(Ticket_ReservationKey ticket_ReservationKey, boolean isBooked) {
+    public TicketReservation(TicketReservationKey ticket_ReservationKey, boolean isBooked) {
         this.id = ticket_ReservationKey;
         setIsBooked(isBooked);
     }
 
     // TOCHECK: is this constructor needed?
-    public Ticket_Reservation(boolean isBooked) {
+    public TicketReservation(boolean isBooked) {
         setIsBooked(isBooked);
     }
     ///////////////////////////////
     // Composite key getters //
     /////////////////////////////
 
-    public Ticket_ReservationKey getId() {
+    public TicketReservationKey getId() {
         return id;
     }
 
-    public void setId(@NonNull Ticket_ReservationKey id) {
+    public void setId(@NonNull TicketReservationKey id) {
         this.id = id;
     }
 
@@ -79,7 +79,7 @@ public class Ticket_Reservation implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Ticket_Reservation other = (Ticket_Reservation) obj;
+        TicketReservation other = (TicketReservation) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

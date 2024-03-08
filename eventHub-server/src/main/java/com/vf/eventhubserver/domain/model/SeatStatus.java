@@ -8,7 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Seat_Status implements Serializable {
+public class SeatStatus implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,14 +16,14 @@ public class Seat_Status implements Serializable {
     @Column(unique = true, nullable = false, length = 50)
     private String name;
 
-    public Seat_Status() {}
+    public SeatStatus() {}
 
-    public Seat_Status(Long id, String name) {
+    public SeatStatus(Long id, String name) {
         setId(id);
         setName(name);
     }
 
-    public Seat_Status(String name) {
+    public SeatStatus(String name) {
         setName(name);
     }
 
