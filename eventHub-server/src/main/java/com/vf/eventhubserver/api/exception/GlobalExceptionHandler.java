@@ -1,4 +1,4 @@
-package com.vf.eventhubserver.api.Exceptions;
+package com.vf.eventhubserver.api.exception;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;

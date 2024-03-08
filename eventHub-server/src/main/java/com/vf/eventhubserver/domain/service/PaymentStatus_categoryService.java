@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.vf.eventhubserver.domain.dao.PaymentStatus_categoryRepository;
 import com.vf.eventhubserver.domain.dto.PaymentStatus_categoryDTO;
 import com.vf.eventhubserver.domain.model.PaymentStatus_category;
-import com.vf.eventhubserver.domain.service.mappers.PaymentStatus_categoryMapper;
+import com.vf.eventhubserver.domain.service.mapper.PaymentStatus_categoryMapper;
 import com.vf.eventhubserver.exception.FinderException;
 import jakarta.transaction.Transactional;
 

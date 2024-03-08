@@ -10,7 +10,7 @@ Vifeng
 :url-repo: https://github.com/vifeng/TicketToTheMoon
 :wip: Coming soon: This feature is in active development and we're excited to bring it to you soon!
 :next: In our roadmap: We're planning to introduce this feature in the near future to enhance your experience. Stay tuned!
-:resources: src/docs/asciidoc/resources
+:resources: src/docs/asciidoc/resource
 :snippetCurlPost: curl-request,request-body,response-body
 :snippetCurlGetFields: curl-request,response-body,response-fields
 :snippetCurlGet: curl-request,response-body

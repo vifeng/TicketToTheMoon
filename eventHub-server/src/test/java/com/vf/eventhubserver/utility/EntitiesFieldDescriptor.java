@@ -1,4 +1,4 @@
-package com.vf.eventhubserver.utilities;
+package com.vf.eventhubserver.utility;
 
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;

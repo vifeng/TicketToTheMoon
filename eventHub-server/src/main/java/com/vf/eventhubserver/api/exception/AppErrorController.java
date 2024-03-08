@@ -1,4 +1,4 @@
-package com.vf.eventhubserver.api.Exceptions;
+package com.vf.eventhubserver.api.exception;
 
 import org.springframework.web.bind.annotation.RestController;
 

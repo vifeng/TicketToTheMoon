@@ -1,4 +1,4 @@
-package com.vf.eventhubserver.myUtil;
+package com.vf.eventhubserver.utility;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

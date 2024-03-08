@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vf.eventhubserver.domain.dao.CustomerRepository;
 import com.vf.eventhubserver.domain.dto.CustomerDTO;
 import com.vf.eventhubserver.domain.model.Customer;
-import com.vf.eventhubserver.domain.service.mappers.CustomerMapper;
+import com.vf.eventhubserver.domain.service.mapper.CustomerMapper;
 import com.vf.eventhubserver.exception.CreateException;
 import com.vf.eventhubserver.exception.DuplicateKeyException;
 import com.vf.eventhubserver.exception.FinderException;
