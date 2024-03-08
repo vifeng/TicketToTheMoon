@@ -1,0 +1,95 @@
+= Event Hub API Guide
+Vifeng 
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+:url-repo: https://github.com/vifeng/TicketToTheMoon
+:wip: Coming soon: This feature is in active development and we're excited to bring it to you soon!
+:next: In our roadmap: We're planning to introduce this feature in the near future to enhance your experience. Stay tuned!
+:resources: src/docs/asciidoc/resources
+:snippetCurlPost: curl-request,request-body,response-body
+:snippetCurlGetFields: curl-request,response-body,response-fields
+:snippetCurlGet: curl-request,response-body
+:snippetHttp: http-request, http-response,request-body,response-body,response-fields
+
+.Overview
+
+== Introduction
+*THIS DOCUMENTATION IS A WORK IN PROGRESS. IT IS ACCURATE BUT NOT COMPLETE.*
+This is a sample of the documentation for the Event Hub server side. The API is used to manage the following resources : event, ticket, reservation and customer order.
+
+== Authentication
+{next}
+
+== HTTP verbs
+The HTTP method of an endpoint defines the type of action it performs on a given resource. Some common HTTP methods are GET, POST, DELETE, and PATCH. The REST API reference documentation provides the HTTP method for every endpoint.
+Where possible, the Event Hub REST API strives to use an appropriate HTTP method for each action.
+[%header,cols=2*]
+|===
+| Verb | Description
+| GET | Used for retrieving resources.
+| POST | Used for creating resources.
+| PATCH | Used for updating properties of resources.
+| PUT | Used for replacing resources or collections of resources.
+| DELETE | Used for deleting resources.
+|===
+
+== HTTP status codes
+
+[%header,cols=4*]
+|===
+|Status Code | Meaning | Description | API Usage
+| **2xx Successful** | Indicates the request was successful. | Most common response for successful API requests. |
+| 200 | OK | The request was successful and the response body contains requested data. | Default response for successful GET requests.
+| 201 Created | Created | A new resource was created successfully. | Often used for POST requests that create new data.
+| 204 No Content | No Content | The request was successful, but there is no content to return in the response body. | Often used for DELETE requests or successful updates where no data is returned.
+|===
+
+
+**Note:** This table only covers the most common status codes. There are many other less frequently used codes defined in the HTTP specification. 
+
+== HTTP status error codes
+
+[%header,cols=4*]
+
+|===
+|Status Code | Meaning | Description | API Usage
+
+| **4xx Client Error** | Indicates an error with the client's request. | Frequent in API interactions, usually accompanied by an error message in the response body. |
+| 400 Bad Request | Bad Request | The request is invalid due to syntax errors or missing required information. | Common error for malformed requests or missing data. 
+| 401 Unauthorized | Unauthorized | The client is not authorized to access the requested resource. | Used when authentication fails or required credentials are missing. 
+| 403 Forbidden | Forbidden | The client is authorized, but access to the resource is still denied. | Used for permission-related errors or restricted resources. 
+| 404 Not Found | Not Found | The requested resource could not be found. | Common error for non-existent resources or invalid IDs. 
+| 405 Method Not Allowed | Method Not Allowed | The requested HTTP method is not supported for the resource. | Used when trying to use an incorrect verb (e.g., GET instead of POST) for an operation. 
+| 409 Conflict | Conflict | The request could not be completed due to a conflict with the current state of the resource. | Often used for concurrent updates or conflicting data.
+| 422 Unprocessable Entity | Unprocessable Entity | The request was well-formed but could not be processed due to semantic errors. | Often used for validation errors in data submissions. 
+| **5xx Server Error** | | Indicates an error on the server side. | Less common than client errors, but can still occur due to internal server issues. 
+| 500 Internal Server Error | Internal Server Error | An unexpected error occurred on the server. | Generic error message, often accompanied by logs for debugging. 
+| 503 Service Unavailable | Service Unavailable | The server is currently unavailable or overloaded. | Used when the server is temporarily unable to handle requests. |
+|===
+
+
+== Resources
+The API is used to manage the following resources ordered in categories event, ticket, reservation and customer order.
+
+=== Index
+include::{resources}/index.adoc[]
+
+=== Event
+include::{resources}/event.adoc[]
+
+=== Ticket
+include::{resources}/ticket.adoc[]
+
+=== Reservation
+include::{resources}/reservation.adoc[]
+
+=== Customer Order
+include::{resources}/customerOrder.adoc[]
+
+
+

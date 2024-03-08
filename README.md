@@ -30,14 +30,14 @@ Table of contents
 
 ---
 
-# PROJECT : TicketToTheMoon
+# PROJECT : eventhubserver
 
 ## About The Project
 
 TicketToTheMoon is a ticket office website. Main features are :
 
 - tickettothemoon_FrontEnd : a front office aimed at the public to buy tickets from and a back office for venues to operate their shows.
-- tickettothemoon_BackEnd : REST API to manage the data.
+- eventhubserver : REST API to manage the data.
 
 ## Documentation
 
@@ -83,7 +83,7 @@ clone the project
 Backend
 
 ```sh
-   cd tickettothemoon_BackEnd
+   cd eventhubserver
    gradle bootRun
 ```
 
@@ -132,8 +132,8 @@ npm list vue
 ## Actuator
 
 - There are actuator health check and info routes as well:
-  - http://localhost:3306/tickettothemoon/actuator/health
-  - http://localhost:3306/tickettothemoon/actuator/info
+  - http://localhost:3306/eventhubserver/actuator/health
+  - http://localhost:3306/eventhubserver/actuator/info
 
 ## Documentation
 
