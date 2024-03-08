@@ -1,4 +1,4 @@
-package com.vf.eventhubserver.domain.service.mappers;
+package com.vf.eventhubserver.domain.service.mapper;
 
 import java.util.List;
 import org.mapstruct.IterableMapping;

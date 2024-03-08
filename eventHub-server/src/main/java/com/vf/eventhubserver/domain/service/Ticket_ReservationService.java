@@ -16,7 +16,7 @@ import com.vf.eventhubserver.domain.model.Seat_Status;
 import com.vf.eventhubserver.domain.model.SessionEvent;
 import com.vf.eventhubserver.domain.model.Ticket_Reservation;
 import com.vf.eventhubserver.domain.model.Ticket_ReservationKey;
-import com.vf.eventhubserver.domain.service.mappers.Ticket_ReservationMapper;
+import com.vf.eventhubserver.domain.service.mapper.Ticket_ReservationMapper;
 import com.vf.eventhubserver.exception.CreateException;
 import com.vf.eventhubserver.exception.DuplicateKeyException;
 import com.vf.eventhubserver.exception.FinderException;

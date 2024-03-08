@@ -11,7 +11,7 @@ import org.springframework.util.ReflectionUtils;
 import com.vf.eventhubserver.domain.dao.EmployeeRepository;
 import com.vf.eventhubserver.domain.dto.EmployeeDTO;
 import com.vf.eventhubserver.domain.model.Employee;
-import com.vf.eventhubserver.domain.service.mappers.EmployeeMapper;
+import com.vf.eventhubserver.domain.service.mapper.EmployeeMapper;
 import com.vf.eventhubserver.exception.CreateException;
 import com.vf.eventhubserver.exception.FinderException;
 import com.vf.eventhubserver.exception.NullException;

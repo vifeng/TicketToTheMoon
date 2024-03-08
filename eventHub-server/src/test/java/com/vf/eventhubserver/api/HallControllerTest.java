@@ -42,7 +42,7 @@ import com.vf.eventhubserver.domain.model.Address;
 import com.vf.eventhubserver.domain.model.Employee;
 import com.vf.eventhubserver.domain.model.Hall;
 import com.vf.eventhubserver.domain.model.Venue;
-import com.vf.eventhubserver.utilities.EntitiesFieldDescriptor;
+import com.vf.eventhubserver.utility.EntitiesFieldDescriptor;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest

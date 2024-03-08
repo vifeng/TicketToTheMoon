@@ -12,7 +12,7 @@ import com.vf.eventhubserver.domain.dao.VenueRepository;
 import com.vf.eventhubserver.domain.dto.HallDTO;
 import com.vf.eventhubserver.domain.model.Hall;
 import com.vf.eventhubserver.domain.model.Venue;
-import com.vf.eventhubserver.domain.service.mappers.HallMapper;
+import com.vf.eventhubserver.domain.service.mapper.HallMapper;
 import com.vf.eventhubserver.exception.CreateException;
 import com.vf.eventhubserver.exception.DuplicateKeyException;
 import com.vf.eventhubserver.exception.FinderException;

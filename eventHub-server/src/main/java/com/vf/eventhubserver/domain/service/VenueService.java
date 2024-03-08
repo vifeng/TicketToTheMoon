@@ -17,7 +17,7 @@ import com.vf.eventhubserver.domain.dto.VenueDTO;
 import com.vf.eventhubserver.domain.model.Address;
 import com.vf.eventhubserver.domain.model.Employee;
 import com.vf.eventhubserver.domain.model.Venue;
-import com.vf.eventhubserver.domain.service.mappers.VenueMapper;
+import com.vf.eventhubserver.domain.service.mapper.VenueMapper;
 import com.vf.eventhubserver.exception.CreateException;
 import com.vf.eventhubserver.exception.DuplicateKeyException;
 import com.vf.eventhubserver.exception.FinderException;
