@@ -1,7 +1,7 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
     "cSpell.words": [
-        "tickettothemoon"
+        "eventhubserver"
     ],
     "java.compile.nullAnalysis.mode": "automatic",
     "java.completion.filteredTypes": [
