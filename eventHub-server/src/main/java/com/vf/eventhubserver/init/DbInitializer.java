@@ -20,12 +20,12 @@ import com.vf.eventhubserver.domain.dao.EmployeeRepository;
 import com.vf.eventhubserver.domain.dao.EventRepository;
 import com.vf.eventhubserver.domain.dao.HallRepository;
 import com.vf.eventhubserver.domain.dao.PaymentRepository;
-import com.vf.eventhubserver.domain.dao.PaymentStatus_categoryRepository;
+import com.vf.eventhubserver.domain.dao.PaymentStatusRepository;
 import com.vf.eventhubserver.domain.dao.SeatRepository;
-import com.vf.eventhubserver.domain.dao.Seat_StatusRepository;
+import com.vf.eventhubserver.domain.dao.SeatStatusRepository;
 import com.vf.eventhubserver.domain.dao.SessionEventRepository;
 import com.vf.eventhubserver.domain.dao.TarificationRepository;
-import com.vf.eventhubserver.domain.dao.Ticket_ReservationRepository;
+import com.vf.eventhubserver.domain.dao.TicketReservationRepository;
 import com.vf.eventhubserver.domain.dao.VenueRepository;
 import com.vf.eventhubserver.domain.model.Address;
 import com.vf.eventhubserver.domain.model.Booking;
@@ -37,13 +37,13 @@ import com.vf.eventhubserver.domain.model.Employee;
 import com.vf.eventhubserver.domain.model.Event;
 import com.vf.eventhubserver.domain.model.Hall;
 import com.vf.eventhubserver.domain.model.Payment;
-import com.vf.eventhubserver.domain.model.PaymentStatus_category;
+import com.vf.eventhubserver.domain.model.PaymentStatus;
 import com.vf.eventhubserver.domain.model.Seat;
-import com.vf.eventhubserver.domain.model.Seat_Status;
+import com.vf.eventhubserver.domain.model.SeatStatus;
 import com.vf.eventhubserver.domain.model.SessionEvent;
 import com.vf.eventhubserver.domain.model.Tarification;
-import com.vf.eventhubserver.domain.model.Ticket_Reservation;
-import com.vf.eventhubserver.domain.model.Ticket_ReservationKey;
+import com.vf.eventhubserver.domain.model.TicketReservation;
+import com.vf.eventhubserver.domain.model.TicketReservationKey;
 import com.vf.eventhubserver.domain.model.Venue;
 
 @Component
@@ -69,7 +69,7 @@ public class DbInitializer {
     @Autowired
     CategoryTariffRepository categoryTariffRepository;
     @Autowired
-    Seat_StatusRepository seat_StatusRepository;
+    SeatStatusRepository seat_StatusRepository;
     @Autowired
     SeatRepository seatRepository;
     @Autowired
@@ -79,7 +79,7 @@ public class DbInitializer {
     // @Autowired
     // Ticket_ReservationIdRepository ticket_ReservationIdRepository;
     @Autowired
-    Ticket_ReservationRepository ticket_ReservationRepository;
+    TicketReservationRepository ticket_ReservationRepository;
     @Autowired
     BookingRepository bookingRepository;
 
@@ -89,7 +89,7 @@ public class DbInitializer {
     @Autowired
     PaymentRepository paymentRepository;
     @Autowired
-    PaymentStatus_categoryRepository paymentStatus_categoryRepository;
+    PaymentStatusRepository paymentStatus_categoryRepository;
 
 
     /**
@@ -118,7 +118,7 @@ public class DbInitializer {
         CategorySpatial categorySpatial = createCategorySpatial();
         Tarification tarification = createTarification(event);
         CategoryTariff categoryTariff = createCategoryTariff(tarification);
-        List<Seat_Status> seat_statuses = createSeat_Statuses();
+        List<SeatStatus> seat_statuses = createSeat_Statuses();
         // TOCHECK: la création d'un seat nécessite sessionEvent. devrait être Event ?
         // nécessite seats. devrait juste ajouté un seat à la liste de seats de sessionEvent pas
         // dans le controller ?
@@ -128,10 +128,10 @@ public class DbInitializer {
 
         // Customer order
         Customer customer = createCustomer();
-        PaymentStatus_category paymentStatus_category = createPaymentStatus_category();
+        PaymentStatus paymentStatus_category = createPaymentStatus_category();
 
         // Reservation
-        Set<Ticket_Reservation> reservations = createTicket_Reservation(seats, sessionEvent);
+        Set<TicketReservation> reservations = createTicket_Reservation(seats, sessionEvent);
         // calcul expiration date and time
         Timestamp booking_creationTimestamp = new Timestamp(System.currentTimeMillis());
         final int BOOKING_EXPIRYDATETIME = 30;
@@ -210,13 +210,13 @@ public class DbInitializer {
         return categoryTariffRepository.save(categoryTariff);
     }
 
-    private List<Seat_Status> createSeat_Statuses() {
-        List<Seat_Status> seat_Statuses = new ArrayList<>();
-        Seat_Status available = new Seat_Status("available");
-        Seat_Status unavailable = new Seat_Status("unavailable"); // exemple : if the seat is broken
-                                                                  // or for the technical team
-        Seat_Status booked = new Seat_Status("booked");
-        Seat_Status sold = new Seat_Status("sold");
+    private List<SeatStatus> createSeat_Statuses() {
+        List<SeatStatus> seat_Statuses = new ArrayList<>();
+        SeatStatus available = new SeatStatus("available");
+        SeatStatus unavailable = new SeatStatus("unavailable"); // exemple : if the seat is broken
+                                                                // or for the technical team
+        SeatStatus booked = new SeatStatus("booked");
+        SeatStatus sold = new SeatStatus("sold");
         seat_Statuses.add(available);
         seat_Statuses.add(unavailable);
         seat_Statuses.add(booked);
@@ -229,7 +229,7 @@ public class DbInitializer {
     }
 
     private List<Seat> createSeats(CategorySpatial categorySpatial, CategoryTariff categoryTariff,
-            Seat_Status seat_Status, ConfigurationHall configurationHall) {
+            SeatStatus seat_Status, ConfigurationHall configurationHall) {
         Seat seat1 = new Seat(true, 1, 'A', categorySpatial, categoryTariff, seat_Status,
                 configurationHall);
         Seat seat2 = new Seat(true, 2, 'A', categorySpatial, categoryTariff, seat_Status,
@@ -251,26 +251,26 @@ public class DbInitializer {
 
     // Package Reservation
 
-    private Set<Ticket_Reservation> createTicket_Reservation(List<Seat> seats,
+    private Set<TicketReservation> createTicket_Reservation(List<Seat> seats,
             SessionEvent sessionEvent) {
-        Ticket_ReservationKey ticket_ReservationKey1 =
-                new Ticket_ReservationKey(seats.get(0), sessionEvent);
-        Ticket_Reservation oneTicket_Reservation1 =
-                new Ticket_Reservation(ticket_ReservationKey1, true);
-        Ticket_ReservationKey ticket_ReservationKey2 =
-                new Ticket_ReservationKey(seats.get(1), sessionEvent);
-        Ticket_Reservation oneTicket_Reservation2 =
-                new Ticket_Reservation(ticket_ReservationKey2, true);
+        TicketReservationKey ticket_ReservationKey1 =
+                new TicketReservationKey(seats.get(0), sessionEvent);
+        TicketReservation oneTicket_Reservation1 =
+                new TicketReservation(ticket_ReservationKey1, true);
+        TicketReservationKey ticket_ReservationKey2 =
+                new TicketReservationKey(seats.get(1), sessionEvent);
+        TicketReservation oneTicket_Reservation2 =
+                new TicketReservation(ticket_ReservationKey2, true);
         ticket_ReservationRepository.save(oneTicket_Reservation1);
         ticket_ReservationRepository.save(oneTicket_Reservation2);
 
-        Set<Ticket_Reservation> reservations =
+        Set<TicketReservation> reservations =
                 Set.of(oneTicket_Reservation1, oneTicket_Reservation2);
         return reservations;
     }
 
     private Booking createBooking(Timestamp booking_creationTimestamp, Customer customer,
-            Set<Ticket_Reservation> reservations) {
+            Set<TicketReservation> reservations) {
         Booking booking = new Booking(booking_creationTimestamp, customer, reservations);
         Booking savedBooking = bookingRepository.save(booking);
         return savedBooking;
@@ -287,12 +287,12 @@ public class DbInitializer {
         return c;
     }
 
-    private PaymentStatus_category createPaymentStatus_category() {
-        PaymentStatus_category paymentStatus_category = new PaymentStatus_category("paid");
+    private PaymentStatus createPaymentStatus_category() {
+        PaymentStatus paymentStatus_category = new PaymentStatus("paid");
         return paymentStatus_categoryRepository.save(paymentStatus_category);
     }
 
-    private Payment createPayment(Booking booking, PaymentStatus_category paymentStatus_category) {
+    private Payment createPayment(Booking booking, PaymentStatus paymentStatus_category) {
         LocalDateTime paymentDateTime = LocalDateTime.now();
         Payment payment = new Payment(paymentDateTime, booking, paymentStatus_category);
         return paymentRepository.save(payment);

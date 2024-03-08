@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.vf.eventhubserver.domain.dto.BookingDTO;
-import com.vf.eventhubserver.domain.dto.Ticket_ReservationKeyDTO;
+import com.vf.eventhubserver.domain.dto.TicketReservationKeyDTO;
 import com.vf.eventhubserver.domain.service.BookingService;
 import com.vf.eventhubserver.exception.FinderException;
 import com.vf.eventhubserver.exception.NullException;
@@ -55,7 +55,7 @@ public class BookingController {
      */
     @PostMapping("/customer/{customer_id}/reservationKey")
     public ResponseEntity<BookingDTO> createBookingForCustomerId(@PathVariable Long customer_id,
-            @RequestBody Ticket_ReservationKeyDTO reservationKeyDTO)
+            @RequestBody TicketReservationKeyDTO reservationKeyDTO)
             throws FinderException, IllegalArgumentException, NullException {
         BookingDTO bookingDTO = bookingService.createBooking(customer_id, reservationKeyDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(bookingDTO);
@@ -71,7 +71,7 @@ public class BookingController {
      */
     @PostMapping("/{booking_id}/reservationKey")
     public ResponseEntity<BookingDTO> addReservationToBooking(@PathVariable Long booking_id,
-            @RequestBody Ticket_ReservationKeyDTO reservationKeyDTO) throws FinderException {
+            @RequestBody TicketReservationKeyDTO reservationKeyDTO) throws FinderException {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(bookingService.addReservation(booking_id, reservationKeyDTO));
 
@@ -88,7 +88,7 @@ public class BookingController {
      */
     @DeleteMapping("/{booking_id}/reservationKey")
     public ResponseEntity<BookingDTO> deleteReservationFromBooking(@PathVariable Long booking_id,
-            @RequestBody Ticket_ReservationKeyDTO reservationKeyDTO) throws FinderException {
+            @RequestBody TicketReservationKeyDTO reservationKeyDTO) throws FinderException {
         BookingDTO bookingDTO = bookingService.deleteReservation(booking_id, reservationKeyDTO);
         if (bookingDTO == null) {
             return ResponseEntity.noContent().build();

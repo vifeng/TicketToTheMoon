@@ -7,7 +7,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Embeddable
-public class Ticket_ReservationKey implements Serializable {
+public class TicketReservationKey implements Serializable {
 
     // composite keys
     @ManyToOne
@@ -18,9 +18,9 @@ public class Ticket_ReservationKey implements Serializable {
     @JoinColumn(name = "session_event_id")
     private SessionEvent sessionEventId;
 
-    public Ticket_ReservationKey() {}
+    public TicketReservationKey() {}
 
-    public Ticket_ReservationKey(@NonNull Seat seatId, @NonNull SessionEvent sessionEventId) {
+    public TicketReservationKey(@NonNull Seat seatId, @NonNull SessionEvent sessionEventId) {
         this.seatId = seatId;
         this.sessionEventId = sessionEventId;
     }
@@ -65,7 +65,7 @@ public class Ticket_ReservationKey implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Ticket_ReservationKey other = (Ticket_ReservationKey) obj;
+        TicketReservationKey other = (TicketReservationKey) obj;
         if (seatId == null) {
             if (other.seatId != null)
                 return false;

@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.vf.eventhubserver.domain.dto.PaymentStatus_categoryDTO;
-import com.vf.eventhubserver.domain.service.PaymentStatus_categoryService;
+import com.vf.eventhubserver.domain.dto.PaymentStatusDTO;
+import com.vf.eventhubserver.domain.service.PaymentStatusService;
 import com.vf.eventhubserver.exception.FinderException;
 
 
@@ -18,29 +18,28 @@ import com.vf.eventhubserver.exception.FinderException;
 @RestController
 @RequestMapping("/api/paymentStatus_category")
 @Validated
-public class PaymentStatus_categoryController {
+public class PaymentStatusController {
 
-    private final PaymentStatus_categoryService paymentStatus_categoryService;
+    private final PaymentStatusService paymentStatus_categoryService;
 
-    public PaymentStatus_categoryController(
-            PaymentStatus_categoryService paymentStatus_categoryService) {
+    public PaymentStatusController(PaymentStatusService paymentStatus_categoryService) {
         this.paymentStatus_categoryService = paymentStatus_categoryService;
     }
 
     @GetMapping
-    public ResponseEntity<List<PaymentStatus_categoryDTO>> getAllPaymentStatus_categorys()
+    public ResponseEntity<List<PaymentStatusDTO>> getAllPaymentStatus_categorys()
             throws FinderException {
         return ResponseEntity.ok(paymentStatus_categoryService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PaymentStatus_categoryDTO> getPaymentStatus_categoryById(
-            @PathVariable Long id) throws FinderException {
+    public ResponseEntity<PaymentStatusDTO> getPaymentStatus_categoryById(@PathVariable Long id)
+            throws FinderException {
         return ResponseEntity.ok(paymentStatus_categoryService.findById(id));
     }
 
     @GetMapping("/status/{status}")
-    public ResponseEntity<PaymentStatus_categoryDTO> getPaymentStatus_categoryByName(
+    public ResponseEntity<PaymentStatusDTO> getPaymentStatus_categoryByName(
             @PathVariable String status) throws FinderException {
         return ResponseEntity.ok(paymentStatus_categoryService.findByPaymentStatusName(status));
     }

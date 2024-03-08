@@ -3,11 +3,11 @@ package com.vf.eventhubserver.domain.model;
 import java.util.Comparator;
 import java.util.TreeSet;
 
-public class TR_isBookedComparator implements Comparator<Ticket_Reservation> {
-    TreeSet<Ticket_Reservation> jeu = new TreeSet<Ticket_Reservation>();
+public class TRIsBookedComparator implements Comparator<TicketReservation> {
+    TreeSet<TicketReservation> jeu = new TreeSet<TicketReservation>();
 
     @Override
-    public int compare(Ticket_Reservation o1, Ticket_Reservation o2) {
+    public int compare(TicketReservation o1, TicketReservation o2) {
         // compare si les deux id sont égales
         // si oui on compare les deux isBooked, sinon renvoie -1
         if (o1.getId().equals(o2.getId())) {

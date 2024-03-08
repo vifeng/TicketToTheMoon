@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class PaymentStatus_category {
+public class PaymentStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,14 +14,14 @@ public class PaymentStatus_category {
     private String paymentStatusName;
 
 
-    public PaymentStatus_category() {}
+    public PaymentStatus() {}
 
-    public PaymentStatus_category(Long id, String paymentStatusName) {
+    public PaymentStatus(Long id, String paymentStatusName) {
         setId(id);
         setPaymentStatusName(paymentStatusName);
     }
 
-    public PaymentStatus_category(String paymentStatusName) {
+    public PaymentStatus(String paymentStatusName) {
         setPaymentStatusName(paymentStatusName);
     }
 
