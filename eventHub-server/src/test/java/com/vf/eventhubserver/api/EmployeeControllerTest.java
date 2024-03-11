@@ -31,18 +31,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vf.eventhubserver.domain.dao.EmployeeRepository;
 import com.vf.eventhubserver.domain.model.Employee;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest
-public class EmployeeControllerTest {
+@SuppressWarnings("null")
+class EmployeeControllerTest {
         private MockMvc mockMvc;
         @Autowired
         private ObjectMapper objectMapper;
         String baseUrl = "http://localhost:8080/api/";
-        @Autowired
-        private EmployeeRepository employeeRepository;
 
 
         @BeforeEach
@@ -57,7 +55,7 @@ public class EmployeeControllerTest {
         }
 
         @Test
-        public void employeesCreate() throws Exception {
+        void employeesCreate() throws Exception {
 
                 Map<String, Object> employee = new HashMap<>();
                 // employee.put("id", 2L);
@@ -66,6 +64,7 @@ public class EmployeeControllerTest {
                 employee.put("email", "mymail@mail.fr");
 
 
+                @SuppressWarnings("unused")
                 String employees = this.mockMvc
                                 .perform(post(baseUrl + "employees")
                                                 .contentType(MediaTypes.HAL_JSON)
@@ -79,13 +78,14 @@ public class EmployeeControllerTest {
         // be the best practice? Can we do something for .andDo(document(... to avoid repetition in
         // the tests?
         @Test
-        public void employeesGet() throws Exception {
+        void employeesGet() throws Exception {
                 Map<String, Object> employee = new HashMap<>();
                 employee.put("id", 1L);
-                employee.put("username", "username1");
+                employee.put("username", "username900");
                 employee.put("password", "secretpwD%1");
                 employee.put("email", "mymail@mail.fr");
 
+                @SuppressWarnings("unused")
                 String employees = this.mockMvc
                                 .perform(post(baseUrl + "employees")
                                                 .contentType(MediaTypes.HAL_JSON)
@@ -98,7 +98,7 @@ public class EmployeeControllerTest {
                 this.mockMvc.perform(get(baseUrl + "employees")).andExpect(status().isOk())
                                 .andExpect(jsonPath("$[*].id", is(notNullValue())))
                                 .andExpect(jsonPath("$[*].username", is(notNullValue())))
-                                .andExpect(jsonPath("$[*].username", contains("username1")))
+                                .andExpect(jsonPath("$[*].username", contains("username900")))
                                 .andDo(document("employees-get", responseFields(
                                                 fieldWithPath("[]").description(
                                                                 "An array of employees"),
@@ -126,16 +126,6 @@ public class EmployeeControllerTest {
                                                                                                 desc.descriptionsForProperty(
                                                                                                                 "email"),
                                                                                                 ". ")))));
-        }
-
-
-
-        private void createEmployee(String username) {
-                Employee employee = new Employee();
-                employee.setUsername(username);
-                employee.setPassword("secretpwD%1");
-                employee.setEmail("mail@monmail.fr");
-                this.employeeRepository.save(employee);
         }
 
 }

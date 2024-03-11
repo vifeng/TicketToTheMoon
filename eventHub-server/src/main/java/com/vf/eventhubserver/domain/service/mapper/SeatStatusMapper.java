@@ -9,14 +9,14 @@ import com.vf.eventhubserver.domain.model.SeatStatus;
 @Mapper(componentModel = "spring")
 public interface SeatStatusMapper {
 
-    SeatStatusDTO toDTO(SeatStatus seat_Status);
+    SeatStatusDTO toDTO(SeatStatus seatStatus);
 
-    SeatStatus toEntity(SeatStatusDTO seat_StatusDTO);
+    SeatStatus toEntity(SeatStatusDTO seatStatusDTO);
 
     @IterableMapping(elementTargetType = SeatStatusDTO.class)
-    List<SeatStatusDTO> toDTOs(Iterable<SeatStatus> seat_Statuss);
+    List<SeatStatusDTO> toDTOs(Iterable<SeatStatus> seatStatuses);
 
     @IterableMapping(elementTargetType = SeatStatus.class)
-    List<SeatStatus> toEntities(Iterable<SeatStatusDTO> seat_StatusDTOs);
+    List<SeatStatus> toEntities(Iterable<SeatStatusDTO> seatStatusDTOs);
 
 }

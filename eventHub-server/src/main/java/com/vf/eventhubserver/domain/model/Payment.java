@@ -23,24 +23,23 @@ public class Payment {
 
     @ManyToOne
     @JoinColumn(name = "PaymentStatus_category_FK")
-    private PaymentStatus paymentStatus_category;
+    private PaymentStatus paymentStatus;
 
 
     public Payment() {}
 
     public Payment(Long id, LocalDateTime paymentDateTime, Booking booking,
-            PaymentStatus paymentStatus_category) {
+            PaymentStatus paymentStatus) {
         setId(id);
         setPaymentDateTime(paymentDateTime);
         setBooking(booking);
-        setPaymentStatus_category(paymentStatus_category);
+        setPaymentStatus(paymentStatus);
     }
 
-    public Payment(LocalDateTime paymentDateTime, Booking booking,
-            PaymentStatus paymentStatus_category) {
+    public Payment(LocalDateTime paymentDateTime, Booking booking, PaymentStatus paymentStatus) {
         setPaymentDateTime(paymentDateTime);
         setBooking(booking);
-        setPaymentStatus_category(paymentStatus_category);
+        setPaymentStatus(paymentStatus);
     }
 
     public Long getId() {
@@ -67,18 +66,18 @@ public class Payment {
         this.booking = booking;
     }
 
-    public PaymentStatus getPaymentStatus_category() {
-        return paymentStatus_category;
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
     }
 
-    public void setPaymentStatus_category(PaymentStatus paymentStatus_category) {
-        this.paymentStatus_category = paymentStatus_category;
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
     @Override
     public String toString() {
         return "Payment [id=" + id + ", paymentDateTime=" + paymentDateTime + ", booking=" + booking
-                + ", paymentStatus_category=" + paymentStatus_category + "]";
+                + ", paymentStatus=" + paymentStatus + "]";
     }
 
 

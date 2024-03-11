@@ -31,18 +31,18 @@ public class PaymentService {
     BookingRepository bookingRepository;
     BookingService bookingService;
     BookingMapper bookingMapper;
-    final int BOOKING_EXPIRYDATETIME = 30;
-    PaymentStatusRepository payment_StatusRepository;
+    static final int BOOKING_EXPIRYDATETIME = 30;
+    PaymentStatusRepository paymentStatusRepository;
 
     public PaymentService(PaymentRepository paymentRepository, PaymentMapper paymentMapper,
             BookingMapper bookingMapper, BookingRepository bookingRepository,
-            BookingService bookingService, PaymentStatusRepository Payment_StatusRepository) {
+            BookingService bookingService, PaymentStatusRepository paymentStatusRepository) {
         this.paymentRepository = paymentRepository;
         this.paymentMapper = paymentMapper;
         this.bookingMapper = bookingMapper;
         this.bookingRepository = bookingRepository;
         this.bookingService = bookingService;
-        this.payment_StatusRepository = Payment_StatusRepository;
+        this.paymentStatusRepository = paymentStatusRepository;
     }
 
     public List<PaymentDTO> findAll() throws FinderException {
@@ -51,44 +51,47 @@ public class PaymentService {
         if (size == 0) {
             throw new FinderException("No Payments in the database");
         }
-        List<PaymentDTO> paymentDTOs = paymentMapper.toDTOs(payments);
-        return paymentDTOs;
+        return paymentMapper.toDTOs(payments);
     }
 
     public PaymentDTO findById(Long id) throws FinderException {
-        if (id == null) {
-            throw new NullException("Id cannot be null");
-        }
         Payment payment = paymentRepository.findById(id)
                 .orElseThrow(() -> new FinderException("Payment with id {" + id + "} not found"));
+        if (payment == null) {
+            throw new FinderException("Payment with id {" + id + "} not found");
+        }
         return paymentMapper.toDTO(payment);
     }
 
 
     public PaymentDTO createPayment(Long bookingId)
             throws FinderException, CreateException, NullException {
-        if (bookingId == null) {
-            throw new NullException("BookingId cannot be null");
-        }
         Optional<Booking> optionalBooking = bookingRepository.findById(bookingId);
         if (optionalBooking.isEmpty()) {
             throw new FinderException(
                     "Booking with id {" + bookingId + "} not found, cannot create payment");
         }
         Booking booking = optionalBooking.get();
-        Boolean timeExpired = checkIfReservationTimeIsExpired(
-                booking.getBooking_creationTimestamp(), booking.getReservations());
-
-        Boolean sessionExpired = bookingService.checkIfReservationIsSessionExpired(
-                booking.getBooking_creationTimestamp(), booking.getReservations());
-
+        Timestamp bookingCreationTimestamp = booking.getBookingCreationTimestamp();
+        Set<TicketReservation> reservations = booking.getReservations();
+        if (bookingCreationTimestamp == null || reservations.isEmpty()) {
+            throw new NullException(
+                    "Booking creation timestamp or reservation is null, cannot create payment");
+        }
+        Boolean timeExpired = checkIfReservationTimeIsExpired(bookingCreationTimestamp);
+        Boolean sessionExpired = bookingService
+                .checkIfReservationIsSessionExpired(bookingCreationTimestamp, reservations);
         if (timeExpired && sessionExpired) {
             // booking is still valid
             Optional<PaymentStatus> paymentStatus =
-                    payment_StatusRepository.findByPaymentStatusName("paid");
-            Payment payment = new Payment(LocalDateTime.now(), booking, paymentStatus.get());
+                    paymentStatusRepository.findByPaymentStatusName("paid");
+            if (paymentStatus.isEmpty()) {
+                throw new FinderException("Payment status paid doesn't exist");
+            }
+            PaymentStatus paid = paymentStatus.get();
+            Payment payment = new Payment(LocalDateTime.now(), booking, paid);
             // change seat availability to sold
-            bookingService.updateSeatAvailability(booking.getReservations(), "sold");
+            bookingService.updateSeatAvailability(reservations, "sold");
             Payment savedPayment = paymentRepository.save(payment);
             return paymentMapper.toDTO(savedPayment);
         } else {
@@ -100,9 +103,6 @@ public class PaymentService {
     }
 
     public void deleteById(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Id cannot be null");
-        }
         paymentRepository.deleteById(id);
     }
 
@@ -110,21 +110,14 @@ public class PaymentService {
      * Check if the reservation time is expired based on the booking creation time and the
      * BOOKING_EXPIRYDATETIME
      * 
-     * @param booking_creationTimestamp
-     * @param reservations
+     * @param bookingCreationTimestamp
      * @return true if the reservation time is expired, false if the reservation time is still valid
      */
-    public Boolean checkIfReservationTimeIsExpired(Timestamp booking_creationTimestamp,
-            Set<TicketReservation> reservations) {
-        LocalDateTime booking_creationLocalDateTime = booking_creationTimestamp.toLocalDateTime();
+    public Boolean checkIfReservationTimeIsExpired(Timestamp bookingCreationTimestamp) {
+        LocalDateTime bookingCreationLocalDateTime = bookingCreationTimestamp.toLocalDateTime();
         LocalDateTime expiryTimeForBooking =
-                booking_creationLocalDateTime.plusMinutes(BOOKING_EXPIRYDATETIME);
-        Boolean res;
-        if (expiryTimeForBooking.isAfter(LocalDateTime.now())) {
-            // booking is still valid
-            return false;
-        }
-        return true;
+                bookingCreationLocalDateTime.plusMinutes(BOOKING_EXPIRYDATETIME);
+        return expiryTimeForBooking.isAfter(LocalDateTime.now());
     }
 
 }

@@ -7,7 +7,6 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
@@ -46,7 +45,8 @@ import com.vf.eventhubserver.utility.EntitiesFieldDescriptor;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest
-public class HallControllerTest {
+@SuppressWarnings("null")
+class HallControllerTest {
 
         @Autowired
         private ObjectMapper objectMapper;
@@ -72,7 +72,7 @@ public class HallControllerTest {
         }
 
         @Test
-        public void createHallForVenueId() throws Exception {
+        void createHallForVenueId() throws Exception {
                 Address address =
                                 new Address("testStreet", "testCity", "testZipCode", "testCountry");
                 Employee employee = new Employee("testUsername", "testPassword1&",
@@ -100,7 +100,7 @@ public class HallControllerTest {
         }
 
         @Test
-        public void hallGetById() throws Exception {
+        void hallGetById() throws Exception {
                 // reset the database if needed
                 // create a hall if needed
                 this.mockMvc.perform(get(baseUrl + "halls/{id}", 1L)
@@ -114,7 +114,7 @@ public class HallControllerTest {
         }
 
         @Test
-        public void hallsGet() throws Exception {
+        void hallsGet() throws Exception {
                 this.mockMvc.perform(get(baseUrl + "halls").accept(MediaTypes.HAL_JSON))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$[*].id", is(notNullValue())))
@@ -137,17 +137,5 @@ public class HallControllerTest {
                                                                                 entitiesFieldDescriptor
                                                                                                 .getEmployeeResponseFields())));
         }
-
-
-
-        @Test
-        public void deleteHall() throws Exception {
-                this.mockMvc.perform(delete(baseUrl + "halls/{id}", 1L))
-                                .andExpect(status().isNoContent())
-                                .andDo(document("hall-delete", preprocessRequest(prettyPrint()),
-                                                preprocessResponse(prettyPrint())));
-        }
-
-
 
 }

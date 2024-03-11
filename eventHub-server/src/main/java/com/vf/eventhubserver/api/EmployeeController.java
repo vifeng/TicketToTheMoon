@@ -1,6 +1,7 @@
 package com.vf.eventhubserver.api;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,8 +67,6 @@ public class EmployeeController {
     @PostMapping
     public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody EmployeeDTO employeeDTO)
             throws NullException, CreateException {
-        if (employeeDTO == null)
-            throw new NullException("Employee post is null");
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(employeeService.createEmployee(employeeDTO));
     }
@@ -85,9 +84,7 @@ public class EmployeeController {
     public ResponseEntity<EmployeeDTO> updateEmployee(@PathVariable Long id,
             @RequestBody EmployeeDTO employeeDTO)
             throws FinderException, UpdateException, IllegalArgumentException {
-        if (employeeDTO == null)
-            throw new NullException("Employee update is null");
-        if (employeeDTO.id() != id)
+        if (!Objects.equals(employeeDTO.id(), id))
             throw new IllegalArgumentException("Customer id and query id is not the same");
         return ResponseEntity.ok(employeeService.updateEmployee(id, employeeDTO));
     }
@@ -105,8 +102,8 @@ public class EmployeeController {
     public ResponseEntity<EmployeeDTO> patchEmployee(@PathVariable Long id,
             @RequestBody Map<String, Object> employeePatch)
             throws FinderException, PatchException, IllegalArgumentException {
-        if (employeePatch == null || employeePatch.isEmpty())
-            throw new NullException("Employee patch is null or empty");
+        if (employeePatch.isEmpty())
+            throw new NullException("Employee patch is empty");
         return ResponseEntity.ok(employeeService.patchEmployee(id, employeePatch));
     }
 

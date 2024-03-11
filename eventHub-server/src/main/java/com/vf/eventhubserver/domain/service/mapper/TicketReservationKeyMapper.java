@@ -9,15 +9,15 @@ import com.vf.eventhubserver.domain.model.TicketReservationKey;
 @Mapper(componentModel = "spring")
 public interface TicketReservationKeyMapper {
 
-        TicketReservationKeyDTO toDTO(TicketReservationKey ticket_ReservationKey);
+        TicketReservationKeyDTO toDTO(TicketReservationKey ticketReservationKey);
 
-        TicketReservationKey toEntity(TicketReservationKeyDTO ticket_ReservationKeyDTO);
+        TicketReservationKey toEntity(TicketReservationKeyDTO ticketReservationKeyDTO);
 
         @IterableMapping(elementTargetType = TicketReservationKeyDTO.class)
-        List<TicketReservationKeyDTO> toDTOs(Iterable<TicketReservationKey> ticket_ReservationKeys);
+        List<TicketReservationKeyDTO> toDTOs(Iterable<TicketReservationKey> ticketReservationKeys);
 
         @IterableMapping(elementTargetType = TicketReservationKey.class)
         List<TicketReservationKey> toEntities(
-                        Iterable<TicketReservationKeyDTO> ticket_ReservationKeyDTOs);
+                        Iterable<TicketReservationKeyDTO> ticketReservationKeyDTOs);
 
 }

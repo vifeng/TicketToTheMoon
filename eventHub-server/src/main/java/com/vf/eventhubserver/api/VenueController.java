@@ -56,8 +56,6 @@ public class VenueController {
     @PostMapping
     public ResponseEntity<VenueDTO> createVenue(@RequestBody VenueDTO venueDTO)
             throws NullException, CreateException {
-        if (venueDTO == null)
-            throw new NullException("Venue post is null");
         return ResponseEntity.ok(venueService.createVenue(venueDTO));
     }
 
