@@ -10,14 +10,14 @@ import com.vf.eventhubserver.domain.model.PaymentStatus;
 public interface PaymentStatusMapper {
 
 
-        PaymentStatusDTO toDTO(PaymentStatus paymentStatus_category);
+        PaymentStatusDTO toDTO(PaymentStatus paymentStatus);
 
-        PaymentStatus toEntity(PaymentStatusDTO paymentStatus_categoryDTO);
+        PaymentStatus toEntity(PaymentStatusDTO paymentStatusDTO);
 
         @IterableMapping(elementTargetType = PaymentStatusDTO.class)
-        List<PaymentStatusDTO> toDTOs(Iterable<PaymentStatus> paymentStatus_categories);
+        List<PaymentStatusDTO> toDTOs(Iterable<PaymentStatus> paymentStatuses);
 
 
         @IterableMapping(elementTargetType = PaymentStatus.class)
-        List<PaymentStatus> toEntities(Iterable<PaymentStatusDTO> paymentStatus_categoryDTOs);
+        List<PaymentStatus> toEntities(Iterable<PaymentStatusDTO> paymentStatusDTOs);
 }

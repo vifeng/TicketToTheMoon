@@ -39,11 +39,11 @@ public class PaymentController {
     }
 
 
-    @PostMapping("/bookings/{booking_id}")
-    public ResponseEntity<PaymentDTO> createPayment(@PathVariable Long booking_id)
+    @PostMapping("/bookings/{bookingId}")
+    public ResponseEntity<PaymentDTO> createPayment(@PathVariable Long bookingId)
             throws FinderException {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(paymentService.createPayment(booking_id));
+                .body(paymentService.createPayment(bookingId));
     }
 
 

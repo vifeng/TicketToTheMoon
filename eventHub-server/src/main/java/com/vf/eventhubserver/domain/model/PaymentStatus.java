@@ -43,7 +43,7 @@ public class PaymentStatus {
 
     @Override
     public String toString() {
-        return "PaymentStatus_category [id=" + id + ", paymentStatus=" + paymentStatusName + "]";
+        return "PaymentStatus [id=" + id + ", paymentStatus=" + paymentStatusName + "]";
     }
 
 

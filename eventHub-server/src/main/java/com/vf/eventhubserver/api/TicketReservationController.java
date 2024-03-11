@@ -18,35 +18,33 @@ import com.vf.eventhubserver.exception.NullException;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/ticket_reservation")
+@RequestMapping("/api/ticketReservation")
 @Validated
 public class TicketReservationController {
 
-    private TicketReservationService ticket_ReservationService;
+    private TicketReservationService ticketReservationService;
 
-    public TicketReservationController(TicketReservationService ticket_ReservationService) {
-        this.ticket_ReservationService = ticket_ReservationService;
+    public TicketReservationController(TicketReservationService ticketReservationService) {
+        this.ticketReservationService = ticketReservationService;
     }
 
     @GetMapping
-    public ResponseEntity<Set<TicketReservationDTO>> getAllTicket_Reservations() {
-        return ResponseEntity.ok(ticket_ReservationService.findAll());
+    public ResponseEntity<Set<TicketReservationDTO>> getAllTicketReservations() {
+        return ResponseEntity.ok(ticketReservationService.findAll());
     }
 
     @GetMapping("/sessionevent/{sessioneventId}/seat/{seatId}")
-    public ResponseEntity<TicketReservationDTO> getTicket_ReservationById(@PathVariable Long seatId,
+    public ResponseEntity<TicketReservationDTO> getTicketReservationById(@PathVariable Long seatId,
             @PathVariable Long sessioneventId) {
-        return ResponseEntity.ok(ticket_ReservationService.findById(sessioneventId, seatId));
+        return ResponseEntity.ok(ticketReservationService.findById(sessioneventId, seatId));
     }
 
     @PostMapping
-    public ResponseEntity<TicketReservationDTO> createTicket_Reservation(
-            @RequestBody TicketReservationDTO ticket_ReservationDTO)
+    public ResponseEntity<TicketReservationDTO> createTicketReservation(
+            @RequestBody TicketReservationDTO ticketReservationDTO)
             throws NullException, CreateException {
-        if (ticket_ReservationDTO == null)
-            throw new NullException("Ticket_Reservation post is null");
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ticket_ReservationService.createTicket_Reservation(ticket_ReservationDTO));
+                .body(ticketReservationService.createTicketReservation(ticketReservationDTO));
     }
 
     // TOFINISH: PUT, PATCH, DELETE

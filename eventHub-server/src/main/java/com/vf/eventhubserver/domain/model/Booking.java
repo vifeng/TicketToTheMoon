@@ -2,7 +2,6 @@ package com.vf.eventhubserver.domain.model;
 
 import java.sql.Timestamp;
 import java.util.Set;
-import org.springframework.lang.NonNull;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +16,7 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Timestamp booking_creationTimestamp;
+    private Timestamp bookingCreationTimestamp;
 
 
     // TODO_LOW: ? this variable should be in service maybe?
@@ -25,7 +24,7 @@ public class Booking {
      * @Description: the calculated total price for the booking, calculated based on the event's
      *               pricing
      */
-    private double total_price_ht;
+    private double totalPriceHt;
 
     // relationships
     // OneToMany unidirectional with Ticket_Reservation
@@ -49,17 +48,17 @@ public class Booking {
     public Booking() {}
 
 
-    public Booking(Long id, Timestamp booking_creationTimestamp, Customer customer,
-            @NonNull Set<TicketReservation> reservations) {
+    public Booking(Long id, Timestamp bookingCreationTimestamp, Customer customer,
+            Set<TicketReservation> reservations) {
         setId(id);
-        setBooking_creationTimestamp(booking_creationTimestamp);
+        setBookingCreationTimestamp(bookingCreationTimestamp);
         setCustomer(customer);
         setReservations(reservations);
     }
 
-    public Booking(Timestamp booking_creationTimestamp, Customer customer,
-            @NonNull Set<TicketReservation> reservations) {
-        setBooking_creationTimestamp(booking_creationTimestamp);
+    public Booking(Timestamp bookingCreationTimestamp, Customer customer,
+            Set<TicketReservation> reservations) {
+        setBookingCreationTimestamp(bookingCreationTimestamp);
         setCustomer(customer);
         setReservations(reservations);
     }
@@ -72,16 +71,16 @@ public class Booking {
         this.id = id;
     }
 
-    public double getTotal_price_ht() {
-        return total_price_ht;
+    public double getTotalPriceHt() {
+        return totalPriceHt;
     }
 
-    public Timestamp getBooking_creationTimestamp() {
-        return booking_creationTimestamp;
+    public Timestamp getBookingCreationTimestamp() {
+        return bookingCreationTimestamp;
     }
 
-    public void setBooking_creationTimestamp(Timestamp booking_creationTimestamp) {
-        this.booking_creationTimestamp = booking_creationTimestamp;
+    public void setBookingCreationTimestamp(Timestamp bookingCreationTimestamp) {
+        this.bookingCreationTimestamp = bookingCreationTimestamp;
     }
 
 
@@ -96,30 +95,28 @@ public class Booking {
         return reservations;
     }
 
-    public void setReservations(@NonNull Set<TicketReservation> reservations) {
+    public void setReservations(Set<TicketReservation> reservations) {
         this.reservations = reservations;
-        total_price_ht = 0;
+        totalPriceHt = 0;
         for (TicketReservation reservation : reservations) {
             // TODO_LOW: DISCOUNT - how should we calculate the discount ?
-            total_price_ht += reservation.getId().getSeatId().getCategoryTariff().getTarification()
+            totalPriceHt += reservation.getId().getSeatId().getCategoryTariff().getTarification()
                     .getBasePrice();
         }
     }
 
-    public void addReservation(@NonNull TicketReservation reservation) {
+    public void addReservation(TicketReservation reservation) {
         this.reservations.add(reservation);
         // TODO_LOW: DISCOUNT - how should we calculate the discount ?
-        total_price_ht += reservation.getId().getSeatId().getCategoryTariff().getTarification()
+        totalPriceHt += reservation.getId().getSeatId().getCategoryTariff().getTarification()
                 .getBasePrice();
     }
 
-    public void removeReservation(@NonNull TicketReservation reservation) {
-        if (reservation != null) {
-            this.reservations.remove(reservation);
-            // TODO_LOW: DISCOUNT - how should we calculate the discount ?
-            total_price_ht -= reservation.getId().getSeatId().getCategoryTariff().getTarification()
-                    .getBasePrice();
-        }
+    public void removeReservation(TicketReservation reservation) {
+        this.reservations.remove(reservation);
+        // TODO_LOW: DISCOUNT - how should we calculate the discount ?
+        totalPriceHt -= reservation.getId().getSeatId().getCategoryTariff().getTarification()
+                .getBasePrice();
     }
 
     public Customer getCustomer() {
@@ -161,8 +158,8 @@ public class Booking {
 
     @Override
     public String toString() {
-        return "Booking [id=" + id + ", booking_creationTimestamp=" + booking_creationTimestamp
-                + ", total_price_ht=" + total_price_ht + ", reservations=" + reservations
+        return "Booking [id=" + id + ", bookingCreationTimestamp=" + bookingCreationTimestamp
+                + ", totalPriceHt=" + totalPriceHt + ", reservations=" + reservations
                 + ", customer=" + customer + "]";
     }
 

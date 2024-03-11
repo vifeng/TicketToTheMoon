@@ -12,23 +12,23 @@ import com.vf.eventhubserver.domain.model.TicketReservationKey;
 @Mapper(componentModel = "spring")
 public interface TicketReservationMapper {
 
-        @Mapping(source = "ticket_Reservation.id", target = "ticket_ReservationKey")
-        TicketReservationDTO toDTO(TicketReservation ticket_Reservation);
+        @Mapping(source = "ticketReservation.id", target = "ticketReservationKey")
+        TicketReservationDTO toDTO(TicketReservation ticketReservation);
 
-        @Mapping(source = "ticket_ReservationDTO.ticket_ReservationKey", target = "id")
-        TicketReservation toEntity(TicketReservationDTO ticket_ReservationDTO);
+        @Mapping(source = "ticketReservationDTO.ticketReservationKey", target = "id")
+        TicketReservation toEntity(TicketReservationDTO ticketReservationDTO);
 
         @IterableMapping(elementTargetType = TicketReservationDTO.class)
-        Set<TicketReservationDTO> toDTOs(Iterable<TicketReservation> ticket_Reservations);
+        Set<TicketReservationDTO> toDTOs(Iterable<TicketReservation> ticketReservations);
 
         @IterableMapping(elementTargetType = TicketReservation.class)
-        Set<TicketReservation> toEntities(Iterable<TicketReservationDTO> ticket_ReservationDTOs);
+        Set<TicketReservation> toEntities(Iterable<TicketReservationDTO> ticketReservationDTOs);
 
         // Composite key mappers
         // TOCHECK : not sure if this is needed
-        TicketReservationKeyDTO map(TicketReservationKey ticket_ReservationKey);
+        TicketReservationKeyDTO map(TicketReservationKey ticketReservationKey);
 
-        TicketReservationKey map(TicketReservationKeyDTO ticket_ReservationKeyDTO);
+        TicketReservationKey map(TicketReservationKeyDTO ticketReservationKeyDTO);
 
 
 

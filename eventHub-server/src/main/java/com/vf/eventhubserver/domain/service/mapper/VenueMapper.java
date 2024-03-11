@@ -35,32 +35,26 @@ public interface VenueMapper {
 
     // Mappage for Address and its DTO
     default AddressDTO toAddressDTO(Address address) {
-        if (address == null) {
-            return null;
-        }
         return ADDRESS_MAPPER.toDTO(address);
     }
 
     default Address toAddress(AddressDTO addressDTO) {
-        if (addressDTO == null) {
-            return null;
-        }
         return ADDRESS_MAPPER.toEntity(addressDTO);
     }
 
     // Mappage for Address with Venue and its DTO
     default AddressDTO toAddressDTO(Venue venue) {
-        if (venue == null) {
-            return null;
-        }
-        return toAddressDTO(venue.getAddress());
+        Address address = venue.getAddress();
+        if (address == null)
+            throw new IllegalArgumentException("Venue address cannot be null");
+        return toAddressDTO(address);
     }
 
     default Address toAddress(VenueDTO venueDTO) {
-        if (venueDTO == null) {
-            return null;
-        }
-        return toAddress(venueDTO.getAddress());
+        AddressDTO addressDTO = venueDTO.getAddress();
+        if (addressDTO == null)
+            throw new IllegalArgumentException("Venue address cannot be null");
+        return toAddress(addressDTO);
     }
 
     //////////////////////////////
@@ -72,49 +66,37 @@ public interface VenueMapper {
 
     // Mappage for Employee and its DTO
     default EmployeeDTO toEmployeeDTO(Employee employee) {
-        if (employee == null) {
-            return null;
-        }
         return EMPLOYEE_MAPPER.toDTO(employee);
     }
 
     default Employee toEmployee(EmployeeDTO employeeDTO) {
-        if (employeeDTO == null) {
-            return null;
-        }
         return EMPLOYEE_MAPPER.toEntity(employeeDTO);
     }
 
     @IterableMapping(elementTargetType = EmployeeDTO.class)
     default Set<EmployeeDTO> toEmployeeDTOs(Iterable<Employee> employees) {
-        if (employees == null) {
-            return null;
-        }
         return EMPLOYEE_MAPPER.toDTOs(employees);
     }
 
     @IterableMapping(elementTargetType = Employee.class)
     default Set<Employee> toEmployees(Iterable<EmployeeDTO> employeeDTOs) {
-        if (employeeDTOs == null) {
-            return null;
-        }
         return EMPLOYEE_MAPPER.toEntities(employeeDTOs);
     }
 
     // Mappage for Employee with Venue and its DTO
     @IterableMapping(elementTargetType = EmployeeDTO.class)
     default Set<EmployeeDTO> toEmployeeDTO(Venue venue) {
-        if (venue == null) {
-            return null;
-        }
-        return toEmployeeDTOs(venue.getEmployees());
+        Set<Employee> employees = venue.getEmployees();
+        if (employees == null)
+            throw new IllegalArgumentException("Venue employees cannot be null");
+        return toEmployeeDTOs(employees);
     }
 
     default Set<Employee> toEmployee(VenueDTO venueDTO) {
-        if (venueDTO == null) {
-            return null;
-        }
-        return toEmployees(venueDTO.getEmployees());
+        Set<EmployeeDTO> employeesDTO = venueDTO.getEmployees();
+        if (employeesDTO == null)
+            throw new IllegalArgumentException("Venue employees cannot be null");
+        return toEmployees(employeesDTO);
     }
 
 }

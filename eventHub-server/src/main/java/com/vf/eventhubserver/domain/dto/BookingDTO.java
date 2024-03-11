@@ -5,7 +5,7 @@ import java.util.Set;
 import com.vf.eventhubserver.domain.model.Customer;
 import com.vf.eventhubserver.domain.model.TicketReservation;
 
-public record BookingDTO(Long id, Timestamp booking_creationTimestamp, Customer customer,
-        Set<TicketReservation> reservations) {
+public record BookingDTO(Long id, Timestamp bookingCreationTimestamp, Customer customer,
+                Set<TicketReservation> reservations) {
 
 }

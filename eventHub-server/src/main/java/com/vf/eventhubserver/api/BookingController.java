@@ -20,7 +20,9 @@ import com.vf.eventhubserver.exception.FinderException;
 import com.vf.eventhubserver.exception.NullException;
 
 
-
+/**
+ * Controller for Booking.
+ */
 @CrossOrigin
 @RestController
 @RequestMapping("/api/bookings")
@@ -46,53 +48,50 @@ public class BookingController {
     /**
      * Creates a booking for a customer
      * 
-     * @param customer_id
+     * @param customerId
      * @param reservationKeyDTO
      * @return
      * @throws FinderException
      * @throws IllegalArgumentException
      * @throws NullException
      */
-    @PostMapping("/customer/{customer_id}/reservationKey")
-    public ResponseEntity<BookingDTO> createBookingForCustomerId(@PathVariable Long customer_id,
+    @PostMapping("/customer/{customerId}/reservationKey")
+    public ResponseEntity<BookingDTO> createBookingForCustomerId(@PathVariable Long customerId,
             @RequestBody TicketReservationKeyDTO reservationKeyDTO)
             throws FinderException, IllegalArgumentException, NullException {
-        BookingDTO bookingDTO = bookingService.createBooking(customer_id, reservationKeyDTO);
+        BookingDTO bookingDTO = bookingService.createBooking(customerId, reservationKeyDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(bookingDTO);
     }
 
     /**
      * Adds a Ticket_Reservation to a booking
      * 
-     * @param booking_id
+     * @param bookingId
      * @param reservationKeyDTO
      * @return
      * @throws FinderException
      */
-    @PostMapping("/{booking_id}/reservationKey")
-    public ResponseEntity<BookingDTO> addReservationToBooking(@PathVariable Long booking_id,
+    @PostMapping("/{bookingId}/reservationKey")
+    public ResponseEntity<BookingDTO> addReservationToBooking(@PathVariable Long bookingId,
             @RequestBody TicketReservationKeyDTO reservationKeyDTO) throws FinderException {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(bookingService.addReservation(booking_id, reservationKeyDTO));
+                .body(bookingService.addReservation(bookingId, reservationKeyDTO));
 
     }
 
     /**
      * Deletes a Ticket_Reservation from a booking. the last reservation deletes the booking.
      * 
-     * @param booking_id
+     * @param bookingId
      * @param reservationKeyDTO
      * @return a BookingDTO object with status code 200 if other reservations are found, or a 204 No
      *         Content response if no reservations exist after the delete.
      * @throws FinderException
      */
-    @DeleteMapping("/{booking_id}/reservationKey")
-    public ResponseEntity<BookingDTO> deleteReservationFromBooking(@PathVariable Long booking_id,
+    @DeleteMapping("/{bookingId}/reservationKey")
+    public ResponseEntity<BookingDTO> deleteReservationFromBooking(@PathVariable Long bookingId,
             @RequestBody TicketReservationKeyDTO reservationKeyDTO) throws FinderException {
-        BookingDTO bookingDTO = bookingService.deleteReservation(booking_id, reservationKeyDTO);
-        if (bookingDTO == null) {
-            return ResponseEntity.noContent().build();
-        }
+        BookingDTO bookingDTO = bookingService.deleteReservation(bookingId, reservationKeyDTO);
         return ResponseEntity.ok(bookingDTO);
     }
 
@@ -105,9 +104,6 @@ public class BookingController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteBookingById(@PathVariable Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Id cannot be null");
-        }
         bookingService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

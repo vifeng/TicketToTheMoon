@@ -3,9 +3,7 @@ package com.vf.eventhubserver.domain.service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vf.eventhubserver.domain.dao.CustomerRepository;
 import com.vf.eventhubserver.domain.dto.CustomerDTO;
 import com.vf.eventhubserver.domain.model.Customer;
@@ -24,46 +22,59 @@ import jakarta.transaction.Transactional;
 public class CustomerService {
     private CustomerRepository customerRepository;
     private CustomerMapper customerMapper;
-    private ObjectMapper objectMapper;
+    static final String NOTFOUNDMSG = "} not found";
+    static final String CUSTMSG = "Customer with id {";
+    static final String CUSTFMSG = "Customer with {";
+    static final String CUNULLMSG = "Customer is null";
 
-    public CustomerService(CustomerRepository customerRepository, CustomerMapper customerMapper,
-            ObjectMapper objectMapper) {
+
+    public CustomerService(CustomerRepository customerRepository, CustomerMapper customerMapper) {
         this.customerRepository = customerRepository;
         this.customerMapper = customerMapper;
-        this.objectMapper = objectMapper;
     }
 
     public List<CustomerDTO> findAll() throws FinderException {
         Iterable<Customer> customers = customerRepository.findAll();
         int size = ((Collection<Customer>) customers).size();
         if (size == 0) {
-            throw new FinderException("No Customers in the database");
+            throw new NullException("No Customers in the database");
         }
-        List<CustomerDTO> customerDTOs = customerMapper.toDTOs(customers);
-        return customerDTOs;
+        return customerMapper.toDTOs(customers);
     }
 
-    public CustomerDTO findById(@NonNull Long id) throws FinderException {
+    public CustomerDTO findById(Long id) throws FinderException {
         Customer customer = customerRepository.findById(id)
-                .orElseThrow(() -> new FinderException("Customer with id {" + id + "} not found"));
+                .orElseThrow(() -> new FinderException(CUSTMSG + id + NOTFOUNDMSG));
+        if (customer == null) {
+            throw new NullException(CUSTMSG + id + CUNULLMSG);
+        }
         return customerMapper.toDTO(customer);
     }
 
     public CustomerDTO findByEmail(String email) throws FinderException {
         Customer customer = customerRepository.findByEmail(email).orElseThrow(
-                () -> new FinderException("Customer with email {" + email + "} not found"));
+                () -> new FinderException("Customer with email {" + email + NOTFOUNDMSG));
+        if (customer == null) {
+            throw new NullException(CUSTFMSG + email + CUNULLMSG);
+        }
         return customerMapper.toDTO(customer);
     }
 
     public CustomerDTO findByPhone(String phone) throws FinderException {
         Customer customer = customerRepository.findByPhoneNumber(phone).orElseThrow(
-                () -> new FinderException("Customer with phone {" + phone + "} not found"));
+                () -> new FinderException("Customer with phone {" + phone + NOTFOUNDMSG));
+        if (customer == null) {
+            throw new NullException(CUSTFMSG + phone + CUNULLMSG);
+        }
         return customerMapper.toDTO(customer);
     }
 
     public CustomerDTO findByUsername(String username) throws FinderException {
         Customer customer = customerRepository.findByUsername(username).orElseThrow(
-                () -> new FinderException("Customer with username {" + username + "} not found"));
+                () -> new FinderException("Customer with username {" + username + NOTFOUNDMSG));
+        if (customer == null) {
+            throw new NullException(CUSTFMSG + username + CUNULLMSG);
+        }
         return customerMapper.toDTO(customer);
     }
 
@@ -73,14 +84,18 @@ public class CustomerService {
             if (customerDTO.id() != null) {
                 throw new IllegalArgumentException("Customer id must be null");
             }
-            if (customerExists(customerDTO.email(), customerDTO.phoneNumber())) {
-                throw new DuplicateKeyException("Customer with email" + customerDTO.email()
-                        + " and phone " + customerDTO.phoneNumber() + " already exists");
+            String email = customerDTO.email();
+            String phoneNumber = customerDTO.phoneNumber();
+            if (email == null || phoneNumber == null) {
+                throw new IllegalArgumentException("Customer email and phone number must be set");
+            }
+            if (customerExists(email, phoneNumber)) {
+                throw new DuplicateKeyException("Customer with email" + email + " and phone "
+                        + phoneNumber + " already exists");
             }
             Customer customer = customerMapper.toEntity(customerDTO);
             Customer savedCustomer = customerRepository.save(customer);
-            CustomerDTO savedCustomerDTO = customerMapper.toDTO(savedCustomer);
-            return savedCustomerDTO;
+            return customerMapper.toDTO(savedCustomer);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Customer is not created : " + e.getMessage(), e);
         } catch (Exception e) {
@@ -105,37 +120,32 @@ public class CustomerService {
     public CustomerDTO updateCustomer(Long id, CustomerDTO customerUpdate)
             throws IllegalArgumentException, UpdateException, FinderException {
         try {
-            if (id == null) {
-                throw new NullException("Customer id cannot be null");
-            } else {
-                Optional<Customer> optionalCustomer = customerRepository.findById(id);
-                if (!optionalCustomer.isPresent()) {
-                    throw new FinderException("Customer with id {" + id + "} not found");
-                }
-                Customer updatedCustomer = customerMapper.toEntity(customerUpdate);
-                Customer savedCustomer = customerRepository.save(updatedCustomer);
-                return customerMapper.toDTO(savedCustomer);
+            Optional<Customer> optionalCustomer = customerRepository.findById(id);
+            if (!optionalCustomer.isPresent()) {
+                throw new FinderException(CUSTMSG + id + NOTFOUNDMSG);
             }
-
+            Customer updatedCustomer = customerMapper.toEntity(customerUpdate);
+            Customer savedCustomer = customerRepository.save(updatedCustomer);
+            return customerMapper.toDTO(savedCustomer);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(
-                    "Customer with id {" + id + "} update failed" + e.getMessage(), e);
+            throw new IllegalArgumentException(CUSTMSG + id + "} update failed" + e.getMessage(),
+                    e);
         } catch (Exception e) {
-            throw new UpdateException(
-                    "Customer with id {" + id + "} update failed" + e.getMessage(), e);
+            throw new UpdateException(CUSTMSG + id + "} update failed" + e.getMessage(), e);
         }
     }
 
-    /////////////////////////
     public CustomerDTO patchCustomer(Long id, CustomerDTO customerDTO)
             throws IllegalArgumentException, CreateException, FinderException {
         try {
             Optional<Customer> customerOptional = customerRepository.findById(id);
             if (!customerOptional.isPresent()) {
-                throw new FinderException("Customer with id {" + customerDTO.id() + "} not found");
+                throw new FinderException(CUSTMSG + customerDTO.id() + NOTFOUNDMSG);
             }
-
             Customer existingCustomer = customerOptional.get();
+            if (existingCustomer == null) {
+                throw new IllegalArgumentException(CUNULLMSG);
+            }
             if (customerDTO.firstName() != null)
                 existingCustomer.setFirstName(customerDTO.firstName());
             if (customerDTO.lastName() != null)
@@ -158,6 +168,7 @@ public class CustomerService {
             }
             if (customerDTO.creditCardNumber() != null)
                 existingCustomer.setCreditCardNumber(customerDTO.creditCardNumber());
+
             Customer savedCustomer = customerRepository.save(existingCustomer);
             return customerMapper.toDTO(savedCustomer);
         } catch (FinderException e) {
@@ -172,15 +183,16 @@ public class CustomerService {
 
     public void deleteCustomer(Long id)
             throws FinderException, IllegalArgumentException, RemoveException {
+
         try {
             customerRepository.getReferenceById(id);
             customerRepository.deleteById(id);
         } catch (EntityNotFoundException e) {
-            throw new FinderException("Customer with id {" + id + "} not found");
+            throw new FinderException(CUSTMSG + id + NOTFOUNDMSG);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Customer with id {" + id + "} not found");
+            throw new IllegalArgumentException(CUSTMSG + id + NOTFOUNDMSG);
         } catch (Exception e) {
-            throw new RemoveException("Customer with id {" + id + "} not removed");
+            throw new RemoveException(CUSTMSG + id + "} not removed");
         }
     }
 }

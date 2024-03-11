@@ -20,7 +20,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest
-public class IndexControllerTest {
+@SuppressWarnings("null")
+class IndexControllerTest {
         private MockMvc mockMvc;
         String baseUrl = "http://localhost:8080/api/";
 
@@ -36,7 +37,7 @@ public class IndexControllerTest {
         }
 
         @Test
-        public void testIndex() throws Exception {
+        void testIndex() throws Exception {
                 mockMvc.perform(get(baseUrl)).andExpect(status().isOk())
                                 .andDo(document("index-get", preprocessRequest(prettyPrint()),
                                                 preprocessResponse(prettyPrint())));;

@@ -24,7 +24,9 @@ import com.vf.eventhubserver.exception.UpdateException;
 public class EmployeeService {
     private EmployeeRepository employeeRepository;
     private EmployeeMapper employeeMapper;
-
+    static final String EMPMSG = "Employee with id {";
+    static final String NOTFOUNDMSG = "} not found";
+    static final String EMPNULL = "Employee cannot be null";
 
     public EmployeeService(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) {
         this.employeeRepository = employeeRepository;
@@ -40,8 +42,7 @@ public class EmployeeService {
         if (size == 0) {
             throw new FinderException("No Employees in the database");
         }
-        Set<EmployeeDTO> employeeDTOs = employeeMapper.toDTOs(employees);
-        return employeeDTOs;
+        return employeeMapper.toDTOs(employees);
 
     }
 
@@ -51,7 +52,10 @@ public class EmployeeService {
      */
     public EmployeeDTO findById(Long id) throws FinderException {
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new FinderException("Employee with id {" + id + "} not found"));
+                .orElseThrow(() -> new FinderException(EMPMSG + id + NOTFOUNDMSG));
+        if (employee == null) {
+            throw new NullException(EMPNULL);
+        }
         return employeeMapper.toDTO(employee);
     }
 
@@ -66,8 +70,7 @@ public class EmployeeService {
         try {
             Employee employee = employeeMapper.toEntity(employeeDTO);
             Employee savedEmployee = employeeRepository.save(employee);
-            EmployeeDTO savedEmployeeDTO = employeeMapper.toDTO(savedEmployee);
-            return savedEmployeeDTO;
+            return employeeMapper.toDTO(savedEmployee);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Employee is not created : " + e.getMessage(), e);
         } catch (Exception e) {
@@ -88,25 +91,20 @@ public class EmployeeService {
     public EmployeeDTO updateEmployee(Long id, EmployeeDTO employeeDTOUpdate)
             throws FinderException, UpdateException, IllegalArgumentException {
         try {
-            if (id == null) {
-                throw new NullException("Employee " + id + " cannot be null");
-            } else {
-                Optional<Employee> optionalEmployee = employeeRepository.findById(id);
-                if (!optionalEmployee.isPresent()) {
-                    throw new FinderException("Employee with id {" + id + "} not found");
-                }
-                Employee updatedEmployee = employeeMapper.toEntity(employeeDTOUpdate);
-                Employee savedEmployee = employeeRepository.save(updatedEmployee);
-                return employeeMapper.toDTO(savedEmployee);
+            Optional<Employee> optionalEmployee = employeeRepository.findById(id);
+            if (!optionalEmployee.isPresent()) {
+                throw new FinderException(EMPMSG + id + NOTFOUNDMSG);
             }
+            Employee updatedEmployee = employeeMapper.toEntity(employeeDTOUpdate);
+            Employee savedEmployee = employeeRepository.save(updatedEmployee);
+            return employeeMapper.toDTO(savedEmployee);
         } catch (FinderException e) {
             throw new FinderException(e.getMessage(), e);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(
-                    "Employee with id {" + id + "} update failed : " + e.getMessage(), e);
+            throw new IllegalArgumentException(EMPMSG + id + "} update failed : " + e.getMessage(),
+                    e);
         } catch (Exception e) {
-            throw new UpdateException(
-                    "Employee with id {" + id + "} update failed : " + e.getMessage(), e);
+            throw new UpdateException(EMPMSG + id + "} update failed : " + e.getMessage(), e);
         }
 
     }
@@ -128,22 +126,26 @@ public class EmployeeService {
             Optional<Employee> optionalEmployee = employeeRepository.findById(id);
             if (optionalEmployee.isPresent()) {
                 employeePatch.forEach((key, value) -> {
-                    Field field = ReflectionUtils.findField(Employee.class, key);
-                    ReflectionUtils.makeAccessible(field);
-                    if (value != null)
-                        ReflectionUtils.setField(field, optionalEmployee.get(), value);
+                    if (key != null) {
+                        Field field = ReflectionUtils.findField(Employee.class, key);
+                        if (field != null) {
+                            ReflectionUtils.makeAccessible(field);
+                            if (value != null)
+                                ReflectionUtils.setField(field, optionalEmployee.get(), value);
+                        }
+                    }
                 });
+                @SuppressWarnings("null")
                 Employee patchEmployee = employeeRepository.save(optionalEmployee.get());
                 return employeeMapper.toDTO(patchEmployee);
             } else {
-                throw new FinderException("Employee with id {" + id + "} not found");
+                throw new FinderException(EMPMSG + id + NOTFOUNDMSG);
             }
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(
-                    "Employee with id {" + id + "} patch failed : " + e.getMessage(), e);
-        } catch (Exception e) {
-            throw new PatchException("Employee with id {" + id + "} patch failed" + e.getMessage(),
+            throw new IllegalArgumentException(EMPMSG + id + "} patch failed : " + e.getMessage(),
                     e);
+        } catch (Exception e) {
+            throw new PatchException(EMPMSG + id + "} patch failed" + e.getMessage(), e);
         }
     }
 
@@ -158,15 +160,17 @@ public class EmployeeService {
         try {
             Optional<Employee> optionalEmployee = employeeRepository.findById(id);
             if (optionalEmployee.isPresent()) {
-                Employee eemployeeToDelete = optionalEmployee.get();
-                employeeRepository.delete(eemployeeToDelete);
-                return employeeMapper.toDTO(eemployeeToDelete);
+                Employee employeeToDelete = optionalEmployee.get();
+                if (employeeToDelete == null) {
+                    throw new NullException(EMPNULL);
+                }
+                employeeRepository.delete(employeeToDelete);
+                return employeeMapper.toDTO(employeeToDelete);
             } else {
-                throw new FinderException("Employee with id {" + id + "} not found");
+                throw new FinderException(EMPMSG + id + NOTFOUNDMSG);
             }
         } catch (Exception e) {
-            throw new RemoveException(
-                    "Employee with id {" + id + "} delete failed" + e.getMessage(), e);
+            throw new RemoveException(EMPMSG + id + "} delete failed" + e.getMessage(), e);
         }
     }
 

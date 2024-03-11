@@ -34,7 +34,7 @@ public class Seat implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "Seat_Status_FK")
-    private SeatStatus seat_Status;
+    private SeatStatus seatStatus;
 
 
     public Seat() {}
@@ -44,7 +44,7 @@ public class Seat implements Serializable {
      * isSeated placement
      */
     public Seat(Long id, boolean isSeated, int seatNo, char rowNo, CategorySpatial categorySpatial,
-            CategoryTariff categoryTariff, SeatStatus seat_status,
+            CategoryTariff categoryTariff, SeatStatus seatStatus,
             ConfigurationHall configurationHall) {
         setId(id);
         if (isSeated) {
@@ -56,7 +56,7 @@ public class Seat implements Serializable {
         }
         setCategorySpatial(categorySpatial);
         setCategoryTariff(categoryTariff);
-        setSeat_Status(seat_status);
+        setSeatStatus(seatStatus);
         setConfigurationHall(configurationHall);
     }
 
@@ -65,7 +65,7 @@ public class Seat implements Serializable {
      * Constructor without id.
      */
     public Seat(boolean isSeated, int seatNo, char rowNo, CategorySpatial categorySpatial,
-            CategoryTariff categoryTariff, SeatStatus seat_status,
+            CategoryTariff categoryTariff, SeatStatus seatStatus,
             ConfigurationHall configurationHall) {
         if (isSeated) {
             setIsSeated(isSeated);
@@ -76,7 +76,7 @@ public class Seat implements Serializable {
         }
         setCategorySpatial(categorySpatial);
         setCategoryTariff(categoryTariff);
-        setSeat_Status(seat_status);
+        setSeatStatus(seatStatus);
         setConfigurationHall(configurationHall);
     }
 
@@ -135,12 +135,12 @@ public class Seat implements Serializable {
         this.categoryTariff = categoryTariff;
     }
 
-    public SeatStatus getSeat_Status() {
-        return seat_Status;
+    public SeatStatus getSeatStatus() {
+        return seatStatus;
     }
 
-    public void setSeat_Status(SeatStatus seat_Status) {
-        this.seat_Status = seat_Status;
+    public void setSeatStatus(SeatStatus seatStatus) {
+        this.seatStatus = seatStatus;
     }
 
     public ConfigurationHall getConfigurationHall() {
@@ -187,8 +187,8 @@ public class Seat implements Serializable {
     public String toString() {
         return "Seat [id=" + id + ", isSeated=" + isSeated + ", rowNo=" + rowNo + ", seatNo="
                 + seatNo + ", configurationHall=" + configurationHall + ", categorySpatial="
-                + categorySpatial + ", categoryTariff=" + categoryTariff + ", seat_Status="
-                + seat_Status + "]";
+                + categorySpatial + ", categoryTariff=" + categoryTariff + ", seatStatus="
+                + seatStatus + "]";
     }
 
 }

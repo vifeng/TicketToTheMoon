@@ -1,6 +1,7 @@
 package com.vf.eventhubserver.api;
 
 import java.util.List;
+import java.util.Objects;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -68,9 +69,6 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO customerDTO)
             throws NullException, CreateException {
-        if (customerDTO == null) {
-            throw new NullException("CustomerDTO post is null");
-        }
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(customerService.createCustomer(customerDTO));
     }
@@ -79,10 +77,7 @@ public class CustomerController {
     public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable Long id,
             @RequestBody CustomerDTO customerUpdateDTO)
             throws NullException, FinderException, UpdateException, IllegalArgumentException {
-        if (customerUpdateDTO == null || id == null) {
-            throw new NullException("CustomerDTO update is null");
-        }
-        if (customerUpdateDTO.id() != id) {
+        if (!Objects.equals(customerUpdateDTO.id(), id)) {
             throw new IllegalArgumentException("Customer id and query id is not the same");
         }
         return ResponseEntity.ok(customerService.updateCustomer(id, customerUpdateDTO));
@@ -93,9 +88,6 @@ public class CustomerController {
     public ResponseEntity<CustomerDTO> patchCustomer(@PathVariable Long id,
             @RequestBody CustomerDTO customerPatch)
             throws NullException, FinderException, UpdateException, IllegalArgumentException {
-        if (customerPatch == null || id == null) {
-            throw new NullException("Customer patch is null or empty");
-        }
         return ResponseEntity.ok(customerService.patchCustomer(id, customerPatch));
     }
 

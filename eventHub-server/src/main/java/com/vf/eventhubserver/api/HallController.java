@@ -59,8 +59,6 @@ public class HallController {
     @PutMapping("/halls/{id}")
     public ResponseEntity<HallDTO> updateHall(@PathVariable Long id, @RequestBody HallDTO hallDTO)
             throws FinderException, NullException, UpdateException, IllegalArgumentException {
-        if (hallDTO == null)
-            throw new NullException("Hall update is null");
         return ResponseEntity.ok(hallService.updateHall(id, hallDTO));
     }
 
@@ -68,7 +66,7 @@ public class HallController {
     public ResponseEntity<HallDTO> patchHall(@PathVariable Long id,
             @RequestBody Map<String, Object> hallPatch)
             throws FinderException, NullException, PatchException, IllegalArgumentException {
-        if (hallPatch == null || hallPatch.isEmpty())
+        if (hallPatch.isEmpty())
             throw new NullException("Hall patch is null");
         return ResponseEntity.ok(hallService.patchHall(id, hallPatch));
     }
@@ -76,7 +74,6 @@ public class HallController {
     @DeleteMapping("/halls/{id}")
     public ResponseEntity<Void> deleteHall(@PathVariable Long id)
             throws FinderException, RemoveException {
-        // TODO_END: at the end because of the cascade
         hallService.deleteHall(id);
         return ResponseEntity.noContent().build();
     }
@@ -96,26 +93,24 @@ public class HallController {
      * @throws FinderException
      * @throws IllegalArgumentException
      */
-    @PostMapping("/venues/{venue_id}/halls")
-    public ResponseEntity<HallDTO> createHallForVenueId(@PathVariable Long venue_id,
+    @PostMapping("/venues/{venueId}/halls")
+    public ResponseEntity<HallDTO> createHallForVenueId(@PathVariable Long venueId,
             @RequestBody HallDTO hallDTO) throws NullException, CreateException, FinderException,
             IllegalArgumentException, DuplicateKeyException {
-        if (hallDTO == null)
-            throw new NullException("Hall post is null");
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(hallService.createHall(venue_id, hallDTO));
+                .body(hallService.createHall(venueId, hallDTO));
     }
 
     /**
-     * @apiNote Get all Halls by Venue - /venues/{venue_id}/halls
+     * @apiNote Get all Halls by Venue - /venues/{venueId}/halls
      * @param id
      * @return List<HallDTO>
      * @throws FinderException
      */
-    @GetMapping("/venues/{venue_id}/halls")
-    public ResponseEntity<List<HallDTO>> getHallsByVenue(@PathVariable Long venue_id)
+    @GetMapping("/venues/{venueId}/halls")
+    public ResponseEntity<List<HallDTO>> getHallsByVenue(@PathVariable Long venueId)
             throws FinderException {
-        return ResponseEntity.ok(hallService.findHallsByVenueId(venue_id));
+        return ResponseEntity.ok(hallService.findHallsByVenueId(venueId));
     }
 
 

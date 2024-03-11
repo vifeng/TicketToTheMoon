@@ -16,32 +16,31 @@ import com.vf.eventhubserver.exception.FinderException;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/paymentStatus_category")
+@RequestMapping("/api/paymentStatus")
 @Validated
 public class PaymentStatusController {
 
-    private final PaymentStatusService paymentStatus_categoryService;
+    private final PaymentStatusService paymentStatusService;
 
-    public PaymentStatusController(PaymentStatusService paymentStatus_categoryService) {
-        this.paymentStatus_categoryService = paymentStatus_categoryService;
+    public PaymentStatusController(PaymentStatusService paymentStatusService) {
+        this.paymentStatusService = paymentStatusService;
     }
 
     @GetMapping
-    public ResponseEntity<List<PaymentStatusDTO>> getAllPaymentStatus_categorys()
-            throws FinderException {
-        return ResponseEntity.ok(paymentStatus_categoryService.findAll());
+    public ResponseEntity<List<PaymentStatusDTO>> getAllPaymentStatus() throws FinderException {
+        return ResponseEntity.ok(paymentStatusService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PaymentStatusDTO> getPaymentStatus_categoryById(@PathVariable Long id)
+    public ResponseEntity<PaymentStatusDTO> getPaymentStatusById(@PathVariable Long id)
             throws FinderException {
-        return ResponseEntity.ok(paymentStatus_categoryService.findById(id));
+        return ResponseEntity.ok(paymentStatusService.findById(id));
     }
 
     @GetMapping("/status/{status}")
-    public ResponseEntity<PaymentStatusDTO> getPaymentStatus_categoryByName(
-            @PathVariable String status) throws FinderException {
-        return ResponseEntity.ok(paymentStatus_categoryService.findByPaymentStatusName(status));
+    public ResponseEntity<PaymentStatusDTO> getPaymentStatusByName(@PathVariable String status)
+            throws FinderException {
+        return ResponseEntity.ok(paymentStatusService.findByPaymentStatusName(status));
     }
 
 

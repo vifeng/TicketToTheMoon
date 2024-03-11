@@ -1,7 +1,6 @@
 package com.vf.eventhubserver.domain.model;
 
 import java.io.Serializable;
-import org.springframework.lang.NonNull;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -20,7 +19,7 @@ public class TicketReservationKey implements Serializable {
 
     public TicketReservationKey() {}
 
-    public TicketReservationKey(@NonNull Seat seatId, @NonNull SessionEvent sessionEventId) {
+    public TicketReservationKey(Seat seatId, SessionEvent sessionEventId) {
         this.seatId = seatId;
         this.sessionEventId = sessionEventId;
     }
@@ -39,11 +38,11 @@ public class TicketReservationKey implements Serializable {
         return sessionEventId;
     }
 
-    public void setSeatId(@NonNull Seat seatId) {
+    public void setSeatId(Seat seatId) {
         this.seatId = seatId;
     }
 
-    public void setSessionEventId(@NonNull SessionEvent sessionEventId) {
+    public void setSessionEventId(SessionEvent sessionEventId) {
         this.sessionEventId = sessionEventId;
     }
 

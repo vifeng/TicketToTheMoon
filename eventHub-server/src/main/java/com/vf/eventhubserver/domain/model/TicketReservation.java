@@ -1,7 +1,6 @@
 package com.vf.eventhubserver.domain.model;
 
 import java.io.Serializable;
-import org.springframework.lang.NonNull;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 
@@ -22,8 +21,8 @@ public class TicketReservation implements Serializable {
 
     public TicketReservation() {}
 
-    public TicketReservation(TicketReservationKey ticket_ReservationKey, boolean isBooked) {
-        this.id = ticket_ReservationKey;
+    public TicketReservation(TicketReservationKey ticketReservationKey, boolean isBooked) {
+        this.id = ticketReservationKey;
         setIsBooked(isBooked);
     }
 
@@ -39,21 +38,9 @@ public class TicketReservation implements Serializable {
         return id;
     }
 
-    public void setId(@NonNull TicketReservationKey id) {
+    public void setId(TicketReservationKey id) {
         this.id = id;
     }
-
-    // public Seat getSeatId() {
-    // return this.id.getSeatId();
-    // }
-
-    // public SessionEvent getSessionEventId() {
-    // return this.id.getSessionEventId();
-    // }
-
-
-    // end of composite key getters
-
 
     public boolean getIsBooked() {
         return isBooked;
