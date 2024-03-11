@@ -36,13 +36,13 @@ Table of contents
 
 TicketToTheMoon is a ticket office website. Main features are :
 
-- tickettothemoon_FrontEnd : a front office aimed at the public to buy tickets from and a back office for venues to operate their shows.
-- eventhubserver : REST API to manage the data.
+- Eventhub-client : A platform for venue staff to sell tickets to their events and for the public to buy them.
+- Eventhub-server : A REST API to manage the data. 
 
 ## Documentation
 
 [Documentation] https://github.com/vifeng/TicketToTheMoon/tree/main/documentation  
-README files are available in each folder to explain its purpose.
+README files are available.
 
 ## Build with
 
@@ -83,16 +83,16 @@ clone the project
 Backend
 
 ```sh
-   cd eventhubserver
+   cd EVENTHUB-SERVER
    gradle bootRun
 ```
 
-Access to the backend API [http://localhost:8080](http://localhost:8080) in your browser.
+Access to the backend API [http://localhost:8080/api](http://localhost:8080/api) in your browser.
 
 Frontend
 
 ```sh
-   cd tickettothemoon_FrontEnd
+   cd EVENTHUB-CLIENT
    npm run dev
 ```
 
@@ -108,6 +108,7 @@ or you could use the ./start.sh script to run both
 
 I have use the in memory database H2 for the moment. Once the application is up and running, visit the [h2-console](http://localhost:8080/h2-console) in your browser.
 
+[Configuration](./eventHub-server/src/main/resources/application.properties)
 </br>
 
 # Few commands
@@ -174,7 +175,7 @@ More information is to be found in the [documentation section](https://github.co
 
 ## Versions and platform support
 
-More information is to be found in the [documentation section](https://github.com/vifeng/TicketToTheMoon/blob/main/documentation/).
+More information is to be found in the [repository wiki](https://github.com/vifeng/TicketToTheMoon/wiki)
 
 ## Tests results
 

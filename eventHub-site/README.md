@@ -38,7 +38,7 @@ npm install
 
 ### Compile and Hot-Reload for Development
 
-Of course please run back-end first !
+Of course please run evenhub-server first !
 
 ```sh
 npm run dev
