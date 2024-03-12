@@ -74,7 +74,7 @@ public class EmployeeService {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Employee is not created : " + e.getMessage(), e);
         } catch (Exception e) {
-            throw new CreateException("Employee is not created" + e.getMessage(), e);
+            throw new CreateException("Employee is not created : " + e.getMessage(), e);
         }
     }
 
