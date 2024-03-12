@@ -3,9 +3,10 @@ plugins {
 	war
 	id("org.asciidoctor.jvm.convert") version "3.3.2"
 	id("org.springframework.boot") version "3.1.0"
+	id("org.flywaydb.flyway") version "10.0.0"
 }
-apply(plugin = "io.spring.dependency-management")
 
+apply(plugin = "io.spring.dependency-management")
 
 group = "com.vf"
 version = "0.0.1-SNAPSHOT"
