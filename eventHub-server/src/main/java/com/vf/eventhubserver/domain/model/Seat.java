@@ -1,6 +1,7 @@
 package com.vf.eventhubserver.domain.model;
 
 import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,9 +9,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-/**
- *
- */
 @Entity
 public class Seat implements Serializable {
     @Id
@@ -19,7 +17,7 @@ public class Seat implements Serializable {
     private boolean isSeated = false;
     private char rowNo;
     private int seatNo;
-    // relationships
+
     @ManyToOne
     @JoinColumn(name = "ConfigurationHall_FK")
     private ConfigurationHall configurationHall;
@@ -35,7 +33,6 @@ public class Seat implements Serializable {
     @ManyToOne
     @JoinColumn(name = "Seat_Status_FK")
     private SeatStatus seatStatus;
-
 
     public Seat() {}
 
@@ -60,10 +57,6 @@ public class Seat implements Serializable {
         setConfigurationHall(configurationHall);
     }
 
-
-    /*
-     * Constructor without id.
-     */
     public Seat(boolean isSeated, int seatNo, char rowNo, CategorySpatial categorySpatial,
             CategoryTariff categoryTariff, SeatStatus seatStatus,
             ConfigurationHall configurationHall) {
@@ -79,7 +72,6 @@ public class Seat implements Serializable {
         setSeatStatus(seatStatus);
         setConfigurationHall(configurationHall);
     }
-
 
     public Long getId() {
         return id;
@@ -112,12 +104,6 @@ public class Seat implements Serializable {
     public void setSeatNo(int seatNo) {
         this.seatNo = seatNo;
     }
-
-
-
-    ///////////////////
-    // RELATIONSHIPS //
-    ///////////////////
 
     public CategorySpatial getCategorySpatial() {
         return categorySpatial;
@@ -152,11 +138,6 @@ public class Seat implements Serializable {
             throw new IllegalArgumentException("ConfigurationHall cannot be null");
         this.configurationHall = configurationHall;
     }
-
-
-
-    // TODO: Tri selon disponibilité et prix. utiliser Comparator<E> qui permet de faire plusieurs
-    // tris.
 
     @Override
     public int hashCode() {

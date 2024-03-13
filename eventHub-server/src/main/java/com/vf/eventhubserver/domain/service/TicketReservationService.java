@@ -2,8 +2,10 @@ package com.vf.eventhubserver.domain.service;
 
 import java.util.Collection;
 import java.util.Set;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.vf.eventhubserver.domain.dao.SeatRepository;
 import com.vf.eventhubserver.domain.dao.SeatStatusRepository;
 import com.vf.eventhubserver.domain.dao.SessionEventRepository;
@@ -32,7 +34,6 @@ public class TicketReservationService {
     static final String NOTFOUNDMSG = "} not found";
     static final String TRNULLMSG = "TicketReservation is null";
 
-
     public TicketReservationService(TicketReservationRepository ticketReservationRepository,
             TicketReservationMapper ticketReservationMapper, SeatRepository seatRepository,
             SessionEventRepository sessionEventRepository,
@@ -44,7 +45,6 @@ public class TicketReservationService {
         this.seatStatusRepository = seatStatusRepository;
     }
 
-
     public Set<TicketReservationDTO> findAll() throws FinderException {
         Iterable<TicketReservation> ticketReservations = ticketReservationRepository.findAll();
         int size = ((Collection<TicketReservation>) ticketReservations).size();
@@ -52,8 +52,6 @@ public class TicketReservationService {
             throw new FinderException("No ticketReservations in the database");
         return ticketReservationMapper.toDTOs(ticketReservations);
     }
-
-
 
     public TicketReservationDTO findById(Long sessioneventId, Long seatId) throws FinderException {
         Seat seat = seatRepository.findById(seatId)
@@ -71,7 +69,6 @@ public class TicketReservationService {
         }
         return ticketReservationMapper.toDTO(ticketReservation);
     }
-
 
     @SuppressWarnings("null")
     public TicketReservationDTO createTicketReservation(TicketReservationDTO ticketReservationDTO)
@@ -103,15 +100,9 @@ public class TicketReservationService {
         ticketReservationRepository.deleteById(id);
     }
 
-    // TOFINISH: PUT, PATCH, DELETE
-
-
-    // UTILITIES
     public void changeSeatsStatus(TicketReservation ticketReservation, String status)
             throws UpdateException {
         try {
-            // TODO_LOW : use SeatStatusService when it will be created
-            // change the seat availbitity to true
             Seat seat = ticketReservation.getId().getSeatId();
             SeatStatus seatStatusAvailable = seatStatusRepository.findByName(status);
             seat.setSeatStatus(seatStatusAvailable);
@@ -121,7 +112,6 @@ public class TicketReservationService {
                     "Error while rolling over seats availability: " + e.getMessage());
         }
     }
-
 
     /**
      * Seat Status are :

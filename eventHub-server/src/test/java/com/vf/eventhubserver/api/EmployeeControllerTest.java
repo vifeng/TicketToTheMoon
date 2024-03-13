@@ -15,8 +15,10 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.util.StringUtils.collectionToDelimitedString;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,6 +32,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vf.eventhubserver.domain.model.Employee;
 
@@ -41,7 +44,6 @@ class EmployeeControllerTest {
         @Autowired
         private ObjectMapper objectMapper;
         String baseUrl = "http://localhost:8080/api/";
-
 
         @BeforeEach
         public void setUp(WebApplicationContext webApplicationContext,
@@ -63,7 +65,6 @@ class EmployeeControllerTest {
                 employee.put("password", "secretpwD%1");
                 employee.put("email", "mymail@mail.fr");
 
-
                 @SuppressWarnings("unused")
                 String employees = this.mockMvc
                                 .perform(post(baseUrl + "employees")
@@ -74,9 +75,6 @@ class EmployeeControllerTest {
                                 .getHeader("Location");
         }
 
-        // TODISCUSS : this doesn't use repository whereas the hallControllerTest does. which should
-        // be the best practice? Can we do something for .andDo(document(... to avoid repetition in
-        // the tests?
         @Test
         void employeesGet() throws Exception {
                 Map<String, Object> employee = new HashMap<>();

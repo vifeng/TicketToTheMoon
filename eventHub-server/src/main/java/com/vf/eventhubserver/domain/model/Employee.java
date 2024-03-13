@@ -1,6 +1,7 @@
 package com.vf.eventhubserver.domain.model;
 
 import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,7 +10,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-// REFACTOR: use the heritance strategy, and create a new class for the customer and the employee.
 @Entity
 public class Employee implements Serializable {
     @Id
@@ -30,8 +30,6 @@ public class Employee implements Serializable {
     @Email(message = "invalid email. Email must contain @ and .")
     private String email;
 
-
-
     public Employee() {}
 
     public Employee(Long id, String username, String password, String email) {
@@ -48,7 +46,6 @@ public class Employee implements Serializable {
 
     }
 
-    // Getters, Setters and toString
     public Long getId() {
         return id;
     }
@@ -80,8 +77,6 @@ public class Employee implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-
-
 
     @Override
     public int hashCode() {

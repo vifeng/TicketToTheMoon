@@ -6,8 +6,10 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
+
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+
 import com.vf.eventhubserver.domain.dao.BookingRepository;
 import com.vf.eventhubserver.domain.dao.CustomerRepository;
 import com.vf.eventhubserver.domain.dao.PaymentRepository;
@@ -27,33 +29,28 @@ import com.vf.eventhubserver.exception.DuplicateKeyException;
 import com.vf.eventhubserver.exception.FinderException;
 import com.vf.eventhubserver.exception.NullException;
 import com.vf.eventhubserver.exception.RemoveException;
+
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
-// TODISCUSS : How should I use Spring devtools for the development environment ? it doesn't reload
-// automatically.
-// REFACTOR : all services should depend on an abstract service that has the common methods.
 @Service
 @Transactional
 public class BookingService {
 
     BookingRepository bookingRepository;
     BookingMapper bookingMapper;
-    // TODISCUSS: this line actually throw a circular dependency error
-    // so I should not use services in other services maybe
-    // PaymentService paymentService;
     CustomerRepository customerRepository;
     TicketReservationMapper ticketReservationMapper;
     TicketReservationRepository ticketReservationRepository;
     TicketReservationService ticketReservationService;
     TicketReservationKeyMapper ticketReservationKeyMapper;
     PaymentRepository paymentRepository;
+
     static final String BKMSG = "Booking with id {";
     static final String TRMSG = "ticketReservation with id {";
     static final String NOTFOUNDMSG = "} not found";
     static final String TRNULLMSG = "ticketReservation is null";
     static final String BKNULLMSG = "Booking is null";
-
 
     public BookingService(BookingRepository bookingRepository, BookingMapper bookingMapper,
             CustomerRepository customerRepository, TicketReservationMapper ticketReservationMapper,
@@ -121,8 +118,6 @@ public class BookingService {
         return bookingMapper.toDTO(savedBooking);
     }
 
-
-
     public BookingDTO addReservation(Long bookingId, TicketReservationKeyDTO reservationKeyDTO)
             throws FinderException, IllegalArgumentException {
         Booking booking = bookingRepository.findById(bookingId)
@@ -137,7 +132,6 @@ public class BookingService {
             ticketReservation = ticketReservationRepository.findById(reservationKey).orElseThrow(
                     () -> new FinderException(TRMSG + reservationKeyDTO + NOTFOUNDMSG));
         }
-        // check for duplicate reservation
         if (booking.getReservations().contains(ticketReservation)) {
             throw new DuplicateKeyException("Reservation with id " + reservationKeyDTO
                     + " already exists in booking with id " + bookingId);
@@ -194,7 +188,6 @@ public class BookingService {
         return bookingMapper.toDTO(savedBooking);
     }
 
-
     /**
      * Delete a booking and its reservations from the database, rollback the seat status to
      * available. You cannot delete a booking if the payment has been made.
@@ -223,7 +216,6 @@ public class BookingService {
         }
     }
 
-
     // -----------------------------------------------------------------------------------------
     // UTILITIES METHODS
     // -----------------------------------------------------------------------------------------
@@ -242,9 +234,8 @@ public class BookingService {
     }
 
     /**
-     * Update the seat status of a reservation.
-     * 
-     * Example of status : "available", "booked", "sold", "unavailable"
+     * Update the seat status of a reservation. Example of status : "available", "booked", "sold",
+     * "unavailable"
      * 
      * @param reservation
      * @param status
@@ -344,7 +335,6 @@ public class BookingService {
     }
 
     /**
-     * 
      * @param bookingId
      * @return true if payment has been made, false if the payment is not made
      */

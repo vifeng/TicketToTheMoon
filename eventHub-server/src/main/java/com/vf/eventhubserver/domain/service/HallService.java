@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.vf.eventhubserver.domain.dao.HallRepository;
 import com.vf.eventhubserver.domain.dao.VenueRepository;
 import com.vf.eventhubserver.domain.dto.HallDTO;
@@ -35,9 +37,6 @@ public class HallService {
         this.venueRepository = venueRepository;
         this.hallMapper = hallMapper;
     }
-
-
-    // Service for Generic routes
 
     /**
      * Find all Halls - /halls
@@ -89,7 +88,6 @@ public class HallService {
                 Hall hallToUpdate = hallOptional.get();
                 hallToUpdate.setName(hallDTO.name());
                 hallToUpdate.setCapacityOfHall(hallDTO.capacityOfHall());
-                // check if Venue exist and is not null
                 if (hallDTO.venue() != null) {
                     @SuppressWarnings("null")
                     Optional<Venue> venue = venueRepository.findById(hallDTO.venue().id());
@@ -121,7 +119,6 @@ public class HallService {
      * @return HallDTO
      */
     public HallDTO patchHall(Long id, Map<String, Object> hallPatch) {
-        // TODO_LOW: patchAHall
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
@@ -137,12 +134,8 @@ public class HallService {
         if (hall == null) {
             throw new NullException(HALLMSG + id + HALLNULL);
         }
-        // FIXME: should delete configuration and events associated with the hall
         hallRepository.delete(hall);
     }
-
-
-    // Service for Restful routes
 
     /**
      * Create a Hall - /venues/{venueId}/halls
@@ -157,9 +150,6 @@ public class HallService {
     @SuppressWarnings("null")
     public HallDTO createHall(Long venueId, HallDTO hallDTO) throws IllegalArgumentException,
             CreateException, FinderException, DuplicateKeyException {
-        // TODISCUSS : Maybe checking the DTO id is enough, no need to check the DB ?
-
-        // checks
         venueRepository.getReferenceById(venueId);
         if (!Objects.equals(venueId, hallDTO.venue().id()))
             throw new IllegalArgumentException("IllegalArgumentException : Venue id {" + venueId
@@ -169,7 +159,6 @@ public class HallService {
         if (hallDTO.id() != null && hallRepository.existsById(hallDTO.id())) {
             throw new DuplicateKeyException(HALLMSG + hallDTO.id() + "} already exists");
         }
-        // create and save
         try {
             Hall hall = hallMapper.toEntity(hallDTO);
             Hall savedHall = hallRepository.save(hall);

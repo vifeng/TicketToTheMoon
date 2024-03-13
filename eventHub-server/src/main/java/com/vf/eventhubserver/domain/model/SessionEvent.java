@@ -2,6 +2,7 @@ package com.vf.eventhubserver.domain.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,10 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-/**
- * A session event is a session of an event. It has a date, an eventHour and a duration. It is part
- * of an event.
- */
 @Entity
 public class SessionEvent implements Serializable {
 
@@ -36,7 +33,6 @@ public class SessionEvent implements Serializable {
     @JoinColumn(name = "ConfigurationHall_FK")
     private ConfigurationHall configurationHall;
 
-
     public SessionEvent() {}
 
     public SessionEvent(Long id, LocalDateTime dateAndTimeStartSessionEvent, int durationInMinutes,
@@ -55,18 +51,6 @@ public class SessionEvent implements Serializable {
         setEvent(event);
         setConfigurationHall(configurationHall);
     }
-
-    //////////////
-    // METHODS
-    ////////////
-    // TODO_LOW: création de sessions
-    // - créer automatiquement les sessions en fonctions des dates de l'event et des jours
-    // de fermeture du lieu.
-    // - supression automatique des sessions en fonctions des dates de début et fins.
-
-    /////////////////////
-    // GETTERS & SETTERS
-    /////////////////////
 
     public Long getId() {
         return id;
@@ -101,9 +85,6 @@ public class SessionEvent implements Serializable {
         this.durationInMinutes = durationInMinutes;
     }
 
-    ///////////////////
-    // RELATIONSHIPS //
-    ///////////////////
     public Event getEvent() {
         return event;
     }
@@ -112,7 +93,6 @@ public class SessionEvent implements Serializable {
         this.event = event;
     }
 
-
     public ConfigurationHall getConfigurationHall() {
         return configurationHall;
     }
@@ -120,8 +100,6 @@ public class SessionEvent implements Serializable {
     public void setConfigurationHall(ConfigurationHall configurationHall) {
         this.configurationHall = configurationHall;
     }
-
-
 
     @Override
     public int hashCode() {
