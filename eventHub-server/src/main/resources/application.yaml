@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active: dev
+  sql:
+    init:
+      encoding: UTF-8
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  output:
+    ansi:
+      enabled: ALWAYS
+  server:
+    compression:
+      enabled: true
+      mime-types: application/json,text/css,application/javascript
+      min-response-size: 2048
