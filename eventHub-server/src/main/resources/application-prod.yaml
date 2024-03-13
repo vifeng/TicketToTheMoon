@@ -1,0 +1,9 @@
+# Configuration file for Dev environment
+spring:
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: health,info,metrics
+    level:
+      org.springframework: INFO
