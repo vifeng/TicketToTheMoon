@@ -2,7 +2,7 @@ plugins {
 	java
 	war
 	id("org.asciidoctor.jvm.convert") version "3.3.2"
-	id("org.springframework.boot") version "3.1.0"
+	id("org.springframework.boot") version "3.2.3"
 	id("org.flywaydb.flyway") version "10.0.0"
 }
 
@@ -28,12 +28,11 @@ repositories {
 }
 
 val snippetsDir by extra { file("build/generated-snippets") }
-// val asciidocInputDir by extra { file("src/docs/asciidoc") }
 val asciidoctorExt by configurations.creating
 
 
 dependencies {
-	// providedCompile(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
+	providedCompile(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
 	implementation("org.springframework.data:spring-data-rest-hal-explorer")
 	asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -51,7 +50,6 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
-	// If you are using mapstruct in test code
 	testAnnotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
 }
 
