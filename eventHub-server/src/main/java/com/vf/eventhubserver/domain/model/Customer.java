@@ -1,14 +1,13 @@
 package com.vf.eventhubserver.domain.model;
 
 import java.io.Serializable;
+
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-// REFACTOR: use the heritance strategy, and create a new class for the customer and the employee.
-// use the @Embeddable annotation for the address and credit card
 @Entity
 public class Customer implements Serializable {
     @Id
@@ -120,6 +119,5 @@ public class Customer implements Serializable {
                 + ", lastName=" + lastName + ", email=" + email + ", phoneNumber=" + phoneNumber
                 + ", address=" + address + ", creditCardNumber=" + creditCardNumber + "]";
     }
-
 
 }

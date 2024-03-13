@@ -2,6 +2,7 @@ package com.vf.eventhubserver.api;
 
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.vf.eventhubserver.domain.dto.VenueDTO;
 import com.vf.eventhubserver.domain.service.VenueService;
@@ -76,14 +78,6 @@ public class VenueController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVenue(@PathVariable Long id)
-            // TODO_END: At the end, because of the cascade, we will have to delete hall,
-            // configHall,
-            // sessionEvent, event, tariffication, seat, categoryTariff, CategorySpatial related to
-            // the venue.
-            // TODO_END : But we should not delete Employee, because he can work in another venue
-            // depending on the functionnal requirements.
-            // TicketReservation maybe we should not delete to keep the history of the venue. We
-            // should not delete customer, payment and paymentstatus
             throws FinderException, RemoveException {
         venueService.deleteVenue(id);
         return ResponseEntity.noContent().build();
@@ -106,7 +100,4 @@ public class VenueController {
         return ResponseEntity.ok(venueService.removeEmployee(id, employeeId));
     }
 
-
-
 }
-

@@ -1,22 +1,16 @@
 package com.vf.eventhubserver.domain.model;
 
 import java.io.Serializable;
+
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 
-/**
- * This is an association class between Seat and SessionEvent. It has a composite keys which can be
- * found in Ticket_ReservationId class.
- */
 @Entity
 public class TicketReservation implements Serializable {
 
-    // in the repository dont forget to change Long to Ticket_ReservationKey as such
-    // JpaRepository<Ticket_Reservation, Ticket_ReservationKey>
     @EmbeddedId
     private TicketReservationKey id;
 
-    // attributes
     private boolean isBooked = false;
 
     public TicketReservation() {}
@@ -26,13 +20,9 @@ public class TicketReservation implements Serializable {
         setIsBooked(isBooked);
     }
 
-    // TOCHECK: is this constructor needed?
     public TicketReservation(boolean isBooked) {
         setIsBooked(isBooked);
     }
-    ///////////////////////////////
-    // Composite key getters //
-    /////////////////////////////
 
     public TicketReservationKey getId() {
         return id;

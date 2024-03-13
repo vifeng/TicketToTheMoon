@@ -5,9 +5,11 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
+
 import com.vf.eventhubserver.domain.dao.EmployeeRepository;
 import com.vf.eventhubserver.domain.dto.EmployeeDTO;
 import com.vf.eventhubserver.domain.model.Employee;
@@ -109,7 +111,6 @@ public class EmployeeService {
 
     }
 
-
     /**
      * Partial update. Sends only the fields to update. the others are not modified.
      * 
@@ -156,7 +157,6 @@ public class EmployeeService {
      * @throws RemoveException
      */
     public EmployeeDTO deleteEmployee(Long id) throws FinderException, RemoveException {
-        // REFACTOR : use the deleteById method ? less fine error handling
         try {
             Optional<Employee> optionalEmployee = employeeRepository.findById(id);
             if (optionalEmployee.isPresent()) {
@@ -173,7 +173,5 @@ public class EmployeeService {
             throw new RemoveException(EMPMSG + id + "} delete failed" + e.getMessage(), e);
         }
     }
-
-
 
 }

@@ -18,8 +18,10 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import java.util.HashSet;
 import java.util.Set;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,6 +35,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vf.eventhubserver.domain.dao.EmployeeRepository;
 import com.vf.eventhubserver.domain.dao.HallRepository;
@@ -82,9 +85,6 @@ class HallControllerTest {
                 Venue venue = new Venue("testName", address, employees);
                 venueRepository.save(venue);
                 Hall hall = new Hall("testName", 500, venue);
-                // TODISCUSS: venue_id is 2 because we are using /init/DbInitializer.java to
-                // populate the database. How to get the id of the venue created in the test? Or
-                // maybe I shouldn't have some fixtures in the database?
                 this.mockMvc.perform(post(baseUrl + "venues/{venue_id}/halls", "2")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(hall)))

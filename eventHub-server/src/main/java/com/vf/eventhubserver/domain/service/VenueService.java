@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vf.eventhubserver.domain.dao.EmployeeRepository;
@@ -33,7 +35,6 @@ public class VenueService {
     private VenueRepository venueRepository;
     private EmployeeRepository employeeRepository;
     private ObjectMapper objectMapper;
-    // TODO : maybe I should use AddressMapper instead of objectMapper
     private VenueMapper venueMapper;
     static final String VEMSG = "Venue with id {";
     static final String NOTFOUNDMSG = "} not found";
@@ -71,7 +72,6 @@ public class VenueService {
     }
 
     /**
-     * 
      * @param venueDTO
      * @return
      * @throws IllegalArgumentException
@@ -134,28 +134,16 @@ public class VenueService {
                                     new TypeReference<Set<Employee>>() {};
                             Set<Employee> employeesPatch =
                                     objectMapper.convertValue(value, typeReference);
-                            // FIXME: l'employee est mis à jour avec un nouvel id si je précise rien
-                            // ou
-                            // un id existant. si on supprime de la liste l'id alors il est supprimé
-                            // de
-                            // la base.si aucun id dans la database alors crée l'employee.
-                            // Mettre à jour l'ensemble existant avec les éléments du patch
-                            // (Supprimer les éléments existants qui ne sont pas dans le patch,
-                            // ajouter
-                            // les éléments du patch)
+
                             Set<Employee> existingEmployees = venueToUpdate.getEmployees();
-                            existingEmployees.clear(); // Supprimer tous les employés existants
+                            existingEmployees.clear();
 
                             if (employeesPatch != null) {
-                                existingEmployees.addAll(employeesPatch); // Ajouter les employés du
-                                // patch
+                                existingEmployees.addAll(employeesPatch);
                             }
                         } else {
-                            // Handle updating other fields (if any)
                             Field field = ReflectionUtils.findField(Venue.class, key);
                             if (field != null) {
-                                // Make the field accessible (private fields are not accessible by
-                                // default)
                                 ReflectionUtils.makeAccessible(field);
                                 ReflectionUtils.setField(field, venueToUpdate, value);
                             }
@@ -188,11 +176,6 @@ public class VenueService {
         }
         venueRepository.delete(venue);
     }
-
-    ///////////////////////
-    // EMPLOYEE RELATIONSHIP
-    ///////////////////////
-
 
     /**
      * add an employee venues/{id}/employees/{employeeId}
@@ -233,7 +216,5 @@ public class VenueService {
             throw new UpdateException(VEMSG + id + UPDATEMSG + e.getMessage(), e);
         }
     }
-
-
 
 }
