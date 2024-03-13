@@ -6,7 +6,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
 import org.springframework.stereotype.Service;
+
 import com.vf.eventhubserver.domain.dao.BookingRepository;
 import com.vf.eventhubserver.domain.dao.PaymentRepository;
 import com.vf.eventhubserver.domain.dao.PaymentStatusRepository;
@@ -20,6 +22,7 @@ import com.vf.eventhubserver.domain.service.mapper.PaymentMapper;
 import com.vf.eventhubserver.exception.CreateException;
 import com.vf.eventhubserver.exception.FinderException;
 import com.vf.eventhubserver.exception.NullException;
+
 import jakarta.transaction.Transactional;
 
 @Service
@@ -63,7 +66,6 @@ public class PaymentService {
         return paymentMapper.toDTO(payment);
     }
 
-
     public PaymentDTO createPayment(Long bookingId)
             throws FinderException, CreateException, NullException {
         Optional<Booking> optionalBooking = bookingRepository.findById(bookingId);
@@ -90,7 +92,6 @@ public class PaymentService {
             }
             PaymentStatus paid = paymentStatus.get();
             Payment payment = new Payment(LocalDateTime.now(), booking, paid);
-            // change seat availability to sold
             bookingService.updateSeatAvailability(reservations, "sold");
             Payment savedPayment = paymentRepository.save(payment);
             return paymentMapper.toDTO(savedPayment);

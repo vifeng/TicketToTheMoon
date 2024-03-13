@@ -1,6 +1,7 @@
 package com.vf.eventhubserver.api;
 
 import java.util.Set;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -13,16 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.vf.eventhubserver.domain.dto.BookingDTO;
 import com.vf.eventhubserver.domain.dto.TicketReservationKeyDTO;
 import com.vf.eventhubserver.domain.service.BookingService;
 import com.vf.eventhubserver.exception.FinderException;
 import com.vf.eventhubserver.exception.NullException;
 
-
-/**
- * Controller for Booking.
- */
 @CrossOrigin
 @RestController
 @RequestMapping("/api/bookings")

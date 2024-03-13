@@ -1,6 +1,5 @@
 package com.vf.eventhubserver.exception;
 
-
 public abstract class ApplicationException extends RuntimeException {
 
     protected ApplicationException() {}

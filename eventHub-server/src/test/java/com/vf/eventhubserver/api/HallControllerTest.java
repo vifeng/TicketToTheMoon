@@ -101,8 +101,6 @@ class HallControllerTest {
 
         @Test
         void hallGetById() throws Exception {
-                // reset the database if needed
-                // create a hall if needed
                 this.mockMvc.perform(get(baseUrl + "halls/{id}", 1L)
                                 .accept(MediaType.APPLICATION_JSON_VALUE))
                                 .andExpect(status().isOk()).andExpect(jsonPath("$.id", equalTo(1)))

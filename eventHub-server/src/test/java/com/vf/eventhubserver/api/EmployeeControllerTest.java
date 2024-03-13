@@ -60,7 +60,6 @@ class EmployeeControllerTest {
         void employeesCreate() throws Exception {
 
                 Map<String, Object> employee = new HashMap<>();
-                // employee.put("id", 2L);
                 employee.put("username", "username1");
                 employee.put("password", "secretpwD%1");
                 employee.put("email", "mymail@mail.fr");

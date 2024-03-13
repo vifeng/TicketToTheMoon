@@ -18,11 +18,9 @@ public class UpdateException extends ApplicationException {
         super(message, cause);
     }
 
-
     public UpdateException(final String message) {
         super(message);
     }
-
 
     public UpdateException(final Throwable cause) {
         super(cause);

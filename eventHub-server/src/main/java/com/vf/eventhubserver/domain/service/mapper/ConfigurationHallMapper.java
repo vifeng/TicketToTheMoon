@@ -1,12 +1,15 @@
 package com.vf.eventhubserver.domain.service.mapper;
 
 import java.util.List;
+
 import org.mapstruct.AfterMapping;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
+
 import com.vf.eventhubserver.domain.dto.ConfigurationHallDTO;
 import com.vf.eventhubserver.domain.model.ConfigurationHall;
+
 import jakarta.validation.Valid;
 
 @Mapper(componentModel = "spring")
@@ -28,13 +31,10 @@ public interface ConfigurationHallMapper {
                 entity.checkConstructor();
         }
 
-
         @IterableMapping(elementTargetType = ConfigurationHallDTO.class)
         List<ConfigurationHallDTO> toDTOs(Iterable<ConfigurationHall> configurationHalls);
 
         @IterableMapping(elementTargetType = ConfigurationHall.class)
         List<ConfigurationHall> toEntities(Iterable<ConfigurationHallDTO> configurationHallDTOs);
-
-
 
 }

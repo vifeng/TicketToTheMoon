@@ -22,7 +22,6 @@ public class SessionEvent implements Serializable {
     private int durationInMinutes;
     private LocalDateTime dateAndTimeEndSessionEvent;
 
-    // relationships
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},
             optional = false)
     @JoinColumn(name = "Event_FK")

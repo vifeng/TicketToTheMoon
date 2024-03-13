@@ -18,11 +18,9 @@ public class ObjectNotFoundException extends FinderException {
         super(message, cause);
     }
 
-
     public ObjectNotFoundException(final String message) {
         super(message);
     }
-
 
     public ObjectNotFoundException(final Throwable cause) {
         super(cause);

@@ -2,11 +2,11 @@ package com.vf.eventhubserver.domain.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
 
 @Entity
 public class Event implements Serializable {
@@ -19,7 +19,6 @@ public class Event implements Serializable {
     private LocalDate dateEnd;
     private String closedDay;
 
-
     public Event() {}
 
     public Event(Long id, String name, String description, LocalDate dateStart, LocalDate dateEnd,
@@ -31,7 +30,6 @@ public class Event implements Serializable {
         setDateEnd(dateEnd);
         setClosedDay(closedDay);
     }
-
 
     public Event(String name, String description, LocalDate dateStart, LocalDate dateEnd,
             String closedDay) {
@@ -96,7 +94,5 @@ public class Event implements Serializable {
                 + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd + ", closedDay=" + closedDay
                 + "]";
     }
-
-
 
 }

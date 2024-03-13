@@ -1,6 +1,7 @@
 package com.vf.eventhubserver.api;
 
 import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -10,11 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.vf.eventhubserver.domain.dto.PaymentDTO;
 import com.vf.eventhubserver.domain.service.PaymentService;
 import com.vf.eventhubserver.exception.FinderException;
-
-
 
 @CrossOrigin
 @RestController
@@ -38,13 +38,11 @@ public class PaymentController {
         return ResponseEntity.ok(paymentService.findById(id));
     }
 
-
     @PostMapping("/bookings/{bookingId}")
     public ResponseEntity<PaymentDTO> createPayment(@PathVariable Long bookingId)
             throws FinderException {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(paymentService.createPayment(bookingId));
     }
-
 
 }

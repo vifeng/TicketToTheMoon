@@ -18,11 +18,9 @@ public class PatchException extends ApplicationException {
         super(message, cause);
     }
 
-
     public PatchException(final String message) {
         super(message);
     }
-
 
     public PatchException(final Throwable cause) {
         super(cause);

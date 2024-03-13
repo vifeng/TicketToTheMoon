@@ -18,11 +18,9 @@ public class CreateException extends ApplicationException {
         super(message, cause);
     }
 
-
     public CreateException(final String message) {
         super(message);
     }
-
 
     public CreateException(final Throwable cause) {
         super(cause);

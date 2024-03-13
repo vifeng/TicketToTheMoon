@@ -15,11 +15,9 @@ public class PatchFieldException extends ApplicationException {
         super(message, cause);
     }
 
-
     public PatchFieldException(final String message) {
         super(message);
     }
-
 
     public PatchFieldException(final Throwable cause) {
         super(cause);

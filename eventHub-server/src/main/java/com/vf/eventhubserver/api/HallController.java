@@ -2,6 +2,7 @@ package com.vf.eventhubserver.api;
 
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.vf.eventhubserver.domain.dto.HallDTO;
 import com.vf.eventhubserver.domain.service.HallService;
 import com.vf.eventhubserver.exception.CreateException;
@@ -40,7 +42,6 @@ public class HallController {
         this.hallService = hallService;
     }
 
-    // Generic routes
     /**
      * @apiNote Get all Halls from all Venues - Useful for testing - /halls
      * @return List<HallDTO>
@@ -49,7 +50,6 @@ public class HallController {
     public ResponseEntity<List<HallDTO>> getAllHalls() {
         return ResponseEntity.ok(hallService.findAll());
     }
-
 
     @GetMapping("/halls/{id}")
     public ResponseEntity<HallDTO> getHallById(@PathVariable Long id) throws FinderException {
@@ -77,12 +77,6 @@ public class HallController {
         hallService.deleteHall(id);
         return ResponseEntity.noContent().build();
     }
-
-    // Restful routes
-
-    ///////////////////////
-    // By VENUE RELATIONSHIP
-    ///////////////////////
 
     /**
      * @apiNote Create a Hall attached to a Venue- /venues/{venue_id}/halls
@@ -112,6 +106,5 @@ public class HallController {
             throws FinderException {
         return ResponseEntity.ok(hallService.findHallsByVenueId(venueId));
     }
-
 
 }

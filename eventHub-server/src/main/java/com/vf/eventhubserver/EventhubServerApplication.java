@@ -10,5 +10,4 @@ public class EventhubServerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EventhubServerApplication.class, args);
 	}
-
 }

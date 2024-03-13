@@ -1,6 +1,7 @@
 package com.vf.eventhubserver.domain.model;
 
 import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +25,6 @@ public class Payment {
     @ManyToOne
     @JoinColumn(name = "PaymentStatus_category_FK")
     private PaymentStatus paymentStatus;
-
 
     public Payment() {}
 
@@ -79,7 +79,5 @@ public class Payment {
         return "Payment [id=" + id + ", paymentDateTime=" + paymentDateTime + ", booking=" + booking
                 + ", paymentStatus=" + paymentStatus + "]";
     }
-
-
 
 }

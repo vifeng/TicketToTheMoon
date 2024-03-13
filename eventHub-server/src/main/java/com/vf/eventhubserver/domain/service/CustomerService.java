@@ -3,7 +3,9 @@ package com.vf.eventhubserver.domain.service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.stereotype.Service;
+
 import com.vf.eventhubserver.domain.dao.CustomerRepository;
 import com.vf.eventhubserver.domain.dto.CustomerDTO;
 import com.vf.eventhubserver.domain.model.Customer;
@@ -14,6 +16,7 @@ import com.vf.eventhubserver.exception.FinderException;
 import com.vf.eventhubserver.exception.NullException;
 import com.vf.eventhubserver.exception.RemoveException;
 import com.vf.eventhubserver.exception.UpdateException;
+
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
@@ -26,7 +29,6 @@ public class CustomerService {
     static final String CUSTMSG = "Customer with id {";
     static final String CUSTFMSG = "Customer with {";
     static final String CUNULLMSG = "Customer is null";
-
 
     public CustomerService(CustomerRepository customerRepository, CustomerMapper customerMapper) {
         this.customerRepository = customerRepository;
@@ -179,7 +181,6 @@ public class CustomerService {
             throw new CreateException("Customer is not updated" + e.getMessage(), e);
         }
     }
-
 
     public void deleteCustomer(Long id)
             throws FinderException, IllegalArgumentException, RemoveException {

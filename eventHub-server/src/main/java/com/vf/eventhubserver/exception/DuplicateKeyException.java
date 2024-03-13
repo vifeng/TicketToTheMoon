@@ -14,5 +14,4 @@ public class DuplicateKeyException extends CreateException {
         super(message);
     }
 
-
 }

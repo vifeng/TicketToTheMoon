@@ -2,9 +2,11 @@ package com.vf.eventhubserver.domain.service.mapper;
 
 import java.util.List;
 import java.util.Set;
+
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
 import com.vf.eventhubserver.domain.dto.AddressDTO;
 import com.vf.eventhubserver.domain.dto.EmployeeDTO;
 import com.vf.eventhubserver.domain.dto.VenueDTO;
@@ -15,7 +17,6 @@ import com.vf.eventhubserver.domain.model.Venue;
 @Mapper(componentModel = "spring")
 public interface VenueMapper {
 
-    // Mappage des propriétés entre Venue et VenueDTO
     VenueDTO toDTO(Venue venue);
 
     Venue toEntity(VenueDTO venueDTO);
@@ -26,14 +27,8 @@ public interface VenueMapper {
     @IterableMapping(elementTargetType = Venue.class)
     List<Venue> toEntities(Iterable<VenueDTO> venueDTOs);
 
-    //////////////////////////////
-    // Méthodes de mappage pour address @Embedded
-    //////////////////////////////
-
-    // Utilisation de AddressMapper pour mapper Address
     AddressMapper ADDRESS_MAPPER = Mappers.getMapper(AddressMapper.class);
 
-    // Mappage for Address and its DTO
     default AddressDTO toAddressDTO(Address address) {
         return ADDRESS_MAPPER.toDTO(address);
     }
@@ -42,7 +37,6 @@ public interface VenueMapper {
         return ADDRESS_MAPPER.toEntity(addressDTO);
     }
 
-    // Mappage for Address with Venue and its DTO
     default AddressDTO toAddressDTO(Venue venue) {
         Address address = venue.getAddress();
         if (address == null)
@@ -57,14 +51,8 @@ public interface VenueMapper {
         return toAddress(addressDTO);
     }
 
-    //////////////////////////////
-    // Méthodes de mappage pour employee @OneToMany
-    //////////////////////////////
-
-    // Utilisation de EmployeeMapper pour mapper Employee
     EmployeeMapper EMPLOYEE_MAPPER = Mappers.getMapper(EmployeeMapper.class);
 
-    // Mappage for Employee and its DTO
     default EmployeeDTO toEmployeeDTO(Employee employee) {
         return EMPLOYEE_MAPPER.toDTO(employee);
     }
@@ -83,7 +71,6 @@ public interface VenueMapper {
         return EMPLOYEE_MAPPER.toEntities(employeeDTOs);
     }
 
-    // Mappage for Employee with Venue and its DTO
     @IterableMapping(elementTargetType = EmployeeDTO.class)
     default Set<EmployeeDTO> toEmployeeDTO(Venue venue) {
         Set<Employee> employees = venue.getEmployees();

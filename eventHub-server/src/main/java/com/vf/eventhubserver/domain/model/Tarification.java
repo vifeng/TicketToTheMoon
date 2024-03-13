@@ -1,6 +1,7 @@
 package com.vf.eventhubserver.domain.model;
 
 import java.io.Serializable;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,7 +28,6 @@ public class Tarification implements Serializable {
             optional = false)
     @JoinColumn(name = "Event_FK")
     private Event event;
-
 
     public Tarification() {}
 
@@ -127,7 +127,5 @@ public class Tarification implements Serializable {
                 + discountSeniorRate + ", discountChildRate=" + discountChildRate
                 + ", discountUnemployedRate=" + discountUnemployedRate + ", event=" + event + "]";
     }
-
-
 
 }
