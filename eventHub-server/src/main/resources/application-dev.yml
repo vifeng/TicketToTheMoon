@@ -1,6 +1,7 @@
-# Configuration file for Dev environment
+# Configuration file for Development environment
+debug: false
+
 spring:
-  debug: false
   devtools:
     livereload:
       enabled: true
@@ -25,11 +26,13 @@ spring:
     validateOnMigrate: true
     baselineOnMigrate: true
     locations: classpath:db/migration
-  management:
-    endpoints:
-      web:
-        exposure:
-          include: '*'
-  logging:
-    level:
-      org.springframework: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+logging:
+  level:
+    org:
+      springframework: DEBUG
