@@ -18,11 +18,9 @@ public class DataAccessException extends RuntimeException {
         super(message, cause);
     }
 
-
     public DataAccessException(final String message) {
         super(message);
     }
-
 
     public DataAccessException(final Throwable cause) {
         super(cause);

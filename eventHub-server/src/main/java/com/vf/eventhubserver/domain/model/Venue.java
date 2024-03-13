@@ -3,6 +3,7 @@ package com.vf.eventhubserver.domain.model;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -15,7 +16,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-
 
 @Entity
 @Table(name = "Venue")
@@ -36,10 +36,7 @@ public class Venue implements Serializable {
     @JoinColumn(name = "venue_FK")
     Set<Employee> employees = new HashSet<>();
 
-
-
     public Venue() {}
-
 
     public Venue(Long id, String name, Address address, Set<Employee> employees) {
         setId(id);
@@ -58,7 +55,6 @@ public class Venue implements Serializable {
         setAddress(address);
         setEmployees(employees);
     }
-
 
     public void setAddress(Address address) {
         this.address = address;
@@ -84,12 +80,6 @@ public class Venue implements Serializable {
         this.name = name;
     }
 
-    ///////////////////
-    // RELATIONSHIPS //
-    ///////////////////
-
-
-    // OneToMany unidirectional setup with Employee
     public Set<Employee> getEmployees() {
         return employees;
     }
@@ -118,9 +108,6 @@ public class Venue implements Serializable {
                 + employees + "]";
     }
 
-
     public void add(Employee employee) {}
-
-
 
 }

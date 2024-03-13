@@ -8,5 +8,4 @@ import java.lang.annotation.Target;
 @Target(ElementType.CONSTRUCTOR)
 @Retention(RetentionPolicy.CLASS)
 public @interface Default {
-
 }

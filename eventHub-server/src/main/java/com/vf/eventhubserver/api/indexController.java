@@ -15,6 +15,5 @@ public class IndexController {
     @GetMapping("/")
     public String getDocumentation() {
         return "This is the home page of the API. Please refer to the documentation for more information.";
-        // return "redirect:classpath:build/docs/asciidoc/api-guide.html";
     }
 }

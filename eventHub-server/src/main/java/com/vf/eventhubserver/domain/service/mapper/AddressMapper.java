@@ -2,6 +2,7 @@ package com.vf.eventhubserver.domain.service.mapper;
 
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
+
 import com.vf.eventhubserver.domain.dto.AddressDTO;
 import com.vf.eventhubserver.domain.model.Address;
 

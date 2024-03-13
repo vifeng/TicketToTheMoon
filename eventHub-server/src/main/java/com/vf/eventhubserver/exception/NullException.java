@@ -15,11 +15,9 @@ public class NullException extends ApplicationException {
         super(message, cause);
     }
 
-
     public NullException(final String message) {
         super(message);
     }
-
 
     public NullException(final Throwable cause) {
         super(cause);

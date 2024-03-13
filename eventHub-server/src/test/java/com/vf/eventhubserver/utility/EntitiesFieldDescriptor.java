@@ -2,6 +2,7 @@ package com.vf.eventhubserver.utility;
 
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
+
 import org.springframework.restdocs.payload.FieldDescriptor;
 
 public class EntitiesFieldDescriptor {
@@ -36,7 +37,6 @@ public class EntitiesFieldDescriptor {
                         fieldWithPath("capacityOfHall").description("The capacity of the hall"),
                         subsectionWithPath("venue").description("The venue of the hall")};
 
-
         public EntitiesFieldDescriptor() {}
 
         public FieldDescriptor[] getAddressResponseFields() {
@@ -54,7 +54,5 @@ public class EntitiesFieldDescriptor {
         public FieldDescriptor[] getHallResponseFields() {
                 return hallResponseFields;
         }
-
-
 
 }

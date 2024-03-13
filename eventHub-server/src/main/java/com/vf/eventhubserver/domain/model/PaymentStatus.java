@@ -13,7 +13,6 @@ public class PaymentStatus {
 
     private String paymentStatusName;
 
-
     public PaymentStatus() {}
 
     public PaymentStatus(Long id, String paymentStatusName) {
@@ -45,6 +44,5 @@ public class PaymentStatus {
     public String toString() {
         return "PaymentStatus [id=" + id + ", paymentStatus=" + paymentStatusName + "]";
     }
-
 
 }

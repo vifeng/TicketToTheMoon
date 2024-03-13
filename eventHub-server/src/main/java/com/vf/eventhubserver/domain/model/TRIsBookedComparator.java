@@ -8,12 +8,8 @@ public class TRIsBookedComparator implements Comparator<TicketReservation> {
 
     @Override
     public int compare(TicketReservation o1, TicketReservation o2) {
-        // compare si les deux id sont égales
-        // si oui on compare les deux isBooked, sinon renvoie -1
         if (o1.getId().equals(o2.getId())) {
-            // sorted by true first false last
             return Boolean.compare(o2.getIsBooked(), o1.getIsBooked());
-            // sorted by false first true last
         }
         return -1;
     }

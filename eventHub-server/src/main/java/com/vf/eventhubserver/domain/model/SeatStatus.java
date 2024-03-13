@@ -1,6 +1,7 @@
 package com.vf.eventhubserver.domain.model;
 
 import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -47,6 +48,5 @@ public class SeatStatus implements Serializable {
     public String toString() {
         return "Seat_Status [id=" + id + ", name=" + name + "]";
     }
-
 
 }

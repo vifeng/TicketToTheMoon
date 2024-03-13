@@ -1,6 +1,7 @@
 package com.vf.eventhubserver.api;
 
 import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -8,11 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.vf.eventhubserver.domain.dto.PaymentStatusDTO;
 import com.vf.eventhubserver.domain.service.PaymentStatusService;
 import com.vf.eventhubserver.exception.FinderException;
-
-
 
 @CrossOrigin
 @RestController
@@ -42,6 +42,5 @@ public class PaymentStatusController {
             throws FinderException {
         return ResponseEntity.ok(paymentStatusService.findByPaymentStatusName(status));
     }
-
 
 }

@@ -2,6 +2,7 @@ package com.vf.eventhubserver.api;
 
 import java.util.List;
 import java.util.Objects;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.vf.eventhubserver.domain.dto.CustomerDTO;
 import com.vf.eventhubserver.domain.service.CustomerService;
 import com.vf.eventhubserver.exception.CreateException;
@@ -22,8 +24,6 @@ import com.vf.eventhubserver.exception.FinderException;
 import com.vf.eventhubserver.exception.NullException;
 import com.vf.eventhubserver.exception.RemoveException;
 import com.vf.eventhubserver.exception.UpdateException;
-
-
 
 @CrossOrigin
 @RestController
@@ -82,7 +82,6 @@ public class CustomerController {
         }
         return ResponseEntity.ok(customerService.updateCustomer(id, customerUpdateDTO));
     }
-
 
     @PatchMapping("/{id}")
     public ResponseEntity<CustomerDTO> patchCustomer(@PathVariable Long id,

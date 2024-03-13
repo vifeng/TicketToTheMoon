@@ -1,6 +1,7 @@
 package com.vf.eventhubserver.domain.model;
 
 import java.io.Serializable;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,10 +11,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 
-/**
- * Relation many Hall to one Venue. A hall has a name and a capacityOfHall. A hall can have
- * different configurations.
- */
 @Entity
 public class Hall implements Serializable {
     @Id
@@ -32,8 +29,6 @@ public class Hall implements Serializable {
     @JoinColumn(name = "Venue_FK")
     private Venue venue;
 
-
-
     public Hall() {}
 
     public Hall(Long id, String name, int capacityOfHall, Venue venue) {
@@ -42,7 +37,6 @@ public class Hall implements Serializable {
         setCapacityOfHall(capacityOfHall);
         setVenue(venue);
     }
-
 
     public Hall(String name, int capacityOfHall, Venue venue) {
         setName(name);

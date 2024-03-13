@@ -6,5 +6,4 @@ public record ConfigurationHallDTO(Long id, String name, HallDTO hall,
         public ConfigurationHallDTO checkConstructor() {
                 return this.checkConstructor();
         }
-
 }

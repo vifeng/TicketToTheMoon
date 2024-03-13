@@ -1,6 +1,7 @@
 package com.vf.eventhubserver.domain.model;
 
 import java.io.Serializable;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,10 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-/**
- * A hall can have different configurations. Each configuration has an area which point to a
- * category containing seats.
- */
 @Entity
 public class ConfigurationHall implements Serializable {
 
@@ -33,7 +30,6 @@ public class ConfigurationHall implements Serializable {
     @JoinColumn(name = "Hall_FK")
     private Hall hall;
 
-    /////////////////////////// Constructors ///////////////////////////
     public ConfigurationHall() {}
 
     public ConfigurationHall(Long id, String name, Hall hall, int capacityOfConfiguration) {
@@ -64,8 +60,6 @@ public class ConfigurationHall implements Serializable {
             throw new IllegalArgumentException(
                     "capacity of configuration must be less than capacity of hall");
     }
-
-    /////////////////////////// Getters & Setters ///////////////////////////
 
     public void setId(Long id) {
         this.id = id;
@@ -104,6 +98,5 @@ public class ConfigurationHall implements Serializable {
         return "ConfigurationHall [id=" + id + ", name=" + name + ", capacityOfConfiguration="
                 + capacityOfConfiguration + ", hall=" + hall + "]";
     }
-
 
 }

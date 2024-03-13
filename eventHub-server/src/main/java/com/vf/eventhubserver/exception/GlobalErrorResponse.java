@@ -1,6 +1,7 @@
 package com.vf.eventhubserver.exception;
 
 import java.time.ZonedDateTime;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class GlobalErrorResponse {
@@ -51,6 +52,5 @@ public class GlobalErrorResponse {
     public void setMessage(String message) {
         this.message = message;
     }
-
 
 }

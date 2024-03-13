@@ -83,9 +83,6 @@ public class VenueController {
         return ResponseEntity.noContent().build();
     }
 
-    ///////////////////////
-    // EMPLOYEE RELATIONSHIP
-    ///////////////////////
     @PutMapping("/{id}/employees/{employeeId}")
     public ResponseEntity<VenueDTO> addEmployee(@PathVariable Long id,
             @PathVariable Long employeeId)

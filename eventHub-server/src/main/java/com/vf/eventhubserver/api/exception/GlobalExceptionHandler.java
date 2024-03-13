@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
 import com.vf.eventhubserver.exception.CreateException;
 import com.vf.eventhubserver.exception.DataAccessException;
 import com.vf.eventhubserver.exception.DuplicateKeyException;
@@ -25,6 +27,7 @@ import com.vf.eventhubserver.exception.ObjectNotFoundException;
 import com.vf.eventhubserver.exception.PatchException;
 import com.vf.eventhubserver.exception.RemoveException;
 import com.vf.eventhubserver.exception.UpdateException;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -34,7 +37,6 @@ import jakarta.validation.ConstraintViolationException;
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
 
         @ExceptionHandler(Exception.class)
         public ResponseEntity<GlobalErrorResponse> genericHandler(Exception exception,
@@ -63,7 +65,6 @@ public class GlobalExceptionHandler {
                 body.put("path", request.getRequestURI());
                 body.put("message", "An illegal argument error occurred : ");
 
-                // Get all validation errors
                 List<String> errors = Arrays.stream(exception.getStackTrace())
                                 .map(StackTraceElement::toString).collect(Collectors.toList());
 
@@ -71,7 +72,6 @@ public class GlobalExceptionHandler {
 
                 return new ResponseEntity<>(body, HttpStatus.UNPROCESSABLE_ENTITY);
         }
-
 
         /**
          * 422 UNPROCESSABLE_ENTITY
@@ -244,7 +244,6 @@ public class GlobalExceptionHandler {
                 body.put("timestamp", LocalDateTime.now());
                 body.put("status", HttpStatus.UNPROCESSABLE_ENTITY.value());
 
-                // Get all validation errors
                 List<String> errors = ex.getBindingResult().getFieldErrors().stream()
                                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                                 .collect(Collectors.toList());
@@ -262,7 +261,6 @@ public class GlobalExceptionHandler {
                 body.put("timestamp", LocalDateTime.now());
                 body.put("status", HttpStatus.UNPROCESSABLE_ENTITY.value());
 
-                // Get all validation errors
                 List<String> errors = ex.getConstraintViolations().stream()
                                 .map(ConstraintViolation::getMessage).collect(Collectors.toList());
 
@@ -281,7 +279,6 @@ public class GlobalExceptionHandler {
                 body.put("message",
                                 "Peobably a malformed JSON request. Please check your request body and its data types.");
 
-                // Get all validation errors
                 List<String> errors = Arrays.stream(ex.getStackTrace())
                                 .map(StackTraceElement::toString).collect(Collectors.toList());
 
@@ -299,7 +296,6 @@ public class GlobalExceptionHandler {
                 body.put("status", HttpStatus.NOT_FOUND.value());
                 body.put("message", "No such element found in the database.");
 
-                // Get all validation errors
                 List<String> errors = Arrays.stream(ex.getStackTrace())
                                 .map(StackTraceElement::toString).collect(Collectors.toList());
 

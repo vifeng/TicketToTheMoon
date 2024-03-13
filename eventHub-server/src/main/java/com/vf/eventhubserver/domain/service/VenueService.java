@@ -125,11 +125,9 @@ public class VenueService {
                 venuePatch.forEach((key, value) -> {
                     if (key != null) {
                         if ("address".equals(key)) {
-                            // Handle updating the 'address' field
                             Address addressPatch = objectMapper.convertValue(value, Address.class);
                             venueToUpdate.setAddress(addressPatch);
                         } else if ("employees".equals(key)) {
-                            // Handle updating the 'employees' field
                             TypeReference<Set<Employee>> typeReference =
                                     new TypeReference<Set<Employee>>() {};
                             Set<Employee> employeesPatch =

@@ -3,6 +3,7 @@ package com.vf.eventhubserver.api;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.vf.eventhubserver.domain.dto.EmployeeDTO;
 import com.vf.eventhubserver.domain.service.EmployeeService;
 import com.vf.eventhubserver.exception.CreateException;
@@ -58,7 +60,6 @@ public class EmployeeController {
     }
 
     /**
-     * 
      * @param employeeDTO
      * @return the employee that was created.
      * @throws NullException if the requestBody is null.
@@ -72,7 +73,6 @@ public class EmployeeController {
     }
 
     /**
-     * 
      * @param id
      * @param employeeDTO
      * @return the updated employee. The PUT method updates the whole record.
@@ -90,7 +90,6 @@ public class EmployeeController {
     }
 
     /**
-     * 
      * @param id
      * @param employeeDTO
      * @return the updated employee. The PATCH method updates only the fields that are not null.
@@ -108,7 +107,6 @@ public class EmployeeController {
     }
 
     /**
-     * 
      * @param id
      * @return the deleted employee.
      * @throws FinderException if the employee with the given id is not found.
@@ -120,7 +118,5 @@ public class EmployeeController {
         employeeService.deleteEmployee(id);
         return ResponseEntity.noContent().build();
     }
-
-
 
 }

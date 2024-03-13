@@ -18,11 +18,9 @@ public class RemoveException extends ApplicationException {
         super(message, cause);
     }
 
-
     public RemoveException(final String message) {
         super(message);
     }
-
 
     public RemoveException(final Throwable cause) {
         super(cause);

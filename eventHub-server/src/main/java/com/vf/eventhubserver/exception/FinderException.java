@@ -18,11 +18,9 @@ public class FinderException extends ApplicationException {
         super(message, cause);
     }
 
-
     public FinderException(final String message) {
         super(message);
     }
-
 
     public FinderException(final Throwable cause) {
         super(cause);

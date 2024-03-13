@@ -1,6 +1,7 @@
 package com.vf.eventhubserver.domain.model;
 
 import java.io.Serializable;
+
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -8,7 +9,6 @@ import jakarta.persistence.ManyToOne;
 @Embeddable
 public class TicketReservationKey implements Serializable {
 
-    // composite keys
     @ManyToOne
     @JoinColumn(name = "seat_id")
     private Seat seatId;
@@ -23,12 +23,6 @@ public class TicketReservationKey implements Serializable {
         this.seatId = seatId;
         this.sessionEventId = sessionEventId;
     }
-
-    // the fields within the embeddable class should be made immutable (i.e., no
-    // setters, or the
-    // setters should be protected/private) to ensure that the key remains
-    // consistent throughout the
-    // entity's lifecycle.
 
     public Seat getSeatId() {
         return seatId;
@@ -46,7 +40,6 @@ public class TicketReservationKey implements Serializable {
         this.sessionEventId = sessionEventId;
     }
 
-    // hashCode and equals are needed for composite keys
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -83,6 +76,5 @@ public class TicketReservationKey implements Serializable {
         return "Ticket_ReservationKey [seatId=" + seatId + ", sessionEventId=" + sessionEventId
                 + "]";
     }
-
 
 }

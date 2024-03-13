@@ -1,6 +1,7 @@
 package com.vf.eventhubserver.domain.model;
 
 import java.io.Serializable;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,9 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-/**
- * Area is a class that represents an area in a venue.
- */
 @Entity
 public class CategoryTariff implements Serializable {
 
@@ -22,12 +20,10 @@ public class CategoryTariff implements Serializable {
     @Column(unique = true, nullable = false, length = 50)
     private String name;
 
-
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},
             optional = false)
     @JoinColumn(name = "Tarification_FK")
     private Tarification tarification;
-
 
     public CategoryTariff() {}
 
@@ -71,7 +67,5 @@ public class CategoryTariff implements Serializable {
         return "CategoryTariff [id=" + id + ", name=" + name + ", tarification=" + tarification
                 + "]";
     }
-
-
 
 }
