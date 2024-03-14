@@ -6,7 +6,7 @@ spring:
       encoding: UTF-8
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
     open-in-view: false
   output:
     ansi:
