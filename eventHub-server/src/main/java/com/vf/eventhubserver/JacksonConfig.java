@@ -1,4 +1,4 @@
-package com.vf.eventhubserver.configuration;
+package com.vf.eventhubserver;
 
 import java.time.format.DateTimeFormatter;
 
