@@ -33,6 +33,7 @@ val asciidoctorExt by configurations.creating
 
 dependencies {
 	providedCompile(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
+	implementation ("com.google.code.findbugs:jsr305:3.0.2")
 	implementation("org.springframework.data:spring-data-rest-hal-explorer")
 	asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
