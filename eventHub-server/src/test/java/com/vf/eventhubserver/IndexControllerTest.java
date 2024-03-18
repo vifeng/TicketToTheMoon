@@ -22,7 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootTest
 class IndexControllerTest {
         private MockMvc mockMvc;
-        String baseUrl = "http://localhost:8080/api/";
+        String baseUrl = "http://localhost:8080/api";
 
         @BeforeEach
         public void setUp(WebApplicationContext webApplicationContext,

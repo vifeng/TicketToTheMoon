@@ -3,17 +3,6 @@
 :snippetCurlGet: curl-request,response-body
 :snippetHttp: http-request, http-response,request-body,response-body,response-fields
 
-==== Hall
-This is a simple example of a Hall documentation. It is accurate but not complete. Endpoints are missing.
-
-===== POST Hall
-operation::hall-create-for-venue-id[snippets='{snippetCurlPost}']
-
-===== GET Hall
-operation::halls-get[snippets='{snippetCurlGetFields}']
-
-===== GET Hall by id
-operation::hall-get-by-id[snippets='path-parameters,{snippetCurlGet}']
 
 ==== Employees
 
@@ -22,3 +11,15 @@ operation::employees-create[snippets='{snippetCurlPost}']
 
 ===== GET All Employees
 operation::employees-get[snippets='{snippetCurlGetFields}']
+
+===== GET Employee by ID
+operation::employees-get-by-id[snippets='{snippetCurlGet}']
+
+===== PUT Employee by ID
+operation::employees-put[snippets='{snippetCurlPost}']
+
+===== PATCH Employee by ID
+operation::employees-patch[snippets='{snippetCurlPost}']
+
+===== DELETE Employee by ID
+operation::employees-delete-by-id[snippets='{snippetCurlGet}']

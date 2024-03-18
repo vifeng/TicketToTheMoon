@@ -20,7 +20,7 @@ Vifeng
 
 == Introduction
 *THIS DOCUMENTATION IS A WORK IN PROGRESS. IT IS ACCURATE BUT NOT COMPLETE.*
-This is a sample of the documentation for the Event Hub server side. The API is used to manage the following resources : event, ticket, reservation and customer order.
+This is a sample of the documentation for the Event Hub server side. The API is used to manage the following resources : order, payment, persona, show, tarification, venue.
 
 == Authentication
 {next}
@@ -74,22 +74,25 @@ Where possible, the Event Hub REST API strives to use an appropriate HTTP method
 
 
 == Resources
-The API is used to manage the following resources ordered in categories event, ticket, reservation and customer order.
+The API is used to manage the following resources order, payment, persona, show, tarification, venue.
 
 === Index
 include::{resources}/index.adoc[]
 
-=== Event
-include::{resources}/event.adoc[]
+=== Order
+include::{resources}/order.adoc[]
 
-=== Ticket
-include::{resources}/ticket.adoc[]
+=== Payment
+include::{resources}/payment.adoc[]
 
-=== Reservation
-include::{resources}/reservation.adoc[]
+=== Persona
+include::{resources}/persona.adoc[]
 
-=== Customer Order
-include::{resources}/customerOrder.adoc[]
+=== Show
+include::{resources}/show.adoc[]
 
+=== Tarification
+include::{resources}/tarification.adoc[]
 
-
+=== Venue
+include::{resources}/venue.adoc[]
