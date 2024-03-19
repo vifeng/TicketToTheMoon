@@ -5,5 +5,4 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 @Mapper(uses = {NonNull.class, Nullable.class})
-public interface MapperConfig {
-}
+public interface MapperConfig {}

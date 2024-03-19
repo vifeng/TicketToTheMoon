@@ -7,14 +7,13 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface CategoryTariffMapper {
 
-    CategoryTariffDTO toDTO(CategoryTariff categoryTariff);
+  CategoryTariffDTO toDTO(CategoryTariff categoryTariff);
 
-    CategoryTariff toEntity(CategoryTariffDTO categoryTariffDTO);
+  CategoryTariff toEntity(CategoryTariffDTO categoryTariffDTO);
 
-    @IterableMapping(elementTargetType = CategoryTariffDTO.class)
-    List<CategoryTariffDTO> toDTOs(Iterable<CategoryTariff> categoriesTariffs);
+  @IterableMapping(elementTargetType = CategoryTariffDTO.class)
+  List<CategoryTariffDTO> toDTOs(Iterable<CategoryTariff> categoriesTariffs);
 
-    @IterableMapping(elementTargetType = CategoryTariff.class)
-    List<CategoryTariff> toEntities(Iterable<CategoryTariffDTO> categoriesTariffsDTOs);
-
+  @IterableMapping(elementTargetType = CategoryTariff.class)
+  List<CategoryTariff> toEntities(Iterable<CategoryTariffDTO> categoriesTariffsDTOs);
 }

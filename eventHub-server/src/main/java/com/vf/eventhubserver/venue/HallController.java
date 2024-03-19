@@ -1,5 +1,12 @@
 package com.vf.eventhubserver.venue;
 
+import com.vf.eventhubserver.exception.CreateException;
+import com.vf.eventhubserver.exception.DuplicateKeyException;
+import com.vf.eventhubserver.exception.FinderException;
+import com.vf.eventhubserver.exception.NullException;
+import com.vf.eventhubserver.exception.PatchException;
+import com.vf.eventhubserver.exception.RemoveException;
+import com.vf.eventhubserver.exception.UpdateException;
 import java.util.List;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
@@ -15,92 +22,84 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.vf.eventhubserver.exception.CreateException;
-import com.vf.eventhubserver.exception.DuplicateKeyException;
-import com.vf.eventhubserver.exception.FinderException;
-import com.vf.eventhubserver.exception.NullException;
-import com.vf.eventhubserver.exception.PatchException;
-import com.vf.eventhubserver.exception.RemoveException;
-import com.vf.eventhubserver.exception.UpdateException;
 
-/**
- * HallController will handle all the requests related to the Hall entity.
- */
+/** HallController will handle all the requests related to the Hall entity. */
 @CrossOrigin
 @RestController
 @RequestMapping("/api")
 @Validated
 public class HallController {
 
-    private final HallService hallService;
+  private final HallService hallService;
 
-    public HallController(HallService hallService) {
-        this.hallService = hallService;
-    }
+  public HallController(HallService hallService) {
+    this.hallService = hallService;
+  }
 
-    /**
-     * @apiNote Get all Halls from all Venues - Useful for testing - /halls
-     * @return List<HallDTO>
-     */
-    @GetMapping("/halls")
-    public ResponseEntity<List<HallDTO>> getAllHalls() {
-        return ResponseEntity.ok(hallService.findAll());
-    }
+  /**
+   * @apiNote Get all Halls from all Venues - Useful for testing - /halls
+   * @return List<HallDTO>
+   */
+  @GetMapping("/halls")
+  public ResponseEntity<List<HallDTO>> getAllHalls() {
+    return ResponseEntity.ok(hallService.findAll());
+  }
 
-    @GetMapping("/halls/{id}")
-    public ResponseEntity<HallDTO> getHallById(@PathVariable Long id) throws FinderException {
-        return ResponseEntity.ok(hallService.findById(id));
-    }
+  @GetMapping("/halls/{id}")
+  public ResponseEntity<HallDTO> getHallById(@PathVariable Long id) throws FinderException {
+    return ResponseEntity.ok(hallService.findById(id));
+  }
 
-    @PutMapping("/halls/{id}")
-    public ResponseEntity<HallDTO> updateHall(@PathVariable Long id, @RequestBody HallDTO hallDTO)
-            throws FinderException, NullException, UpdateException, IllegalArgumentException {
-        return ResponseEntity.ok(hallService.updateHall(id, hallDTO));
-    }
+  @PutMapping("/halls/{id}")
+  public ResponseEntity<HallDTO> updateHall(@PathVariable Long id, @RequestBody HallDTO hallDTO)
+      throws FinderException, NullException, UpdateException, IllegalArgumentException {
+    return ResponseEntity.ok(hallService.updateHall(id, hallDTO));
+  }
 
-    @PatchMapping("/halls/{id}")
-    public ResponseEntity<HallDTO> patchHall(@PathVariable Long id,
-            @RequestBody Map<String, Object> hallPatch)
-            throws FinderException, NullException, PatchException, IllegalArgumentException {
-        if (hallPatch.isEmpty())
-            throw new NullException("Hall patch is null");
-        return ResponseEntity.ok(hallService.patchHall(id, hallPatch));
-    }
+  @PatchMapping("/halls/{id}")
+  public ResponseEntity<HallDTO> patchHall(
+      @PathVariable Long id, @RequestBody Map<String, Object> hallPatch)
+      throws FinderException, NullException, PatchException, IllegalArgumentException {
+    if (hallPatch.isEmpty()) throw new NullException("Hall patch is null");
+    return ResponseEntity.ok(hallService.patchHall(id, hallPatch));
+  }
 
-    @DeleteMapping("/halls/{id}")
-    public ResponseEntity<Void> deleteHall(@PathVariable Long id)
-            throws FinderException, RemoveException {
-        hallService.deleteHall(id);
-        return ResponseEntity.noContent().build();
-    }
+  @DeleteMapping("/halls/{id}")
+  public ResponseEntity<Void> deleteHall(@PathVariable Long id)
+      throws FinderException, RemoveException {
+    hallService.deleteHall(id);
+    return ResponseEntity.noContent().build();
+  }
 
-    /**
-     * @apiNote Create a Hall attached to a Venue- /venues/{venue_id}/halls
-     * @param hallDTO
-     * @return HallDTO
-     * @throws NullException
-     * @throws CreateException
-     * @throws FinderException
-     * @throws IllegalArgumentException
-     */
-    @PostMapping("/venues/{venueId}/halls")
-    public ResponseEntity<HallDTO> createHallForVenueId(@PathVariable Long venueId,
-            @RequestBody HallDTO hallDTO) throws NullException, CreateException, FinderException,
-            IllegalArgumentException, DuplicateKeyException {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(hallService.createHall(venueId, hallDTO));
-    }
+  /**
+   * @apiNote Create a Hall attached to a Venue- /venues/{venue_id}/halls
+   * @param hallDTO
+   * @return HallDTO
+   * @throws NullException
+   * @throws CreateException
+   * @throws FinderException
+   * @throws IllegalArgumentException
+   */
+  @PostMapping("/venues/{venueId}/halls")
+  public ResponseEntity<HallDTO> createHallForVenueId(
+      @PathVariable Long venueId, @RequestBody HallDTO hallDTO)
+      throws NullException,
+          CreateException,
+          FinderException,
+          IllegalArgumentException,
+          DuplicateKeyException {
+    return ResponseEntity.status(HttpStatus.CREATED).body(hallService.createHall(venueId, hallDTO));
+  }
 
-    /**
-     * @apiNote Get all Halls by Venue - /venues/{venueId}/halls
-     * @param id
-     * @return List<HallDTO>
-     * @throws FinderException
-     */
-    @GetMapping("/venues/{venueId}/halls")
-    public ResponseEntity<List<HallDTO>> getHallsByVenue(@PathVariable Long venueId)
-            throws FinderException {
-        return ResponseEntity.ok(hallService.findHallsByVenueId(venueId));
-    }
-
+  /**
+   * @apiNote Get all Halls by Venue - /venues/{venueId}/halls
+   * @param id
+   * @return List<HallDTO>
+   * @throws FinderException
+   */
+  @GetMapping("/venues/{venueId}/halls")
+  public ResponseEntity<List<HallDTO>> getHallsByVenue(@PathVariable Long venueId)
+      throws FinderException {
+    return ResponseEntity.ok(hallService.findHallsByVenueId(venueId));
+  }
 }

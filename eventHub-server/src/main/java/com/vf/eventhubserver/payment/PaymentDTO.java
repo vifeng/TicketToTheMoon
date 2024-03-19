@@ -1,8 +1,7 @@
 package com.vf.eventhubserver.payment;
 
-import java.time.LocalDateTime;
 import com.vf.eventhubserver.order.BookingDTO;
+import java.time.LocalDateTime;
 
-public record PaymentDTO(Long id, LocalDateTime paymentDateTime, BookingDTO booking,
-        PaymentStatusDTO paymentStatus) {
-}
+public record PaymentDTO(
+    Long id, LocalDateTime paymentDateTime, BookingDTO booking, PaymentStatusDTO paymentStatus) {}

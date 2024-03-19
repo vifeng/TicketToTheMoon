@@ -7,14 +7,13 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface CustomerMapper {
 
-    CustomerDTO toDTO(Customer customer);
+  CustomerDTO toDTO(Customer customer);
 
-    Customer toEntity(CustomerDTO customerDTO);
+  Customer toEntity(CustomerDTO customerDTO);
 
-    @IterableMapping(elementTargetType = CustomerDTO.class)
-    List<CustomerDTO> toDTOs(Iterable<Customer> customers);
+  @IterableMapping(elementTargetType = CustomerDTO.class)
+  List<CustomerDTO> toDTOs(Iterable<Customer> customers);
 
-    @IterableMapping(elementTargetType = Customer.class)
-    List<Customer> toEntities(Iterable<CustomerDTO> customerDTOs);
-
+  @IterableMapping(elementTargetType = Customer.class)
+  List<Customer> toEntities(Iterable<CustomerDTO> customerDTOs);
 }

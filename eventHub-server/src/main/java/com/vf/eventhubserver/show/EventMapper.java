@@ -7,14 +7,13 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface EventMapper {
 
-    EventDTO toDTO(Event event);
+  EventDTO toDTO(Event event);
 
-    Event toEntity(EventDTO eventDTO);
+  Event toEntity(EventDTO eventDTO);
 
-    @IterableMapping(elementTargetType = EventDTO.class)
-    List<EventDTO> toDTOs(Iterable<Event> events);
+  @IterableMapping(elementTargetType = EventDTO.class)
+  List<EventDTO> toDTOs(Iterable<Event> events);
 
-    @IterableMapping(elementTargetType = Event.class)
-    List<Event> toEntities(Iterable<EventDTO> eventDTOs);
-
+  @IterableMapping(elementTargetType = Event.class)
+  List<Event> toEntities(Iterable<EventDTO> eventDTOs);
 }

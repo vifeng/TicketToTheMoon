@@ -7,15 +7,13 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface TicketReservationKeyMapper {
 
-        TicketReservationKeyDTO toDTO(TicketReservationKey ticketReservationKey);
+  TicketReservationKeyDTO toDTO(TicketReservationKey ticketReservationKey);
 
-        TicketReservationKey toEntity(TicketReservationKeyDTO ticketReservationKeyDTO);
+  TicketReservationKey toEntity(TicketReservationKeyDTO ticketReservationKeyDTO);
 
-        @IterableMapping(elementTargetType = TicketReservationKeyDTO.class)
-        List<TicketReservationKeyDTO> toDTOs(Iterable<TicketReservationKey> ticketReservationKeys);
+  @IterableMapping(elementTargetType = TicketReservationKeyDTO.class)
+  List<TicketReservationKeyDTO> toDTOs(Iterable<TicketReservationKey> ticketReservationKeys);
 
-        @IterableMapping(elementTargetType = TicketReservationKey.class)
-        List<TicketReservationKey> toEntities(
-                        Iterable<TicketReservationKeyDTO> ticketReservationKeyDTOs);
-
+  @IterableMapping(elementTargetType = TicketReservationKey.class)
+  List<TicketReservationKey> toEntities(Iterable<TicketReservationKeyDTO> ticketReservationKeyDTOs);
 }

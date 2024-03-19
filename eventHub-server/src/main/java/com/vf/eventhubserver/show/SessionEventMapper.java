@@ -7,14 +7,13 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface SessionEventMapper {
 
-        SessionEventDTO toDTO(SessionEvent sessionEvent);
+  SessionEventDTO toDTO(SessionEvent sessionEvent);
 
-        SessionEvent toEntity(SessionEventDTO sessionEventDTO);
+  SessionEvent toEntity(SessionEventDTO sessionEventDTO);
 
-        @IterableMapping(elementTargetType = SessionEventDTO.class)
-        List<SessionEventDTO> toDTOs(Iterable<SessionEvent> sessionEvents);
+  @IterableMapping(elementTargetType = SessionEventDTO.class)
+  List<SessionEventDTO> toDTOs(Iterable<SessionEvent> sessionEvents);
 
-        @IterableMapping(elementTargetType = SessionEvent.class)
-        List<SessionEvent> toEntities(Iterable<SessionEventDTO> sessionEventDTOs);
-
+  @IterableMapping(elementTargetType = SessionEvent.class)
+  List<SessionEvent> toEntities(Iterable<SessionEventDTO> sessionEventDTOs);
 }
