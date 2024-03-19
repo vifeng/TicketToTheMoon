@@ -17,4 +17,8 @@ public interface EmployeeMapper {
     @IterableMapping(elementTargetType = Employee.class)
     Set<Employee> toEntities(Iterable<EmployeeDTO> employeeDTOs);
 
+    EmployeeDTONoPwd toDTONoPwd(Employee employee);
+
+    Employee toEntityNoPwd(EmployeeDTONoPwd employeeDTONoPwd);
+
 }

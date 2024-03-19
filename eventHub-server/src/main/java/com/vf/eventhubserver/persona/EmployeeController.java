@@ -55,6 +55,12 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.findById(id));
     }
 
+    @GetMapping("/NoPwd/{id}")
+    public ResponseEntity<EmployeeDTONoPwd> getEmployeeByIdNoPwd(@PathVariable Long id)
+            throws FinderException {
+        return ResponseEntity.ok(employeeService.findByIdNoPwd(id));
+    }
+
     /**
      * @param employeeDTO
      * @return the employee that was created.

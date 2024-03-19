@@ -15,6 +15,9 @@ operation::employees-get[snippets='{snippetCurlGetFields}']
 ===== GET Employee by ID
 operation::employees-get-by-id[snippets='{snippetCurlGet}']
 
+===== GET Employee by ID - don't show password
+operation::employees-get-by-id-no-pwd[snippets='{snippetCurlGet}']
+
 ===== PUT Employee by ID
 operation::employees-put[snippets='{snippetCurlPost}']
 

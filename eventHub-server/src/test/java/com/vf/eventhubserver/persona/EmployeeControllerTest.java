@@ -149,12 +149,28 @@ class EmployeeControllerTest {
                 request.andExpect(jsonPath("$.id").value(3))
                                 .andExpect(jsonPath("$.username", is("username2")))
                                 .andExpect(jsonPath("$.password", is("secretpwD%2")))
+                                .andExpect(jsonPath("$.email", is("email2@mail.com")))
                                 .andDo(document("employees-get-by-id",
                                                 pathParameters(parameterWithName("id").description(
                                                                 "The id of the employee to be retrieved"))));
-
         }
 
+        @Test
+        void employeesGetByIdNoPwd() throws Exception {
+                ResultActions request = this.mockMvc
+                                .perform(get(baseUrl + "employees/NoPwd/{id}", 3L)
+                                                .accept(MediaType.APPLICATION_JSON_VALUE))
+                                .andExpect(status().isOk());
+                request.andReturn().getResponse().getHeader("Location");
+
+                request.andExpect(jsonPath("$.id").value(3))
+                                .andExpect(jsonPath("$.username", is("username2")))
+                                .andExpect(jsonPath("$.password").doesNotExist())
+                                .andExpect(jsonPath("$.email", is("email2@mail.com")))
+                                .andDo(document("employees-get-by-id-no-pwd",
+                                                pathParameters(parameterWithName("id").description(
+                                                                "The id of the employee to be retrieved"))));
+        }
 
         @Test
         void employeesPatch() throws Exception {
