@@ -6,12 +6,11 @@ package com.vf.eventhubserver.exception;
  */
 public class DuplicateKeyException extends CreateException {
 
-    public DuplicateKeyException() {
-        super();
-    }
+  public DuplicateKeyException() {
+    super();
+  }
 
-    public DuplicateKeyException(final String message) {
-        super(message);
-    }
-
+  public DuplicateKeyException(final String message) {
+    super(message);
+  }
 }

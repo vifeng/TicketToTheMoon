@@ -7,14 +7,13 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface SeatStatusMapper {
 
-    SeatStatusDTO toDTO(SeatStatus seatStatus);
+  SeatStatusDTO toDTO(SeatStatus seatStatus);
 
-    SeatStatus toEntity(SeatStatusDTO seatStatusDTO);
+  SeatStatus toEntity(SeatStatusDTO seatStatusDTO);
 
-    @IterableMapping(elementTargetType = SeatStatusDTO.class)
-    List<SeatStatusDTO> toDTOs(Iterable<SeatStatus> seatStatuses);
+  @IterableMapping(elementTargetType = SeatStatusDTO.class)
+  List<SeatStatusDTO> toDTOs(Iterable<SeatStatus> seatStatuses);
 
-    @IterableMapping(elementTargetType = SeatStatus.class)
-    List<SeatStatus> toEntities(Iterable<SeatStatusDTO> seatStatusDTOs);
-
+  @IterableMapping(elementTargetType = SeatStatus.class)
+  List<SeatStatus> toEntities(Iterable<SeatStatusDTO> seatStatusDTOs);
 }

@@ -1,5 +1,6 @@
 package com.vf.eventhubserver.payment;
 
+import com.vf.eventhubserver.exception.FinderException;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.vf.eventhubserver.exception.FinderException;
 
 @CrossOrigin
 @RestController
@@ -18,27 +18,25 @@ import com.vf.eventhubserver.exception.FinderException;
 @Validated
 public class PaymentController {
 
-    private final PaymentService paymentService;
+  private final PaymentService paymentService;
 
-    public PaymentController(PaymentService paymentService) {
-        this.paymentService = paymentService;
-    }
+  public PaymentController(PaymentService paymentService) {
+    this.paymentService = paymentService;
+  }
 
-    @GetMapping
-    public ResponseEntity<List<PaymentDTO>> getAllPayments() throws FinderException {
-        return ResponseEntity.ok(paymentService.findAll());
-    }
+  @GetMapping
+  public ResponseEntity<List<PaymentDTO>> getAllPayments() throws FinderException {
+    return ResponseEntity.ok(paymentService.findAll());
+  }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PaymentDTO> getPaymentById(@PathVariable Long id) throws FinderException {
-        return ResponseEntity.ok(paymentService.findById(id));
-    }
+  @GetMapping("/{id}")
+  public ResponseEntity<PaymentDTO> getPaymentById(@PathVariable Long id) throws FinderException {
+    return ResponseEntity.ok(paymentService.findById(id));
+  }
 
-    @PostMapping("/bookings/{bookingId}")
-    public ResponseEntity<PaymentDTO> createPayment(@PathVariable Long bookingId)
-            throws FinderException {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(paymentService.createPayment(bookingId));
-    }
-
+  @PostMapping("/bookings/{bookingId}")
+  public ResponseEntity<PaymentDTO> createPayment(@PathVariable Long bookingId)
+      throws FinderException {
+    return ResponseEntity.status(HttpStatus.CREATED).body(paymentService.createPayment(bookingId));
+  }
 }

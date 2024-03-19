@@ -7,13 +7,13 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface PaymentMapper {
 
-    PaymentDTO toDTO(Payment payment);
+  PaymentDTO toDTO(Payment payment);
 
-    Payment toEntity(PaymentDTO paymentDTO);
+  Payment toEntity(PaymentDTO paymentDTO);
 
-    @IterableMapping(elementTargetType = PaymentDTO.class)
-    List<PaymentDTO> toDTOs(Iterable<Payment> payments);
+  @IterableMapping(elementTargetType = PaymentDTO.class)
+  List<PaymentDTO> toDTOs(Iterable<Payment> payments);
 
-    @IterableMapping(elementTargetType = Payment.class)
-    List<Payment> toEntities(Iterable<PaymentDTO> paymentDTOs);
+  @IterableMapping(elementTargetType = Payment.class)
+  List<Payment> toEntities(Iterable<PaymentDTO> paymentDTOs);
 }

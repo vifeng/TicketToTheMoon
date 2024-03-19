@@ -1,10 +1,11 @@
 package com.vf.eventhubserver.order;
 
+import com.vf.eventhubserver.persona.Customer;
 import java.sql.Timestamp;
 import java.util.Set;
-import com.vf.eventhubserver.persona.Customer;
 
-public record BookingDTO(Long id, Timestamp bookingCreationTimestamp, Customer customer,
-        Set<TicketReservation> reservations) {
-
-}
+public record BookingDTO(
+    Long id,
+    Timestamp bookingCreationTimestamp,
+    Customer customer,
+    Set<TicketReservation> reservations) {}

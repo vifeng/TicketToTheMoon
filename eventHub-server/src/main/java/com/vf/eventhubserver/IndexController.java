@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class IndexController {
 
-    @GetMapping("")
-    public String getDocumentation() {
-        return "This is the home page of the API. Please refer to the documentation for more information.";
-    }
+  @GetMapping("")
+  public String getDocumentation() {
+    return "This is the home page of the API. Please refer to the documentation for more information.";
+  }
 }

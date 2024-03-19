@@ -7,14 +7,13 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface CategorySpatialMapper {
 
-    CategorySpatialDTO toDTO(CategorySpatial category);
+  CategorySpatialDTO toDTO(CategorySpatial category);
 
-    CategorySpatial toEntity(CategorySpatialDTO categoryDTO);
+  CategorySpatial toEntity(CategorySpatialDTO categoryDTO);
 
-    @IterableMapping(elementTargetType = CategorySpatialDTO.class)
-    List<CategorySpatialDTO> toDTOs(Iterable<CategorySpatial> categories);
+  @IterableMapping(elementTargetType = CategorySpatialDTO.class)
+  List<CategorySpatialDTO> toDTOs(Iterable<CategorySpatial> categories);
 
-    @IterableMapping(elementTargetType = CategorySpatial.class)
-    List<CategorySpatial> toEntities(Iterable<CategorySpatialDTO> categoryDTOs);
-
+  @IterableMapping(elementTargetType = CategorySpatial.class)
+  List<CategorySpatial> toEntities(Iterable<CategorySpatialDTO> categoryDTOs);
 }

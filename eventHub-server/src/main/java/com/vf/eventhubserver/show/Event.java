@@ -1,98 +1,112 @@
 package com.vf.eventhubserver.show;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.io.Serializable;
+import java.time.LocalDate;
 
 @Entity
 public class Event implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
-    private String description;
-    private LocalDate dateStart;
-    private LocalDate dateEnd;
-    private String closedDay;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    public Event() {}
+  private String name;
+  private String description;
+  private LocalDate dateStart;
+  private LocalDate dateEnd;
+  private String closedDay;
 
-    public Event(Long id, String name, String description, LocalDate dateStart, LocalDate dateEnd,
-            String closedDay) {
-        setId(id);
-        setName(name);
-        setDescription(description);
-        setDateStart(dateStart);
-        setDateEnd(dateEnd);
-        setClosedDay(closedDay);
-    }
+  public Event() {}
 
-    public Event(String name, String description, LocalDate dateStart, LocalDate dateEnd,
-            String closedDay) {
-        setName(name);
-        setDescription(description);
-        setDateStart(dateStart);
-        setDateEnd(dateEnd);
-        setClosedDay(closedDay);
-    }
+  public Event(
+      Long id,
+      String name,
+      String description,
+      LocalDate dateStart,
+      LocalDate dateEnd,
+      String closedDay) {
+    setId(id);
+    setName(name);
+    setDescription(description);
+    setDateStart(dateStart);
+    setDateEnd(dateEnd);
+    setClosedDay(closedDay);
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public Event(
+      String name, String description, LocalDate dateStart, LocalDate dateEnd, String closedDay) {
+    setName(name);
+    setDescription(description);
+    setDateStart(dateStart);
+    setDateEnd(dateEnd);
+    setClosedDay(closedDay);
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public LocalDate getDateStart() {
-        return dateStart;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public void setDateStart(LocalDate dateStart) {
-        this.dateStart = dateStart;
-    }
+  public LocalDate getDateStart() {
+    return dateStart;
+  }
 
-    public LocalDate getDateEnd() {
-        return dateEnd;
-    }
+  public void setDateStart(LocalDate dateStart) {
+    this.dateStart = dateStart;
+  }
 
-    public void setDateEnd(LocalDate dateEnd) {
-        this.dateEnd = dateEnd;
-    }
+  public LocalDate getDateEnd() {
+    return dateEnd;
+  }
 
-    public String getClosedDay() {
-        return closedDay;
-    }
+  public void setDateEnd(LocalDate dateEnd) {
+    this.dateEnd = dateEnd;
+  }
 
-    public void setClosedDay(String closedDay) {
-        this.closedDay = closedDay;
-    }
+  public String getClosedDay() {
+    return closedDay;
+  }
 
-    @Override
-    public String toString() {
-        return "Event [id=" + id + ", name=" + name + ", description=" + description
-                + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd + ", closedDay=" + closedDay
-                + "]";
-    }
+  public void setClosedDay(String closedDay) {
+    this.closedDay = closedDay;
+  }
 
+  @Override
+  public String toString() {
+    return "Event [id="
+        + id
+        + ", name="
+        + name
+        + ", description="
+        + description
+        + ", dateStart="
+        + dateStart
+        + ", dateEnd="
+        + dateEnd
+        + ", closedDay="
+        + closedDay
+        + "]";
+  }
 }

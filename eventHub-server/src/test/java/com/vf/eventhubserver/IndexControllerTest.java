@@ -7,6 +7,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,25 +22,32 @@ import org.springframework.web.context.WebApplicationContext;
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest
 class IndexControllerTest {
-        private MockMvc mockMvc;
-        String baseUrl = "http://localhost:8080/api";
+  private MockMvc mockMvc;
+  String baseUrl = "http://localhost:8080/api";
 
-        @BeforeEach
-        public void setUp(WebApplicationContext webApplicationContext,
-                        RestDocumentationContextProvider restDocumentation) {
-                this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                                .apply(documentationConfiguration(restDocumentation))
-                                .alwaysDo(document("{method-name}",
-                                                preprocessRequest(prettyPrint()),
-                                                preprocessResponse(prettyPrint())))
-                                .build();
-        }
+  @BeforeEach
+  public void setUp(
+      WebApplicationContext webApplicationContext,
+      RestDocumentationContextProvider restDocumentation) {
+    this.mockMvc =
+        MockMvcBuilders.webAppContextSetup(webApplicationContext)
+            .apply(documentationConfiguration(restDocumentation))
+            .alwaysDo(
+                document(
+                    "{method-name}",
+                    preprocessRequest(prettyPrint()),
+                    preprocessResponse(prettyPrint())))
+            .build();
+  }
 
-        @Test
-        void testIndex() throws Exception {
-                mockMvc.perform(get(baseUrl)).andExpect(status().isOk())
-                                .andDo(document("index-get", preprocessRequest(prettyPrint()),
-                                                preprocessResponse(prettyPrint())));;
-        }
-
+  @Test
+  void testIndex() throws Exception {
+    mockMvc
+        .perform(get(baseUrl))
+        .andExpect(status().isOk())
+        .andDo(
+            document(
+                "index-get", preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint())));
+    ;
+  }
 }
