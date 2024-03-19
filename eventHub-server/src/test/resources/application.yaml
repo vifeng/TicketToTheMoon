@@ -18,6 +18,8 @@ spring:
       enabled: ALWAYS
   flyway:
     enabled: false
+  jpa:
+    open-in-view: false
 
 server:
   compression:

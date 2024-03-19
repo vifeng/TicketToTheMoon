@@ -55,6 +55,16 @@ public class EmployeeService {
         return employeeMapper.toDTO(employee);
     }
 
+    public EmployeeDTONoPwd findByIdNoPwd(Long id) throws FinderException {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new FinderException(EMPMSG + id + NOTFOUNDMSG));
+        if (employee == null) {
+            throw new NullException(EMPNULL);
+        }
+        return employeeMapper.toDTONoPwd(employee);
+    }
+
+
     /**
      * @param employeeDTO
      * @return the employee DTO.
