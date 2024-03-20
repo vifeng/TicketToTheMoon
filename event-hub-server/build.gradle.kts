@@ -3,8 +3,8 @@ plugins {
 	war
 	id("org.asciidoctor.jvm.convert") version "3.3.2"
 	id("org.springframework.boot") version "3.2.3"
-	id("org.flywaydb.flyway") version "10.0.0"
-  id("com.diffplug.spotless") version "6.25.0"
+	id("org.flywaydb.flyway") version "10.10.0"
+	id("com.diffplug.spotless") version "6.25.0"
 }
 
 apply(plugin = "io.spring.dependency-management")
