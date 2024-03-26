@@ -4,6 +4,7 @@
     <div>
       <router-view />
     </div>
+    <TheChatBot></TheChatBot>
   </div>
   <TheFooter></TheFooter>
 </template>
