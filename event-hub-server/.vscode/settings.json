@@ -2,7 +2,6 @@
   "java.compile.nullAnalysis.mode": "automatic",
   "java.format.settings.url": ".vscode/eclipse-java-google-style.xml",
   "java.checkstyle.configuration": "/google_checks.xml",
-  "asciidoc.antora.enableAntoraSupport": true,
   "java.configuration.updateBuildConfiguration": "interactive",
   "java.format.enabled": false,
   "[java]": {

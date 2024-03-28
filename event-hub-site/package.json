@@ -10,6 +10,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "pinia": "^2.0.36",
     "vue": "^3.3.2",
     "vue-router": "^4.2.0"
@@ -18,7 +19,7 @@
     "@babel/core": "^7.22.1",
     "@babel/eslint-parser": "^7.21.8",
     "@rushstack/eslint-patch": "^1.2.0",
-    "@vitejs/plugin-vue": "^4.2.3",
+    "@vitejs/plugin-vue": "^4.6.2",
     "@vue/eslint-config-prettier": "^7.1.0",
     "eslint": "^8.42.0",
     "eslint-plugin-vue": "^9.11.0",
