@@ -1,4 +1,21 @@
 # Configuration file for Production environment
+database: mysql
+
+spring:
+  cloud:
+    gcp:
+      sql:
+        database-name: TODO
+        instance-connection-name: TODO
+  sql:
+    init:
+      mode: always
+  flyway:
+    enabled: true
+    validateMigrationNaming: true
+    validateOnMigrate: true
+    baselineOnMigrate: true
+    locations: classpath:db/migration
 
 management:
   endpoints:

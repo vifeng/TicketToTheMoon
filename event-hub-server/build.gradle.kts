@@ -1,13 +1,17 @@
 plugins {
 	java
-	war
+	id("org.springframework.boot") version "3.2.4" 
+	id("io.spring.dependency-management") version "1.1.4"
 	id("org.asciidoctor.jvm.convert") version "3.3.2"
-	id("org.springframework.boot") version "3.2.3"
 	id("org.flywaydb.flyway") version "10.10.0"
 	id("com.diffplug.spotless") version "6.25.0"
 }
 
-apply(plugin = "io.spring.dependency-management")
+dependencyManagement {
+	imports {
+		mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+	}
+}
 
 group = "com.vf"
 version = "0.0.1-SNAPSHOT"
@@ -16,6 +20,10 @@ java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
+}
+
+springBoot {
+	mainClass.set("com.vf.eventhubserver.EventhubServerApplication")
 }
 
 configurations {
@@ -33,7 +41,9 @@ val asciidoctorExt by configurations.creating
 
 
 dependencies {
-	providedCompile(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
+    implementation(platform("com.google.cloud:spring-cloud-gcp-dependencies:4.1.4"))
+	implementation("com.google.cloud:spring-cloud-gcp-starter-sql-mysql")
+
 	implementation ("com.google.code.findbugs:jsr305:3.0.2")
 	implementation("org.springframework.data:spring-data-rest-hal-explorer")
 	asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor")
@@ -48,7 +58,6 @@ dependencies {
 	implementation ("org.flywaydb:flyway-core")
 	implementation("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
-	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
@@ -57,13 +66,8 @@ dependencies {
 
 spotless {
   java {
-    // Target all Java source files
     target("src/**/*.java")
-    
-    // Optional: Choose your formatter (replace with your preference)
-    googleJavaFormat() // Uses Google Java Format
-    
-    // Remove unused imports (optional)
+    googleJavaFormat()
     removeUnusedImports()
   }
 }
@@ -97,19 +101,7 @@ tasks.asciidoctor {
 	options(mapOf("doctype" to "book"))
 }
 
-
-springBoot{
-	mainClass.set("com.vf.eventhubserver.EventhubServerApplication")
-}
-
 tasks.jar {
-	dependsOn("asciidoctor")
-	from ("${snippetsDir}/html5") {
-		into ("static/docs")
-	}
-}
-
-tasks.war {
 	dependsOn("asciidoctor")
 	from ("${snippetsDir}/html5") {
 		into ("static/docs")
