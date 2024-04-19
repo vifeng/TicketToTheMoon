@@ -21,5 +21,8 @@
     "editor.codeActionsOnSave": {
       "source.fixAll.spotlessGradle": "explicit"
     }
-  }
+  },
+  "java.import.gradle.java.home": "JAVA_HOME",
+  "java.import.gradle.home": "GRADLE_HOME",
+  "java.configuration.runtimes": []
 }
