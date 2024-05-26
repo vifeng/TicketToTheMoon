@@ -12,6 +12,17 @@ spring:
     ansi:
       enabled: ALWAYS
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    org:
+      springframework: INFO
+
 server:
   compression:
     enabled: true

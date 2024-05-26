@@ -18,6 +18,10 @@ java {
     }
 }
 
+springBoot  {
+    buildInfo()
+}
+
 configurations {
 	compileOnly {
 		extendsFrom(configurations.annotationProcessor.get())
