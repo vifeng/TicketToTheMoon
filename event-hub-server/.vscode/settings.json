@@ -24,5 +24,7 @@
   },
   "java.import.gradle.java.home": "JAVA_HOME",
   "java.import.gradle.home": "GRADLE_HOME",
-  "java.configuration.runtimes": []
+  "java.configuration.runtimes": [],
+  "xml.server.silenceExtensionWarning": true,
+  "files.defaultLanguage": ""
 }
