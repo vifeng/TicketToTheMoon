@@ -14,23 +14,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/chatbot")
 public class VideoController {
-    @GetMapping
-    public ResponseEntity<Resource> getVideo() {
-        try {
-            String filename = "static/video/chatbotCV.mp4";
-            Resource resource = new ClassPathResource(filename);
+  @GetMapping
+  public ResponseEntity<Resource> getVideo() {
+    try {
+      String filename = "static/video/chatbotCV.mp4";
+      Resource resource = new ClassPathResource(filename);
 
-            if (resource.exists() && resource.isReadable()) {
-                return ResponseEntity.ok()
-                        .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
-                        .contentType(MediaType.parseMediaType("video/mp4"))
-                        .body(resource);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.notFound().build();
-        }
+      if (resource.exists() && resource.isReadable()) {
+        return ResponseEntity.ok()
+            .header(
+                HttpHeaders.CONTENT_DISPOSITION,
+                "inline; filename=\"" + resource.getFilename() + "\"")
+            .contentType(MediaType.parseMediaType("video/mp4"))
+            .body(resource);
+      } else {
+        return ResponseEntity.notFound().build();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      return ResponseEntity.notFound().build();
     }
+  }
 }
