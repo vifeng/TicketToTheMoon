@@ -1,5 +1,6 @@
 package com.vf.eventhubserver.venue;
 
+import com.vf.eventhubserver.LocationResponseBuilder;
 import com.vf.eventhubserver.exception.CreateException;
 import com.vf.eventhubserver.exception.DuplicateKeyException;
 import com.vf.eventhubserver.exception.FinderException;
@@ -9,7 +10,6 @@ import com.vf.eventhubserver.exception.RemoveException;
 import com.vf.eventhubserver.exception.UpdateException;
 import java.util.List;
 import java.util.Map;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 @Validated
-public class HallController {
+public class HallController implements LocationResponseBuilder {
 
   private final HallService hallService;
 
@@ -81,14 +81,14 @@ public class HallController {
    * @throws IllegalArgumentException
    */
   @PostMapping("/venues/{venueId}/halls")
-  public ResponseEntity<HallDTO> createHallForVenueId(
+  public ResponseEntity<Void> createHallForVenueId(
       @PathVariable Long venueId, @RequestBody HallDTO hallDTO)
       throws NullException,
           CreateException,
           FinderException,
           IllegalArgumentException,
           DuplicateKeyException {
-    return ResponseEntity.status(HttpStatus.CREATED).body(hallService.createHall(venueId, hallDTO));
+    return entityWithLocation(hallService.createHall(venueId, hallDTO));
   }
 
   /**
@@ -101,5 +101,11 @@ public class HallController {
   public ResponseEntity<List<HallDTO>> getHallsByVenue(@PathVariable Long venueId)
       throws FinderException {
     return ResponseEntity.ok(hallService.findHallsByVenueId(venueId));
+  }
+
+  @GetMapping("/venues/{venueId}/halls/{id}")
+  public ResponseEntity<HallDTO> getHallByVenueById(
+      @PathVariable Long venueId, @PathVariable Long id) throws FinderException {
+    return ResponseEntity.ok(hallService.findById(id));
   }
 }

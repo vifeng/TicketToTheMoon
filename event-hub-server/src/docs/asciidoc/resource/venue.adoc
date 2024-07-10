@@ -1,16 +1,21 @@
-:snippetCurlPost: curl-request,request-body,response-body
-:snippetCurlGetFields: curl-request,response-body,response-fields
-:snippetCurlGet: curl-request,response-body
-:snippetHttp: http-request, http-response,request-body,response-body,response-fields
+:snippetCurlGetAll: curl-request,response-body,http-request,http-response
+:snippetCurlGet: path-parameters,curl-request,response-body,http-request,http-response
+:snippetCurlPost: curl-request,request-body,request-fields,http-request,http-response
+:snippetCurlUpdate: path-parameters,curl-request,request-body,response-body,http-request,http-response
+:snippetCurlDelete: path-parameters,curl-request,http-request,http-response
+
 
 ==== Hall
 This is a simple example of a Hall documentation. It is accurate but not complete. Endpoints are missing.
 
-===== POST Hall
-operation::hall-create-for-venue-id[snippets='{snippetCurlPost}']
-
-===== GET Hall
-operation::halls-get[snippets='{snippetCurlGetFields}']
+===== GET All Halls
+operation::halls-get[snippets='{snippetCurlGetAll},response-fields']
 
 ===== GET Hall by id
-operation::hall-get-by-id[snippets='path-parameters,{snippetCurlGet}']
+operation::hall-get-by-id[snippets='{snippetCurlGet}']
+
+===== GET Hall by Venue by id
+operation::hall-get-by-venue-by-id[snippets='{snippetCurlGet}']
+
+===== POST Hall
+operation::hall-create-for-venue-id[snippets='{snippetCurlPost}']

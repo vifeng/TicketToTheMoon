@@ -19,24 +19,45 @@ Vifeng
 .Overview
 
 == Introduction
+[%hardbreaks]
 *THIS DOCUMENTATION IS A WORK IN PROGRESS. IT IS ACCURATE BUT NOT COMPLETE.*
-This is a sample of the documentation for the Event Hub server side. The API is used to manage the following resources : order, payment, persona, show, tarification, venue.
+Indeed, this API Documentation of RESTful services is done by combining hand-written documentation with auto-generated snippets produced with Spring MVC Test or WebTestClient.
+This test-driven approach helps to guarantee the accuracy of your service’s documentation. If a snippet is incorrect, the test that produces it fails.
+The Event Hub server side API is used to manage the following resources : order, payment, persona, show, tarification, venue.
+
 
 == Authentication
 {next}
 
 == HTTP verbs
-The HTTP method of an endpoint defines the type of action it performs on a given resource. Some common HTTP methods are GET, POST, DELETE, and PATCH. The REST API reference documentation provides the HTTP method for every endpoint.
+The HTTP method of an endpoint defines the type of action it performs on a given resource. Some common HTTP methods are GET, POST, DELETE, and PATCH. The REST API reference documentation provides the HTTP method for every endpoint according to the https://datatracker.ietf.org/doc/html/rfc7231RFC[7231 standard].  
 Where possible, the Event Hub REST API strives to use an appropriate HTTP method for each action.
 [%header,cols=2*]
+[cols="1,2,3", options="header"]
 |===
-| Verb | Description
-| GET | Used for retrieving resources.
-| POST | Used for creating resources.
-| PATCH | Used for updating properties of resources.
-| PUT | Used for replacing resources or collections of resources.
-| DELETE | Used for deleting resources.
+| Verb | Description | Response
+
+| GET 
+| Used for retrieving resources. 
+| Status code 200 OK with the requested resource. 
+
+| POST 
+| Used for creating resources. 
+| Status code 201 Created with the location of the new resource. 
+
+| PATCH 
+| Used for updating properties of resources. 
+| Status code 200 OK with the updated resource. 
+
+| PUT 
+| Used for replacing resources or collections of resources. 
+| Status code 200 OK with the updated resource. 
+
+| DELETE 
+| Used for deleting resources. 
+| Status code 204 No Content.
 |===
+
 
 == HTTP status codes
 
@@ -75,9 +96,6 @@ Where possible, the Event Hub REST API strives to use an appropriate HTTP method
 
 == Resources
 The API is used to manage the following resources order, payment, persona, show, tarification, venue.
-
-=== Index
-include::{resources}/index.adoc[]
 
 === Order
 include::{resources}/order.adoc[]

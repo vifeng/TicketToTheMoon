@@ -1,4 +1,5 @@
-:snippetCurlPost: curl-request,request-body,response-body
-:snippetCurlGetFields: curl-request,response-body,response-fields
-:snippetCurlGet: curl-request,response-body
-:snippetHttp: http-request, http-response,request-body,response-body,response-fields
+:snippetCurlGetAll: curl-request,response-body,http-request,http-response
+:snippetCurlGet: path-parameters,curl-request,response-body,http-request,http-response
+:snippetCurlPost: curl-request,request-body,request-fields,http-request,http-response
+:snippetCurlUpdate: path-parameters,curl-request,request-body,response-body,http-request,http-response
+:snippetCurlDelete: path-parameters,curl-request,http-request,http-response

@@ -67,18 +67,12 @@ public class EmployeeService {
     return employeeMapper.toDTONoPwd(employee);
   }
 
-  /**
-   * @param employeeDTO
-   * @return the employee DTO.
-   * @throws CreateException
-   * @throws IllegalArgumentException
-   */
-  public EmployeeDTO createEmployee(EmployeeDTO employeeDTO)
+  public Long createEmployee(EmployeeDTO employeeDTO)
       throws CreateException, IllegalArgumentException {
     try {
       Employee employee = employeeMapper.toEntity(employeeDTO);
       Employee savedEmployee = employeeRepository.save(employee);
-      return employeeMapper.toDTO(savedEmployee);
+      return savedEmployee.getId();
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Employee is not created : " + e.getMessage(), e);
     } catch (Exception e) {

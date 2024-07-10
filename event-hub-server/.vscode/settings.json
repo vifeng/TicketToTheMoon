@@ -26,5 +26,103 @@
   "java.import.gradle.home": "GRADLE_HOME",
   "java.configuration.runtimes": [],
   "xml.server.silenceExtensionWarning": true,
-  "files.defaultLanguage": ""
+  "files.defaultLanguage": "",
+  "java.completion.favoriteStaticMembers": [
+    "org.junit.Assert.*",
+    "org.junit.Assume.*",
+    "org.assertj.core.api.Assertions.*",
+    "org.junit.jupiter.api.Assertions.*",
+    "org.junit.jupiter.api.Assertions.assertEquals",
+    "org.junit.jupiter.api.Assertions.assertThat",
+    "org.junit.jupiter.api.Assumptions.*",
+    "org.junit.jupiter.api.DynamicContainer.*",
+    "org.junit.jupiter.api.DynamicTest.*",
+    "org.mockito.Mockito.*",
+    "org.mockito.ArgumentMatchers.*",
+    "org.mockito.Answers.*",
+    "org.hamcrest.Matchers.hasItems;",
+    "org.hamcrest.Matchers.is;",
+    "org.hamcrest.Matchers.notNullValue;",
+    "org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;",
+    "org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;",
+    "org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;",
+    "org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;",
+    "org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;",
+    "org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;",
+    "org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;",
+    "org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;",
+    "org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;",
+    "org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;",
+    "org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;",
+    "org.springframework.restdocs.payload.PayloadDocumentation.requestFields;",
+    "org.springframework.restdocs.request.RequestDocumentation.parameterWithName;",
+    "org.springframework.restdocs.request.RequestDocumentation.pathParameters;",
+    "org.springframework.restdocs.snippet.Attributes.attributes;",
+    "org.springframework.restdocs.snippet.Attributes.key;",
+    "org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;",
+    "org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;"
+  ],
+  "asciidoc.antora.enableAntoraSupport": true,
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#88c75e",
+    "activityBar.background": "#88c75e",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#4273bd",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#15202b99",
+    "sash.hoverBorder": "#88c75e",
+    "statusBar.background": "#6db33f",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.hoverBackground": "#568d32",
+    "statusBarItem.remoteBackground": "#6db33f",
+    "statusBarItem.remoteForeground": "#15202b",
+    "titleBar.activeBackground": "#6db33f",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveBackground": "#6db33f99",
+    "titleBar.inactiveForeground": "#15202b99"
+  },
+  "peacock.color": "#6DB33F",
+  "peacock.favoriteColors": [
+    {
+      "name": "Spring green",
+      "value": "#6DB33F"
+    },
+    {
+      "name": "Vue Green",
+      "value": "#42b883"
+    },
+    {
+      "name": "Angular Red",
+      "value": "#dd0531"
+    },
+    {
+      "name": "Azure Blue",
+      "value": "#007fff"
+    },
+    {
+      "name": "JavaScript Yellow",
+      "value": "#f9e64f"
+    },
+    {
+      "name": "Mandalorian Blue",
+      "value": "#1857a4"
+    },
+    {
+      "name": "Node Green",
+      "value": "#215732"
+    },
+    {
+      "name": "React Blue",
+      "value": "#61dafb"
+    },
+    {
+      "name": "Something Different",
+      "value": "#832561"
+    },
+    {
+      "name": "Svelte Orange",
+      "value": "#ff3d00"
+    }
+  ]
 }

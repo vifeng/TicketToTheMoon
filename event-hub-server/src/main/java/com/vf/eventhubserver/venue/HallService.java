@@ -141,7 +141,7 @@ public class HallService {
    * @throws FinderException
    * @throws DuplicateKeyException
    */
-  public HallDTO createHall(Long venueId, HallDTO hallDTO)
+  public Long createHall(Long venueId, HallDTO hallDTO)
       throws IllegalArgumentException, CreateException, FinderException, DuplicateKeyException {
     venueRepository.getReferenceById(venueId);
     if (!Objects.equals(venueId, hallDTO.venue().id()))
@@ -158,7 +158,7 @@ public class HallService {
     try {
       Hall hall = hallMapper.toEntity(hallDTO);
       Hall savedHall = hallRepository.save(hall);
-      return hallMapper.toDTO(savedHall);
+      return savedHall.getId();
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException(
           "Hall not created, IllegalArgumentException : " + e.getMessage(), e);

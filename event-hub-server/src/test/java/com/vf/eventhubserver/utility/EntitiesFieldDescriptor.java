@@ -1,52 +1,116 @@
 package com.vf.eventhubserver.utility;
 
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
+import static org.springframework.util.StringUtils.collectionToDelimitedString;
 
+import com.vf.eventhubserver.persona.Address;
+import com.vf.eventhubserver.persona.Employee;
+import com.vf.eventhubserver.venue.Hall;
+import com.vf.eventhubserver.venue.Venue;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
 public class EntitiesFieldDescriptor {
+  ConstraintDescriptions descAddress = new ConstraintDescriptions(Address.class);
+  ConstraintDescriptions descEmployee = new ConstraintDescriptions(Employee.class);
+  ConstraintDescriptions descHall = new ConstraintDescriptions(Hall.class);
+  ConstraintDescriptions descVenue = new ConstraintDescriptions(Venue.class);
 
-  private FieldDescriptor[] addressResponseFields = {
-    fieldWithPath("street").description("The street in the address of the venue of the hall"),
-    fieldWithPath("city").description("The city in the address of the venue of the hall"),
-    fieldWithPath("zipcode").description("The zipcode in the address of the venue of the hall"),
-    fieldWithPath("country").description("The country in the address of the venue of the hall")
-  };
-  private FieldDescriptor[] employeeResponseFields = {
-    fieldWithPath("id").description("The employee id in charge of the hall"),
-    fieldWithPath("username").description("The employee username in charge of the hall"),
-    fieldWithPath("password").description("The employee password in charge of the hall"),
-    fieldWithPath("email").description("The employee email in charge of the hall")
-  };
-  private FieldDescriptor[] venueResponseFields = {
-    fieldWithPath("id").description("The id of the venue of the hall"),
-    fieldWithPath("name").description("The name of the venue of the hall"),
-    subsectionWithPath("address").description("The address of the venue of the hall"),
-    subsectionWithPath("employees").description("The employees in charge of the hall"),
-  };
-  private FieldDescriptor[] hallResponseFields = {
-    fieldWithPath("id").description("The id of the hall"),
-    fieldWithPath("name").description("The name of the hall"),
-    fieldWithPath("capacityOfHall").description("The capacity of the hall"),
-    subsectionWithPath("venue").description("The venue of the hall")
-  };
-
-  public EntitiesFieldDescriptor() {}
-
-  public FieldDescriptor[] getAddressResponseFields() {
-    return addressResponseFields;
+  public FieldDescriptor[] generateAddressFields(boolean includeId) {
+    Map<String, String> customDescriptions =
+        Map.of(
+            "id", "",
+            "street", "",
+            "city", "",
+            "zipcode", "",
+            "country", "");
+    return generateFields(
+        includeId,
+        "address",
+        descAddress,
+        customDescriptions,
+        new String[] {"street", "city", "zipcode", "country"});
   }
 
-  public FieldDescriptor[] getEmployeeResponseFields() {
-    return employeeResponseFields;
+  public FieldDescriptor[] generateEmployeeFields(boolean includeId) {
+    Map<String, String> customDescriptions =
+        Map.of(
+            "id", "The employee ID in charge of the venue. ",
+            "username", "The employee username in charge of the venue. ",
+            "password", "",
+            "email", "The employee email in charge of the venue. ");
+    return generateFields(
+        includeId,
+        "employee",
+        descEmployee,
+        customDescriptions,
+        new String[] {"username", "password", "email"});
   }
 
-  public FieldDescriptor[] getVenueResponseFields() {
-    return venueResponseFields;
+  public FieldDescriptor[] generateVenueFields(boolean includeId) {
+    Map<String, String> customDescriptions =
+        Map.of(
+            "id", "",
+            "name", "",
+            "address", "",
+            "employees", "The employees in charge of the venue. ");
+    return generateFields(
+        includeId,
+        "venue",
+        descVenue,
+        customDescriptions,
+        new String[] {"name", "address", "employees"});
   }
 
-  public FieldDescriptor[] getHallResponseFields() {
-    return hallResponseFields;
+  public FieldDescriptor[] generateHallFields(boolean includeId) {
+    Map<String, String> customDescriptions =
+        Map.of(
+            "id", "",
+            "name", "",
+            "capacityOfHall", "The maximum legal capacity of the hall. ",
+            "venue", "");
+    return generateFields(
+        includeId,
+        "hall",
+        descHall,
+        customDescriptions,
+        new String[] {"name", "capacityOfHall", "venue"});
+  }
+
+  private FieldDescriptor[] generateFields(
+      boolean includeId,
+      String entityType,
+      ConstraintDescriptions descProvider,
+      Map<String, String> customDescriptions,
+      String[] fieldNames) {
+    List<FieldDescriptor> fields = new ArrayList<>();
+    if (includeId) {
+      String idDescription =
+          customDescriptions.getOrDefault("id", "").isEmpty()
+              ? "The " + entityType + " ID. "
+              : customDescriptions.get("id");
+      fields.add(
+          fieldWithPath("id")
+              .description(
+                  idDescription
+                      + collectionToDelimitedString(
+                          descProvider.descriptionsForProperty("id"), ". ")));
+    }
+    for (String fieldName : fieldNames) {
+      String fieldDescription =
+          customDescriptions.getOrDefault(fieldName, "").isEmpty()
+              ? "The " + fieldName + " of the " + entityType + ". "
+              : customDescriptions.get(fieldName);
+      fields.add(
+          fieldWithPath(fieldName)
+              .description(
+                  fieldDescription
+                      + collectionToDelimitedString(
+                          descProvider.descriptionsForProperty(fieldName), ". ")));
+    }
+    return fields.toArray(new FieldDescriptor[0]);
   }
 }

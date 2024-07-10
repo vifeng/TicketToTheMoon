@@ -1,16 +1,13 @@
-:snippetCurlPost: curl-request,request-body,response-body
-:snippetCurlGetFields: curl-request,response-body,response-fields
-:snippetCurlGet: curl-request,response-body
-:snippetHttp: http-request, http-response,request-body,response-body,response-fields
-
+:snippetCurlGetAll: curl-request,response-body,http-request,http-response
+:snippetCurlGet: path-parameters,curl-request,response-body,http-request,http-response
+:snippetCurlPost: curl-request,request-body,request-fields,http-request,http-response
+:snippetCurlUpdate: path-parameters,curl-request,request-body,response-body,http-request,http-response
+:snippetCurlDelete: path-parameters,curl-request,http-request,http-response
 
 ==== Employees
 
-===== POST Employee
-operation::employees-create[snippets='{snippetCurlPost}']
-
 ===== GET All Employees
-operation::employees-get[snippets='{snippetCurlGetFields}']
+operation::employees-get[snippets='{snippetCurlGetAll}']
 
 ===== GET Employee by ID
 operation::employees-get-by-id[snippets='{snippetCurlGet}']
@@ -18,11 +15,14 @@ operation::employees-get-by-id[snippets='{snippetCurlGet}']
 ===== GET Employee by ID - don't show password
 operation::employees-get-by-id-no-pwd[snippets='{snippetCurlGet}']
 
+===== POST Employee
+operation::employees-create[snippets='{snippetCurlPost}']
+
 ===== PUT Employee by ID
-operation::employees-put[snippets='{snippetCurlPost}']
+operation::employees-put[snippets='{snippetCurlUpdate}']
 
 ===== PATCH Employee by ID
-operation::employees-patch[snippets='{snippetCurlPost}']
+operation::employees-patch[snippets='{snippetCurlUpdate}']
 
 ===== DELETE Employee by ID
-operation::employees-delete-by-id[snippets='{snippetCurlGet}']
+operation::employees-delete-by-id[snippets='{snippetCurlDelete}']

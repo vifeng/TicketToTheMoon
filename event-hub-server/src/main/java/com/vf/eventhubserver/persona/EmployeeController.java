@@ -1,5 +1,6 @@
 package com.vf.eventhubserver.persona;
 
+import com.vf.eventhubserver.LocationResponseBuilder;
 import com.vf.eventhubserver.exception.CreateException;
 import com.vf.eventhubserver.exception.FinderException;
 import com.vf.eventhubserver.exception.NullException;
@@ -9,7 +10,6 @@ import com.vf.eventhubserver.exception.UpdateException;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Validated
 @RequestMapping("/api/employees")
-public class EmployeeController {
+public class EmployeeController implements LocationResponseBuilder {
 
   private final EmployeeService employeeService;
 
@@ -67,10 +67,10 @@ public class EmployeeController {
    * @throws CreateException if the employee could not be created.
    */
   @PostMapping
-  public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody EmployeeDTO employeeDTO)
+  public ResponseEntity<Void> createEmployee(@RequestBody EmployeeDTO employeeDTO)
       throws NullException, CreateException {
-    return ResponseEntity.status(HttpStatus.CREATED)
-        .body(employeeService.createEmployee(employeeDTO));
+    Long newId = employeeService.createEmployee(employeeDTO);
+    return entityWithLocation(newId);
   }
 
   /**

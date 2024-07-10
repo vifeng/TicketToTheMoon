@@ -1,4 +1,4 @@
-package com.vf.eventhubserver.persona;
+package com.vf.eventhubserver.client.persona;
 
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
@@ -15,14 +15,19 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.snippet.Attributes.attributes;
+import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.util.StringUtils.collectionToDelimitedString;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vf.eventhubserver.persona.Employee;
+import com.vf.eventhubserver.persona.EmployeeDTO;
+import com.vf.eventhubserver.persona.EmployeeMapper;
+import com.vf.eventhubserver.persona.EmployeeService;
+import com.vf.eventhubserver.utility.EntitiesFieldDescriptor;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +39,6 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -44,17 +48,20 @@ import org.springframework.web.context.WebApplicationContext;
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest
 class EmployeeControllerTest {
+
   private MockMvc mockMvc;
   @Autowired private ObjectMapper objectMapper;
   String baseUrl = "http://localhost:8080/api/";
   @Autowired private EmployeeService employeeService;
   @Autowired private EmployeeMapper employeeMapper;
 
+  EntitiesFieldDescriptor entitiesFieldDescriptor = new EntitiesFieldDescriptor();
+  Map<String, Object> employee;
+
   @BeforeEach
   public void setUp(
       WebApplicationContext webApplicationContext,
       RestDocumentationContextProvider restDocumentation) {
-
     this.mockMvc =
         MockMvcBuilders.webAppContextSetup(webApplicationContext)
             .apply(documentationConfiguration(restDocumentation))
@@ -73,31 +80,53 @@ class EmployeeControllerTest {
     this.employeeService.createEmployee(employeeDTO2);
   }
 
+  /**
+   * Test the creation of an employee and document the request fields
+   *
+   * @throws Exception
+   */
   @Test
   void employeesCreate() throws Exception {
-
-    Map<String, Object> employee = new HashMap<>();
-    employee.put("username", "username900");
-    employee.put("password", "secretpwD%1");
-    employee.put("email", "mymail@mail.fr");
-
-    ResultActions request =
+    ResultActions postRequest =
         this.mockMvc
             .perform(
                 post(baseUrl + "employees")
                     .contentType(MediaTypes.HAL_JSON)
-                    .content(this.objectMapper.writeValueAsString(employee)))
-            .andExpect(status().isCreated());
-    request.andReturn().getResponse().getHeader("Location");
+                    .content(this.objectMapper.writeValueAsString(createEntityEmployee())))
+            .andExpect(status().isCreated())
+            .andDo(
+                document(
+                    "employees-create",
+                    requestFields(
+                        attributes(key("title").value("Fields for employee creation")),
+                        entitiesFieldDescriptor.generateEmployeeFields(false))));
+    postRequest.andReturn().getResponse().getHeader("Location");
+  }
 
-    request
-        .andExpect(
-            (null != employee.get("id"))
-                ? jsonPath("$.id", notNullValue())
-                : jsonPath("$.id", is(notNullValue())))
-        .andExpect(jsonPath("$.username", is("username900")))
-        .andExpect(jsonPath("$.password", is("secretpwD%1")))
-        .andExpect(jsonPath("$.email", is("mymail@mail.fr")));
+  /**
+   * Test the response of the employee creation
+   *
+   * @throws Exception
+   */
+  @Test
+  void employeeCreateResponseTest() throws Exception {
+    ResultActions postRequest =
+        this.mockMvc
+            .perform(
+                post(baseUrl + "employees")
+                    .contentType(MediaTypes.HAL_JSON)
+                    .content(this.objectMapper.writeValueAsString(createEntityEmployee())))
+            .andExpect(status().isCreated());
+    String location = postRequest.andReturn().getResponse().getHeader("Location");
+
+    ResultActions getRequest =
+        this.mockMvc
+            .perform(get(location))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").isNotEmpty())
+            .andExpect(jsonPath("$.username", is(employee.get("username").toString())))
+            .andExpect(jsonPath("$.password", is(employee.get("password").toString())))
+            .andExpect(jsonPath("$.email", is(employee.get("email").toString())));
   }
 
   @Test
@@ -105,37 +134,11 @@ class EmployeeControllerTest {
     ResultActions request =
         this.mockMvc.perform(get(baseUrl + "employees")).andExpect(status().isOk());
     request.andReturn().getResponse().getHeader("Location");
-    ConstraintDescriptions desc = new ConstraintDescriptions(Employee.class);
 
     request
         .andExpect(jsonPath("$[*].id", is(notNullValue())))
         .andExpect(jsonPath("$[*].username", is(notNullValue())))
-        .andExpect(jsonPath("$[*].username", hasItems("username1", "username2")))
-        .andDo(
-            document(
-                "employees-get",
-                responseFields(
-                    fieldWithPath("[]").description("An array of employees"),
-                    fieldWithPath("[].id")
-                        .description(
-                            "The id of the input. "
-                                + collectionToDelimitedString(
-                                    desc.descriptionsForProperty("id"), ". ")),
-                    fieldWithPath("[].username")
-                        .description(
-                            "The username of the input. "
-                                + collectionToDelimitedString(
-                                    desc.descriptionsForProperty("username"), ". ")),
-                    fieldWithPath("[].password")
-                        .description(
-                            "The password of the input. "
-                                + collectionToDelimitedString(
-                                    desc.descriptionsForProperty("password"), ". ")),
-                    fieldWithPath("[].email")
-                        .description(
-                            "The email of the input. "
-                                + collectionToDelimitedString(
-                                    desc.descriptionsForProperty("email"), ". ")))));
+        .andExpect(jsonPath("$[*].username", hasItems("username1", "username2")));
   }
 
   @Test
@@ -250,7 +253,14 @@ class EmployeeControllerTest {
             document(
                 "employees-delete-by-id",
                 pathParameters(
-                    parameterWithName("id")
-                        .description("The id of the employee to be retrieved"))));
+                    parameterWithName("id").description("The id of the employee to be deleted"))));
+  }
+
+  public Map<String, Object> createEntityEmployee() {
+    employee = new HashMap<>();
+    employee.put("username", "username900");
+    employee.put("password", "secretpwD%1");
+    employee.put("email", "mymail@mail.fr");
+    return employee;
   }
 }
