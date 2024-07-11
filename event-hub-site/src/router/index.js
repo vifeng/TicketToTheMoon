@@ -28,6 +28,21 @@ const router = createRouter({
       component: () => import('@/views/VenueView.vue')
     },
     {
+      path: '/ticketReservation',
+      name: 'ticketReservation',
+      component: () => import('@/views/ticketReservationView.vue')
+    },
+    {
+      path: '/customers',
+      name: 'customers',
+      component: () => import('@/views/CustomerView.vue')
+    },
+    {
+      path: '/apidoc',
+      name: 'apidoc',
+      component: () => import('@/views/ApiDocView.vue')
+    },
+    {
       path: '/chatbot',
       name: 'chatbot',
       component: () => import('@/views/AiChatbotView.vue')
