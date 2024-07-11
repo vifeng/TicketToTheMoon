@@ -215,13 +215,14 @@ a,
   z-index: 1;
 }
 
+
 .logoVuejs {
   width: 25px;
-  height: 25px;
+  /* height: 25px; */
   vertical-align: middle;
 }
 .logoSpring {
-  width: 120px;
+  width: 150px;
   vertical-align: middle;
-  padding-bottom: 5px;
-}
+padding-top: 9px;
+} 
