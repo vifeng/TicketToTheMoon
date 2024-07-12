@@ -21,10 +21,9 @@ Vifeng
 == Introduction
 [%hardbreaks]
 *THIS DOCUMENTATION IS A WORK IN PROGRESS. IT IS ACCURATE BUT NOT COMPLETE.*
-Indeed, this API Documentation of RESTful services is done by combining hand-written documentation with auto-generated snippets produced with Spring MVC Test or WebTestClient.
-This test-driven approach helps to guarantee the accuracy of your service’s documentation. If a snippet is incorrect, the test that produces it fails.
-The Event Hub server side API is used to manage the following resources : order, payment, persona, show, tarification, venue.
+Indeed, this API Documentation of RESTful services is done by combining hand-written documentation with auto-generated snippets produced with Spring MVC Test. This test-driven approach helps to guarantee the accuracy of your service’s documentation. If a snippet is incorrect, the test that produces it fails.
 
+The Event Hub server side API is used to manage the following resources : order, payment, persona, show, tarification, venue.
 
 == Authentication
 {next}
