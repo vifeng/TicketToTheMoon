@@ -19,7 +19,7 @@
         <p>username: {{ customer.username }}</p>
         <p>mail: {{ customer.email }}</p>
         <p>phoneNumer: {{ customer.phoneNumber }}</p>
-       <p> address: <pre>{{ customer.address }}</pre></p>
+        <pre>address:{{ customer.address }}</pre>
         <p>credit card number:{{ customer.creditCardNumber }}</p>
       </div>
     </div>

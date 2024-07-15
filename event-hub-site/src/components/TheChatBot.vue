@@ -59,7 +59,6 @@ function initializeChatBot() {
   dfMessenger.setAttribute('language-code', 'en')
   dfMessenger.setAttribute('max-query-length', '-1')
 
-  
   const chatBubble = document.createElement('df-messenger-chat-bubble')
   chatBubble.setAttribute('chat-title', 'AI Chatbot for recruiter')
 
@@ -83,20 +82,20 @@ function initializeChatBot() {
 <style scoped>
 .container {
   display: flex;
-  align-items: flex-start; 
-  gap: 20px; 
+  align-items: flex-start;
+  gap: 20px;
 }
 
 .video-container {
-  flex: 1; 
+  flex: 1;
 }
 .video {
-  border: 4px solid #0957D0; /* Border around the video */
+  border: 4px solid #0957d0; /* Border around the video */
   border-radius: 8px; /* Rounded corners */
   box-shadow: -8px 8px 8px rgba(0, 0, 0, 0.1); /* Bottom-left shadow effect */
   width: 60%; /* Ensure video takes full width of container */
 }
 .text-container {
-  flex: 1; 
+  flex: 1;
 }
 </style>

@@ -12,7 +12,6 @@
         <AppLink to="/venues">Venues</AppLink>
         <AppLink to="/customers">Customers</AppLink>
         <AppLink to="/ticketReservation">ticketReservation</AppLink>
-
       </div>
     </div>
     <AppLink to="/apiDoc">ApiDoc</AppLink>
@@ -85,7 +84,7 @@ function closeDropdown() {
 }
 
 .dropdown-content a:last-child {
-  padding: 8px 12px 25px 12px; 
+  padding: 8px 12px 25px 12px;
 }
 .dropdown-content a:hover {
   background-color: #f1f1f1;
