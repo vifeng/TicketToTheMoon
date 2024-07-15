@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "prettier": "npx prettier --write '**/*.{js,jsx,ts,tsx,vue,json,css,scss,md}'"
   },
   "dependencies": {
     "@vueuse/core": "^10.11.0",

@@ -8,7 +8,12 @@ module.exports = {
     'vue/setup-compiler-macros': true
     // to recognize props in CAPI, pinia ...
   },
-  extends: ['plugin:vue/vue3-essential', 'eslint:recommended', '@vue/eslint-config-prettier'],
+  extends: [
+    'plugin:vue/vue3-essential',
+    'eslint:recommended',
+    '@vue/eslint-config-prettier',
+    'plugin:prettier/recommended'
+  ],
   parserOptions: {
     ecmaVersion: 'latest',
     parser: '@babel/eslint-parser',
