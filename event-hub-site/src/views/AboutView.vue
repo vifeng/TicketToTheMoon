@@ -3,6 +3,7 @@
     <h1>Event Hub</h1>
     <div>
       <p>
+        This project is a showcase of a full-stack web application built with Vue.js and Spring.
         Event Hub is a ticketing and event Booking System. The application is designed to facilitate
         the management of events, locations, reservations and ticket pricing.
       </p>
@@ -16,6 +17,12 @@
           locations.
         </li>
       </ul>
+    </div>
+    <div>
+      <p>You can browse the backend api documentation at: <AppLink to="apidoc">ApiDoc</AppLink></p>
+      <p>
+        Or chat with our AI chatbot for recruiters at : <AppLink to="chatbot">AI chatbot</AppLink>
+      </p>
     </div>
   </div>
 </template>
