@@ -1,11 +1,10 @@
-<<<<<<< HEAD
-=======
 package com.vf.eventhubserver.client.venue;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
@@ -15,11 +14,26 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import java.util.HashSet;
+import java.util.Set;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vf.eventhubserver.persona.Address;
 import com.vf.eventhubserver.persona.Employee;
@@ -30,29 +44,12 @@ import com.vf.eventhubserver.venue.HallRepository;
 import com.vf.eventhubserver.venue.Venue;
 import com.vf.eventhubserver.venue.VenueRepository;
 import jakarta.transaction.Transactional;
-import java.util.HashSet;
-import java.util.Set;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.restdocs.RestDocumentationContextProvider;
-import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest(properties = "spring.config.name=application-test")
-@DirtiesContext
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @Transactional
-// @Sql(scripts = {"/testdb/data.sql"})
+@Sql(scripts = {"/testdb/data.sql"})
 public class VenueControllerTest {
 
   @Autowired private ObjectMapper objectMapper;
@@ -67,18 +64,7 @@ public class VenueControllerTest {
   public void setUp(
       WebApplicationContext webApplicationContext,
       RestDocumentationContextProvider restDocumentation) {
-    Address address = new Address("testStreet", "testCity", "testZipCode", "testCountry");
-    Employee employee = new Employee("username1", "testPassword1&", "testEmail@example.com");
-    Set<Employee> employees = new HashSet<>();
-    employees.add(employee);
-    Venue venue = new Venue("VenueName1", address, employees);
-    venueRepository.save(venue);
-    Hall hall1 = new Hall("hall1", 300, venue);
-    Hall hall2 = new Hall("hall2", 500, venue);
-
-    hallRepository.save(hall1);
-    hallRepository.save(hall2);
-
+   
     this.mockMvc =
         MockMvcBuilders.webAppContextSetup(webApplicationContext)
             .apply(documentationConfiguration(restDocumentation))
@@ -90,12 +76,6 @@ public class VenueControllerTest {
             .build();
   }
 
-  @AfterEach
-  public void tearDown() {
-    hallRepository.deleteAll();
-    venueRepository.deleteAll();
-    employeeRepository.deleteAll();
-  }
 
   @Test
   void venueGetById() throws Exception {
@@ -108,8 +88,8 @@ public class VenueControllerTest {
 
     request
         .andExpect(jsonPath("$.id").value(1))
-        .andExpect(jsonPath("$.name").value("VenueName1"))
-        .andExpect(jsonPath("$.address.street").value("testStreet"))
+        .andExpect(jsonPath("$.name").value("Le Trianon"))
+        .andExpect(jsonPath("$.address.street").value("sesame street"))
         .andDo(
             document(
                 "venue-get-by-id",
@@ -119,6 +99,7 @@ public class VenueControllerTest {
 
   @Test
   void venueGetAll() throws Exception {
+    createVenue();
     ResultActions request =
         this.mockMvc
             .perform(get(baseUrl + "venues").accept(MediaType.APPLICATION_JSON_VALUE))
@@ -128,9 +109,13 @@ public class VenueControllerTest {
 
     request
         .andExpect(jsonPath("$[0].id").value(1))
-        .andExpect(jsonPath("$[0].name").value("VenueName1"))
-        .andExpect(jsonPath("$[0].address.street").value("testStreet"))
+        .andExpect(jsonPath("$[0].name").value("Le Trianon"))
+        .andExpect(jsonPath("$[0].address.street").value("sesame street"))
         .andExpect(jsonPath("$[0].employees", is(notNullValue())))
+        .andExpect(jsonPath("$[1].id").value(2))
+        .andExpect(jsonPath("$[1].name").value("VenueName1"))
+        .andExpect(jsonPath("$[1].address.street").value("testStreet"))
+        .andExpect(jsonPath("$[1].employees", is(notNullValue())))
         .andDo(
             document(
                 "venues-get",
@@ -216,5 +201,18 @@ public class VenueControllerTest {
         .perform(get(baseUrl + "venues/{id}", 1L).accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isNotFound());
   }
+
+  private void createVenue(){
+     Address address = new Address("testStreet", "testCity", "testZipCode", "testCountry");
+    Employee employee = new Employee("username1", "testPassword1&", "testEmail@example.com");
+    Set<Employee> employees = new HashSet<>();
+    employees.add(employee);
+    Venue venue = new Venue("VenueName1", address, employees);
+    venueRepository.save(venue);
+    Hall hall1 = new Hall("hall1", 300, venue);
+    Hall hall2 = new Hall("hall2", 500, venue);
+
+    hallRepository.save(hall1);
+    hallRepository.save(hall2);
+  }
 }
->>>>>>> c3e8e98 (Wip commit to be squashed)
