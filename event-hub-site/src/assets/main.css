@@ -59,7 +59,6 @@ a:visited {
   width: 156px;
   height: 75px;
   /* font-size: 2px; */
-  /* background-color: red; */
 }
 #nav a {
   display: inline-block;
@@ -71,6 +70,7 @@ a:visited {
 #nav a:hover {
   opacity: 1;
   font-size: x-large;
+  color: #4e6c71;
 }
 
 a,

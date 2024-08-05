@@ -1,6 +1,7 @@
 package com.vf.eventhubserver.venue;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.vf.eventhubserver.LocationResponseBuilder;
 import com.vf.eventhubserver.exception.CreateException;
 import com.vf.eventhubserver.exception.FinderException;
 import com.vf.eventhubserver.exception.NullException;
@@ -27,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/venues")
 @Validated
-public class VenueController {
+public class VenueController implements LocationResponseBuilder {
 
   private final VenueService venueService;
 
@@ -50,15 +51,15 @@ public class VenueController {
   }
 
   @PostMapping
-  public ResponseEntity<VenueDTO> createVenue(@RequestBody VenueDTO venueDTO)
+  public ResponseEntity<Void> createVenue(@RequestBody VenueDTO venueDTO)
       throws NullException, CreateException {
-    return ResponseEntity.ok(venueService.createVenue(venueDTO));
+    return entityWithLocation(venueService.createVenue(venueDTO));
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<VenueDTO> updateVenue(@PathVariable Long id)
+  public ResponseEntity<VenueDTO> updateVenue(@PathVariable Long id, @RequestBody VenueDTO venueDTO)
       throws FinderException, UpdateException, IllegalArgumentException {
-    return ResponseEntity.ok(venueService.updateVenue(id));
+    return ResponseEntity.ok(venueService.updateVenue(id, venueDTO));
   }
 
   @PatchMapping("/{id}")

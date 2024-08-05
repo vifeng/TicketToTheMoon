@@ -23,6 +23,11 @@ const routes = [
     component: () => import('@/views/VenueView.vue')
   },
   {
+    path: '/venues/:id/:slug',
+    name: 'venues.details',
+    component: () => import('@/views/VenueDetailsView.vue')
+  },
+  {
     path: '/ticketReservation',
     name: 'ticketReservation',
     component: () => import('@/views/ticketReservationView.vue')

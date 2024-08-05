@@ -12,6 +12,11 @@ export const useVenuesStore = defineStore('VenuesStore', {
       const response = await fetch('http://localhost:8080/api/venues')
       const venues = await response.json()
       this.venues = venues
+    },
+    async fetchVenuesById(id) {
+      const response = await fetch('http://localhost:8080/api/venues/' + id)
+      const venues = await response.json()
+      this.venues = venues
     }
   }
 })

@@ -20,17 +20,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vf.eventhubserver.persona.Address;
-import com.vf.eventhubserver.persona.Employee;
 import com.vf.eventhubserver.persona.EmployeeRepository;
 import com.vf.eventhubserver.utility.EntitiesFieldDescriptor;
 import com.vf.eventhubserver.venue.Hall;
 import com.vf.eventhubserver.venue.HallRepository;
 import com.vf.eventhubserver.venue.Venue;
 import com.vf.eventhubserver.venue.VenueRepository;
-import java.util.HashSet;
-import java.util.Set;
-import org.junit.jupiter.api.AfterEach;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,6 +36,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -47,7 +44,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
-@SpringBootTest
+@SpringBootTest(properties = "spring.config.name=application-test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@Transactional
+@Sql(scripts = {"/testdb/data.sql"})
 class HallControllerTest {
 
   @Autowired private ObjectMapper objectMapper;
@@ -62,18 +62,6 @@ class HallControllerTest {
   public void setUp(
       WebApplicationContext webApplicationContext,
       RestDocumentationContextProvider restDocumentation) {
-    Address address = new Address("testStreet", "testCity", "testZipCode", "testCountry");
-    Employee employee = new Employee("username1", "testPassword1&", "testEmail@example.com");
-    Set<Employee> employees = new HashSet<>();
-    employees.add(employee);
-    Venue venue = new Venue("VenueName1", address, employees);
-    venueRepository.save(venue);
-    Hall hall1 = new Hall("hall1", 300, venue);
-    Hall hall2 = new Hall("hall2", 500, venue);
-
-    hallRepository.save(hall1);
-    hallRepository.save(hall2);
-
     this.mockMvc =
         MockMvcBuilders.webAppContextSetup(webApplicationContext)
             .apply(documentationConfiguration(restDocumentation))
@@ -85,15 +73,21 @@ class HallControllerTest {
             .build();
   }
 
-  @AfterEach
-  public void tearDown() {
-    hallRepository.deleteAll();
-    venueRepository.deleteAll();
-    employeeRepository.deleteAll();
+  @Test
+  void createHallForVenueIdFalse() throws Exception {
+    Venue venue = venueRepository.findById(1L).get();
+    Hall hall = new Hall("hall3", -800, venue);
+    // capacity of hall is negative
+    ResultActions postRequest =
+        this.mockMvc
+            .perform(
+                post(baseUrl + "venues/{venue_id}/halls", venue.getId())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(hall)))
+            .andExpect(status().isUnprocessableEntity());
   }
 
   @Test
-  @DirtiesContext
   void createHallForVenueId() throws Exception {
     Venue venue = venueRepository.findById(1L).get();
     Hall hall = new Hall("hall3", 800, venue);
@@ -145,7 +139,6 @@ class HallControllerTest {
   }
 
   @Test
-  @DirtiesContext
   void hallGetById() throws Exception {
     ResultActions request =
         this.mockMvc
@@ -156,7 +149,7 @@ class HallControllerTest {
 
     request
         .andExpect(jsonPath("$.id").value(1))
-        .andExpect(jsonPath("$.name").value("hall1"))
+        .andExpect(jsonPath("$.name").value("Hall 1"))
         .andExpect(jsonPath("$.capacityOfHall").value(300))
         .andDo(
             document(
@@ -166,10 +159,9 @@ class HallControllerTest {
   }
 
   @Test
-  @DirtiesContext
   void getHallByVenueByIdTest() throws Exception {
-    Long hallId = hallRepository.findByName("hall1").getId();
-    Long venueId = venueRepository.findByName("VenueName1").getId();
+    Long hallId = hallRepository.findByName("Hall 1").getId();
+    Long venueId = venueRepository.findByName("Le Trianon").getId();
     ResultActions request =
         this.mockMvc
             .perform(
@@ -181,7 +173,7 @@ class HallControllerTest {
 
     request
         .andExpect(jsonPath("$.id").value(hallId))
-        .andExpect(jsonPath("$.name").value("hall1"))
+        .andExpect(jsonPath("$.name").value("Hall 1"))
         .andExpect(jsonPath("$.capacityOfHall").value(300))
         .andExpect(jsonPath("$.venue.id").value(venueId))
         .andDo(

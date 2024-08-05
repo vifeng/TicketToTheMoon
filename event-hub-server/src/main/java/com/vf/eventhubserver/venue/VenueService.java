@@ -10,7 +10,9 @@ import com.vf.eventhubserver.exception.PatchException;
 import com.vf.eventhubserver.exception.RemoveException;
 import com.vf.eventhubserver.exception.UpdateException;
 import com.vf.eventhubserver.persona.Address;
+import com.vf.eventhubserver.persona.AddressMapper;
 import com.vf.eventhubserver.persona.Employee;
+import com.vf.eventhubserver.persona.EmployeeMapper;
 import com.vf.eventhubserver.persona.EmployeeRepository;
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -30,6 +32,8 @@ public class VenueService {
   private EmployeeRepository employeeRepository;
   private ObjectMapper objectMapper;
   private VenueMapper venueMapper;
+  private EmployeeMapper employeeMapper;
+  private AddressMapper addressMapper;
   static final String VEMSG = "Venue with id {";
   static final String NOTFOUNDMSG = "} not found";
   static final String VENUENULLMSG = "Venue is null";
@@ -39,10 +43,14 @@ public class VenueService {
       VenueRepository venueRepository,
       EmployeeRepository employeeRepository,
       VenueMapper venueMapper,
+      EmployeeMapper employeeMapper,
+      AddressMapper addressMapper,
       ObjectMapper objectMapper) {
     this.venueRepository = venueRepository;
     this.employeeRepository = employeeRepository;
     this.venueMapper = venueMapper;
+    this.employeeMapper = employeeMapper;
+    this.addressMapper = addressMapper;
     this.objectMapper = objectMapper;
   }
 
@@ -75,7 +83,7 @@ public class VenueService {
    * @throws IllegalArgumentException
    * @throws CreateException
    */
-  public VenueDTO createVenue(VenueDTO venueDTO) throws IllegalArgumentException, CreateException {
+  public Long createVenue(VenueDTO venueDTO) throws IllegalArgumentException, CreateException {
     if (venueDTO.id() != null) {
       throw new DuplicateKeyException(VEMSG + venueDTO.id() + "} already exists");
     }
@@ -83,7 +91,7 @@ public class VenueService {
       Venue venue = venueMapper.toEntity(venueDTO);
       venueRepository.save(venue);
       Venue savedVenue = venueRepository.save(venue);
-      return venueMapper.toDTO(savedVenue);
+      return savedVenue.getId();
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Venue not created : " + e.getMessage(), e);
     } catch (Exception e) {
@@ -91,12 +99,15 @@ public class VenueService {
     }
   }
 
-  public VenueDTO updateVenue(Long id)
+  public VenueDTO updateVenue(Long id, VenueDTO venueDTO)
       throws FinderException, UpdateException, IllegalArgumentException {
     try {
       Optional<Venue> optionalVenue = venueRepository.findById(id);
       if (optionalVenue.isPresent()) {
         Venue venueToUpdate = optionalVenue.get();
+        venueToUpdate.setName(venueDTO.name());
+        venueToUpdate.setAddress(addressMapper.toEntity(venueDTO.address()));
+        venueToUpdate.setEmployees(employeeMapper.toEntities(venueDTO.employees()));
         if (venueToUpdate == null) {
           throw new NullException(VENUENULLMSG);
         }

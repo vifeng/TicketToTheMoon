@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import java.io.Serializable;
 
 @Entity
@@ -22,6 +23,7 @@ public class Hall implements Serializable {
   /**
    * @Description(value = "CapacityOfHall maximum legal of the hall.")
    */
+  @Positive(message = "Capacity of hall must be positive")
   private int capacityOfHall;
 
   @ManyToOne(
@@ -58,9 +60,6 @@ public class Hall implements Serializable {
   }
 
   public void setName(String name) {
-    if (name == null || name.isBlank()) {
-      throw new IllegalArgumentException("Hall name cannot be null or blank");
-    }
     this.name = name;
   }
 
@@ -69,7 +68,6 @@ public class Hall implements Serializable {
   }
 
   public void setCapacityOfHall(int capacityOfHall) {
-    if (capacityOfHall == 0) throw new IllegalArgumentException("capacityOfHall must be positive");
     this.capacityOfHall = capacityOfHall;
   }
 

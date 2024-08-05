@@ -2,13 +2,14 @@ package com.vf.eventhubserver.persona;
 
 import com.vf.eventhubserver.venue.Venue;
 import jakarta.persistence.Embeddable;
+import java.io.Serializable;
 
 /**
  * @see Venue
  * @see Customer
  */
 @Embeddable
-public class Address {
+public class Address implements Serializable {
 
   private String street;
   private String city;
