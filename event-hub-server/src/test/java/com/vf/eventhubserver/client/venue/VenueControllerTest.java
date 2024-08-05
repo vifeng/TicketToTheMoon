@@ -17,6 +17,17 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vf.eventhubserver.persona.Address;
+import com.vf.eventhubserver.persona.Employee;
+import com.vf.eventhubserver.persona.EmployeeRepository;
+import com.vf.eventhubserver.utility.EntitiesFieldDescriptor;
+import com.vf.eventhubserver.venue.Hall;
+import com.vf.eventhubserver.venue.HallRepository;
+import com.vf.eventhubserver.venue.Venue;
+import com.vf.eventhubserver.venue.VenueRepository;
+import jakarta.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,16 +45,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vf.eventhubserver.persona.Address;
-import com.vf.eventhubserver.persona.Employee;
-import com.vf.eventhubserver.persona.EmployeeRepository;
-import com.vf.eventhubserver.utility.EntitiesFieldDescriptor;
-import com.vf.eventhubserver.venue.Hall;
-import com.vf.eventhubserver.venue.HallRepository;
-import com.vf.eventhubserver.venue.Venue;
-import com.vf.eventhubserver.venue.VenueRepository;
-import jakarta.transaction.Transactional;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest(properties = "spring.config.name=application-test")
@@ -64,7 +65,7 @@ public class VenueControllerTest {
   public void setUp(
       WebApplicationContext webApplicationContext,
       RestDocumentationContextProvider restDocumentation) {
-   
+
     this.mockMvc =
         MockMvcBuilders.webAppContextSetup(webApplicationContext)
             .apply(documentationConfiguration(restDocumentation))
@@ -75,7 +76,6 @@ public class VenueControllerTest {
                     preprocessResponse(prettyPrint())))
             .build();
   }
-
 
   @Test
   void venueGetById() throws Exception {
@@ -202,8 +202,8 @@ public class VenueControllerTest {
         .andExpect(status().isNotFound());
   }
 
-  private void createVenue(){
-     Address address = new Address("testStreet", "testCity", "testZipCode", "testCountry");
+  private void createVenue() {
+    Address address = new Address("testStreet", "testCity", "testZipCode", "testCountry");
     Employee employee = new Employee("username1", "testPassword1&", "testEmail@example.com");
     Set<Employee> employees = new HashSet<>();
     employees.add(employee);
