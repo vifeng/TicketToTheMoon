@@ -4,6 +4,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.util.StringUtils.collectionToDelimitedString;
 
 import com.vf.eventhubserver.persona.Address;
+import com.vf.eventhubserver.persona.Customer;
 import com.vf.eventhubserver.persona.Employee;
 import com.vf.eventhubserver.venue.Hall;
 import com.vf.eventhubserver.venue.Venue;
@@ -16,6 +17,7 @@ import org.springframework.restdocs.payload.FieldDescriptor;
 public class EntitiesFieldDescriptor {
   ConstraintDescriptions descAddress = new ConstraintDescriptions(Address.class);
   ConstraintDescriptions descEmployee = new ConstraintDescriptions(Employee.class);
+  ConstraintDescriptions descCustomer = new ConstraintDescriptions(Customer.class);
   ConstraintDescriptions descHall = new ConstraintDescriptions(Hall.class);
   ConstraintDescriptions descVenue = new ConstraintDescriptions(Venue.class);
 
@@ -48,6 +50,27 @@ public class EntitiesFieldDescriptor {
         descEmployee,
         customDescriptions,
         new String[] {"username", "password", "email"});
+  }
+
+  public FieldDescriptor[] generateCustomerFields(boolean includeId) {
+    Map<String, String> customDescriptions =
+        Map.of(
+            "id", "",
+            "firstName", "",
+            "lastName", "",
+            "username", "",
+            "email", "",
+            "phoneNumber", "",
+            "address", "",
+            "creditCardNumber", "");
+    return generateFields(
+        includeId,
+        "customer",
+        descCustomer,
+        customDescriptions,
+        new String[] {
+          "firstName", "lastName", "username", "email", "phoneNumber", "address", "creditCardNumber"
+        });
   }
 
   public FieldDescriptor[] generateVenueFields(boolean includeId) {

@@ -82,7 +82,7 @@ public class CustomerService {
     return customerMapper.toDTO(customer);
   }
 
-  public CustomerDTO createCustomer(CustomerDTO customerDTO)
+  public Long createCustomer(CustomerDTO customerDTO)
       throws IllegalArgumentException, CreateException {
     try {
       if (customerDTO.id() != null) {
@@ -99,7 +99,7 @@ public class CustomerService {
       }
       Customer customer = customerMapper.toEntity(customerDTO);
       Customer savedCustomer = customerRepository.save(customer);
-      return customerMapper.toDTO(savedCustomer);
+      return savedCustomer.getId();
     } catch (IllegalArgumentException e) {
       throw new IllegalArgumentException("Customer is not created : " + e.getMessage(), e);
     } catch (Exception e) {

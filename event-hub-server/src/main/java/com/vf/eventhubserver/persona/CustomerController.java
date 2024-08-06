@@ -1,5 +1,6 @@
 package com.vf.eventhubserver.persona;
 
+import com.vf.eventhubserver.LocationResponseBuilder;
 import com.vf.eventhubserver.exception.CreateException;
 import com.vf.eventhubserver.exception.FinderException;
 import com.vf.eventhubserver.exception.NullException;
@@ -7,7 +8,6 @@ import com.vf.eventhubserver.exception.RemoveException;
 import com.vf.eventhubserver.exception.UpdateException;
 import java.util.List;
 import java.util.Objects;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/customers")
 @Validated
-public class CustomerController {
+public class CustomerController implements LocationResponseBuilder {
 
   private final CustomerService customerService;
 
@@ -62,10 +62,9 @@ public class CustomerController {
   }
 
   @PostMapping
-  public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO customerDTO)
+  public ResponseEntity<Void> createCustomer(@RequestBody CustomerDTO customerDTO)
       throws NullException, CreateException {
-    return ResponseEntity.status(HttpStatus.CREATED)
-        .body(customerService.createCustomer(customerDTO));
+    return entityWithLocation(customerService.createCustomer(customerDTO));
   }
 
   @PutMapping("/{id}")

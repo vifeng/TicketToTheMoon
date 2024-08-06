@@ -26,3 +26,20 @@ operation::employees-patch[snippets='{snippetCurlUpdate}']
 
 ===== DELETE Employee by ID
 operation::employees-delete-by-id[snippets='{snippetCurlDelete}']
+
+
+==== Customers
+This is a simple example of a Customer documentation. It is accurate but not complete.
+
+
+===== GET All Customers
+operation::customers-get[snippets='{snippetCurlGetAll}']
+
+===== GET Customer by ID
+operation::customer-get-by-id[snippets='{snippetCurlGet}']
+
+===== POST Customer
+operation::customer-create[snippets='{snippetCurlPost}']
+
+===== DELETE Customer by ID
+operation::customer-delete-by-id[snippets='{snippetCurlDelete}']
