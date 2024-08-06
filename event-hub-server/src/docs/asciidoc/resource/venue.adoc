@@ -2,6 +2,7 @@
 :snippetCurlGet: path-parameters,curl-request,response-body,http-request,http-response
 :snippetCurlPost: curl-request,request-body,request-fields,http-request,http-response
 :snippetCurlUpdate: path-parameters,curl-request,request-body,response-body,http-request,http-response
+:snippetCurlPatch: path-parameters,curl-request,request-body,response-body,http-request,http-response
 :snippetCurlDelete: path-parameters,curl-request,http-request,http-response
 
 
@@ -19,3 +20,24 @@ operation::hall-get-by-venue-by-id[snippets='{snippetCurlGet}']
 
 ===== POST Hall
 operation::hall-create-for-venue-id[snippets='{snippetCurlPost}']
+
+==== Venue
+
+===== GET All Venues
+operation::venues-get[snippets='{snippetCurlGetAll},response-fields']
+
+===== GET Venue by id
+operation::venue-get-by-id[snippets='{snippetCurlGet}']
+
+===== POST Venue
+operation::venue-create[snippets='{snippetCurlPost}']
+
+===== UPDATE Venue
+operation::venue-update-by-id[snippets='{snippetCurlUpdate}']
+
+===== PATCH Venue
+operation::venue-patch-by-id[snippets='{snippetCurlPatch}']
+
+===== DELETE Venue
+operation::venue-patch-by-id[snippets='{snippetCurlDelete}']
+

@@ -1,20 +1,23 @@
 package com.vf.eventhubserver.client.venue;
 
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -28,7 +31,9 @@ import com.vf.eventhubserver.venue.HallRepository;
 import com.vf.eventhubserver.venue.Venue;
 import com.vf.eventhubserver.venue.VenueRepository;
 import jakarta.transaction.Transactional;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -143,7 +148,16 @@ public class VenueControllerTest {
                 post(baseUrl + "venues")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(venue)))
-            .andExpect(status().isCreated());
+            .andExpect(status().isCreated())
+            .andDo(
+                document(
+                    "venue-create",
+                    requestFields(fieldWithPath("name").description("The name of the venue"))
+                        .andWithPrefix(
+                            "address.", entitiesFieldDescriptor.generateAddressFields(false))
+                        .andWithPrefix(
+                            "employees[].",
+                            entitiesFieldDescriptor.generateEmployeeFields(false))));
 
     String location = request.andReturn().getResponse().getHeader("Location");
     this.mockMvc
@@ -174,7 +188,20 @@ public class VenueControllerTest {
                 put(baseUrl + "venues/{id}", venueToUpdate.getId())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(venueToUpdate)))
-            .andExpect(status().isOk());
+            .andExpect(status().isOk())
+            .andDo(
+                document(
+                    "venue-update-by-id",
+                    pathParameters(
+                        parameterWithName("id").description("The id of the venue to be updated")),
+                    requestFields(
+                            fieldWithPath("id").description("The id of the venue"),
+                            fieldWithPath("name").description("The name of the venue"))
+                        .andWithPrefix(
+                            "address.", entitiesFieldDescriptor.generateAddressFields(false))
+                        .andWithPrefix(
+                            "employees[].",
+                            entitiesFieldDescriptor.generateEmployeeFields(false))));
 
     request
         .andExpect(jsonPath("$.id", is(notNullValue())))
@@ -183,6 +210,59 @@ public class VenueControllerTest {
         .andExpect(jsonPath("$.address.street", is(notNullValue())))
         .andExpect(jsonPath("$.address.street").value(venueToUpdate.getAddress().getStreet()))
         .andExpect(jsonPath("$.employees", is(notNullValue())));
+  }
+
+  @Test
+  void patchVenue() throws Exception {
+    Venue venueToPatch = venueRepository.findById(1L).get();
+    Set<Employee> employees = venueToPatch.getEmployees();
+    System.out.println("venueToPatch" + employees);
+
+    Employee employee = employeeRepository.findById(1L).get();
+    employees.remove(employee);
+    employee.setEmail("changedMail@example.com");
+    employees.add(employee);
+    System.out.println("venueToPatch Modify" + employees);
+
+    Address address = new Address("changedStreet", "testCity", "testZipCode", "testCountry");
+
+    Map<String, Object> venuePatch = new HashMap<>();
+    venuePatch.put("name", "changedName");
+    venuePatch.put("address", address);
+    venuePatch.put("employees", employees);
+
+    ResultActions request =
+        this.mockMvc
+            .perform(
+                patch(baseUrl + "venues/{id}", venueToPatch.getId())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(venuePatch)))
+            .andExpect(status().isOk())
+            .andDo(
+                document(
+                    "venue-patch-by-id",
+                    pathParameters(
+                        parameterWithName("id").description("The id of the venue to be deleted")),
+                    requestFields(
+                            fieldWithPath("name")
+                                .description("The name of the venue (optional)")
+                                .optional())
+                        .andWithPrefix(
+                            "address.", entitiesFieldDescriptor.generateAddressFields(false))
+                        .andWithPrefix(
+                            "employees[].", entitiesFieldDescriptor.generateEmployeeFields(true))));
+
+    request
+        .andExpect(jsonPath("$.id", is(notNullValue())))
+        .andExpect(jsonPath("$.name", is(notNullValue())))
+        .andExpect(jsonPath("$.name").value(venueToPatch.getName()))
+        .andExpect(jsonPath("$.address.street", is(notNullValue())))
+        .andExpect(jsonPath("$.address.street").value(address.getStreet()))
+        .andExpect(jsonPath("$.employees", is(notNullValue())))
+        .andExpect(
+            jsonPath(
+                "$.employees[*].username",
+                containsInAnyOrder(employees.stream().map(Employee::getUsername).toArray())));
   }
 
   @Test
