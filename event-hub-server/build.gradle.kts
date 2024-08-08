@@ -61,14 +61,10 @@ dependencies {
 
 spotless {
   java {
-    // Target all Java source files
-    target("src/**/*.java")
-    
+    target("src/**/*.java")    
     // Optional: Choose your formatter (replace with your preference)
     googleJavaFormat() // Uses Google Java Format
-    
-    // Remove unused imports (optional)
-    removeUnusedImports()
+	removeUnusedImports()
   }
 }
 
