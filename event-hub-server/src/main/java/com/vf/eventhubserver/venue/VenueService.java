@@ -108,9 +108,6 @@ public class VenueService {
         venueToUpdate.setName(venueDTO.name());
         venueToUpdate.setAddress(addressMapper.toEntity(venueDTO.address()));
         venueToUpdate.setEmployees(employeeMapper.toEntities(venueDTO.employees()));
-        if (venueToUpdate == null) {
-          throw new NullException(VENUENULLMSG);
-        }
         Venue updatedVenue = venueRepository.save(venueToUpdate);
         return venueMapper.toDTO(updatedVenue);
       } else {
