@@ -25,7 +25,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vf.eventhubserver.persona.Address;
 import com.vf.eventhubserver.persona.Employee;
 import com.vf.eventhubserver.persona.EmployeeRepository;
-import com.vf.eventhubserver.utility.EntitiesFieldDescriptor;
+import com.vf.eventhubserver.utility.EntitiesFieldDescriptorPersona;
+import com.vf.eventhubserver.utility.EntitiesFieldDescriptorVenue;
 import com.vf.eventhubserver.venue.Hall;
 import com.vf.eventhubserver.venue.HallRepository;
 import com.vf.eventhubserver.venue.Venue;
@@ -61,7 +62,9 @@ public class VenueControllerTest {
   @Autowired private ObjectMapper objectMapper;
   private MockMvc mockMvc;
   String baseUrl = "http://localhost:8080/api/";
-  private EntitiesFieldDescriptor entitiesFieldDescriptor = new EntitiesFieldDescriptor();
+  private EntitiesFieldDescriptorVenue entitiesFieldDescriptor = new EntitiesFieldDescriptorVenue();
+  private EntitiesFieldDescriptorPersona entitiesFieldDescriptorPersona =
+      new EntitiesFieldDescriptorPersona();
   @Autowired EmployeeRepository employeeRepository;
   @Autowired VenueRepository venueRepository;
   @Autowired HallRepository hallRepository;
@@ -127,9 +130,10 @@ public class VenueControllerTest {
                 responseFields(fieldWithPath("[]").description("An array of venues"))
                     .andWithPrefix("[].", entitiesFieldDescriptor.generateVenueFields(true))
                     .andWithPrefix(
-                        "[].address.", entitiesFieldDescriptor.generateAddressFields(false))
+                        "[].address.", entitiesFieldDescriptorPersona.generateAddressFields(false))
                     .andWithPrefix(
-                        "[].employees.[].", entitiesFieldDescriptor.generateEmployeeFields(true))));
+                        "[].employees.[].",
+                        entitiesFieldDescriptorPersona.generateEmployeeFields(true))));
   }
 
   //   test  updateVenue, patchVenue, deleteVenue, addEmployee, removeEmployee
@@ -154,10 +158,10 @@ public class VenueControllerTest {
                     "venue-create",
                     requestFields(fieldWithPath("name").description("The name of the venue"))
                         .andWithPrefix(
-                            "address.", entitiesFieldDescriptor.generateAddressFields(false))
+                            "address.", entitiesFieldDescriptorPersona.generateAddressFields(false))
                         .andWithPrefix(
                             "employees[].",
-                            entitiesFieldDescriptor.generateEmployeeFields(false))));
+                            entitiesFieldDescriptorPersona.generateEmployeeFields(false))));
 
     String location = request.andReturn().getResponse().getHeader("Location");
     this.mockMvc
@@ -198,10 +202,10 @@ public class VenueControllerTest {
                             fieldWithPath("id").description("The id of the venue"),
                             fieldWithPath("name").description("The name of the venue"))
                         .andWithPrefix(
-                            "address.", entitiesFieldDescriptor.generateAddressFields(false))
+                            "address.", entitiesFieldDescriptorPersona.generateAddressFields(false))
                         .andWithPrefix(
                             "employees[].",
-                            entitiesFieldDescriptor.generateEmployeeFields(false))));
+                            entitiesFieldDescriptorPersona.generateEmployeeFields(false))));
 
     request
         .andExpect(jsonPath("$.id", is(notNullValue())))
@@ -248,9 +252,10 @@ public class VenueControllerTest {
                                 .description("The name of the venue (optional)")
                                 .optional())
                         .andWithPrefix(
-                            "address.", entitiesFieldDescriptor.generateAddressFields(false))
+                            "address.", entitiesFieldDescriptorPersona.generateAddressFields(false))
                         .andWithPrefix(
-                            "employees[].", entitiesFieldDescriptor.generateEmployeeFields(true))));
+                            "employees[].",
+                            entitiesFieldDescriptorPersona.generateEmployeeFields(true))));
 
     request
         .andExpect(jsonPath("$.id", is(notNullValue())))

@@ -23,7 +23,7 @@ import com.vf.eventhubserver.persona.Address;
 import com.vf.eventhubserver.persona.Customer;
 import com.vf.eventhubserver.persona.CustomerMapper;
 import com.vf.eventhubserver.persona.CustomerService;
-import com.vf.eventhubserver.utility.EntitiesFieldDescriptor;
+import com.vf.eventhubserver.utility.EntitiesFieldDescriptorPersona;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,7 +51,7 @@ public class CustomerControllerTests {
   private MockMvc mockMvc;
   @Autowired private ObjectMapper objectMapper;
   String baseUrl = "http://localhost:8080/api/";
-  EntitiesFieldDescriptor entitiesFieldDescriptor = new EntitiesFieldDescriptor();
+  EntitiesFieldDescriptorPersona entitiesFieldDescriptor = new EntitiesFieldDescriptorPersona();
 
   @Autowired private CustomerService customerService;
   @Autowired private CustomerMapper customerMapper;

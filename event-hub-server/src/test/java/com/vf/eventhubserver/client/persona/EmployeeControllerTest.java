@@ -27,7 +27,7 @@ import com.vf.eventhubserver.persona.Employee;
 import com.vf.eventhubserver.persona.EmployeeDTO;
 import com.vf.eventhubserver.persona.EmployeeMapper;
 import com.vf.eventhubserver.persona.EmployeeService;
-import com.vf.eventhubserver.utility.EntitiesFieldDescriptor;
+import com.vf.eventhubserver.utility.EntitiesFieldDescriptorPersona;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,7 +55,8 @@ class EmployeeControllerTest {
   @Autowired private EmployeeService employeeService;
   @Autowired private EmployeeMapper employeeMapper;
 
-  EntitiesFieldDescriptor entitiesFieldDescriptor = new EntitiesFieldDescriptor();
+  EntitiesFieldDescriptorPersona entitiesFieldDescriptorPersona =
+      new EntitiesFieldDescriptorPersona();
   Map<String, Object> employee;
 
   @BeforeEach
@@ -99,7 +100,7 @@ class EmployeeControllerTest {
                     "employees-create",
                     requestFields(
                         attributes(key("title").value("Fields for employee creation")),
-                        entitiesFieldDescriptor.generateEmployeeFields(false))));
+                        entitiesFieldDescriptorPersona.generateEmployeeFields(false))));
     postRequest.andReturn().getResponse().getHeader("Location");
   }
 

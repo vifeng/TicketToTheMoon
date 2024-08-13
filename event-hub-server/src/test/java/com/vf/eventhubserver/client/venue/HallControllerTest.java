@@ -21,7 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vf.eventhubserver.persona.EmployeeRepository;
-import com.vf.eventhubserver.utility.EntitiesFieldDescriptor;
+import com.vf.eventhubserver.utility.EntitiesFieldDescriptorPersona;
+import com.vf.eventhubserver.utility.EntitiesFieldDescriptorVenue;
 import com.vf.eventhubserver.venue.Hall;
 import com.vf.eventhubserver.venue.HallRepository;
 import com.vf.eventhubserver.venue.Venue;
@@ -53,7 +54,9 @@ class HallControllerTest {
   @Autowired private ObjectMapper objectMapper;
   private MockMvc mockMvc;
   String baseUrl = "http://localhost:8080/api/";
-  private EntitiesFieldDescriptor entitiesFieldDescriptor = new EntitiesFieldDescriptor();
+  private EntitiesFieldDescriptorVenue entitiesFieldDescriptor = new EntitiesFieldDescriptorVenue();
+  private EntitiesFieldDescriptorPersona entitiesFieldDescriptorPersona =
+      new EntitiesFieldDescriptorPersona();
   @Autowired EmployeeRepository employeeRepository;
   @Autowired VenueRepository venueRepository;
   @Autowired HallRepository hallRepository;
@@ -105,10 +108,11 @@ class HallControllerTest {
                     requestFields(entitiesFieldDescriptor.generateHallFields(false))
                         .andWithPrefix("venue.", entitiesFieldDescriptor.generateVenueFields(true))
                         .andWithPrefix(
-                            "venue.address.", entitiesFieldDescriptor.generateAddressFields(false))
+                            "venue.address.",
+                            entitiesFieldDescriptorPersona.generateAddressFields(false))
                         .andWithPrefix(
                             "venue.employees[].",
-                            entitiesFieldDescriptor.generateEmployeeFields(true))));
+                            entitiesFieldDescriptorPersona.generateEmployeeFields(true))));
 
     postRequest.andReturn().getResponse().getHeader("Location");
   }
@@ -116,7 +120,7 @@ class HallControllerTest {
   @Test
   public void hallCreateForVenueIdResponseTest() throws Exception {
     Venue venue = venueRepository.findById(1L).get();
-    Hall hall = new Hall("hall3", 800, venue);
+    Hall hall = new Hall("hall4", 800, venue);
 
     ResultActions postRequest =
         this.mockMvc
@@ -203,9 +207,10 @@ class HallControllerTest {
                     .andWithPrefix("[].", entitiesFieldDescriptor.generateHallFields(true))
                     .andWithPrefix("[].venue.", entitiesFieldDescriptor.generateVenueFields(true))
                     .andWithPrefix(
-                        "[].venue.address.", entitiesFieldDescriptor.generateAddressFields(false))
+                        "[].venue.address.",
+                        entitiesFieldDescriptorPersona.generateAddressFields(false))
                     .andWithPrefix(
                         "[].venue.employees.[].",
-                        entitiesFieldDescriptor.generateEmployeeFields(true))));
+                        entitiesFieldDescriptorPersona.generateEmployeeFields(true))));
   }
 }
