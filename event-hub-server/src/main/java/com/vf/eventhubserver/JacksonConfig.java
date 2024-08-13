@@ -1,6 +1,8 @@
 package com.vf.eventhubserver;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +21,8 @@ public class JacksonConfig {
     return new Jackson2ObjectMapperBuilder()
         .serializers(new LocalDateSerializer(DateTimeFormatter.ofPattern(DATEFORMAT)))
         .serializers(new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATETIMEFORMAT)))
+        .deserializers(new LocalDateDeserializer(DateTimeFormatter.ofPattern(DATEFORMAT)))
+        .deserializers(new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DATETIMEFORMAT)))
         .serializationInclusion(JsonInclude.Include.NON_NULL);
   }
 }
