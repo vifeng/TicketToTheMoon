@@ -8,4 +8,5 @@ public record EventDTO(
     String description,
     LocalDate dateStart,
     LocalDate dateEnd,
-    String closedDay) {}
+    String closedDay,
+    String imageUrl) {}

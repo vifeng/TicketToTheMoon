@@ -18,6 +18,7 @@ public class Event implements Serializable {
   private LocalDate dateStart;
   private LocalDate dateEnd;
   private String closedDay;
+  private String imageUrl;
 
   public Event() {}
 
@@ -27,22 +28,30 @@ public class Event implements Serializable {
       String description,
       LocalDate dateStart,
       LocalDate dateEnd,
-      String closedDay) {
+      String closedDay,
+      String imageUrl) {
     setId(id);
     setName(name);
     setDescription(description);
     setDateStart(dateStart);
     setDateEnd(dateEnd);
     setClosedDay(closedDay);
+    setImageUrl(imageUrl);
   }
 
   public Event(
-      String name, String description, LocalDate dateStart, LocalDate dateEnd, String closedDay) {
+      String name,
+      String description,
+      LocalDate dateStart,
+      LocalDate dateEnd,
+      String closedDay,
+      String imageUrl) {
     setName(name);
     setDescription(description);
     setDateStart(dateStart);
     setDateEnd(dateEnd);
     setClosedDay(closedDay);
+    setImageUrl(imageUrl);
   }
 
   public Long getId() {
@@ -93,6 +102,14 @@ public class Event implements Serializable {
     this.closedDay = closedDay;
   }
 
+  public String getImageUrl() {
+    return imageUrl;
+  }
+
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
+
   @Override
   public String toString() {
     return "Event [id="
@@ -107,6 +124,8 @@ public class Event implements Serializable {
         + dateEnd
         + ", closedDay="
         + closedDay
+        + ", imageUrl="
+        + imageUrl
         + "]";
   }
 }

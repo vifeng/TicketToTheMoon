@@ -52,7 +52,8 @@ INSERT INTO
         "DATE_END",
         "DATE_START",
         "DESCRIPTION",
-        "NAME"
+        "NAME",
+        "IMAGE_URL"
     )
 VALUES
     (
@@ -60,7 +61,8 @@ VALUES
         DATE '2024-02-25',
         DATE '2024-01-05',
         'concert rock super bien',
-        'Concert'
+        'Concert',
+        'img/orangeBlossom.jpeg'
     );
 
 INSERT INTO
