@@ -72,7 +72,7 @@ public class TicketReservationService {
     return ticketReservationMapper.toDTO(ticketReservation);
   }
 
-  public TicketReservationDTO createTicketReservation(TicketReservationDTO ticketReservationDTO)
+  public TicketReservationKey createTicketReservation(TicketReservationDTO ticketReservationDTO)
       throws IllegalArgumentException, CreateException, DuplicateKeyException {
     try {
       TicketReservation ticketReservation = ticketReservationMapper.toEntity(ticketReservationDTO);
@@ -85,7 +85,7 @@ public class TicketReservationService {
                         + ticketReservationDTO.ticketReservationKey());
               });
       ticketReservationRepository.save(ticketReservation);
-      return ticketReservationMapper.toDTO(ticketReservation);
+      return ticketReservation.getId();
     } catch (DuplicateKeyException e) {
       throw new DuplicateKeyException(e.getMessage());
     } catch (IllegalArgumentException e) {

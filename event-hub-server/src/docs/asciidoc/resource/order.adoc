@@ -4,4 +4,22 @@
 :snippetCurlUpdate: path-parameters,curl-request,request-body,response-body,http-request,http-response
 :snippetCurlDelete: path-parameters,curl-request,http-request,http-response
 
-{wip}
+==== Booking
+
+===== GET All Bookings
+operation::booking-get[snippets='{snippetCurlGetAll},response-fields']
+
+===== GET Booking by id
+operation::booking-get-by-id[snippets='{snippetCurlGet}']
+
+
+==== Ticket Reservation
+
+===== GET All Ticket Reservations
+operation::ticketReservation-get[snippets='{snippetCurlGetAll},response-fields']
+
+===== GET Ticket Reservation by id
+operation::ticketReservation-getById[snippets='{snippetCurlGet}']
+
+===== POST Ticket Reservation
+operation::ticketReservation-create[snippets='{snippetCurlPost}']
