@@ -16,7 +16,7 @@
     "editor.defaultFormatter": "richardwillis.vscode-spotless-gradle",
     "files.trimTrailingWhitespace": false,
     "editor.codeActionsOnSave": {
-      "source.fixAll.spotlessGradle": "explicit"
+      "source.fixAll.spotlessGradle": "true"
     }
   },
   "[gradle]": {
@@ -25,7 +25,7 @@
     "spotlessGradle.format.enable": true,
     "editor.defaultFormatter": "richardwillis.vscode-spotless-gradle",
     "editor.codeActionsOnSave": {
-      "source.fixAll.spotlessGradle": "explicit"
+      "source.fixAll.spotlessGradle": "true"
     }
   },
   "java.import.gradle.java.home": "",
