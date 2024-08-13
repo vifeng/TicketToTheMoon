@@ -13,6 +13,7 @@ public class SeatStatus implements Serializable {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  // status of the seat ('available', 'sold', 'unavailable')
   @Column(unique = true, nullable = false, length = 50)
   private String name;
 
