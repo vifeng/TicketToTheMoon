@@ -1,5 +1,6 @@
 package com.vf.eventhubserver.order;
 
+import com.vf.eventhubserver.LocationResponseBuilder;
 import com.vf.eventhubserver.exception.CreateException;
 import com.vf.eventhubserver.exception.NullException;
 import java.net.URI;
@@ -17,9 +18,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/ticketReservation")
+@RequestMapping("/api/ticketReservations")
 @Validated
-public class TicketReservationController {
+public class TicketReservationController implements LocationResponseBuilder {
 
   private TicketReservationService ticketReservationService;
 

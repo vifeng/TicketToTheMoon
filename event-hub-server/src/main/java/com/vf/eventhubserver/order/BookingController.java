@@ -1,5 +1,6 @@
 package com.vf.eventhubserver.order;
 
+import com.vf.eventhubserver.LocationResponseBuilder;
 import com.vf.eventhubserver.exception.FinderException;
 import com.vf.eventhubserver.exception.NullException;
 import java.util.Set;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/bookings")
 @Validated
-public class BookingController {
+public class BookingController implements LocationResponseBuilder<Long> {
 
   private final BookingService bookingService;
 
@@ -43,17 +44,18 @@ public class BookingController {
    *
    * @param customerId
    * @param reservationKeyDTO
-   * @return
+   * @return a 201 Created response with the location of the booking
    * @throws FinderException
    * @throws IllegalArgumentException
    * @throws NullException
    */
   @PostMapping("/customer/{customerId}/reservationKey")
-  public ResponseEntity<BookingDTO> createBookingForCustomerId(
+  public ResponseEntity<Void> createBookingForCustomerId(
       @PathVariable Long customerId, @RequestBody TicketReservationKeyDTO reservationKeyDTO)
       throws FinderException, IllegalArgumentException, NullException {
-    BookingDTO bookingDTO = bookingService.createBooking(customerId, reservationKeyDTO);
-    return ResponseEntity.status(HttpStatus.CREATED).body(bookingDTO);
+    Long id = bookingService.createBooking(customerId, reservationKeyDTO);
+    String resourcePath = "/api/bookings/{id}";
+    return entityWithCustomLocation(id, resourcePath);
   }
 
   /**
@@ -65,11 +67,12 @@ public class BookingController {
    * @throws FinderException
    */
   @PostMapping("/{bookingId}/reservationKey")
-  public ResponseEntity<BookingDTO> addReservationToBooking(
+  public ResponseEntity<Void> addReservationToBooking(
       @PathVariable Long bookingId, @RequestBody TicketReservationKeyDTO reservationKeyDTO)
       throws FinderException {
-    return ResponseEntity.status(HttpStatus.CREATED)
-        .body(bookingService.addReservation(bookingId, reservationKeyDTO));
+    Long id = bookingService.addReservation(bookingId, reservationKeyDTO);
+    String resourcePath = "/api/bookings/{id}";
+    return entityWithCustomLocation(id, resourcePath);
   }
 
   /**

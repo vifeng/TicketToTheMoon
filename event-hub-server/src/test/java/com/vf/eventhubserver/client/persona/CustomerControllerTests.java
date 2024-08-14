@@ -79,7 +79,7 @@ public class CustomerControllerTests {
 
     request
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$[*]", hasSize(1)))
+        .andExpect(jsonPath("$[*]", hasSize(2)))
         .andExpect(jsonPath("$[0].firstName", is("Macaron")))
         .andExpect(jsonPath("$[0].lastName", is("Le glouton")))
         .andDo(

@@ -7,5 +7,6 @@ import java.util.Set;
 public record BookingDTO(
     Long id,
     Timestamp bookingCreationTimestamp,
+    double totalPriceHt,
     Customer customer,
     Set<TicketReservation> reservations) {}

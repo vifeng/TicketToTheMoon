@@ -4,7 +4,7 @@ import java.net.URI;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-public interface LocationResponseBuilder {
+public interface LocationResponseBuilder<T> {
   /**
    * Return a response with the location of the new resource. It's URL is assumed to be a child of
    * the URL just received.
@@ -21,6 +21,15 @@ public interface LocationResponseBuilder {
     URI location =
         ServletUriComponentsBuilder.fromCurrentRequestUri()
             .path("/{childId}")
+            .buildAndExpand(resourceId)
+            .toUri();
+    return ResponseEntity.created(location).build();
+  }
+
+  default ResponseEntity<Void> entityWithCustomLocation(T resourceId, String resourcePath) {
+    URI location =
+        ServletUriComponentsBuilder.fromCurrentContextPath()
+            .path(resourcePath)
             .buildAndExpand(resourceId)
             .toUri();
     return ResponseEntity.created(location).build();

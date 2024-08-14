@@ -12,6 +12,18 @@ operation::booking-get[snippets='{snippetCurlGetAll},response-fields']
 ===== GET Booking by id
 operation::booking-get-by-id[snippets='{snippetCurlGet}']
 
+===== POST Booking for Customer
+operation::booking-create-for-customer-id[snippets='{snippetCurlPost}']
+
+===== POST Reservation to Booking
+operation::booking-add-reservation-to-booking[snippets='{snippetCurlPost}']
+
+===== DELETE Reservation from Booking
+operation::booking-delete-reservation-from-booking[snippets='{snippetCurlDelete}']
+
+===== DELETE Booking by id
+operation::booking-delete-by-id[snippets='{snippetCurlDelete}']
+
 
 ==== Ticket Reservation
 

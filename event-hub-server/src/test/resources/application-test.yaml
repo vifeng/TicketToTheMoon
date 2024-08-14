@@ -35,3 +35,4 @@ logging:
       springframework:
         validation: DEBUG
         web: DEBUG
+        restdocs: DEBUG

@@ -77,7 +77,7 @@ public class BookingService {
     return bookingMapper.toDTO(booking);
   }
 
-  public BookingDTO createBooking(Long customerId, TicketReservationKeyDTO reservationKeyDTO)
+  public Long createBooking(Long customerId, TicketReservationKeyDTO reservationKeyDTO)
       throws FinderException, IllegalArgumentException {
     Customer customer =
         customerRepository
@@ -113,10 +113,10 @@ public class BookingService {
     Booking booking = new Booking(bookingCreationTimestamp, customer, reservationsByAvaibility);
     Booking savedBooking = bookingRepository.save(booking);
     updateSeatAvailability(ticketReservation, "booked");
-    return bookingMapper.toDTO(savedBooking);
+    return savedBooking.getId();
   }
 
-  public BookingDTO addReservation(Long bookingId, TicketReservationKeyDTO reservationKeyDTO)
+  public Long addReservation(Long bookingId, TicketReservationKeyDTO reservationKeyDTO)
       throws FinderException, IllegalArgumentException {
     Booking booking =
         bookingRepository
@@ -146,7 +146,7 @@ public class BookingService {
       updateSeatAvailability(ticketReservation, "booked");
     }
     Booking savedBooking = bookingRepository.save(booking);
-    return bookingMapper.toDTO(savedBooking);
+    return savedBooking.getId();
   }
 
   /**

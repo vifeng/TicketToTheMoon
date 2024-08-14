@@ -59,7 +59,7 @@ public class TicketReservationControllerTest {
 
   @Autowired private ObjectMapper objectMapper;
   private MockMvc mockMvc;
-  String baseUrl = "http://localhost:8080/api/";
+  String baseUrl = "http://localhost:8080/api/ticketReservations";
   private EntitiesFieldDescriptorOrder entitiesFieldDescriptorOrder =
       new EntitiesFieldDescriptorOrder();
   private EntitiesFieldDescriptorVenue entitiesFieldDescriptorVenue =
@@ -94,8 +94,7 @@ public class TicketReservationControllerTest {
 
   @Test
   public void getAllTicketReservations() throws Exception {
-    ResultActions request =
-        this.mockMvc.perform(get(baseUrl + "ticketReservation")).andExpect(status().isOk());
+    ResultActions request = this.mockMvc.perform(get(baseUrl)).andExpect(status().isOk());
 
     request
         .andExpect(jsonPath("$").isArray())
@@ -177,10 +176,7 @@ public class TicketReservationControllerTest {
     ResultActions request =
         this.mockMvc
             .perform(
-                get(
-                        baseUrl + "ticketReservation/sessionevent/{sessioneventId}/seat/{seatId}",
-                        1L,
-                        1L)
+                get(baseUrl + "/sessionevent/{sessioneventId}/seat/{seatId}", 1L, 1L)
                     .accept(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(status().isOk());
 
@@ -199,10 +195,9 @@ public class TicketReservationControllerTest {
                         .description("The seatId of the ticket reservation to retrieve"))));
   }
 
-  // createTicketReservation
   @Test
   public void createTicketReservation() throws Exception {
-    Seat seat = seatRepository.findById(3L).get();
+    Seat seat = seatRepository.findById(4L).get();
     SessionEvent sessionEvent = sessionEventRepository.findById(1L).get();
     TicketReservationKey ticketReservationKey = new TicketReservationKey(seat, sessionEvent);
     TicketReservation ticketReservation = new TicketReservation(ticketReservationKey, false);
@@ -211,7 +206,7 @@ public class TicketReservationControllerTest {
     ResultActions request =
         this.mockMvc
             .perform(
-                post(baseUrl + "ticketReservation")
+                post(baseUrl)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(ticketReservationDTO)))
             .andExpect(status().isCreated())
@@ -284,7 +279,7 @@ public class TicketReservationControllerTest {
     this.mockMvc
         .perform(get(location))
         .andExpect(jsonPath("$.ticketReservationKey").isNotEmpty())
-        .andExpect(jsonPath("$.ticketReservationKey.seatId.id").value(3))
+        .andExpect(jsonPath("$.ticketReservationKey.seatId.id").value(4))
         .andExpect(jsonPath("$.ticketReservationKey.seatId.seatStatus.name").value("available"))
         .andExpect(jsonPath("$.ticketReservationKey.sessionEventId.id").value(1));
   }
