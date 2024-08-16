@@ -41,3 +41,7 @@ operation::venue-patch-by-id[snippets='{snippetCurlPatch}']
 ===== DELETE Venue
 operation::venue-patch-by-id[snippets='{snippetCurlDelete}']
 
+==== Seat
+
+===== GET All Seats by configurationHallId
+operation::seats-get-by-configHallId[snippets='{snippetCurlGet}']
