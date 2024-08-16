@@ -24,7 +24,6 @@ import com.vf.eventhubserver.persona.Customer;
 import com.vf.eventhubserver.persona.CustomerMapper;
 import com.vf.eventhubserver.persona.CustomerService;
 import com.vf.eventhubserver.utility.EntitiesFieldDescriptorPersona;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,6 +38,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})

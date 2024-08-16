@@ -8,7 +8,6 @@ import com.vf.eventhubserver.order.BookingMapper;
 import com.vf.eventhubserver.order.BookingRepository;
 import com.vf.eventhubserver.order.BookingService;
 import com.vf.eventhubserver.order.TicketReservation;
-import jakarta.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -16,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional

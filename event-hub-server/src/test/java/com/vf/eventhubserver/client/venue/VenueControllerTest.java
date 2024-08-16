@@ -31,7 +31,6 @@ import com.vf.eventhubserver.venue.Hall;
 import com.vf.eventhubserver.venue.HallRepository;
 import com.vf.eventhubserver.venue.Venue;
 import com.vf.eventhubserver.venue.VenueRepository;
-import jakarta.transaction.Transactional;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -50,6 +49,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})

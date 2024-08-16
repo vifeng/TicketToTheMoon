@@ -9,7 +9,6 @@ import com.vf.eventhubserver.payment.PaymentRepository;
 import com.vf.eventhubserver.persona.Customer;
 import com.vf.eventhubserver.persona.CustomerRepository;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -18,6 +17,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
