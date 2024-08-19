@@ -61,8 +61,16 @@ VALUES
         DATE '2024-02-25',
         DATE '2024-01-05',
         'concert rock super bien',
-        'Concert',
+        'Orange Blossom',
         'img/orangeBlossom.jpeg'
+    ),
+    (
+        'Mardi',
+        DATE '2024-04-26',
+        DATE '2024-03-26',
+        'Groupe mythique et très humoristique de K-pop.',
+        'Mamamoo',
+        'img/MAMAMOO.jpeg'
     );
 
 INSERT INTO
@@ -80,7 +88,15 @@ VALUES
         90,
         1,
         1
-    );
+    ),
+    (
+        NULL,
+        TIMESTAMP '2026-04-15 20:00:00',
+        120,
+        1,
+        2
+    )
+    ;
 
 INSERT INTO
     "TARIFICATION"(

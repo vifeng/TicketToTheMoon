@@ -3,3 +3,23 @@
 :snippetCurlPost: curl-request,request-body,request-fields,http-request,http-response
 :snippetCurlUpdate: path-parameters,curl-request,request-body,response-body,http-request,http-response
 :snippetCurlDelete: path-parameters,curl-request,http-request,http-response
+
+
+==== Events
+This is a simple example of a Event documentation. 
+
+===== GET All Events
+operation::events-get[snippets='{snippetCurlGetAll},response-fields']
+
+===== GET Event by ID
+operation::events-get-id[snippets='{snippetCurlGet}']
+
+
+==== SessionEvents
+This is a simple example of a Session Event documentation. 
+
+===== GET All SessionEvents
+operation::sessionevents-get[snippets='{snippetCurlGetAll},response-fields']
+
+===== GET SessionEvent by ID
+operation::sessionevents-get-id[snippets='{snippetCurlGet}']
