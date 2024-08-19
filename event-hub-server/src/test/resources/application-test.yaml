@@ -36,3 +36,5 @@ logging:
         validation: DEBUG
         web: DEBUG
         restdocs: DEBUG
+        hibernate: DEBUG
+        jpa: DEBUG
