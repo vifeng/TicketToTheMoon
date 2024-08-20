@@ -4,4 +4,26 @@
 :snippetCurlUpdate: path-parameters,curl-request,request-body,response-body,http-request,http-response
 :snippetCurlDelete: path-parameters,curl-request,http-request,http-response
 
-{wip}
+==== Payment
+This is a simple example of a Payment documentation.
+
+===== GET All Payments
+operation::payments-get[snippets='{snippetCurlGetAll},response-fields']
+
+===== GET Payment by ID
+operation::payments-get-id[snippets='{snippetCurlGet}']
+
+===== POST Payment
+operation::payments-create[curl-request,request-body,http-request,http-response]
+
+==== Payment Status
+This is a simple example of a Payment Status documentation.
+
+===== GET All Payment Status
+operation::paymentstatus-get[snippets='{snippetCurlGetAll},response-fields']
+
+===== GET Payment Status by ID
+operation::paymentstatus-get-id[snippets='{snippetCurlGet}']
+
+===== GET Payment Status by name
+operation::paymentstatus-get-name[snippets='{snippetCurlGet}']

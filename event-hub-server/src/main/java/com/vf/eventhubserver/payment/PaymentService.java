@@ -26,7 +26,12 @@ public class PaymentService {
   BookingRepository bookingRepository;
   BookingService bookingService;
   BookingMapper bookingMapper;
+
+  /**
+   * @Description: The time in minutes that a booking is valid for before it expires
+   */
   static final int BOOKING_EXPIRYDATETIME = 30;
+
   PaymentStatusRepository paymentStatusRepository;
 
   public PaymentService(
@@ -64,8 +69,7 @@ public class PaymentService {
     return paymentMapper.toDTO(payment);
   }
 
-  public PaymentDTO createPayment(Long bookingId)
-      throws FinderException, CreateException, NullException {
+  public Long createPayment(Long bookingId) throws FinderException, CreateException, NullException {
     Optional<Booking> optionalBooking = bookingRepository.findById(bookingId);
     if (optionalBooking.isEmpty()) {
       throw new FinderException(
@@ -82,6 +86,16 @@ public class PaymentService {
     Boolean sessionExpired =
         bookingService.checkIfReservationIsSessionExpired(bookingCreationTimestamp, reservations);
     if (timeExpired && sessionExpired) {
+      // booking has expired
+      bookingService.deleteById(bookingId);
+      throw new CreateException(
+          "Payment has not been made, booking with id {"
+              + bookingId
+              + "} has expired. Booking and its reservations has been deleted. Please try again. timeExpired: "
+              + timeExpired
+              + " sessionExpired: "
+              + sessionExpired);
+    } else {
       // booking is still valid
       Optional<PaymentStatus> paymentStatus =
           paymentStatusRepository.findByPaymentStatusName("paid");
@@ -92,14 +106,7 @@ public class PaymentService {
       Payment payment = new Payment(LocalDateTime.now(), booking, paid);
       bookingService.updateSeatAvailability(reservations, "sold");
       Payment savedPayment = paymentRepository.save(payment);
-      return paymentMapper.toDTO(savedPayment);
-    } else {
-      // booking has expired
-      bookingService.deleteById(bookingId);
-      throw new CreateException(
-          "Payment has not been made, booking with id {"
-              + bookingId
-              + "} has expired. Booking and its reservations has been deleted. Please try again.");
+      return savedPayment.getId();
     }
   }
 
@@ -118,6 +125,6 @@ public class PaymentService {
     LocalDateTime bookingCreationLocalDateTime = bookingCreationTimestamp.toLocalDateTime();
     LocalDateTime expiryTimeForBooking =
         bookingCreationLocalDateTime.plusMinutes(BOOKING_EXPIRYDATETIME);
-    return expiryTimeForBooking.isAfter(LocalDateTime.now());
+    return LocalDateTime.now().isAfter(expiryTimeForBooking);
   }
 }

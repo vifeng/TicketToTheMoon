@@ -289,7 +289,6 @@ public class BookingControllerTest {
                     ));
 
     String location = postRequest.andReturn().getResponse().getHeader("Location");
-
     this.mockMvc
         .perform(get(location))
         .andExpect(jsonPath("$.bookingCreationTimestamp", notNullValue()))

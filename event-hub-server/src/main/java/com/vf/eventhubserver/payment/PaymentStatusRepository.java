@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PaymentStatusRepository extends JpaRepository<PaymentStatus, Long> {
 
-  Optional<PaymentStatus> findByPaymentStatusName(String name);
+  Optional<PaymentStatus> findByPaymentStatusName(String paymentStatusName);
 }

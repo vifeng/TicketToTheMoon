@@ -66,8 +66,8 @@ VALUES
     ),
     (
         'Mardi',
-        DATE '2024-04-26',
-        DATE '2024-03-26',
+        DATE '2024-11-26',
+        DATE '2024-10-26',
         'Groupe mythique et très humoristique de K-pop.',
         'Mamamoo',
         'img/MAMAMOO.jpeg'
@@ -91,12 +91,11 @@ VALUES
     ),
     (
         NULL,
-        TIMESTAMP '2026-04-15 20:00:00',
+        TIMESTAMP '2024-10-26 20:00:00',
         120,
         1,
         2
-    )
-    ;
+    );
 
 INSERT INTO
     "TARIFICATION"(
@@ -169,20 +168,21 @@ VALUES
         'Macaron',
         'Le glouton',
         '06 06 06 06 06',
-        'cookie'),
+        'cookie'
+    ),
     (
-    'Paris',
-    'France',
-    'sesame street',
-    '75001',
-    '1234567891238888',
-    'grover@gmail.com',
-    'Blue furry',
-    'Grover',
-    '06 05 05 05 05',
-    'SuperGrover'
-);
-    
+        'Paris',
+        'France',
+        'sesame street',
+        '75001',
+        '1234567891238888',
+        'grover@gmail.com',
+        'Blue furry',
+        'Grover',
+        '06 05 05 05 05',
+        'SuperGrover'
+    );
+
 INSERT INTO
     "PAYMENT_STATUS"("PAYMENT_STATUS_NAME")
 VALUES
@@ -196,7 +196,7 @@ INSERT INTO
     )
 VALUES
     (TIMESTAMP '2024-03-11 18:28:39.943', 20.0, 1),
-    (TIMESTAMP '2024-03-12 18:28:39.943', 10.0, 1);
+    (TIMESTAMP '2024-08-12 18:28:39.943', 10.0, 1);
 
 INSERT INTO
     "TICKET_RESERVATION"(
@@ -208,7 +208,7 @@ INSERT INTO
 VALUES
     (TRUE, 1, 1, 1),
     (TRUE, 1, 2, 1),
-    (TRUE, 1, 3, 2);
+    (TRUE, 2, 3, 2);
 
 INSERT INTO
     "PAYMENT"(

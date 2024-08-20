@@ -1,8 +1,8 @@
 package com.vf.eventhubserver.payment;
 
+import com.vf.eventhubserver.LocationResponseBuilder;
 import com.vf.eventhubserver.exception.FinderException;
 import java.util.List;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/payments")
 @Validated
-public class PaymentController {
+public class PaymentController implements LocationResponseBuilder<Long> {
 
   private final PaymentService paymentService;
 
@@ -34,9 +34,10 @@ public class PaymentController {
     return ResponseEntity.ok(paymentService.findById(id));
   }
 
-  @PostMapping("/bookings/{bookingId}")
-  public ResponseEntity<PaymentDTO> createPayment(@PathVariable Long bookingId)
-      throws FinderException {
-    return ResponseEntity.status(HttpStatus.CREATED).body(paymentService.createPayment(bookingId));
+  @PostMapping("/booking/{bookingId}")
+  public ResponseEntity<Void> createPayment(@PathVariable Long bookingId) throws FinderException {
+    Long id = paymentService.createPayment(bookingId);
+    String resourcePath = "/api/payments/{id}";
+    return entityWithCustomLocation(id, resourcePath);
   }
 }
