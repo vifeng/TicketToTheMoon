@@ -6,7 +6,7 @@ import 'vuetify/styles'
 import vuetify from './plugins/vuetify'
 
 import App from './App.vue'
-import router from './router'
+import router from '@/router'
 import AppLink from './components/AppLink.vue'
 
 const app = createApp(App)

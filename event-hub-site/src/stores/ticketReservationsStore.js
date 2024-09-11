@@ -9,7 +9,7 @@ export const useTicketReservationsStore = defineStore('TicketReservationsStore',
   getters: {},
   actions: {
     async fetchTicketReservations() {
-      const response = await fetch('http://localhost:8080/api/ticketReservation')
+      const response = await fetch('http://localhost:8080/api/ticketReservations')
       const ticketReservations = await response.json()
       this.ticketReservations = ticketReservations
     }
