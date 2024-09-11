@@ -10,15 +10,14 @@ Table of contents
     - [Installation \& running](#installation--running)
     - [Database configuration](#database-configuration)
 - [Few usefull commands](#few-usefull-commands)
-- [Mapstruct implementation](#mapstruct-implementation)
 - [REST API documentation, monitoring and testing](#rest-api-documentation-monitoring-and-testing)
   - [Spring REST Docs (API testing and documentation)](#spring-rest-docs-api-testing-and-documentation)
     - [How to generate the documentation](#how-to-generate-the-documentation)
-  - [Thunder tests](#thunder-tests)
   - [Hal explorer (REST API documentation)](#hal-explorer-rest-api-documentation)
   - [Actuator (monitoring/observability)](#actuator-monitoringobservability)
+  - [](#)
+- [Mapstruct implementation](#mapstruct-implementation)
 
----
 
 ---
 
@@ -26,28 +25,29 @@ Table of contents
 
 ## About The Project
 
-eventhubserver is a ticket office website. Main features are :
+EventHub is a ticket office website. The primary goal of EventHub is to facilitate the management and sale of tickets for events by providing an interface for venue managers and end-users. On one side, professionals can manage events, venues, sessions, and pricing. On the other, the general public can view shows, make reservations, and purchase tickets.
+Main features are :
 
-- tickettothemoon_FrontEnd : a front office aimed at the public to buy tickets from and a back office for venues to operate their shows.
-- eventhubserver : REST API to manage the data.
+- eventhub-site : a user interface visible to users (both the public and managers) for interacting with the application.
+- eventhub-server : REST API to manage the data. It contains the business logic, such as data processing, event management, venue management, reservations, and more.
 
 ## Documentation
 
-[Documentation] (https://github.com/vifeng/TicketToTheMoon/tree/main/documentation)  
-[Documentation] (https://github.com/vifeng/TicketToTheMoon/tree/main/documentation)  
-README files are available in each folder to explain its purpose.
-[Devlog](DEVLOG.md) is available to follow the development process.
-[Devlog](DEVLOG.md) is available to follow the development process.
+[General Documentation of the project](https://github.com/vifeng/TicketToTheMoon/tree/main/documentation) - such as functional requirements, database... mainly in french 
+[A wiki for development notes](https://github.com/vifeng/TicketToTheMoon/wiki) is available to follow the development process.
 
 ## Build with
 
 ### Versions used for the development
 
+This project is built with the following versions (subject to change):
 - Gradle 8.2.1
 - Java 17.0.11
 - Kotlin 1.8.20
 - SpringBoot 3.2.3
 - Junit 5.8.1
+
+---
 
 # GETTING STARTED
 
@@ -57,25 +57,30 @@ README files are available in each folder to explain its purpose.
 
 clone the project
 
-```
-   git clone https://github.com/vifeng/tickettothemoon.git
-```
-
-Backend
-
 ```sh
-   cd eventhubserver
-   gradle bootRun
+git clone https://github.com/vifeng/tickettothemoon.git
+cd event-hub-server
 ```
 
-Access to the backend API [http://localhost:8080/api](http://localhost:8080/api) in your browser.
+run the project
+```sh
+./gradlew bootRun
+```
+
+Access to the API documentation at [http://localhost:8080/api](http://localhost:8080/api) in your browser.
+Access to the Application endpoints. For the EVENTS endpoint go to [http://localhost:8080/api/events](http://localhost:8080/api/events) in your browser.
+
+Access to the HAL explorer at [http://localhost:8080/](http://localhost:8080/) in your browser.
+Access to the actuator at [http://localhost:8080/actuator](http://localhost:8080/manage/actuator) in your browser.
+Access to the H2 console at [http://localhost:8080/h2-console](http://localhost:8080/h2-console) in your browser. 
 
 ### Database configuration
 
-I have use the in memory database H2 for the moment. Once the application is up and running, visit the [h2-console](http://localhost:8080/h2-console) in your browser.
-Connect to the database with the credentials which are in the [application.properties](src/main/resources/application.properties) file.
+In development environnement I have use the in memory database H2. Once the application is up and running, visit the [h2-console](http://localhost:8080/h2-console) in your browser.
+Connect to the database with the credentials which are in the [application-dev.yml](src/main/resources/application-dev.yml) file.
 </br>
 
+---
 # Few usefull commands
 
 ```sh
@@ -95,30 +100,7 @@ gradle clean build
 # clean the build folder and build the project. recompile the code and execute the Test.
 gradle check
 # run all verification tasks, including tests and linting
-
-# MAPSTRUCT
-# this task doesn't exists yet.
-# this task doesn't exists yet.
-gradle mapstructGenerate
-# generate the mapstruct implementation
-gradle mapstructClean
-# clean the mapstruct implementation
-gradle mapstruct
-# clean and generate the mapstruct implementation
-gradle mapstructCompile
-# compile the mapstruct implementation
-
-
 ```
-
-<br>
-
----
-
-# Mapstruct implementation
-
-Mapstruct is a code generator that simplifies the implementation of mappings between Java bean types by generating mapping code at compile time, following a convention-over-configuration approach.
-the genereated code is in the `build/generated/sources/annotationProcessor/java/main` folder.
 
 <br>
 
@@ -132,19 +114,16 @@ Spring REST Docs helps you to document RESTful services. It combines hand-writte
 
 ### How to generate the documentation
 
-the task ascidoctor (which depends on test) is implemented in the build.gradle file. You can generate the documentation with the following command. The documentation will be available in the [./build/docs/asciidoc](./build/docs/asciidoc) folder.
+The task ascidoctor (which depends on test) is implemented in the build.gradle.kts file. You can generate the documentation with the following command. The documentation will be available in the [./build/docs/asciidoc](./build/docs/asciidoc) folder.
 
 ```sh
 gradle asciidoctor
+# generate the documentation
+gradle test
+# run the tests and generate the documentation
 ```
 
 or just run the 'tests and debug' in vscode if the app is launched (`gradle bootRun`).
-
-## Thunder tests
-
-Thunder is a REST API client extension for Visual Studio Code. It is a lightweight and easy-to-use extension for sending HTTP requests to test your REST API. it is a good alternative to Postman. Now I use it for all my tests. you'll find the collections of requests in the thunder folder : ./thunder. You can import them in your thunder extension. So you now, there is a free plan limiting the number of requests per day.
-
-link to extension : https://marketplace.visualstudio.com/items?itemName=rongwong.thunder-client
 
 ## Hal explorer (REST API documentation)
 
@@ -159,9 +138,17 @@ Documentation at [github usage doc](https://toedter.github.io/hal-explorer/relea
 The spring-boot-actuator module provides all of Spring Boot’s production-ready features. It exposes a lot of endpoints to monitor and manage your application. Auditing, health, and metrics gathering can also be automatically applied to your application.
 
 - There are actuator health check and info routes as well:
-  - http://localhost:8080/manage/actuator
-  - http://localhost:8080/manage/actuator/health
+  - http://localhost:8080/actuator
+  - http://localhost:8080/actuator/health
 
 source [official doc](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html)
+
+<br>
+---
+
+# Mapstruct implementation
+
+Mapstruct is a code generator that simplifies the implementation of mappings between Java bean types by generating mapping code at compile time, following a convention-over-configuration approach.
+the genereated code is in the `build/generated/sources/annotationProcessor/java/main` folder.
 
 <br>

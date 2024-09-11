@@ -1,25 +1,23 @@
 Table of contents
 
-- [PROJECT : TicketToTheMoon](#project--tickettothemoon)
+- [PROJECT : eventhubserver](#project--eventhubserver)
   - [About The Project](#about-the-project)
+    - [Application objective](#application-objective)
+    - [Three-tier application architecture](#three-tier-application-architecture)
   - [Documentation](#documentation)
   - [Build with](#build-with)
     - [Versions used for the development](#versions-used-for-the-development)
 - [GETTING STARTED](#getting-started)
   - [1. RUNNING LOCALLY](#1-running-locally)
     - [Installation \& running](#installation--running)
-    - [Database configuration](#database-configuration)
 - [Few commands](#few-commands)
-- [REST API \& actuator](#rest-api--actuator)
+- [API Documentation \& actuator](#api-documentation--actuator)
+  - [API Documentation](#api-documentation)
   - [Actuator](#actuator)
-  - [Documentation](#documentation-1)
 - [GENERAL INFO](#general-info)
   - [Status](#status)
   - [Roadmap](#roadmap)
   - [Features](#features)
-  - [Visuals](#visuals)
-  - [Usage](#usage)
-  - [Architecture](#architecture)
   - [Versions and platform support](#versions-and-platform-support)
   - [Tests results](#tests-results)
   - [Issues and bugs](#issues-and-bugs)
@@ -34,14 +32,23 @@ Table of contents
 
 ## About The Project
 
-TicketToTheMoon is a ticket office website. Main features are :
+EventHub is a ticketing application designed for event industry professionals and the general public.
 
-- Eventhub-client : A platform for venue staff to sell tickets to their events and for the public to buy them.
-- Eventhub-server : A REST API to manage the data. 
+### Application objective
+The primary goal of EventHub is to facilitate the management and sale of tickets for events by providing an interface for venue managers and end-users. On one side, professionals can manage events, venues, sessions, and pricing. On the other, the general public can view shows, make reservations, and purchase tickets.
+
+### Three-tier application architecture
+Three-tier architecture : Presentation --> Business logic --> Data layer
+More information is to be found in the [documentation section](https://github.com/vifeng/TicketToTheMoon/blob/main/documentation/).
+- **Presentation Layer (front-end):** Represented by event-hub-site, which is the user interface developed in Vue.js. This is the part visible to users (both the public and managers) for interacting with the application.
+- **Business Logic Layer (back-end):** Represented by event-hub-server, which is the REST API written in Java/Spring Boot. This layer contains the business logic, such as data processing, event management, venue management, reservations, and more.
+- **Data Layer:** During development, the application uses an H2 database and test data managed by Flyway.
+
 
 ## Documentation
 
-[Documentation] https://github.com/vifeng/TicketToTheMoon/tree/main/documentation  
+[General Documentation of the project](https://github.com/vifeng/TicketToTheMoon/tree/main/documentation) - such as functional requirements, database... mainly in french 
+[A wiki for development notes](https://github.com/vifeng/TicketToTheMoon/wiki) is available to follow the development process.
 README files are available.
 
 ## Build with
@@ -55,7 +62,7 @@ README files are available.
 | ------------------------------- | ------------------------------------------- |                    |
 | Tests                           | Documentation                               |                    |
 | ------------------------------- | ------------------------------------------- |                    |
-| Junit                           | Spring REST Docs                            |                    |
+| Junit, mockMVC, slice testing   | Spring REST Docs                            |                    |
 ```
 
 ### Versions used for the development
@@ -76,67 +83,68 @@ README files are available.
 
 clone the project
 
-```
-   git clone https://github.com/vifeng/tickettothemoon.git
+```sh
+git clone https://github.com/vifeng/tickettothemoon.git
 ```
 
-Backend
+start the Backend
 
 ```sh
-   cd EVENTHUB-SERVER
-   gradle bootRun
+cd event-hub-server
+./gradlew bootRun
 ```
 
-Access to the backend API [http://localhost:8080/api](http://localhost:8080/api) in your browser.
+Access to the backend API documentation [http://localhost:8080/api](http://localhost:8080/api) in your browser.
+Access to the Application endpoints such as the EVENTS endpoint [http://localhost:8080/api/events](http://localhost:8080/api/events) in your browser.
 
-Frontend
+start the Frontend
 
 ```sh
-   cd EVENTHUB-CLIENT
-   npm run dev
+cd event-hub-site
+npm run dev
 ```
 
-Access the the frontEnd [ http://localhost:5173/](http://localhost:5173/) in your browser.
-
-or you could use the ./start.sh script to run both
-
-```sh
-  sh ./start.sh
-```
-
-### Database configuration
-
-I have use the in memory database H2 for the moment. Once the application is up and running, visit the [h2-console](http://localhost:8080/h2-console) in your browser.
-
-[Configuration](./eventHub-server/src/main/resources/application.properties)
-</br>
+Access the application [ http://localhost:5173/](http://localhost:5173/) in your browser.
 
 # Few commands
 
+In the event-hub-server folder
 ```sh
-gradle build -x test
+./gradlew build -x test
 # Build without the tests
+./gradlew clean
+# clean the build folder
 CTL+C
 # Shutdown the front or backend from the terminal
+```
+
+In the event-hub-site folder
+```sh
 npm list vue
-# to check the vue version
+# to check the vue version.
+npm run dev
+# run the application
+npm run build
+# build the application
 ```
 
 <br>
 
 ---
 
-# REST API & actuator
+# API Documentation & actuator
 
-<!-- TODO_LOW readme file-->
+## API Documentation
+
+Access to the API documentation at [http://localhost:8080/api](http://localhost:8080/api) in your browser.
 
 ## Actuator
+Access to the actuator at [http://localhost:8080/actuator](http://localhost:8080/manage/actuator) in your browser.
 
 - There are actuator health check and info routes as well:
-  - http://localhost:3306/eventhubserver/actuator/health
-  - http://localhost:3306/eventhubserver/actuator/info
+  - http://localhost:8080/actuator/health
+  - http://localhost:8080/actuator/info
 
-## Documentation
 
 <br>
 
@@ -146,40 +154,27 @@ npm list vue
 
 ## Status
 
-WIP
+The project is in development. 
+- The backend is almost finished. All the important buisness logic has been done and tested.
+- The frontend is in progress. It only shows a few pages of some get requests to the API.
 
 ## Roadmap
 
 See the project's roadmap at [github projects](https://github.com/users/vifeng/projects/2)
 See the open issues for a list of proposed features (and known issues) at [github issues](https://github.com/vifeng/TicketToTheMoon/issues)
-You can find ideas for releases in the future in the [functional requirements documentation](https://github.com/vifeng/TicketToTheMoon/blob/main/documentation/01_ExpressionBesoin-V5_OK.pdf).
 
 ## Features
 
 see [functional requirements documentation](https://github.com/vifeng/TicketToTheMoon/blob/main/documentation/01_ExpressionBesoin-V5_OK.pdf)
 
-## Visuals
-
-<!-- TODO_LOW: readme file-->
-
-## Usage
-
-<!-- TODO_LOW: readme file-->
-
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Architecture
-
-3-layers : presentation --> service --> repository  
-More information is to be found in the [documentation section](https://github.com/vifeng/TicketToTheMoon/blob/main/documentation/).
 
 ## Versions and platform support
 
-More information is to be found in the [repository wiki](https://github.com/vifeng/TicketToTheMoon/wiki)
+More information about the development process is to be found in the [repository wiki](https://github.com/vifeng/TicketToTheMoon/wiki)
 
 ## Tests results
 
-<!-- TODO_LOW: readme file-->
+The documentation is depending on the tests results. Thus all the tests are passing otherwise the build couldn't be done.
 
 ## Issues and bugs
 
