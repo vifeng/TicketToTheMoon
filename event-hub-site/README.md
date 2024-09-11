@@ -1,16 +1,31 @@
+Table of contents
+- [eventhub-site](#eventhub-site)
+  - [About The Project](#about-the-project)
+  - [Documentation](#documentation)
+  - [Versions used for the development](#versions-used-for-the-development)
+  - [Recommended IDE Setup](#recommended-ide-setup)
+  - [Project Setup](#project-setup)
+    - [Compile and Hot-Reload for Development](#compile-and-hot-reload-for-development)
+    - [Compile and Minify for Production](#compile-and-minify-for-production)
+    - [Lint with ESLint](#lint-with-eslint)
+
+---
+
+
 # eventhub-site
 
 ## About The Project
 
-EventHub is a ticket office website. Main features are :
+EventHub is a ticket office website. The primary goal of EventHub is to facilitate the management and sale of tickets for events by providing an interface for venue managers and end-users. On one side, professionals can manage events, venues, sessions, and pricing. On the other, the general public can view shows, make reservations, and purchase tickets.
+Main features are :
 
-- eventhub-site : a front office aimed at the public to buy tickets from and a back office for venues to operate their shows.
-- eventhub-server : REST API to manage the data.
+- eventhub-site : a user interface visible to users (both the public and managers) for interacting with the application.
+- eventhub-server : REST API to manage the data. It contains the business logic, such as data processing, event management, venue management, reservations, and more.
 
 ## Documentation
 
-[Documentation] https://github.com/vifeng/TicketToTheMoon/tree/main/documentation  
-README files are available in each folder to explain its purpose.
+[General Documentation of the project](https://github.com/vifeng/TicketToTheMoon/tree/main/documentation) - such as functional requirements, database... mainly in french
+[A wiki for development notes](https://github.com/vifeng/TicketToTheMoon/wiki)
 
 ## Versions used for the development
 
@@ -28,12 +43,14 @@ README files are available in each folder to explain its purpose.
 clone the project
 
 ```sh
-   git clone https://github.com/vifeng/tickettothemoon.git
-   cd TicketToTheMoon/eventhub-site
+git clone https://github.com/vifeng/tickettothemoon.git
+cd TicketToTheMoon/eventhub-site
 ```
 
 ```sh
 npm install
+npm audit fix
+# if prompt to do it
 ```
 
 ### Compile and Hot-Reload for Development
