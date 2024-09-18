@@ -127,4 +127,25 @@ public class SessionEventControllerTest {
         .andExpect(jsonPath("$.id").value(1))
         .andExpect(jsonPath("$.durationInMinutes").value(90));
   }
+
+  // test the getSessionEventsByEventId method in the SessionEventController
+  @Test
+  public void testGetSessionEventsByEventId() throws Exception {
+    ResultActions request =
+        mockMvc
+            .perform(
+                get("http://localhost:8080/api/events/{eventId}/sessionsEvents", 1L)
+                    .accept(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(status().isOk())
+            .andDo(
+                document(
+                    "all-sessionevents-by-event-id",
+                    pathParameters(
+                        parameterWithName("eventId")
+                            .description("The id of the event to retrieve session events for"))));
+
+    request
+        .andExpect(jsonPath("$[0].id").value(1))
+        .andExpect(jsonPath("$[0].dateAndTimeStartSessionEvent").value("05-01-2026 20:00:00"));
+  }
 }

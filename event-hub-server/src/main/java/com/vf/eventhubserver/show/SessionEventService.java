@@ -38,4 +38,12 @@ public class SessionEventService {
                     new FinderException("Session event with id " + sessionEventId + " not found"));
     return sessionEventMapper.toDTO(sessionEvent);
   }
+
+  public List<SessionEventDTO> getSessionEventsByEventId(Long eventId) throws FinderException {
+    List<SessionEvent> sessionEvents = sessionEventRepository.findAllByEventId(eventId);
+    if (sessionEvents.isEmpty()) {
+      throw new FinderException("No session events found for event with id " + eventId);
+    }
+    return sessionEventMapper.toDTOs(sessionEvents);
+  }
 }

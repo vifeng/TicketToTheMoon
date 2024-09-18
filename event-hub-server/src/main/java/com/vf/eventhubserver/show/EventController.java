@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class EventController implements LocationResponseBuilder {
   private final EventService eventService;
+  private final SessionEventService sessionEventService;
 
-  public EventController(EventService eventService) {
+  public EventController(EventService eventService, SessionEventService sessionEventService) {
     this.eventService = eventService;
+    this.sessionEventService = sessionEventService;
   }
 
   @GetMapping()
@@ -29,5 +31,11 @@ public class EventController implements LocationResponseBuilder {
   @GetMapping("/{eventId}")
   public ResponseEntity<EventDTO> getEventById(@PathVariable Long eventId) {
     return ResponseEntity.ok(eventService.getEventsById(eventId));
+  }
+
+  @GetMapping("/{eventId}/sessionsEvents")
+  public ResponseEntity<List<SessionEventDTO>> getSessionEventsByEventId(
+      @PathVariable Long eventId) {
+    return ResponseEntity.ok(sessionEventService.getSessionEventsByEventId(eventId));
   }
 }
