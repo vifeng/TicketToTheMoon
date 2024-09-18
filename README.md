@@ -4,7 +4,7 @@ Table of contents
   - [About The Project](#about-the-project)
     - [Application objective](#application-objective)
     - [Three-tier application architecture](#three-tier-application-architecture)
-  - [Documentation](#documentation)
+  - [Documentation and Demonstration](#documentation-and-demonstration)
   - [Build with](#build-with)
     - [Versions used for the development](#versions-used-for-the-development)
 - [GETTING STARTED](#getting-started)
@@ -46,11 +46,13 @@ More information is to be found in the [documentation section](https://github.co
 - **Data Layer:** During development, the application uses an H2 database and test data managed by Flyway.
 
 
-## Documentation
+## Documentation and Demonstration
 
-[General Documentation of the project](https://github.com/vifeng/TicketToTheMoon/tree/main/documentation) - such as functional requirements, database... mainly in french 
-[A wiki for development notes](https://github.com/vifeng/TicketToTheMoon/wiki) is available to follow the development process.
-README files are available.
+- [General Documentation of the project](https://github.com/vifeng/TicketToTheMoon/tree/main/documentation) - such as functional requirements, database... mainly in french  
+- [A wiki](https://github.com/vifeng/TicketToTheMoon/wiki) presents : 
+  - [a slideshow presentation for the application](https://github.com/vifeng/TicketToTheMoon/wiki#:~:text=A%20slideshow%20presentation%20for%20the%20application)
+  - a demonstration of the application ([video link](https://youtu.be/vzKp5uuW_zM) and [commands to run the app](https://github.com/vifeng/TicketToTheMoon/wiki#:~:text=Commands%20of%20the%20backend%20demonstration))
+  - the development process notes
 
 ## Build with
 

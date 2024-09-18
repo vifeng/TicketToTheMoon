@@ -2,7 +2,7 @@ Table of contents
 
 - [PROJECT : eventhubserver](#project--eventhubserver)
   - [About The Project](#about-the-project)
-  - [Documentation](#documentation)
+  - [Documentation and Demonstration](#documentation-and-demonstration)
   - [Build with](#build-with)
     - [Versions used for the development](#versions-used-for-the-development)
 - [GETTING STARTED](#getting-started)
@@ -20,6 +20,7 @@ Table of contents
 - [Mapstruct implementation](#mapstruct-implementation)
 
 
+
 ---
 
 # PROJECT : eventhubserver
@@ -32,10 +33,13 @@ Main features are :
 - eventhub-site : a user interface visible to users (both the public and managers) for interacting with the application.
 - eventhub-server : REST API to manage the data. It contains the business logic, such as data processing, event management, venue management, reservations, and more.
 
-## Documentation
+## Documentation and Demonstration
 
-[General Documentation of the project](https://github.com/vifeng/TicketToTheMoon/tree/main/documentation) - such as functional requirements, database... mainly in french 
-[A wiki for development notes](https://github.com/vifeng/TicketToTheMoon/wiki) is available to follow the development process.
+- [General Documentation of the project](https://github.com/vifeng/TicketToTheMoon/tree/main/documentation) - such as functional requirements, database... mainly in french  
+- [A wiki](https://github.com/vifeng/TicketToTheMoon/wiki) presents : 
+  - [a slideshow presentation for the application](https://github.com/vifeng/TicketToTheMoon/wiki#:~:text=A%20slideshow%20presentation%20for%20the%20application)
+  - a demonstration of the application ([video link](https://youtu.be/vzKp5uuW_zM) and [commands to run the app](https://github.com/vifeng/TicketToTheMoon/wiki#:~:text=Commands%20of%20the%20backend%20demonstration))
+  - the development process notes
 
 ## Build with
 
