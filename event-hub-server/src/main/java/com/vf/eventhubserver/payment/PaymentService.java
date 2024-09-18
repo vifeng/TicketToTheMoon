@@ -70,6 +70,11 @@ public class PaymentService {
   }
 
   public Long createPayment(Long bookingId) throws FinderException, CreateException, NullException {
+    Optional<Payment> optionalPayment = paymentRepository.findByBookingId(bookingId);
+    if (optionalPayment.isPresent()) {
+      throw new CreateException(
+          "Payment already exists for booking with id {" + bookingId + "}, cannot create payment");
+    }
     Optional<Booking> optionalBooking = bookingRepository.findById(bookingId);
     if (optionalBooking.isEmpty()) {
       throw new FinderException(

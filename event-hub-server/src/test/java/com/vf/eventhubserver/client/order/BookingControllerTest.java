@@ -25,6 +25,8 @@ import com.vf.eventhubserver.order.TicketReservationKey;
 import com.vf.eventhubserver.order.TicketReservationKeyDTO;
 import com.vf.eventhubserver.order.TicketReservationKeyMapper;
 import com.vf.eventhubserver.order.TicketReservationRepository;
+import com.vf.eventhubserver.show.Event;
+import com.vf.eventhubserver.show.EventRepository;
 import com.vf.eventhubserver.show.SessionEvent;
 import com.vf.eventhubserver.show.SessionEventRepository;
 import com.vf.eventhubserver.utility.EntitiesFieldDescriptorOrder;
@@ -32,8 +34,11 @@ import com.vf.eventhubserver.utility.EntitiesFieldDescriptorPersona;
 import com.vf.eventhubserver.utility.EntitiesFieldDescriptorShow;
 import com.vf.eventhubserver.utility.EntitiesFieldDescriptorTarification;
 import com.vf.eventhubserver.utility.EntitiesFieldDescriptorVenue;
+import com.vf.eventhubserver.venue.ConfigurationHall;
+import com.vf.eventhubserver.venue.ConfigurationHallRepository;
 import com.vf.eventhubserver.venue.Seat;
 import com.vf.eventhubserver.venue.SeatRepository;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -75,6 +80,8 @@ public class BookingControllerTest {
   @Autowired SeatRepository seatRepository;
   @Autowired SessionEventRepository sessionEventRepository;
   @Autowired TicketReservationKeyMapper ticketReservationKeyMapper;
+  @Autowired EventRepository eventRepository;
+  @Autowired ConfigurationHallRepository configurationHallRepository;
 
   @BeforeEach
   public void setUp(
@@ -300,12 +307,13 @@ public class BookingControllerTest {
 
   @Test
   public void addReservationToBooking() throws Exception {
+
     TicketReservationKeyDTO ticketReservationKeyDTO = createTicketReservationKeyDTO();
-    int ReservationLengthBefore = bookingRepository.findById(1L).get().getReservations().size();
+    int ReservationLengthBefore = bookingRepository.findById(2L).get().getReservations().size();
     ResultActions postRequest =
         this.mockMvc
             .perform(
-                post(baseUrl + "bookings/{bookingId}/reservationKey", 1L)
+                post(baseUrl + "bookings/{bookingId}/reservationKey", 2L)
                     .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(ticketReservationKeyDTO)))
@@ -380,12 +388,33 @@ public class BookingControllerTest {
 
     this.mockMvc
         .perform(get(location))
-        .andExpect(jsonPath("$.id").value(1))
+        .andExpect(jsonPath("$.id").value(2))
         .andExpect(jsonPath("$.bookingCreationTimestamp", notNullValue()))
-        .andExpect(jsonPath("$.totalPriceHt").value(30.0))
+        .andExpect(jsonPath("$.totalPriceHt").value(20.0))
         .andExpect(jsonPath("$.reservations").isNotEmpty())
         .andExpect(jsonPath("$.reservations").isArray())
         .andExpect(jsonPath("$.reservations.length()").value(ReservationLengthBefore + 1));
+  }
+
+  /**
+   * This test does not work because we cannot add a reservation to a booking that has seat already
+   * sold. it means the the booking has a paid status. So we cannot add a reservation to it.
+   *
+   * @throws Exception
+   */
+  @Test
+  public void addReservationToBookingAlreadySold() throws Exception {
+    TicketReservationKeyDTO ticketReservationKeyDTO = createTicketReservationKeyDTO();
+    int ReservationLengthBefore = bookingRepository.findById(1L).get().getReservations().size();
+    ResultActions postRequest =
+        this.mockMvc
+            .perform(
+                post(baseUrl + "bookings/{bookingId}/reservationKey", 1L)
+                    .accept(MediaType.APPLICATION_JSON_VALUE)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(ticketReservationKeyDTO)))
+            .andExpect(status().isUnprocessableEntity())
+            .andExpect(jsonPath("$.message").value("An illegal argument error occurred : "));
   }
 
   @Test
@@ -483,7 +512,7 @@ public class BookingControllerTest {
   }
 
   @Test
-  public void deleteBookingByIdPaidFalse() throws Exception {
+  public void FalseDeleteBookingByIdPaid() throws Exception {
     this.mockMvc
         .perform(delete(baseUrl + "bookings/{id}", 1L).accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isConflict())
@@ -500,5 +529,35 @@ public class BookingControllerTest {
     TicketReservation ticketReservation = new TicketReservation(ticketReservationKey, false);
     ticketReservationRepository.save(ticketReservation);
     return ticketReservationKeyMapper.toDTO(ticketReservationKey);
+  }
+
+  /**
+   * The booking is impossible if its date is after the session event.
+   *
+   * @throws Exception
+   */
+  @Test
+  public void FalsecreateBookingForCustomerId() throws Exception {
+    // create a ticket reservation for a session event that is already past
+    Seat seat = seatRepository.findById(4L).get();
+    Event event = eventRepository.findById(1L).get();
+    ConfigurationHall configurationHall = configurationHallRepository.findById(1L).get();
+    LocalDateTime dateAndTimeStartSessionEvent = LocalDateTime.now().minusDays(10);
+    SessionEvent sessionEvent =
+        new SessionEvent(dateAndTimeStartSessionEvent, 90, event, configurationHall);
+    sessionEventRepository.save(sessionEvent);
+    TicketReservationKey ticketReservationKey = new TicketReservationKey(seat, sessionEvent);
+    TicketReservation ticketReservation = new TicketReservation(ticketReservationKey, false);
+    ticketReservationRepository.save(ticketReservation);
+    TicketReservationKeyDTO ticketReservationKeyDTO =
+        ticketReservationKeyMapper.toDTO(ticketReservationKey);
+    // request
+    this.mockMvc
+        .perform(
+            post(baseUrl + "bookings/customer/{customerId}/reservationKey", 2L)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(ticketReservationKeyDTO)))
+        .andExpect(status().isUnprocessableEntity());
   }
 }

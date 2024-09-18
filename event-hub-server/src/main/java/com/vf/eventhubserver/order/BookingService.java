@@ -125,6 +125,12 @@ public class BookingService {
     if (booking == null) {
       throw new NullException(BKNULLMSG);
     }
+
+    if (checkIfPaymentIsPaid(bookingId)) {
+      throw new IllegalArgumentException(
+          "Booking with id " + bookingId + " cannot be modified because it has a paid status");
+    }
+
     TicketReservationKey reservationKey = ticketReservationKeyMapper.toEntity(reservationKeyDTO);
     TicketReservation ticketReservation = null;
     if (reservationKey != null) {
@@ -207,14 +213,14 @@ public class BookingService {
    */
   public void deleteById(Long bookingId)
       throws FinderException, IllegalArgumentException, EntityNotFoundException, RemoveException {
-    if (Boolean.TRUE.equals(checkIfPaymentIsPaid(bookingId))) {
-      throw new RemoveException(
-          BKMSG + bookingId + "} cannot be deleted because it has a paid status");
-    }
     Booking booking =
         bookingRepository
             .findById(bookingId)
             .orElseThrow(() -> new FinderException(BKMSG + bookingId + NOTFOUNDMSG));
+    if (Boolean.TRUE.equals(checkIfPaymentIsPaid(bookingId))) {
+      throw new RemoveException(
+          BKMSG + bookingId + "} cannot be deleted because it has a paid status");
+    }
     Set<TicketReservation> reservations = booking.getReservations();
     if (reservations.isEmpty()) {
       bookingRepository.delete(booking);
@@ -273,8 +279,8 @@ public class BookingService {
 
   /**
    * Checks if the specified reservation is expired based on its associated session's expiration
-   * time. A reservation is considered expired if its session has expired (session expiration time
-   * has passed).
+   * time. A reservation is considered expired if the session of the event has expired (session
+   * expiration time has passed).
    *
    * @param bookingCreationTimestamp
    * @param reservation

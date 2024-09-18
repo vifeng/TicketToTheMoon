@@ -13,6 +13,28 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vf.eventhubserver.order.BookingDTO;
+import com.vf.eventhubserver.order.BookingMapper;
+import com.vf.eventhubserver.order.BookingRepository;
+import com.vf.eventhubserver.order.TicketReservation;
+import com.vf.eventhubserver.order.TicketReservationKey;
+import com.vf.eventhubserver.order.TicketReservationKeyDTO;
+import com.vf.eventhubserver.order.TicketReservationKeyMapper;
+import com.vf.eventhubserver.order.TicketReservationRepository;
+import com.vf.eventhubserver.payment.PaymentRepository;
+import com.vf.eventhubserver.payment.PaymentService;
+import com.vf.eventhubserver.show.SessionEvent;
+import com.vf.eventhubserver.show.SessionEventRepository;
+import com.vf.eventhubserver.utility.EntitiesFieldDescriptorOrder;
+import com.vf.eventhubserver.utility.EntitiesFieldDescriptorPayment;
+import com.vf.eventhubserver.utility.EntitiesFieldDescriptorPersona;
+import com.vf.eventhubserver.utility.EntitiesFieldDescriptorShow;
+import com.vf.eventhubserver.utility.EntitiesFieldDescriptorTarification;
+import com.vf.eventhubserver.utility.EntitiesFieldDescriptorVenue;
+import com.vf.eventhubserver.venue.Seat;
+import com.vf.eventhubserver.venue.SeatRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,24 +52,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vf.eventhubserver.order.BookingDTO;
-import com.vf.eventhubserver.order.TicketReservation;
-import com.vf.eventhubserver.order.TicketReservationKey;
-import com.vf.eventhubserver.order.TicketReservationKeyDTO;
-import com.vf.eventhubserver.order.TicketReservationKeyMapper;
-import com.vf.eventhubserver.order.TicketReservationRepository;
-import com.vf.eventhubserver.payment.PaymentRepository;
-import com.vf.eventhubserver.show.SessionEvent;
-import com.vf.eventhubserver.show.SessionEventRepository;
-import com.vf.eventhubserver.utility.EntitiesFieldDescriptorOrder;
-import com.vf.eventhubserver.utility.EntitiesFieldDescriptorPayment;
-import com.vf.eventhubserver.utility.EntitiesFieldDescriptorPersona;
-import com.vf.eventhubserver.utility.EntitiesFieldDescriptorShow;
-import com.vf.eventhubserver.utility.EntitiesFieldDescriptorTarification;
-import com.vf.eventhubserver.utility.EntitiesFieldDescriptorVenue;
-import com.vf.eventhubserver.venue.Seat;
-import com.vf.eventhubserver.venue.SeatRepository;
 
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 @SpringBootTest(properties = "spring.config.name=application-test")
@@ -76,6 +80,9 @@ public class PaymentControllerTest {
   @Autowired SeatRepository seatRepository;
   @Autowired SessionEventRepository sessionEventRepository;
   @Autowired TicketReservationKeyMapper ticketReservationKeyMapper;
+  @Autowired BookingMapper bookingMapper;
+  @Autowired BookingRepository bookingRepository;
+  @Autowired private PaymentService paymentService;
 
   @BeforeEach
   public void setUp(
@@ -202,9 +209,10 @@ public class PaymentControllerTest {
 
   @Test
   public void createPaymentBybookingId() throws Exception {
-    // it is necessary to create a booking to create a payment, because the payment can be expired depending on the
+    // it is necessary to create a booking to create a payment, because the payment can be expired
+    // depending on the
     // booking.
-    Long bookingId = createBooking();
+    Long bookingId = createBooking().id();
     Seat seatbefore = seatRepository.findById(4L).get();
     String seatStatusbeforePayment = seatbefore.getSeatStatus().getName();
 
@@ -220,16 +228,14 @@ public class PaymentControllerTest {
                     pathParameters(
                         parameterWithName("bookingId")
                             .description("The id of the Booking to be paid"))));
-            
 
     String locationPayment = request.andReturn().getResponse().getHeader("Location");
-  
+
     this.mockMvc
         .perform(get(locationPayment))
         .andExpect(jsonPath("$").isNotEmpty())
         .andExpect(jsonPath("$.booking.id").value(bookingId))
-        .andExpect(jsonPath("$.paymentStatus.paymentStatusName").value("paid"))
-;
+        .andExpect(jsonPath("$.paymentStatus.paymentStatusName").value("paid"));
 
     // check if the seat status has changed to sold
     Seat seatAfter = seatRepository.findById(4L).get();
@@ -238,7 +244,7 @@ public class PaymentControllerTest {
     Assertions.assertEquals("sold", seatStatusAfterPayment);
   }
 
-  private Long createBooking() throws Exception {
+  private BookingDTO createBooking() throws Exception {
     String baseUrl = "http://localhost:8080/api/";
     Seat seat = seatRepository.findById(4L).get();
     SessionEvent sessionEvent = sessionEventRepository.findById(2L).get();
@@ -259,14 +265,32 @@ public class PaymentControllerTest {
 
     String locationBooking =
         postTicketReservationRequest.andReturn().getResponse().getHeader("Location");
-    System.out.println("location: " + locationBooking);
     ResultActions locationNewBookingrequest =
         this.mockMvc.perform(get(locationBooking).accept(MediaType.APPLICATION_JSON_VALUE));
 
-    BookingDTO bookingDTO =
-        objectMapper.readValue(
-            locationNewBookingrequest.andReturn().getResponse().getContentAsString(),
-            BookingDTO.class);
-    return bookingDTO.id();
+    return objectMapper.readValue(
+        locationNewBookingrequest.andReturn().getResponse().getContentAsString(), BookingDTO.class);
+  }
+
+  /**
+   * Test to create a payment twice for the same booking. The second time it should return a 422
+   *
+   * @throws Exception
+   */
+  @Test
+  public void FalseCreateDoublePaymentBybookingId() throws Exception {
+    BookingDTO bookingDTO = createBooking();
+    Long bookingId = bookingDTO.id();
+    this.mockMvc
+        .perform(
+            post(baseUrl + "/booking/{bookingId}", bookingId)
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated());
+
+    this.mockMvc
+        .perform(
+            post(baseUrl + "/booking/{bookingId}", bookingId)
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isUnprocessableEntity());
   }
 }
