@@ -24,8 +24,11 @@ Main features are :
 
 ## Documentation
 
-[General Documentation of the project](https://github.com/vifeng/TicketToTheMoon/tree/main/documentation) - such as functional requirements, database... mainly in french
-[A wiki for development notes](https://github.com/vifeng/TicketToTheMoon/wiki)
+- [General Documentation of the project](https://github.com/vifeng/TicketToTheMoon/tree/main/documentation) - such as functional requirements, database... mainly in french  
+- [A wiki](https://github.com/vifeng/TicketToTheMoon/wiki) presents : 
+  - [a slideshow presentation for the application](https://github.com/vifeng/TicketToTheMoon/wiki#:~:text=A%20slideshow%20presentation%20for%20the%20application)
+  - a video demonstration of the application and the commands to run the demo yourself
+  - the development process notes
 
 ## Versions used for the development
 
