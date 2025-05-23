@@ -2,6 +2,8 @@
   <div class="Customer">
     <h1>Customers</h1>
     <p>
+      //FIXME: THIS SHOULD BE REFACTORED. WE ARE NOT USING VUETIFY ANYMORE
+      THIS SHOULD BE REFACTORED. WE ARE NOT USING VUETIFY ANYMORE
       Sort by id
       <v-btn prepend-icon="mdi-arrow-collapse-up" @click="sorting.sortIdByAscending"
         >Sort by id ascending</v-btn
@@ -34,7 +36,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useSorting } from '@/composables/Sorting.js'
 import { useCustomersStore } from '@/stores/CustomersStore.js'
 import { onMounted, ref } from 'vue'

@@ -1,26 +1,24 @@
 <template>
   <div id="nav">
-    <AppLink id="logo" to="home"
+    <SmartLink id="logo" to="home"
       ><img alt="logo" class="logo" src="../assets/logoEventHub.jpeg"
-    /></AppLink>
-    <AppLink to="home">Home</AppLink>
-    <AppLink to="employees">Employees</AppLink>
-    <AppLink to="venues">Venues</AppLink>
-    <AppLink to="customers">Customers</AppLink>
-    <AppLink to="ticketReservation">ticketReservation</AppLink>
+    /></SmartLink>
+    <SmartLink to="home">Home</SmartLink>
+    <SmartLink to="employees">Employees</SmartLink>
+    <SmartLink to="venues">Venues</SmartLink>
+    <SmartLink to="customers">Customers</SmartLink>
+    <SmartLink to="ticketReservation">ticketReservation</SmartLink>
     <div class="dropdown" @mouseover="openDropdown" @mouseleave="closeDropdown">
-      <AppLink to="about">About</AppLink>
+      <SmartLink to="about">About</SmartLink>
       <div class="dropdown-content" v-if="isDropdownOpen">
-        <AppLink to="apidoc">ApiDoc</AppLink>
-        <AppLink to="chatbot">AI chatbot</AppLink>
+        <SmartLink to="apidoc">ApiDoc</SmartLink>
+        <SmartLink to="chatbot">AI chatbot</SmartLink>
       </div>
     </div>
   </div>
 </template>
-<script setup>
-import { ref } from 'vue'
+<script setup lang="ts">
 import { useMouseInElement } from '@vueuse/core'
-import AppLink from './AppLink.vue'
 
 const isDropdownOpen = ref(false)
 

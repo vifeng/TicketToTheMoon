@@ -1,4 +1,14 @@
+<script setup lang="ts">
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Event-Hub',
+})
+</script>
+
 <template>
+    <metainfo></metainfo>
+
   <TheNavigation></TheNavigation>
   <div class="container">
     <div>
@@ -8,8 +18,4 @@
   <TheFooter></TheFooter>
 </template>
 
-<script></script>
-
-<style lang="css">
-@import '@/assets/main.css';
-</style>
+<style lang="css"></style>

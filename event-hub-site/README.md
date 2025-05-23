@@ -1,4 +1,5 @@
 Table of contents
+
 - [eventhub-site](#eventhub-site)
   - [About The Project](#about-the-project)
   - [Documentation](#documentation)
@@ -7,10 +8,9 @@ Table of contents
   - [Project Setup](#project-setup)
     - [Compile and Hot-Reload for Development](#compile-and-hot-reload-for-development)
     - [Compile and Minify for Production](#compile-and-minify-for-production)
-    - [Lint with ESLint](#lint-with-eslint)
+    - [Lint](#lint)
 
 ---
-
 
 # eventhub-site
 
@@ -24,18 +24,20 @@ Main features are :
 
 ## Documentation
 
-- [General Documentation of the project](https://github.com/vifeng/TicketToTheMoon/tree/main/documentation) - such as functional requirements, database... mainly in french  
-- [A wiki](https://github.com/vifeng/TicketToTheMoon/wiki) presents : 
+- [General Documentation of the project](https://github.com/vifeng/TicketToTheMoon/tree/main/documentation) - such as functional requirements, database... mainly in french
+- [A wiki](https://github.com/vifeng/TicketToTheMoon/wiki) presents :
   - [a slideshow presentation for the application](https://github.com/vifeng/TicketToTheMoon/wiki#:~:text=A%20slideshow%20presentation%20for%20the%20application)
   - a video demonstration of the application and the commands to run the demo yourself
   - the development process notes
 
 ## Versions used for the development
 
-- NPM 9.6.6
-- Node v19.8.1
-- Vue 3.3.2
-- Vite 4.3.6
+See exact versions in [`package.json`](./package.json)
+
+- Vue: ^3.x
+- Vite: ^6.x
+- NPM ^10.x
+- Node ^22.x
 
 ## Recommended IDE Setup
 
@@ -65,15 +67,19 @@ npm run dev
 ```
 
 Access the the frontEnd [ http://localhost:5173/](http://localhost:5173/) in your browser.
+Go to `localhost:5173/__inspect/` to see a dev dashboard
 
 ### Compile and Minify for Production
 
 ```sh
 npm run build
+npm run preview # to preview the production build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### Lint
 
 ```sh
-npm run lint
+npm run lint # eslint
+npm run type-check # typescript
+npm run format # prettier
 ```

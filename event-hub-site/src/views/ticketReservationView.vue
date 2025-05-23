@@ -18,8 +18,8 @@ Session event details: {{ ticketReservation.ticketReservationKey.sessionEventId 
   </div>
 </template>
 
-<script setup>
-import { useTicketReservationsStore } from '@/stores/TicketReservationsStore.js'
+<script setup lang="ts">
+import { useTicketReservationsStore } from '@/stores/ticketReservationsStore.js'
 const ticketReservationsStore = useTicketReservationsStore()
 ticketReservationsStore.fetchTicketReservations()
 </script>

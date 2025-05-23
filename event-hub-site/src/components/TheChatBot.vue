@@ -31,7 +31,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
 const GCP_PROJECT_ID = import.meta.env.VITE_GCP_PROJECT_ID

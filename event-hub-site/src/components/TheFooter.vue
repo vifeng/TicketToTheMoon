@@ -1,7 +1,7 @@
 <template>
   <div id="footer">
     made with
-    <AppLink id="logoVuejs" to="https://vuejs.org/">
+    <SmartLink id="logoVuejs" to="https://vuejs.org/">
       <svg class="logoVuejs" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 261.76 226.69">
         <path
           d="M161.096.001l-30.225 52.351L100.647.001H-.005l130.877 226.688L261.749.001z"
@@ -12,9 +12,9 @@
           fill="#34495e"
         />
       </svg>
-    </AppLink>
+    </SmartLink>
     and&nbsp;
-    <AppLink id="logoSpring" to="https://spring.io/">
+    <SmartLink id="logoSpring" to="https://spring.io/">
       <svg
         class="logoSpring"
         xmlns="http://www.w3.org/2000/svg"
@@ -29,15 +29,8 @@
           />
         </g>
       </svg>
-    </AppLink>
+    </SmartLink>
   </div>
 </template>
-<script>
-import AppLink from '@/components/AppLink.vue' // Adjust the path to your AppLink component
-
-export default {
-  components: {
-    AppLink
-  }
-}
+<script setup lang="ts">
 </script>

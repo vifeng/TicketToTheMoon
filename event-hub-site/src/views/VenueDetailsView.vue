@@ -16,7 +16,7 @@
   </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useVenuesStore } from '@/stores/VenuesStore.js'
 
 const venuesStore = useVenuesStore()

@@ -23,7 +23,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useSorting } from '@/composables/Sorting.js'
 import { useEmployeesStore } from '@/stores/EmployeesStore.js'
 import { onMounted, ref } from 'vue'
