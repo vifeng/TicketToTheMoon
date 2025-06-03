@@ -78,6 +78,8 @@ Access to the Application endpoints. For the EVENTS endpoint go to [http://local
 Access to the HAL explorer at [http://localhost:8080/](http://localhost:8080/) in your browser.
 Access to the actuator at [http://localhost:8080/actuator](http://localhost:8080/manage/actuator) in your browser.
 Access to the H2 console at [http://localhost:8080/h2-console](http://localhost:8080/h2-console) in your browser. 
+Access to the OpenAPI spec at: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs) in your browser.
+Access to the Swagger UI at: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) in your browser.
 
 ### Database configuration
 
@@ -168,6 +170,13 @@ The spring-boot-actuator module provides all of Spring Boot’s production-ready
   - http://localhost:8080/actuator/health
 
 source [official doc](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html)
+
+
+## Openapi / Swagger
+The OpenAPI specification is a standard for defining RESTful APIs. It allows you to describe the structure of your API, including endpoints, request/response formats, and authentication methods. The OpenAPI specification is used to generate documentation, client libraries, and server stubs. We use it in this project to generate the typescript client library for the frontend application.  
+- The OpenAPI specification is available at [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs) in your browser.
+- The Swagger UI is available at [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) in your browser.
+
 
 <br>
 ---

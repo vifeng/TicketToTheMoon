@@ -9,6 +9,7 @@ Table of contents
     - [Compile and Hot-Reload for Development](#compile-and-hot-reload-for-development)
     - [Compile and Minify for Production](#compile-and-minify-for-production)
     - [Lint](#lint)
+  - [API Typescript types](#api-typescript-types)
 
 ---
 
@@ -82,4 +83,20 @@ npm run preview # to preview the production build
 npm run lint # eslint
 npm run type-check # typescript
 npm run format # prettier
+```
+
+## API Typescript types
+
+TypeScript types and API client code are generated from the backend's OpenAPI spec using the following command. The generated files are stored in `src/api`.
+These files are auto-generated and **should not be edited manually**.
+They are marked as generated in `.gitattributes` to reduce noise in pull requests.
+
+You can find the documentation [here](https://github.com/vojtechhabarta/typescript-generator/).
+
+To regenerate the files, run:
+
+```sh
+npm run generate:api
+# Equivalent to:
+# openapi-generator-cli generate -i http://localhost:8080/v3/api-docs -g typescript-fetch -o src/api
 ```

@@ -4,3 +4,4 @@
 # These are explicitly windows files and should use crlf
 *.bat           text eol=crlf
 
+event-hub-site/src/api/* linguist-generated=true
