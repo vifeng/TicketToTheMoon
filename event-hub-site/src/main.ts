@@ -1,4 +1,3 @@
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { plugin } from '@formkit/vue'
@@ -18,5 +17,3 @@ app.use(createHead())
 app.use(plugin, config)
 
 app.mount('#app')
-
-
