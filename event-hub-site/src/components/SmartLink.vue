@@ -23,10 +23,9 @@ const baseExternalClass = 'text-green-600 hover:underline cursor-pointer'
     :rel="isExternal ? 'noopener noreferrer' : undefined"
     :class="[isExternal ? baseExternalClass : baseInternalClass, props.class]"
   >
-  <template v-if="isExternal">
-      <span class="icon-[lucide--globe] inline-block mr-1" data-testid="external-icon"></span>
+    <template v-if="isExternal">
+      <span class="icon-[lucide--globe] mr-1 inline-block" data-testid="external-icon"></span>
     </template>
     <slot />
   </component>
 </template>
-

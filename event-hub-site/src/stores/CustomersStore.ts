@@ -1,20 +1,29 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
+import { Configuration } from '@/api'
+import { CustomerControllerApi } from '@/api/apis'
+import type { CustomerDTO } from '@/api/models'
+
+const config = new Configuration({
+  basePath: import.meta.env.VITE_API_BASE_URL,
+})
+const api = new CustomerControllerApi(config)
 
 export const useCustomersStore = defineStore('CustomersStore', {
   state: () => {
     return {
-      customers: []
+      customers: [] as CustomerDTO[],
     }
   },
   getters: {},
   actions: {
     async fetchCustomers() {
-      const response = await fetch('http://localhost:8080/api/customers')
-      const customers = await response.json()
-      this.customers = customers
-    }
+      try {
+        this.customers = await api.getAllCustomers()
+      } catch (err) {
+        console.error('Store: failed to fetch customers', err)
+      }
+    },
   },
-  mutations: {}
 })
 
 if (import.meta.hot) {

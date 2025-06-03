@@ -1,8 +1,11 @@
 <template>
-  <div id="footer">
-    made with
-    <SmartLink id="logoVuejs" to="https://vuejs.org/">
-      <svg class="logoVuejs" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 261.76 226.69">
+  <footer
+    class="flex flex-wrap items-center justify-center gap-4 bg-slate-500 p-4 text-sm text-white"
+  >
+    <span>Made with</span>
+
+    <SmartLink id="logoVuejs" to="https://vuejs.org/" class="inline-flex items-baseline">
+      <svg class="h-5 w-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 261.76 226.69">
         <path
           d="M161.096.001l-30.225 52.351L100.647.001H-.005l130.877 226.688L261.749.001z"
           fill="#41b883"
@@ -13,10 +16,10 @@
         />
       </svg>
     </SmartLink>
-    and&nbsp;
-    <SmartLink id="logoSpring" to="https://spring.io/">
+    <span>and</span>
+    <SmartLink id="logoSpring" to="https://spring.io/" class="inline-flex items-baseline">
       <svg
-        class="logoSpring"
+        class="h-7 w-auto"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 523.52 135.02"
         width="100%"
@@ -30,7 +33,8 @@
         </g>
       </svg>
     </SmartLink>
-  </div>
+  </footer>
 </template>
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
+
+<style scoped></style>
