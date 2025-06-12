@@ -83,6 +83,8 @@ public class PaymentControllerTest {
   @Autowired BookingMapper bookingMapper;
   @Autowired BookingRepository bookingRepository;
   @Autowired private PaymentService paymentService;
+  final Long testSeatId = 4L;
+  final Long testSessionId = 1L;
 
   @BeforeEach
   public void setUp(
@@ -208,12 +210,12 @@ public class PaymentControllerTest {
   }
 
   @Test
-  public void createPaymentBybookingId() throws Exception {
+  public void shouldCreatePaymentAndReturnLocation() throws Exception {
     // it is necessary to create a booking to create a payment, because the payment can be expired
     // depending on the
     // booking.
-    Long bookingId = createBooking().id();
-    Seat seatbefore = seatRepository.findById(4L).get();
+    Long bookingId = createBooking(testSeatId, testSessionId).id();
+    Seat seatbefore = seatRepository.findById(testSeatId).get();
     String seatStatusbeforePayment = seatbefore.getSeatStatus().getName();
 
     ResultActions request =
@@ -236,18 +238,54 @@ public class PaymentControllerTest {
         .andExpect(jsonPath("$").isNotEmpty())
         .andExpect(jsonPath("$.booking.id").value(bookingId))
         .andExpect(jsonPath("$.paymentStatus.paymentStatusName").value("paid"));
-
-    // check if the seat status has changed to sold
-    Seat seatAfter = seatRepository.findById(4L).get();
-    String seatStatusAfterPayment = seatAfter.getSeatStatus().getName();
-    Assertions.assertNotEquals(seatStatusbeforePayment, seatStatusAfterPayment);
-    Assertions.assertEquals("sold", seatStatusAfterPayment);
   }
 
-  private BookingDTO createBooking() throws Exception {
+  @Test
+  public void shouldUpdateSeatStatusToSoldAfterPayment() throws Exception {
+    BookingDTO booking = createBooking(testSeatId, testSessionId);
+    Long bookingId = booking.id();
+
+    String statusBefore = seatRepository.findById(testSeatId).get().getSeatStatus().getName();
+
+    ResultActions request =
+        this.mockMvc
+            .perform(
+                post(baseUrl + "/booking/{bookingId}", bookingId)
+                    .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isCreated());
+
+    String statusAfter = seatRepository.findById(testSeatId).get().getSeatStatus().getName();
+
+    Assertions.assertNotEquals(statusBefore, statusAfter);
+    Assertions.assertEquals("sold", statusAfter);
+  }
+
+  /**
+   * Test to create a payment twice for the same booking. The second time it should return a 422
+   *
+   * @throws Exception
+   */
+  @Test
+  public void shouldNotAllowDuplicatePaymentForSameBooking() throws Exception {
+    BookingDTO bookingDTO = createBooking(testSeatId, testSessionId);
+    Long bookingId = bookingDTO.id();
+    this.mockMvc
+        .perform(
+            post(baseUrl + "/booking/{bookingId}", bookingId)
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isCreated());
+
+    this.mockMvc
+        .perform(
+            post(baseUrl + "/booking/{bookingId}", bookingId)
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isUnprocessableEntity());
+  }
+
+  private BookingDTO createBooking(Long seatId, Long sessionEventId) throws Exception {
     String baseUrl = "http://localhost:8080/api/";
-    Seat seat = seatRepository.findById(4L).get();
-    SessionEvent sessionEvent = sessionEventRepository.findById(2L).get();
+    Seat seat = seatRepository.findById(seatId).get();
+    SessionEvent sessionEvent = sessionEventRepository.findById(sessionEventId).get();
     TicketReservationKey ticketReservationKey = new TicketReservationKey(seat, sessionEvent);
     TicketReservation ticketReservation = new TicketReservation(ticketReservationKey, false);
     ticketReservationRepository.save(ticketReservation);
@@ -270,27 +308,5 @@ public class PaymentControllerTest {
 
     return objectMapper.readValue(
         locationNewBookingrequest.andReturn().getResponse().getContentAsString(), BookingDTO.class);
-  }
-
-  /**
-   * Test to create a payment twice for the same booking. The second time it should return a 422
-   *
-   * @throws Exception
-   */
-  @Test
-  public void FalseCreateDoublePaymentBybookingId() throws Exception {
-    BookingDTO bookingDTO = createBooking();
-    Long bookingId = bookingDTO.id();
-    this.mockMvc
-        .perform(
-            post(baseUrl + "/booking/{bookingId}", bookingId)
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isCreated());
-
-    this.mockMvc
-        .perform(
-            post(baseUrl + "/booking/{bookingId}", bookingId)
-                .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isUnprocessableEntity());
   }
 }
