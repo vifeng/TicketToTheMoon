@@ -112,7 +112,8 @@ CTL+C
 ./gradlew spotlessApply
 # apply the linting rules
 ```
-
+If the tests are failing in VSCode but not with gradle, you can run the following command :
+`Ctrl+Shift+P → Java: Clean Java Language Server Workspace`
 <br>
 
 ---
